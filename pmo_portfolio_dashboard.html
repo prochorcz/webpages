@@ -1,0 +1,181 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.dash { padding: 1.25rem; background: var(--color-background-tertiary); min-height: 100vh; }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+.header-left h1 { font-size: 18px; font-weight: 500; color: var(--color-text-primary); }
+.header-left p { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+.health-badge { font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: var(--border-radius-md); background: var(--color-background-success); color: var(--color-text-success); border: 0.5px solid var(--color-border-success); }
+.kpi-row { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 10px; margin-bottom: 1.25rem; }
+.kpi { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px 14px; }
+.kpi-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 4px; }
+.kpi-value { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+.kpi-value.on-track { color: var(--color-text-success); }
+.kpi-value.at-risk { color: var(--color-text-warning); }
+.kpi-value.delayed { color: var(--color-text-danger); }
+.mid-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 1.25rem; }
+.card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; }
+.card-title { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
+.bottom-row { display: grid; grid-template-columns: 2fr 1fr; gap: 10px; margin-bottom: 1.25rem; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; font-weight: 500; color: var(--color-text-secondary); padding: 6px 8px; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 11px; }
+td { padding: 7px 8px; border-bottom: 0.5px solid var(--color-border-tertiary); color: var(--color-text-primary); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+.rag { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+.rag.g { background: #1D9E75; }
+.rag.a { background: #EF9F27; }
+.rag.r { background: #E24B4A; }
+.progress-bar { background: var(--color-background-secondary); border-radius: 4px; height: 5px; width: 80px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 4px; }
+.risk-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 10px; }
+.risk-item:last-child { margin-bottom: 0; }
+.risk-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 3px; flex-shrink: 0; }
+.risk-text { font-size: 12px; color: var(--color-text-primary); line-height: 1.5; }
+.risk-meta { font-size: 11px; color: var(--color-text-secondary); }
+.milestone-item { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.milestone-item:last-child { border-bottom: none; }
+.milestone-name { font-size: 12px; color: var(--color-text-primary); }
+.milestone-proj { font-size: 11px; color: var(--color-text-secondary); margin-top: 1px; }
+.milestone-date { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); white-space: nowrap; }
+.milestone-date.soon { color: var(--color-text-warning); }
+.phase-badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 500; }
+.phase-exec { background: #E6F1FB; color: #0C447C; }
+.phase-plan { background: #EEEDFE; color: #3C3489; }
+.phase-close { background: #EAF3DE; color: #27500A; }
+.phase-init { background: #FAEEDA; color: #633806; }
+</style>
+
+<div class="dash">
+  <div class="header">
+    <div class="header-left">
+      <h1>PMO Portfolio Dashboard</h1>
+      <p>As of March 25, 2026 &nbsp;·&nbsp; Q1 2026 Review</p>
+    </div>
+    <span class="health-badge">Portfolio: On Track</span>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">Total projects</div><div class="kpi-value">14</div></div>
+    <div class="kpi"><div class="kpi-label">On track</div><div class="kpi-value on-track">8</div></div>
+    <div class="kpi"><div class="kpi-label">At risk</div><div class="kpi-value at-risk">4</div></div>
+    <div class="kpi"><div class="kpi-label">Delayed</div><div class="kpi-value delayed">2</div></div>
+    <div class="kpi"><div class="kpi-label">Budget utilization</div><div class="kpi-value">67%</div></div>
+  </div>
+
+  <div class="mid-row">
+    <div class="card" style="position:relative; height:220px;">
+      <div class="card-title">Status breakdown</div>
+      <div style="display:flex; gap: 16px; align-items:center; height: 170px;">
+        <div style="position:relative; width:140px; height:140px; flex-shrink:0;">
+          <canvas id="donutChart"></canvas>
+        </div>
+        <div style="font-size:12px; color:var(--color-text-secondary); display:flex; flex-direction:column; gap:8px;">
+          <span style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:2px;background:#1D9E75;"></span>On Track 57%</span>
+          <span style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:2px;background:#EF9F27;"></span>At Risk 29%</span>
+          <span style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:2px;background:#E24B4A;"></span>Delayed 14%</span>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="height:220px;">
+      <div class="card-title">Budget planned vs actual (£M)</div>
+      <div style="position:relative; height:170px;">
+        <canvas id="budgetChart"></canvas>
+      </div>
+    </div>
+    <div class="card" style="height:220px;">
+      <div class="card-title">Resource allocation (%)</div>
+      <div style="position:relative; height:170px;">
+        <canvas id="resourceChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:1.25rem;">
+    <div class="card-title">Project portfolio</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Project</th><th>Phase</th><th>Owner</th><th>RAG</th><th>Progress</th><th>Budget used</th><th>End date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>ERP Modernisation</td><td><span class="phase-badge phase-exec">Execution</span></td><td>A. Clarke</td><td><span class="rag g"></span></td><td><div class="progress-bar"><div class="progress-fill" style="width:72%;background:#1D9E75;"></div></div></td><td>71%</td><td>Aug 2026</td></tr>
+        <tr><td>CRM Integration</td><td><span class="phase-badge phase-exec">Execution</span></td><td>S. Patel</td><td><span class="rag a"></span></td><td><div class="progress-bar"><div class="progress-fill" style="width:55%;background:#EF9F27;"></div></div></td><td>82%</td><td>Jun 2026</td></tr>
+        <tr><td>Data Warehouse v2</td><td><span class="phase-badge phase-plan">Planning</span></td><td>M. Novak</td><td><span class="rag g"></span></td><td><div class="progress-bar"><div class="progress-fill" style="width:30%;background:#1D9E75;"></div></div></td><td>28%</td><td>Dec 2026</td></tr>
+        <tr><td>Compliance Upgrade</td><td><span class="phase-badge phase-exec">Execution</span></td><td>R. Jensen</td><td><span class="rag r"></span></td><td><div class="progress-bar"><div class="progress-fill" style="width:40%;background:#E24B4A;"></div></div></td><td>91%</td><td>Apr 2026</td></tr>
+        <tr><td>Mobile App Relaunch</td><td><span class="phase-badge phase-exec">Execution</span></td><td>T. Osei</td><td><span class="rag g"></span></td><td><div class="progress-bar"><div class="progress-fill" style="width:60%;background:#1D9E75;"></div></div></td><td>58%</td><td>Sep 2026</td></tr>
+        <tr><td>Cloud Migration</td><td><span class="phase-badge phase-init">Initiation</span></td><td>L. Wang</td><td><span class="rag a"></span></td><td><div class="progress-bar"><div class="progress-fill" style="width:12%;background:#EF9F27;"></div></div></td><td>15%</td><td>Mar 2027</td></tr>
+        <tr><td>BI Rollout</td><td><span class="phase-badge phase-close">Closing</span></td><td>F. Ibrahim</td><td><span class="rag g"></span></td><td><div class="progress-bar"><div class="progress-fill" style="width:92%;background:#1D9E75;"></div></div></td><td>95%</td><td>Apr 2026</td></tr>
+        <tr><td>Security Framework</td><td><span class="phase-badge phase-exec">Execution</span></td><td>D. Santos</td><td><span class="rag r"></span></td><td><div class="progress-bar"><div class="progress-fill" style="width:48%;background:#E24B4A;"></div></div></td><td>88%</td><td>May 2026</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="bottom-row">
+    <div class="card">
+      <div class="card-title">Top risks & issues</div>
+      <div class="risk-item"><div class="risk-dot" style="background:#E24B4A;"></div><div><div class="risk-text">Compliance Upgrade budget exhausted — requires £120k additional approval</div><div class="risk-meta">Compliance Upgrade &nbsp;·&nbsp; High &nbsp;·&nbsp; Owner: R. Jensen</div></div></div>
+      <div class="risk-item"><div class="risk-dot" style="background:#E24B4A;"></div><div><div class="risk-text">Security Framework scope creep causing 3-week delay to key deliverable</div><div class="risk-meta">Security Framework &nbsp;·&nbsp; High &nbsp;·&nbsp; Owner: D. Santos</div></div></div>
+      <div class="risk-item"><div class="risk-dot" style="background:#EF9F27;"></div><div><div class="risk-text">CRM Integration vendor delivery delayed; 3rd party dependency unresolved</div><div class="risk-meta">CRM Integration &nbsp;·&nbsp; Medium &nbsp;·&nbsp; Owner: S. Patel</div></div></div>
+      <div class="risk-item"><div class="risk-dot" style="background:#EF9F27;"></div><div><div class="risk-text">Cloud Migration resource conflict with ERP team — shared architect unavailable</div><div class="risk-meta">Cloud Migration &nbsp;·&nbsp; Medium &nbsp;·&nbsp; Owner: L. Wang</div></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Upcoming milestones (30 days)</div>
+      <div class="milestone-item"><div><div class="milestone-name">Go-live sign-off</div><div class="milestone-proj">BI Rollout</div></div><span class="milestone-date soon">Apr 1</span></div>
+      <div class="milestone-item"><div><div class="milestone-name">Phase 2 gate review</div><div class="milestone-proj">Compliance Upgrade</div></div><span class="milestone-date soon">Apr 4</span></div>
+      <div class="milestone-item"><div><div class="milestone-name">UAT completion</div><div class="milestone-proj">CRM Integration</div></div><span class="milestone-date">Apr 10</span></div>
+      <div class="milestone-item"><div><div class="milestone-name">Architecture approval</div><div class="milestone-proj">Cloud Migration</div></div><span class="milestone-date">Apr 14</span></div>
+      <div class="milestone-item"><div><div class="milestone-name">Pen test results</div><div class="milestone-proj">Security Framework</div></div><span class="milestone-date">Apr 18</span></div>
+      <div class="milestone-item"><div><div class="milestone-name">Sprint 8 demo</div><div class="milestone-proj">Mobile App Relaunch</div></div><span class="milestone-date">Apr 22</span></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+new Chart(document.getElementById('donutChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['On Track','At Risk','Delayed'],
+    datasets: [{ data: [8,4,2], backgroundColor: ['#1D9E75','#EF9F27','#E24B4A'], borderWidth: 0, hoverOffset: 4 }]
+  },
+  options: { responsive: true, maintainAspectRatio: true, cutout: '68%', plugins: { legend: { display: false }, tooltip: { enabled: true } } }
+});
+
+new Chart(document.getElementById('budgetChart'), {
+  type: 'bar',
+  data: {
+    labels: ['ERP','CRM','DWH','Comp','Mobile','Cloud','BI','Sec'],
+    datasets: [
+      { label: 'Planned', data: [2.4,1.2,1.8,0.9,1.5,2.1,0.7,1.1], backgroundColor: '#B5D4F4' },
+      { label: 'Actual',  data: [1.7,0.98,0.5,0.82,0.87,0.32,0.67,0.97], backgroundColor: '#378ADD' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { font: { size: 10 }, color: '#888780' }, grid: { display: false } },
+      y: { ticks: { font: { size: 10 }, color: '#888780', callback: v => '£' + v + 'M' }, grid: { color: 'rgba(136,135,128,0.15)' } }
+    }
+  }
+});
+
+new Chart(document.getElementById('resourceChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Engineering','PMO','Design','Security','Data','Arch'],
+    datasets: [{ label: 'Allocated %', data: [88, 72, 65, 95, 78, 91], backgroundColor: '#AFA9EC', borderRadius: 3 }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { max: 100, ticks: { font: { size: 10 }, color: '#888780', callback: v => v + '%' }, grid: { color: 'rgba(136,135,128,0.15)' } },
+      y: { ticks: { font: { size: 10 }, color: '#888780' }, grid: { display: false } }
+    }
+  }
+});
+</script>

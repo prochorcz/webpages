@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transformace nebo projekt? | Projectman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:     #0f2b45;
+    --navy-deep:#00122e;
+    --navy-mid: #294561;
+    --red:      #e53845;
+    --red-dark: #b20512;
+    --blue-mid: #425e78;
+    --blue-light:#8fabc7;
+    --blue-pale: #d4e4f0;
+    --white:    #ffffff;
+    --off-white:#f4f7fa;
+    --text-dark:#0a1a28;
+    --text-mid: #3d5a72;
+    --grid-dot: rgba(143,171,199,0.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--navy-deep);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── DOT GRID BACKGROUND ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle, var(--grid-dot) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── LAYOUT WRAPPER ─── */
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 36px 0 48px;
+    border-bottom: 1px solid rgba(143,171,199,0.15);
+    margin-bottom: 56px;
+  }
+
+  .logo-mark {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    line-height: 1;
+  }
+  .logo-text span {
+    display: block;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--blue-light);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+
+  /* ─── HERO SECTION ─── */
+  .hero {
+    margin-bottom: 64px;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 24px;
+  }
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--red);
+  }
+
+  .hero h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(42px, 8vw, 72px);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--red);
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--blue-light);
+    max-width: 560px;
+  }
+
+  /* ─── PROGRESS BAR ─── */
+  .progress-wrap {
+    margin-bottom: 48px;
+    display: none;
+  }
+  .progress-wrap.visible { display: block; }
+
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+  .progress-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue-light);
+  }
+  .progress-counter {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--white);
+  }
+  .progress-counter span { color: var(--red); }
+
+  .progress-track {
+    height: 3px;
+    background: rgba(143,171,199,0.15);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--red);
+    border-radius: 2px;
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+    width: 0%;
+  }
+
+  /* ─── QUIZ SCREEN ─── */
+  .screen {
+    display: none;
+    animation: fadeUp 0.4s ease both;
+  }
+  .screen.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── START SCREEN ─── */
+  .start-screen {}
+
+  .start-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px;
+    margin: 48px 0;
+    border: 1px solid rgba(143,171,199,0.12);
+  }
+
+  @media (max-width: 600px) {
+    .start-cards { grid-template-columns: 1fr; }
+  }
+
+  .start-card {
+    background: rgba(15,43,69,0.6);
+    padding: 28px 24px;
+    border-right: 1px solid rgba(143,171,199,0.1);
+  }
+  .start-card:last-child { border-right: none; }
+
+  .start-card-icon {
+    font-size: 24px;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .start-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blue-light);
+    margin-bottom: 8px;
+  }
+  .start-card p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: rgba(143,171,199,0.7);
+  }
+
+  .btn-start {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: var(--red);
+    border: none;
+    padding: 20px 44px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-start:hover {
+    background: var(--red-dark);
+    transform: translateX(4px);
+  }
+  .btn-start::after {
+    content: '→';
+    transition: transform 0.2s;
+  }
+  .btn-start:hover::after { transform: translateX(4px); }
+
+  /* ─── QUESTION SCREEN ─── */
+  .question-number {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 100px;
+    line-height: 1;
+    color: rgba(143,171,199,0.07);
+    position: absolute;
+    right: 0;
+    top: -20px;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .question-wrap {
+    position: relative;
+    margin-bottom: 40px;
+  }
+
+  .question-category {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .question-category::before {
+    content: '';
+    width: 14px;
+    height: 2px;
+    background: var(--red);
+    display: block;
+  }
+
+  .question-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: clamp(26px, 5vw, 40px);
+    line-height: 1.1;
+    text-transform: uppercase;
+    max-width: 680px;
+  }
+
+  .question-hint {
+    margin-top: 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--blue-light);
+    opacity: 0.75;
+    max-width: 560px;
+  }
+
+  /* ─── ANSWER OPTIONS ─── */
+  .options {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+
+  .option {
+    display: flex;
+    align-items: stretch;
+    background: rgba(15,43,69,0.5);
+    border: 1px solid rgba(143,171,199,0.15);
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .option:hover {
+    border-color: var(--blue-light);
+    background: rgba(15,43,69,0.8);
+  }
+  .option.selected {
+    border-color: var(--red);
+    background: rgba(229,56,69,0.08);
+  }
+  .option.selected .opt-indicator { background: var(--red); }
+  .option.selected .opt-label { color: var(--white); }
+
+  .opt-indicator {
+    width: 4px;
+    background: rgba(143,171,199,0.2);
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+
+  .opt-body {
+    padding: 20px 24px;
+    flex: 1;
+  }
+  .opt-key {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue-light);
+    margin-bottom: 6px;
+    opacity: 0.6;
+  }
+  .opt-label {
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: rgba(212,228,240,0.9);
+    transition: color 0.2s;
+  }
+
+  .opt-check {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    color: var(--red);
+    font-size: 20px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .option.selected .opt-check { opacity: 1; }
+
+  /* ─── NAV BUTTONS ─── */
+  .nav-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .btn-next {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: var(--red);
+    border: none;
+    padding: 16px 36px;
+    cursor: pointer;
+    transition: all 0.2s;
+    opacity: 0.35;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .btn-next.enabled {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .btn-next.enabled:hover {
+    background: var(--red-dark);
+    transform: translateX(3px);
+  }
+
+  .btn-back {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blue-light);
+    background: none;
+    border: 1px solid rgba(143,171,199,0.2);
+    padding: 16px 24px;
+    cursor: pointer;
+    transition: all 0.2s;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .btn-back.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .btn-back:hover {
+    border-color: var(--blue-light);
+    color: var(--white);
+  }
+
+  /* ─── RESULT SCREEN ─── */
+  .result-screen {}
+
+  .result-score-wrap {
+    display: flex;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid rgba(143,171,199,0.12);
+  }
+
+  .result-score-big {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 120px;
+    line-height: 1;
+    color: var(--red);
+    letter-spacing: -0.02em;
+  }
+
+  .result-score-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue-light);
+    padding-bottom: 18px;
+  }
+
+  .result-verdict {
+    margin-bottom: 32px;
+  }
+  .result-verdict-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    margin-bottom: 20px;
+  }
+  .result-verdict-tag.tag-transform {
+    background: rgba(229,56,69,0.15);
+    color: var(--red);
+    border: 1px solid rgba(229,56,69,0.3);
+  }
+  .result-verdict-tag.tag-maybe {
+    background: rgba(66,94,120,0.3);
+    color: var(--blue-light);
+    border: 1px solid rgba(66,94,120,0.5);
+  }
+  .result-verdict-tag.tag-project {
+    background: rgba(15,43,69,0.5);
+    color: var(--blue-light);
+    border: 1px solid rgba(143,171,199,0.2);
+  }
+
+  .result-verdict h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(32px, 6vw, 56px);
+    line-height: 1;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .result-verdict p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--blue-light);
+    max-width: 580px;
+  }
+
+  /* ─── RESULT BREAKDOWN ─── */
+  .result-breakdown {
+    margin-bottom: 48px;
+  }
+  .breakdown-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--blue-mid);
+    margin-bottom: 20px;
+  }
+
+  .breakdown-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(143,171,199,0.08);
+  }
+  .breakdown-item:last-child { border-bottom: none; }
+
+  .breakdown-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+  .breakdown-dot.yes { background: var(--red); }
+  .breakdown-dot.no  { background: rgba(143,171,199,0.3); }
+
+  .breakdown-q {
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(212,228,240,0.6);
+    flex: 1;
+  }
+  .breakdown-a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .breakdown-a.yes { color: var(--red); }
+  .breakdown-a.no  { color: rgba(143,171,199,0.4); }
+
+  /* ─── CTA BOX ─── */
+  .cta-box {
+    background: rgba(15,43,69,0.7);
+    border: 1px solid rgba(143,171,199,0.15);
+    border-left: 3px solid var(--red);
+    padding: 36px;
+    margin-bottom: 32px;
+  }
+
+  .cta-box h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 12px;
+  }
+  .cta-box p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--blue-light);
+    margin-bottom: 24px;
+  }
+
+  .btn-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: var(--red);
+    border: none;
+    padding: 16px 32px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-cta:hover {
+    background: var(--red-dark);
+    transform: translateX(3px);
+  }
+
+  .btn-restart {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blue-light);
+    background: none;
+    border: 1px solid rgba(143,171,199,0.2);
+    padding: 16px 28px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-restart:hover {
+    border-color: var(--blue-light);
+    color: var(--white);
+  }
+
+  .result-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(143,171,199,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .footer-brand {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    color: rgba(143,171,199,0.4);
+  }
+  .footer-note {
+    font-size: 12px;
+    color: rgba(143,171,199,0.3);
+  }
+
+  /* ─── DECORATIVE LINE ─── */
+  .deco-line {
+    width: 60px;
+    height: 3px;
+    background: var(--red);
+    margin-bottom: 32px;
+  }
+
+  /* ─── SHARE RESULT ─── */
+  .share-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+    padding: 16px 20px;
+    background: rgba(15,43,69,0.4);
+    border: 1px solid rgba(143,171,199,0.1);
+  }
+  .share-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue-light);
+    opacity: 0.6;
+  }
+  .share-score-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--white);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .btn-copy {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--red);
+    background: none;
+    border: 1px solid rgba(229,56,69,0.3);
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .btn-copy:hover {
+    background: rgba(229,56,69,0.1);
+    border-color: var(--red);
+  }
+  .btn-copy.copied {
+    color: #4ade80;
+    border-color: rgba(74,222,128,0.3);
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header>
+    <svg class="logo-mark" viewBox="0 0 48 48" fill="none">
+      <!-- dot grid 4×4 -->
+      <circle cx="6"  cy="6"  r="1.8" fill="#8fabc7" opacity=".5"/>
+      <circle cx="14" cy="6"  r="1.8" fill="#8fabc7" opacity=".5"/>
+      <circle cx="22" cy="6"  r="1.8" fill="#8fabc7" opacity=".5"/>
+      <circle cx="30" cy="6"  r="1.8" fill="#8fabc7" opacity=".5"/>
+      <circle cx="6"  cy="14" r="1.8" fill="#8fabc7" opacity=".5"/>
+      <circle cx="14" cy="14" r="1.8" fill="#8fabc7" opacity=".5"/>
+      <circle cx="22" cy="14" r="1.8" fill="#8fabc7" opacity=".5"/>
+      <circle cx="30" cy="14" r="1.8" fill="#8fabc7" opacity=".5"/>
+      <circle cx="6"  cy="22" r="1.8" fill="#8fabc7" opacity=".5"/>
+      <circle cx="14" cy="22" r="1.8" fill="#8fabc7" opacity=".5"/>
+      <circle cx="6"  cy="30" r="1.8" fill="#8fabc7" opacity=".5"/>
+      <circle cx="14" cy="30" r="1.8" fill="#8fabc7" opacity=".5"/>
+      <!-- M shape in red -->
+      <path d="M22 30 L22 14 L30 22 L38 14 L38 30" stroke="#e53845" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+    <div class="logo-text">
+      Projectman
+      <span>connecting experts</span>
+    </div>
+  </header>
+
+  <!-- PROGRESS -->
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-meta">
+      <span class="progress-label">Diagnostika transformace</span>
+      <span class="progress-counter" id="progressCounter"><span id="currentQ">1</span> / 5</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <!-- SCREEN: START -->
+  <div class="screen active" id="screen-start">
+    <div class="hero">
+      <div class="hero-tag">Diagnostický kvíz</div>
+      <h1>Transformace,<br>nebo <em>jen</em><br>velký projekt?</h1>
+      <p class="hero-sub">
+        Pět otázek, které rozhodnou, zda vaše firma stojí před skutečnou transformací —
+        nebo před náročným, ale klasicky řiditelným projektem.
+      </p>
+    </div>
+
+    <div class="start-cards">
+      <div class="start-card">
+        <span class="start-card-icon">⏱</span>
+        <h3>2 minuty</h3>
+        <p>Pět krátkých otázek. Žádné složité formuláře.</p>
+      </div>
+      <div class="start-card">
+        <span class="start-card-icon">🎯</span>
+        <h3>Konkrétní výsledek</h3>
+        <p>Dostanete jasné zhodnocení a doporučení jak postupovat dál.</p>
+      </div>
+      <div class="start-card">
+        <span class="start-card-icon">🧭</span>
+        <h3>Metodicky ověřeno</h3>
+        <p>Otázky vychází z praxe desítek transformačních projektů.</p>
+      </div>
+    </div>
+
+    <button class="btn-start" onclick="startQuiz()">Spustit diagnostiku</button>
+  </div>
+
+  <!-- SCREEN: QUESTIONS -->
+  <div class="screen" id="screen-quiz">
+    <div class="question-wrap">
+      <div class="question-number" id="qNumber">01</div>
+      <div class="question-category" id="qCategory">Kategorie</div>
+      <h2 class="question-text" id="qText">Otázka</h2>
+      <p class="question-hint" id="qHint"></p>
+    </div>
+
+    <div class="options" id="optionsContainer"></div>
+
+    <div class="nav-row">
+      <button class="btn-back" id="btnBack" onclick="prevQuestion()">← Zpět</button>
+      <button class="btn-next" id="btnNext" onclick="nextQuestion()">
+        Další otázka
+      </button>
+    </div>
+  </div>
+
+  <!-- SCREEN: RESULT -->
+  <div class="screen" id="screen-result">
+    <div class="result-score-wrap">
+      <div class="result-score-big" id="resultScore">0</div>
+      <div class="result-score-label">z 5 kritérií<br>transformace splněno</div>
+    </div>
+
+    <div class="result-verdict" id="resultVerdict"></div>
+
+    <div class="result-breakdown" id="resultBreakdown"></div>
+
+    <div class="cta-box" id="resultCTA"></div>
+
+    <div class="result-actions">
+      <button class="btn-restart" onclick="restartQuiz()">↺ Spustit znovu</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-brand">Projectman.cz</div>
+    <div class="footer-note">Konzultace · PMO · Transformace · AI adopce</div>
+  </footer>
+
+</div>
+
+<script>
+const questions = [
+  {
+    id: 1,
+    category: "Nevratnost",
+    text: "Je plánovaná změna nevratná?",
+    hint: "Zvažte, zda po dokončení bude možné se vrátit ke stávajícímu způsobu fungování.",
+    options: [
+      {
+        key: "A",
+        label: "Ano — firma se nebude moci vrátit k původnímu stavu. Jde o trvalou změnu identity nebo způsobu fungování.",
+        value: 1
+      },
+      {
+        key: "B",
+        label: "Částečně — některé věci se změní trvale, ale většinu lze v případě potřeby vrátit.",
+        value: 0
+      },
+      {
+        key: "C",
+        label: "Ne — jde o projekt s jasným koncem, po kterém lze vše vrátit nebo upravit.",
+        value: 0
+      }
+    ]
+  },
+  {
+    id: 2,
+    category: "Rozsah dopadu",
+    text: "Zasahuje změna více než dvě klíčová oddělení současně?",
+    hint: "Myslíme tím skutečné, hluboké zásahy do způsobu práce — ne pouze informování nebo školení.",
+    options: [
+      {
+        key: "A",
+        label: "Ano — změna se dotkne tří a více klíčových útvarů (IT, provoz, HR, obchod, finance…).",
+        value: 1
+      },
+      {
+        key: "B",
+        label: "Spíše ne — dominantně zasahuje jedno nebo dvě oddělení, ostatní jsou dotčeny okrajově.",
+        value: 0
+      },
+      {
+        key: "C",
+        label: "Ne — jde o změnu v rámci jedné funkce nebo týmu.",
+        value: 0
+      }
+    ]
+  },
+  {
+    id: 3,
+    category: "Kulturní dopad",
+    text: "Vyžaduje změna zásadní posun v myšlení a chování lidí?",
+    hint: "Nestačí nová pravidla nebo nástroje — lidé musí skutečně změnit, jak přemýšlejí o své práci.",
+    options: [
+      {
+        key: "A",
+        label: "Ano — je třeba změnit zásadně to, jak lidé přemýšlejí, rozhodují se a spolupracují.",
+        value: 1
+      },
+      {
+        key: "B",
+        label: "Částečně — některé týmy si musí zvyknout na nové procesy, ale nejde o kulturní transformaci.",
+        value: 0
+      },
+      {
+        key: "C",
+        label: "Ne — jde především o implementaci nástrojů nebo procesů, ne o změnu kultury.",
+        value: 0
+      }
+    ]
+  },
+  {
+    id: 4,
+    category: "Nejistota a komplexita",
+    text: "Je cesta k cíli zatížena vysokou mírou neznámého?",
+    hint: "Lze změnu detailně naplánovat dopředu, nebo se postup musí průběžně přizpůsobovat tomu, co se zjistí?",
+    options: [
+      {
+        key: "A",
+        label: "Ano — nelze detailně naplánovat dopředu. Postup se bude ladit iterativně, mnoho věcí je zatím neznámých.",
+        value: 1
+      },
+      {
+        key: "B",
+        label: "Částečně — existují nejasnosti, ale základní kroky lze naplánovat s přiměřenou mírou jistoty.",
+        value: 0
+      },
+      {
+        key: "C",
+        label: "Ne — jde o dobře definovaný projekt, u kterého víme, jak postupovat krok za krokem.",
+        value: 0
+      }
+    ]
+  },
+  {
+    id: 5,
+    category: "Nová hodnota",
+    text: "Jde o vytvoření zcela nového způsobu, jak firma tvoří hodnotu?",
+    hint: "Jde o zásadní změnu obchodního modelu, způsobu dodávky nebo vztahu se zákazníky — ne pouze o efektivitu.",
+    options: [
+      {
+        key: "A",
+        label: "Ano — firma bude po změně vytvářet nebo dodávat hodnotu zásadně jiným způsobem než dosud.",
+        value: 1
+      },
+      {
+        key: "B",
+        label: "Částečně — rozšiřujeme nebo upravujeme stávající model, ale základní logika zůstává.",
+        value: 0
+      },
+      {
+        key: "C",
+        label: "Ne — jde o zvýšení efektivity nebo rozšíření v rámci stávajícího modelu.",
+        value: 0
+      }
+    ]
+  }
+];
+
+let currentIndex = 0;
+let answers = new Array(questions.length).fill(null);
+
+function startQuiz() {
+  showScreen('screen-quiz');
+  document.getElementById('progressWrap').classList.add('visible');
+  renderQuestion(0);
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  el.classList.add('active');
+  // force re-animation
+  el.style.animation = 'none';
+  el.offsetHeight;
+  el.style.animation = '';
+}
+
+function renderQuestion(idx) {
+  currentIndex = idx;
+  const q = questions[idx];
+
+  document.getElementById('qNumber').textContent = String(idx + 1).padStart(2, '0');
+  document.getElementById('qCategory').textContent = q.category;
+  document.getElementById('qText').textContent = q.text;
+  document.getElementById('qHint').textContent = q.hint;
+  document.getElementById('currentQ').textContent = idx + 1;
+
+  // progress bar
+  document.getElementById('progressFill').style.width = ((idx) / questions.length * 100) + '%';
+
+  // back button
+  const btnBack = document.getElementById('btnBack');
+  btnBack.classList.toggle('visible', idx > 0);
+
+  // render options
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option' + (answers[idx] === i ? ' selected' : '');
+    div.innerHTML = `
+      <div class="opt-indicator"></div>
+      <div class="opt-body">
+        <div class="opt-key">Odpověď ${opt.key}</div>
+        <div class="opt-label">${opt.label}</div>
+      </div>
+      <div class="opt-check">✓</div>
+    `;
+    div.onclick = () => selectOption(idx, i);
+    container.appendChild(div);
+  });
+
+  updateNextBtn();
+}
+
+function selectOption(qIdx, optIdx) {
+  answers[qIdx] = optIdx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === optIdx);
+  });
+  updateNextBtn();
+}
+
+function updateNextBtn() {
+  const btn = document.getElementById('btnNext');
+  const isLast = currentIndex === questions.length - 1;
+  btn.textContent = isLast ? 'Zobrazit výsledek →' : 'Další otázka →';
+  btn.classList.toggle('enabled', answers[currentIndex] !== null);
+}
+
+function nextQuestion() {
+  if (answers[currentIndex] === null) return;
+  if (currentIndex < questions.length - 1) {
+    renderQuestion(currentIndex + 1);
+    // update progress
+    document.getElementById('progressFill').style.width = ((currentIndex + 1) / questions.length * 100) + '%';
+  } else {
+    showResult();
+  }
+}
+
+function prevQuestion() {
+  if (currentIndex > 0) {
+    renderQuestion(currentIndex - 1);
+  }
+}
+
+function showResult() {
+  // calc score
+  const score = answers.reduce((sum, ansIdx, qIdx) => {
+    if (ansIdx === null) return sum;
+    return sum + questions[qIdx].options[ansIdx].value;
+  }, 0);
+
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('progressWrap').classList.remove('visible');
+
+  document.getElementById('resultScore').textContent = score;
+
+  // verdict
+  const verdictEl = document.getElementById('resultVerdict');
+  let tagClass, tagText, heading, body;
+
+  if (score >= 4) {
+    tagClass = 'tag-transform';
+    tagText = '⚠ Transformace';
+    heading = 'Stojíte před skutečnou transformací';
+    body = `Vaše iniciativa splňuje ${score} z 5 klíčových znaků organizační transformace. Nejde o velký projekt — jde o zásadní, nevratnou změnu DNA vaší firmy. Klasické projektové přístupy zde nestačí. Potřebujete jiný typ řízení, jiné kompetence a jiný způsob měření úspěchu.`;
+  } else if (score >= 2) {
+    tagClass = 'tag-maybe';
+    tagText = '◐ Hraniční případ';
+    heading = 'Hranice mezi projektem a transformací';
+    body = `Vaše iniciativa splňuje ${score} z 5 znaků transformace. Pohybujete se na pomezí — jde o složitou změnu, která přesahuje standardní projektové řízení, ale nemusí vyžadovat plnohodnotný transformační přístup. Záleží na konkrétních okolnostech. Doporučujeme podrobnější diagnostiku.`;
+  } else {
+    tagClass = 'tag-project';
+    tagText = '✓ Řiditelný projekt';
+    heading = 'Jde o náročný, ale řiditelný projekt';
+    body = `Vaše iniciativa splňuje ${score} z 5 znaků transformace. To je dobrá zpráva — máte před sebou komplexní, ale klasicky řiditelnou změnu. S dobrým projektovým managementem, jasným scope a silnou exekucí to zvládnete. Transformační přístupy by zde přinášely zbytečnou komplexitu.`;
+  }
+
+  verdictEl.innerHTML = `
+    <div class="result-verdict-tag ${tagClass}">${tagText}</div>
+    <h2>${heading}</h2>
+    <p>${body}</p>
+  `;
+
+  // breakdown
+  const breakdownEl = document.getElementById('resultBreakdown');
+  const shortLabels = [
+    'Nevratnost změny',
+    'Rozsah dopadu (3+ útvary)',
+    'Kulturní a behaviorální dopad',
+    'Vysoká míra nejistoty',
+    'Nový způsob tvorby hodnoty'
+  ];
+
+  let breakdownHTML = '<div class="breakdown-title">Detail odpovědí</div>';
+  answers.forEach((ansIdx, qi) => {
+    const val = ansIdx !== null ? questions[qi].options[ansIdx].value : 0;
+    const isYes = val === 1;
+    breakdownHTML += `
+      <div class="breakdown-item">
+        <div class="breakdown-dot ${isYes ? 'yes' : 'no'}"></div>
+        <div class="breakdown-q">${shortLabels[qi]}</div>
+        <div class="breakdown-a ${isYes ? 'yes' : 'no'}">${isYes ? 'Splněno' : 'Nesplněno'}</div>
+      </div>
+    `;
+  });
+  breakdownEl.innerHTML = breakdownHTML;
+
+  // CTA
+  const ctaEl = document.getElementById('resultCTA');
+  if (score >= 2) {
+    ctaEl.innerHTML = `
+      <h3>Chcete vědět přesně, na čem jste?</h3>
+      <p>
+        Nabízíme bezplatnou 60minutovou diagnostickou konzultaci, při které společně projdeme vaši situaci
+        a dostanete konkrétní doporučení — bez závazku a bez zbytečného omáčení.
+      </p>
+      <a class="btn-cta" href="mailto:info@projectman.cz?subject=Diagnostika transformace">
+        Domluvit konzultaci →
+      </a>
+    `;
+  } else {
+    ctaEl.innerHTML = `
+      <h3>Víte, co děláte. Teď to jen dobře řídit.</h3>
+      <p>
+        I „pouze" složitý projekt potřebuje dobrý projektový management. Pokud hledáte
+        zkušeného PM nebo PMO podporu, jsme tady.
+      </p>
+      <a class="btn-cta" href="mailto:info@projectman.cz?subject=Projektová podpora">
+        Pobavit se o podpoře →
+      </a>
+    `;
+  }
+
+  showScreen('screen-result');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartQuiz() {
+  answers = new Array(questions.length).fill(null);
+  currentIndex = 0;
+  document.getElementById('progressWrap').classList.remove('visible');
+  document.getElementById('progressFill').style.width = '0%';
+  showScreen('screen-start');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

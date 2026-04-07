@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>European Expansion — Projectman.cz</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #13161e;
+    --surface2: #1a1e29;
+    --border: #252a38;
+    --accent: #e8c547;
+    --accent2: #4fc4cf;
+    --accent3: #e05c4b;
+    --text: #e8eaf0;
+    --muted: #7a8099;
+    --star: #e8c547;
+    --green: #5bc67a;
+    --orange: #e89547;
+    --red: #e05c4b;
+    --tier1: #e8c547;
+    --tier2: #4fc4cf;
+    --tier3: #e89547;
+    --tier4: #e05c4b;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    padding: 3rem 4rem 2rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(232,197,71,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  h1 em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--accent);
+  }
+  .header-sub {
+    margin-top: 0.75rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    max-width: 600px;
+  }
+  .header-meta {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .meta-pill {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--muted);
+  }
+  .meta-pill span { color: var(--text); }
+
+  /* ── NAV ── */
+  nav {
+    display: flex;
+    gap: 0;
+    padding: 0 4rem;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { color: var(--text); }
+  .nav-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ── SECTIONS ── */
+  .section { display: none; padding: 3rem 4rem; }
+  .section.active { display: block; }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .section-desc {
+    color: var(--muted);
+    font-size: 0.8rem;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── QUADRANT CHART ── */
+  .quadrant-wrap {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: center;
+  }
+  .y-label {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-align: center;
+  }
+  .quadrant-right {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .quadrant-chart {
+    position: relative;
+    width: 100%;
+    max-width: 780px;
+    height: 520px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  /* quadrant backgrounds */
+  .q-bg {
+    position: absolute;
+    width: 50%; height: 50%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .q-tl { top:0; left:0; background: rgba(232,197,71,0.04); color: rgba(232,197,71,0.3); border-right: 1px dashed var(--border); border-bottom: 1px dashed var(--border); }
+  .q-tr { top:0; right:0; background: rgba(91,198,122,0.05); color: rgba(91,198,122,0.3); border-bottom: 1px dashed var(--border); }
+  .q-bl { bottom:0; left:0; background: rgba(224,92,75,0.03); color: rgba(224,92,75,0.25); border-right: 1px dashed var(--border); }
+  .q-br { bottom:0; right:0; background: rgba(232,197,71,0.02); color: rgba(232,197,71,0.2); }
+
+  /* axis lines */
+  .q-axis-h, .q-axis-v {
+    position: absolute;
+    background: var(--border);
+    pointer-events: none;
+  }
+  .q-axis-h { top:50%; left:0; right:0; height:1px; }
+  .q-axis-v { left:50%; top:0; bottom:0; width:1px; }
+
+  /* dots */
+  .q-dot {
+    position: absolute;
+    transform: translate(-50%, 50%);
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .q-dot-inner {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 500;
+    border: 2px solid transparent;
+    transition: all 0.25s;
+    position: relative;
+    z-index: 2;
+  }
+  .q-dot:hover .q-dot-inner, .q-dot.selected .q-dot-inner {
+    transform: scale(1.25);
+    border-color: white;
+  }
+  .q-dot-label {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 2px 5px;
+    border-radius: 2px;
+    margin-bottom: 4px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .q-dot:hover .q-dot-label, .q-dot.selected .q-dot-label { opacity: 1; }
+
+  .x-label-chart {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  /* ── COUNTRY DETAIL CARD ── */
+  .detail-card {
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    padding: 1.5rem;
+    max-width: 780px;
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+  .detail-card.visible { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: translateY(0); } }
+  .detail-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .tier-badge {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .detail-stat {
+    background: var(--surface2);
+    padding: 0.75rem 1rem;
+    border-radius: 3px;
+    border-left: 3px solid var(--border);
+  }
+  .detail-stat-label { font-size: 0.65rem; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 0.2rem; }
+  .detail-stat-value { font-size: 1rem; font-weight: 500; color: var(--text); }
+  .detail-notes {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.7;
+    border-top: 1px solid var(--border);
+    padding-top: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  .detail-notes strong { color: var(--text); }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+  .legend-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── DATA TABLE ── */
+  .table-filters {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    padding: 0.4rem 0.9rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover { border-color: var(--muted); color: var(--text); }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #0d0f14; }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+  }
+  .data-table th {
+    text-align: left;
+    padding: 0.6rem 1rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+  }
+  .data-table th:hover { color: var(--text); }
+  .data-table th .sort-arrow { opacity: 0.4; margin-left: 4px; }
+  .data-table th.sorted .sort-arrow { opacity: 1; color: var(--accent); }
+  .data-table td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid rgba(37,42,56,0.5);
+    vertical-align: middle;
+    transition: background 0.15s;
+  }
+  .data-table tr:hover td { background: var(--surface2); }
+  .data-table tr.hidden { display: none; }
+
+  .tier-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+    flex-shrink: 0;
+  }
+  .score-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .score-fill {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--accent);
+    transition: width 0.5s ease;
+  }
+  .score-num { font-size: 0.7rem; color: var(--muted); min-width: 18px; }
+
+  .lang-tag {
+    display: inline-block;
+    font-size: 0.6rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .lang-tag.en { border-color: rgba(91,198,122,0.4); color: var(--green); }
+  .lang-tag.de { border-color: rgba(232,197,71,0.4); color: var(--accent); }
+  .lang-tag.fr { border-color: rgba(79,196,207,0.3); color: var(--accent2); }
+
+  /* ── MARGIN TABLE ── */
+  .margin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  .margin-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.2rem;
+    transition: border-color 0.2s;
+    cursor: default;
+  }
+  .margin-card:hover { border-color: var(--muted); }
+  .margin-card-country {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .margin-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.72rem;
+    margin-bottom: 0.4rem;
+    color: var(--muted);
+  }
+  .margin-row span:last-child { color: var(--text); font-weight: 500; }
+  .margin-card-footer {
+    margin-top: 0.8rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.65rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .margin-badge {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 2px;
+    font-weight: 600;
+  }
+  .mb-strong { background: rgba(91,198,122,0.15); color: var(--green); }
+  .mb-good { background: rgba(232,197,71,0.15); color: var(--accent); }
+  .mb-thin { background: rgba(232,149,71,0.15); color: var(--orange); }
+  .mb-none { background: rgba(224,92,75,0.12); color: var(--red); }
+
+  /* ── REGULATORY ── */
+  .reg-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .reg-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.2rem;
+  }
+  .reg-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .reg-item {
+    font-size: 0.74rem;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+    padding-left: 0.8rem;
+    border-left: 2px solid var(--border);
+    line-height: 1.5;
+  }
+  .reg-item strong { color: var(--text); }
+  .risk-badge {
+    font-size: 0.6rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .risk-low { background: rgba(91,198,122,0.15); color: var(--green); }
+  .risk-mid { background: rgba(232,197,71,0.15); color: var(--accent); }
+  .risk-high { background: rgba(224,92,75,0.12); color: var(--red); }
+
+  /* ── STRATEGY ── */
+  .wave-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  @media (max-width: 800px) { .wave-grid { grid-template-columns: 1fr; } }
+  .wave-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .wave-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .wave-card.w1::before { background: var(--accent); }
+  .wave-card.w2::before { background: var(--accent2); }
+  .wave-card.w3::before { background: var(--muted); }
+  .wave-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 3rem;
+    opacity: 0.08;
+    position: absolute;
+    top: 0.5rem; right: 1rem;
+    line-height: 1;
+  }
+  .wave-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+  }
+  .wave-sub { font-size: 0.72rem; color: var(--muted); margin-bottom: 1rem; }
+  .wave-countries {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+  .wave-country-tag {
+    font-size: 0.68rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+  .wave-desc { font-size: 0.74rem; color: var(--muted); line-height: 1.65; }
+
+  .key-factors {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  @media (max-width: 800px) { .key-factors { grid-template-columns: 1fr; } }
+  .factor-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.2rem;
+  }
+  .factor-icon { font-size: 1.4rem; margin-bottom: 0.5rem; }
+  .factor-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .factor-desc { font-size: 0.74rem; color: var(--muted); line-height: 1.6; }
+
+  /* ── TOOLTIP ── */
+  .tooltip {
+    position: fixed;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.8rem 1rem;
+    font-size: 0.75rem;
+    pointer-events: none;
+    z-index: 100;
+    max-width: 220px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    display: none;
+  }
+  .tooltip h4 { font-family: 'Syne', sans-serif; font-weight: 700; margin-bottom: 0.4rem; }
+  .tooltip-row { display: flex; justify-content: space-between; gap: 1rem; color: var(--muted); margin-bottom: 0.2rem; }
+  .tooltip-row span:last-child { color: var(--text); }
+
+  @media (max-width: 700px) {
+    header, nav, .section { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .detail-grid { grid-template-columns: 1fr 1fr; }
+    .margin-grid, .reg-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">Projectman.cz · Strategic Intelligence · 2026</div>
+  <h1>European <em>Expansion</em> Map</h1>
+  <p class="header-desc" style="color:var(--muted);font-size:0.85rem;max-width:620px;margin-top:0.5rem;">
+    PM &amp; Transformation Lead outsourcing — fly-in model z CZ. Analýza 13 evropských trhů z hlediska maržového potenciálu a bariér vstupu.
+  </p>
+  <div class="header-meta">
+    <div class="meta-pill">Scope: <span>13 zemí · Evropa</span></div>
+    <div class="meta-pill">Role: <span>PM / Senior PM · Transformation Lead</span></div>
+    <div class="meta-pill">Model: <span>Fly-in outsourcing → lokální recruitment</span></div>
+    <div class="meta-pill">Baseline CZ rate: <span>€400–720 / den</span></div>
+  </div>
+</header>
+
+<nav>
+  <button class="nav-btn active" data-tab="quadrant">2×2 Matice příležitostí</button>
+  <button class="nav-btn" data-tab="table">Srovnávací tabulka</button>
+  <button class="nav-btn" data-tab="margin">Maržová analýza</button>
+  <button class="nav-btn" data-tab="regulatory">Regulatorní přehled</button>
+  <button class="nav-btn" data-tab="strategy">Strategie vstupu</button>
+</nav>
+
+<!-- ═══════════════════════ QUADRANT ═══════════════════════ -->
+<div class="section active" id="tab-quadrant">
+  <div class="section-title">Matice příležitostí</div>
+  <p class="section-desc">Klikněte na zemi pro detail · Y-osa = tržní potenciál (marže + velikost + růst) · X-osa = snadnost vstupu (inverze bariér)</p>
+
+  <div class="quadrant-wrap">
+    <div class="y-label">↑ MARKET POTENTIAL (marže + trh + růst)</div>
+    <div class="quadrant-right">
+      <div class="quadrant-chart" id="quadrantChart">
+        <div class="q-bg q-tl">Vysoký potenciál<br>Těžký vstup</div>
+        <div class="q-bg q-tr">⭐ Prioritní cíle<br>Vysoký potenciál + snadný vstup</div>
+        <div class="q-bg q-bl">Vyhnout se<br>(nebo strategicky)</div>
+        <div class="q-bg q-br">Snadný vstup<br>Nízký potenciál</div>
+        <div class="q-axis-h"></div>
+        <div class="q-axis-v"></div>
+      </div>
+      <div class="x-label-chart">EASE OF ENTRY → (nízké bariéry vpravo)</div>
+
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--tier1)"></div>Tier 1 — Prioritní</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--tier2)"></div>Tier 2 — Selektivní</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--tier3)"></div>Tier 3 — Příležitostné</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--tier4)"></div>Tier 4 — Vyhnout se</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-card" id="detailCard" style="margin-top:2rem; max-width:820px;">
+    <h3 id="dc-name"></h3>
+    <div class="detail-grid" id="dc-grid"></div>
+    <div class="detail-notes" id="dc-notes"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ TABLE ═══════════════════════ -->
+<div class="section" id="tab-table">
+  <div class="section-title">Srovnávací tabulka — všechny země</div>
+  <p class="section-desc">Klikněte na záhlaví pro řazení · filtrujte podle tieru</p>
+
+  <div class="table-filters">
+    <button class="filter-btn active" data-filter="all">Vše</button>
+    <button class="filter-btn" data-filter="tier1">⭐ Tier 1</button>
+    <button class="filter-btn" data-filter="tier2">Tier 2</button>
+    <button class="filter-btn" data-filter="tier3">Tier 3</button>
+    <button class="filter-btn" data-filter="tier4">Tier 4</button>
+  </div>
+
+  <div style="overflow-x:auto;">
+    <table class="data-table" id="dataTable">
+      <thead>
+        <tr>
+          <th data-col="country">Země <span class="sort-arrow">↕</span></th>
+          <th data-col="tier">Tier <span class="sort-arrow">↕</span></th>
+          <th data-col="potential">Potenciál (1–10) <span class="sort-arrow">↕</span></th>
+          <th data-col="ease">Snadnost vstupu (1–10) <span class="sort-arrow">↕</span></th>
+          <th data-col="rate">PM Day Rate (€) <span class="sort-arrow">↕</span></th>
+          <th data-col="margin">Gross marže / den <span class="sort-arrow">↕</span></th>
+          <th data-col="language">Jazyk</th>
+          <th data-col="market">Trh (consulting)</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════ MARGIN ═══════════════════════ -->
+<div class="section" id="tab-margin">
+  <div class="section-title">Maržová analýza</div>
+  <p class="section-desc">Srovnání billing rátů vs. nákladová základna CZ · fly-in model (travel cost ~€120–150/den zahrnut)</p>
+
+  <div class="margin-grid" id="marginGrid"></div>
+</div>
+
+<!-- ═══════════════════════ REGULATORY ═══════════════════════ -->
+<div class="section" id="tab-regulatory">
+  <div class="section-title">Regulatorní přehled — Posted Workers</div>
+  <p class="section-desc">EU Směrnice 2018/957 platí pro všechny EU trhy · SW jako EEA non-EU, NO jako EEA non-EU</p>
+
+  <div style="background:var(--surface);border:1px solid var(--accent);border-radius:4px;padding:1.2rem;margin-bottom:2rem;max-width:700px;">
+    <div style="font-size:0.72rem;color:var(--accent);letter-spacing:0.08em;margin-bottom:0.5rem;">KLÍČOVÁ VÝHODA MODELU</div>
+    <div style="font-size:0.82rem;line-height:1.7;color:var(--muted);">
+      Při fly-in modelu konsultanti zůstávají v <strong style="color:var(--text)">českém systému sociálního pojištění (A1 certifikát, platný 24 měsíců)</strong>. 
+      České odvody jsou výrazně nižší než v západní Evropě — to vytváří skrytou maržovou výhodu nad rámec viditelného rozdílu v denních sazbách.
+    </div>
+  </div>
+
+  <div class="reg-grid" id="regGrid"></div>
+</div>
+
+<!-- ═══════════════════════ STRATEGY ═══════════════════════ -->
+<div class="section" id="tab-strategy">
+  <div class="section-title">Strategie vstupu — tři vlny</div>
+  <p class="section-desc">Sekvenování expanze dle dostupnosti talentů, jazykové přístupnosti a maržového potenciálu</p>
+
+  <div class="wave-grid">
+    <div class="wave-card w1">
+      <div class="wave-num">1</div>
+      <h3>Vlna 1 — Okamžitě</h3>
+      <div class="wave-sub">12–18 měsíců · English-first trhy</div>
+      <div class="wave-countries">
+        <span class="wave-country-tag" style="color:var(--accent);border-color:rgba(232,197,71,0.4)">🇳🇱 Nizozemsko</span>
+        <span class="wave-country-tag" style="color:var(--accent);border-color:rgba(232,197,71,0.4)">🇩🇰 Dánsko</span>
+        <span class="wave-country-tag" style="color:var(--accent);border-color:rgba(232,197,71,0.4)">🇸🇪 Švédsko</span>
+      </div>
+      <div class="wave-desc">Anglicky fungující PM konzultanti nasadit okamžitě. Nejvyšší přijímání nearshore modelu, excellentní anglický business environment. NL #1 + DK nejvyšší absolutní sazby (€870–1210/den). Posting notifikace jsou standardní a zvládnutelné.</div>
+    </div>
+    <div class="wave-card w2">
+      <div class="wave-num">2</div>
+      <h3>Vlna 2 — DACH</h3>
+      <div class="wave-sub">18–36 měsíců · Podmíněno německými mluvčími</div>
+      <div class="wave-countries">
+        <span class="wave-country-tag" style="color:var(--accent2);border-color:rgba(79,196,207,0.3)">🇦🇹 Rakousko</span>
+        <span class="wave-country-tag" style="color:var(--accent2);border-color:rgba(79,196,207,0.3)">🇩🇪 Německo</span>
+        <span class="wave-country-tag" style="color:var(--accent2);border-color:rgba(79,196,207,0.3)">🇨🇭 Švýcarsko</span>
+      </div>
+      <div class="wave-desc">Vstup přes Vídeň (kulturní blízkost, nižší AÜG/Scheinselbständigkeit riziko), poté Mnichov. Podmínka: pool německy mluvících CZ konzultantů nebo lokální recruitment v AT/DE. CH jako prémiový trh (CHF sazby 800–1200+/den).</div>
+    </div>
+    <div class="wave-card w3">
+      <div class="wave-num">3</div>
+      <h3>Vlna 3 — Selektivní</h3>
+      <div class="wave-sub">36+ měsíců · Lokální recruitment podmínkou</div>
+      <div class="wave-countries">
+        <span class="wave-country-tag" style="color:var(--muted);border-color:var(--border)">🇧🇪 Belgie/BXL</span>
+        <span class="wave-country-tag" style="color:var(--muted);border-color:var(--border)">🇫🇮 Finsko</span>
+        <span class="wave-country-tag" style="color:var(--muted);border-color:var(--border)">🇳🇴 Norsko</span>
+      </div>
+      <div class="wave-desc">Brusel (EU instituce + NATO = anglický bubble) jako specifická niche. Norsko: nejvyšší poptávka po exptech v Evropě ale NOK + EEA komplexita. Finsko: transformace zdravotnictví (Sote) = PMO příležitost ale nejrestriktivnější kolektivní smlouvy.</div>
+    </div>
+  </div>
+
+  <div class="section-title" style="margin-bottom:1rem;">Klíčové faktory úspěchu</div>
+  <div class="key-factors">
+    <div class="factor-card">
+      <div class="factor-icon">⚖️</div>
+      <div class="factor-title">Sociální pojištění arbitráž</div>
+      <div class="factor-desc">A1 certifikát udržuje konzultanty v levnějším CZ sociálním systému až 24 měsíců. Skrytá maržová výhoda nad rámec sazebního diferenciálu.</div>
+    </div>
+    <div class="factor-card">
+      <div class="factor-icon">🎯</div>
+      <div class="factor-title">Pozicování: odbornost, ne cena</div>
+      <div class="factor-desc">Nordic a Dutch klienti odmítají čistý cost-play. 42% zákazníků nearshore jako primární motivaci uvádí přístup k talentům — ne úsporu. Pozicovat jako PM specialist partner.</div>
+    </div>
+    <div class="factor-card">
+      <div class="factor-icon">🌐</div>
+      <div class="factor-title">Jazyková strategie</div>
+      <div class="factor-desc">Vlna 1 funguje s existujícím anglicky mluvícím týmem. DACH vyžaduje dedikovaný pool DE mluvčích. Francophone trhy jsou reálné pouze s lokálním recruitmentem.</div>
+    </div>
+    <div class="factor-card">
+      <div class="factor-icon">📋</div>
+      <div class="factor-title">Compliance jako diferenciátor</div>
+      <div class="factor-desc">Zvládnutí PWD notifikací, AÜG rámce a A1 procesů dává kompetitvní výhodu — mnoho konkurentů to podcení. Compliance operations build jako interní kompetence.</div>
+    </div>
+    <div class="factor-card">
+      <div class="factor-icon">🔄</div>
+      <div class="factor-title">Rotační kadence</div>
+      <div class="factor-desc">Zakázky ideálně do 12 měsíců — poté nastupuje plné pracovní právo hostitelské země (mimo výpověď + penze). Přirozená rotace chrání maržový model.</div>
+    </div>
+    <div class="factor-card">
+      <div class="factor-icon">📈</div>
+      <div class="factor-title">Poptávkový tailwind</div>
+      <div class="factor-desc">PMI odhaduje 2,3M volných PM pozic ročně do 2035 v Evropě. Nordic klienti hlásí 74% nedostatek kapacit. Trh táhne — ne CZ tlačí.</div>
+    </div>
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+// ══════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════
+const countries = [
+  {
+    id: 'nl', name: 'Nizozemsko', flag: '🇳🇱', tier: 1,
+    potential: 8, ease: 8,
+    rateMin: 800, rateMax: 1000, rateLabel: '€800–1000',
+    margin: '€300–500', marginClass: 'mb-strong', marginText: 'Silná',
+    language: ['EN'],
+    market: '€29.8 mld', growth: '5.2% CAGR',
+    notes: '<strong>Prioritní trh č. 1.</strong> Nejvyšší EF English Proficiency Index na světě (#1, score 647). Nearshore kultura hluboce zakotvená — ZZP freelance systém umožňuje rychlý vstup. Posting notifikace přes postedworkers.nl standardní, 5denní lhůta pro klienta. 174,000 consulting firem = velký trh, ale fragmentovaný — niche PM specialist positioning funguje.',
+    regulatory: { risk: 'low', system: 'postedworkers.nl', deadline: '5 dní', fine: '€1,500–8,000', notes: 'Notifikace online, klientská potvrzení, zvládnutelné' }
+  },
+  {
+    id: 'dk', name: 'Dánsko', flag: '🇩🇰', tier: 1,
+    potential: 8, ease: 7,
+    rateMin: 870, rateMax: 1210, rateLabel: '€870–1210',
+    margin: '€350–550', marginClass: 'mb-strong', marginText: 'Silná',
+    language: ['EN'],
+    market: '€2.2 mld', growth: '4.8% CAGR',
+    notes: '<strong>Nejvyšší absolutní sazby v analýze.</strong> Vládní digitální strategie (DKK 1 mld+) tvoří veřejný sektor demand. Žádné obecně platné kolektivní smlouvy v konzultingu — nižší union komplexita. Riziko: 26% dánských firem plánuje snížit outsourcing (PA Consulting). Copenhagen jako vstupní bod — FS + tech klastry.',
+    regulatory: { risk: 'low', system: 'Arbejdstilsynet', deadline: 'Registrace předem', fine: 'DKK min. mzda = €62,400/rok', notes: 'Přímočaré, žádné sektorové KS pro consulting' }
+  },
+  {
+    id: 'se', name: 'Švédsko', flag: '🇸🇪', tier: 1,
+    potential: 7, ease: 6,
+    rateMin: 700, rateMax: 1050, rateLabel: '€700–1050',
+    margin: '€250–500', marginClass: 'mb-strong', marginText: 'Silná',
+    language: ['EN'],
+    market: '€3.6 mld', growth: '4.5% CAGR',
+    notes: '<strong>Největší Nordic trh.</strong> B3 Consulting Group akvizice polské pobočky v 2024 validuje CEE nearshoring model. Riziko: <strong>economic employer concept od 2021</strong> — pokud konzultant pracuje pod švédskou kontrolou/řízením, Swedish tax od dne 1. Strukturovat zakázky jako Werkvertrag/result-based, ne T&M. Union awareness nutná ale zvládnutelná.',
+    regulatory: { risk: 'mid', system: 'Skatteverket notification', deadline: '5 dní', fine: 'Daňový trigger od dne 1 (economic employer)', notes: 'Economic employer concept = klíčové právní riziko; ošetřit smluvně' }
+  },
+  {
+    id: 'de', name: 'Německo', flag: '🇩🇪', tier: 2,
+    potential: 8, ease: 4,
+    rateMin: 769, rateMax: 1000, rateLabel: '€769–1000',
+    margin: '€200–450', marginClass: 'mb-good', marginText: 'Dobrá (s DE jazykem)',
+    language: ['DE'],
+    market: '€48.7 mld', growth: '0.5% (2025)',
+    notes: '<strong>Největší trh, nejvyšší bariéry.</strong> Scheinselbständigkeit: 42,000 vyšetřování v 2023, €487M retroaktivní odvody. KIRA AI system pro detekci. Povinné: Werkvertrag (result-based), ne T&M leasing. Zvážit AÜG licenci pro staff leasing. Německý jazyk prakticky povinný pro PM/Change role. BDU: Change Management +13.1% (2023). Big4+MBB drží 60%+ trhu.',
+    regulatory: { risk: 'high', system: 'Zoll / Rentenversicherung', deadline: 'Předem', fine: '€487M collected 2023; AI detection', notes: 'Scheinselbständigkeit = #1 riziko; AÜG licence pro staff leasing' }
+  },
+  {
+    id: 'ch', name: 'Švýcarsko', flag: '🇨🇭', tier: 2,
+    potential: 8, ease: 3,
+    rateMin: 800, rateMax: 1200, rateLabel: 'CHF 800–1200',
+    margin: '€300–600', marginClass: 'mb-strong', marginText: 'Velmi silná',
+    language: ['DE', 'FR'],
+    market: '€8+ mld', growth: '5.5% CAGR',
+    notes: '<strong>Nejvyšší marže, nejvíce regulatorní komplexity.</strong> Non-EU = vlastní rámec. 90denní roční limit bez povolení (8denní advance notification). Kantonální daňové variace. CHF sourcing sazby až CHF 2,375/den. Farmaceutický klastry (Basel, Zürich) jsou primárním cílem — mezinárodní business kultura. 25%+ zahraničně narozené obyvatelstvo.',
+    regulatory: { risk: 'high', system: 'Cantonal LEA 8-day notice', deadline: '8 dní předem', fine: '90-day limit/year', notes: 'Non-EU; kantony; Swiss minimum wages v sektoru' }
+  },
+  {
+    id: 'at', name: 'Rakousko', flag: '🇦🇹', tier: 2,
+    potential: 6, ease: 6,
+    rateMin: 700, rateMax: 900, rateLabel: '€700–900',
+    margin: '€200–400', marginClass: 'mb-good', marginText: 'Dobrá',
+    language: ['DE'],
+    market: '€5 mld', growth: '4.2% CAGR',
+    notes: '<strong>Přirozený gateway pro CZ firmu.</strong> Praha–Vídeň: 4h vlakem. Silné historické vazby (Erste, Raiffeisen, OMV mají CZ operace). Nižší Scheinselbständigkeit riziko než DE. Trh je relationship-driven — networking a reference klíčové. Dobrý testbed před vstupem do Německa.',
+    regulatory: { risk: 'low', system: 'ZKO3 posting declaration', deadline: 'Předem', fine: 'Mírnější enforcement než DE', notes: 'Nejpřátelštější DACH destinace pro první vstup' }
+  },
+  {
+    id: 'no', name: 'Norsko', flag: '🇳🇴', tier: 2,
+    potential: 6, ease: 5,
+    rateMin: 700, rateMax: 1000, rateLabel: '€700–1000',
+    margin: '€200–400', marginClass: 'mb-good', marginText: 'Dobrá',
+    language: ['EN'],
+    market: '€1.6 mld', growth: '5.2% CAGR',
+    notes: '<strong>Největší skill mismatch v Evropě</strong> (Mordor Intelligence). 16,000+ otevřených pozic, Equinor NOK 142.6 mld procurement pipeline. EF EPI #2 globally. Rizika: EEA non-EU = vlastní regulatory framework; NOK currency risk; některé sektory mají obecně platné KS; Arbeidstilsynet posting registration.',
+    regulatory: { risk: 'mid', system: 'Arbeidstilsynet SUA register', deadline: 'Předem', fine: 'Sector KS can apply', notes: 'EEA non-EU; some sectors have extended collective agreements' }
+  },
+  {
+    id: 'be', name: 'Belgie', flag: '🇧🇪', tier: 3,
+    potential: 6, ease: 6,
+    rateMin: 650, rateMax: 900, rateLabel: '€650–900',
+    margin: '€150–350', marginClass: 'mb-thin', marginText: 'Mírná',
+    language: ['EN', 'FR'],
+    market: '€19.9 mld', growth: '3.8% CAGR',
+    notes: '<strong>Brusel jako anglický bubble</strong> — EU instituce, NATO, multinacionální HQ. Limosa systém: 3týdenní business travel exemption, poté notification. Mimo Brusel: Flandry=NL, Valonsko=FR. Adresnatelný trh v EN = Brussels enterprise + mezinárodní klienti. Limosa fines up to €12,500.',
+    regulatory: { risk: 'mid', system: 'Limosa declaration', deadline: '3 týdny business travel exempt', fine: 'až €12,500', notes: 'Nejpropracovanější PWD systém v EU; EN pouze v BXL' }
+  },
+  {
+    id: 'fi', name: 'Finsko', flag: '🇫🇮', tier: 3,
+    potential: 5, ease: 5,
+    rateMin: 700, rateMax: 1000, rateLabel: '€700–1000',
+    margin: '€180–380', marginClass: 'mb-thin', marginText: 'Mírná',
+    language: ['EN'],
+    market: '€2.1 mld', growth: '3.2% CAGR',
+    notes: '<strong>Sote healthcare transformation (€6.4 mld) = PMO příležitost.</strong> Nejrestriktivnější systém prodloužených KS v Nordicích — sektorové smlouvy právně závazné pro všechny včetně zahraničních firem. GDP -0.1% (2024), unemployment 9.5%. Selektivní přístup přes specifické velké programy.',
+    regulatory: { risk: 'high', system: 'AVI.fi notification', deadline: 'Předem', fine: 'Sector collective agreements mandatory', notes: 'Nejpřísnější extended KS v Nordicích; sektory health + construct' }
+  },
+  {
+    id: 'fr', name: 'Francie', flag: '🇫🇷', tier: 3,
+    potential: 6, ease: 2,
+    rateMin: 600, rateMax: 800, rateLabel: '€600–800',
+    margin: '€100–250', marginClass: 'mb-thin', marginText: 'Tenká',
+    language: ['FR'],
+    market: '€36.2 mld', growth: '4.1% CAGR',
+    notes: '<strong>2. největší trh v Evropě, nejvyšší bariéry.</strong> SIPSI povinný, joint liability klienta, fines až €500,000. 35-hodinový pracovní týden jako baseline. Francouzština prakticky povinná pro PM/stakeholder management. Conventions collectives (sektorové KS) = povinné. Pouze pokud firma má francouzsky mluvící tým.',
+    regulatory: { risk: 'high', system: 'SIPSI declaration + representative', deadline: 'Předem + FR zástupce', fine: 'až €500,000; joint client liability', notes: 'Nejtěžší PWD systém v EU; EN pro PM nedostačující' }
+  },
+  {
+    id: 'pl', name: 'Polsko', flag: '🇵🇱', tier: 4,
+    potential: 3, ease: 8,
+    rateMin: 350, rateMax: 700, rateLabel: '€350–700',
+    margin: 'Nulová', marginClass: 'mb-none', marginText: 'Nulová',
+    language: ['EN'],
+    market: '€4.2 mld', growth: '6.1% CAGR',
+    notes: '<strong>Fly-in model nefunguje — žádná marže.</strong> Polské sazby Senior PM jsou na paritě nebo nad CZ úrovní (Praha premium = Varšava premium). Strategická výjimka: sledování existujících CZ/mezinárodních klientů do PL, nebo jako budoucí recruitment base. Silný PM talent pool v Krakově a Varšavě.',
+    regulatory: { risk: 'low', system: 'PIP posting notification', deadline: 'Standard EU', fine: 'Standard EU', notes: 'Jednoduchý vstup, ale fly-in nemá maržový smysl' }
+  },
+  {
+    id: 'hu', name: 'Maďarsko', flag: '🇭🇺', tier: 4,
+    potential: 2, ease: 6,
+    rateMin: 250, rateMax: 500, rateLabel: '€250–500',
+    margin: 'Záporná', marginClass: 'mb-none', marginText: 'Záporná',
+    language: ['EN'],
+    market: '€0.9 mld', growth: '4.5% CAGR',
+    notes: '<strong>Negativní marže pro fly-in model.</strong> Maďarské sazby jsou pod CZ úrovní — travel costs by přinesly ztrátu. Jedinou relevancí je potenciální budget/talent base pro budoucí CEE operace.',
+    regulatory: { risk: 'low', system: 'Standard EU PWD', deadline: 'Standard', fine: 'Standard', notes: 'Žádné regulatorní riziko, ale žádná ekonomická logika fly-in modelu' }
+  },
+  {
+    id: 'ro', name: 'Rumunsko', flag: '🇷🇴', tier: 4,
+    potential: 3, ease: 5,
+    rateMin: 550, rateMax: 600, rateLabel: '€550–600',
+    margin: 'Nulová', marginClass: 'mb-none', marginText: 'Nulová',
+    language: ['EN'],
+    market: '€1.1 mld', growth: '7.2% CAGR',
+    notes: '<strong>Fly-in model break-even nebo ztráta.</strong> Sazby srovnatelné s CZ, travel costs eliminují marži. Vysoký růst trhu (7.2%) je pro lokální recruitment potenciálně zajímavý v horizontu 3+ let. Bukurešť roste jako tech hub.',
+    regulatory: { risk: 'low', system: 'Standard EU PWD', deadline: 'Standard', fine: 'Standard', notes: 'Bez regulatorního rizika; bez ekonomické logiky pro fly-in' }
+  }
+];
+
+// ══════════════════════════════════════════════
+// TIER COLORS
+// ══════════════════════════════════════════════
+const tierColors = {
+  1: { bg: 'rgba(232,197,71,0.18)', border: 'var(--tier1)', text: '#0d0f14', label: '⭐ Tier 1', labelStyle: 'background:rgba(232,197,71,0.2);color:var(--tier1)' },
+  2: { bg: 'rgba(79,196,207,0.15)', border: 'var(--tier2)', text: '#0d0f14', label: 'Tier 2', labelStyle: 'background:rgba(79,196,207,0.15);color:var(--tier2)' },
+  3: { bg: 'rgba(232,149,71,0.15)', border: 'var(--tier3)', text: '#0d0f14', label: 'Tier 3', labelStyle: 'background:rgba(232,149,71,0.15);color:var(--tier3)' },
+  4: { bg: 'rgba(224,92,75,0.12)', border: 'var(--tier4)', text: '#0d0f14', label: 'Tier 4', labelStyle: 'background:rgba(224,92,75,0.12);color:var(--tier4)' }
+};
+
+// ══════════════════════════════════════════════
+// QUADRANT CHART
+// ══════════════════════════════════════════════
+function buildQuadrant() {
+  const chart = document.getElementById('quadrantChart');
+  const W = chart.clientWidth || 700;
+  const H = chart.clientHeight || 520;
+  const PAD = 32;
+
+  countries.forEach(c => {
+    // x: ease 1-10 → left=1 right=10
+    // y: potential 1-10 → bottom=1 top=10
+    const xPct = ((c.ease - 1) / 9) * (W - PAD*2) + PAD;
+    const yPct = H - (((c.potential - 1) / 9) * (H - PAD*2) + PAD);
+
+    const dot = document.createElement('div');
+    dot.className = 'q-dot';
+    dot.style.left = xPct + 'px';
+    dot.style.bottom = (H - yPct) + 'px';
+    dot.style.top = 'unset';
+    // convert: position from top
+    dot.style.left = xPct + 'px';
+    dot.style.top = yPct + 'px';
+    dot.dataset.id = c.id;
+
+    const tc = tierColors[c.tier];
+    dot.innerHTML = `
+      <div class="q-dot-inner" style="background:${tc.bg};border-color:${tc.border};color:${tc.border};">
+        ${c.flag}
+      </div>
+      <div class="q-dot-label" style="background:var(--surface2);color:var(--text);">${c.name}</div>
+    `;
+
+    dot.addEventListener('click', () => showDetail(c.id));
+    dot.addEventListener('mouseenter', (e) => showTooltip(e, c));
+    dot.addEventListener('mousemove', (e) => moveTooltip(e));
+    dot.addEventListener('mouseleave', hideTooltip);
+
+    chart.appendChild(dot);
+  });
+}
+
+function showDetail(id) {
+  const c = countries.find(x => x.id === id);
+  if (!c) return;
+
+  // deselect all
+  document.querySelectorAll('.q-dot').forEach(d => d.classList.remove('selected'));
+  const dot = document.querySelector(`.q-dot[data-id="${id}"]`);
+  if (dot) dot.classList.add('selected');
+
+  const card = document.getElementById('detailCard');
+  const tc = tierColors[c.tier];
+
+  document.getElementById('dc-name').innerHTML = `
+    ${c.flag} ${c.name}
+    <span class="tier-badge" style="${tc.labelStyle}">${tc.label}</span>
+  `;
+
+  document.getElementById('dc-grid').innerHTML = `
+    <div class="detail-stat" style="border-left-color:var(--accent)">
+      <div class="detail-stat-label">POTENCIÁL</div>
+      <div class="detail-stat-value">${c.potential}/10</div>
+    </div>
+    <div class="detail-stat" style="border-left-color:var(--accent2)">
+      <div class="detail-stat-label">SNADNOST VSTUPU</div>
+      <div class="detail-stat-value">${c.ease}/10</div>
+    </div>
+    <div class="detail-stat" style="border-left-color:${tc.border}">
+      <div class="detail-stat-label">PM DAY RATE</div>
+      <div class="detail-stat-value">${c.rateLabel}</div>
+    </div>
+    <div class="detail-stat">
+      <div class="detail-stat-label">GROSS MARŽE/DEN</div>
+      <div class="detail-stat-value">${c.margin}</div>
+    </div>
+    <div class="detail-stat">
+      <div class="detail-stat-label">TRH</div>
+      <div class="detail-stat-value">${c.market}</div>
+    </div>
+    <div class="detail-stat">
+      <div class="detail-stat-label">RŮST</div>
+      <div class="detail-stat-value">${c.growth}</div>
+    </div>
+  `;
+
+  document.getElementById('dc-notes').innerHTML = c.notes;
+  card.classList.add('visible');
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ══════════════════════════════════════════════
+// TOOLTIP
+// ══════════════════════════════════════════════
+const tooltip = document.getElementById('tooltip');
+
+function showTooltip(e, c) {
+  tooltip.innerHTML = `
+    <h4>${c.flag} ${c.name}</h4>
+    <div class="tooltip-row"><span>Potenciál</span><span>${c.potential}/10</span></div>
+    <div class="tooltip-row"><span>Vstup</span><span>${c.ease}/10</span></div>
+    <div class="tooltip-row"><span>Sazba</span><span>${c.rateLabel}</span></div>
+    <div class="tooltip-row"><span>Marže</span><span>${c.margin}</span></div>
+  `;
+  tooltip.style.display = 'block';
+  moveTooltip(e);
+}
+function moveTooltip(e) {
+  tooltip.style.left = (e.clientX + 14) + 'px';
+  tooltip.style.top = (e.clientY - 10) + 'px';
+}
+function hideTooltip() { tooltip.style.display = 'none'; }
+
+// ══════════════════════════════════════════════
+// TABLE
+// ══════════════════════════════════════════════
+let sortCol = 'potential', sortDir = -1, filterTier = 'all';
+
+function renderTable() {
+  const tbody = document.getElementById('tableBody');
+  let data = [...countries];
+
+  if (filterTier !== 'all') {
+    const t = parseInt(filterTier.replace('tier',''));
+    data = data.filter(c => c.tier === t);
+  }
+
+  data.sort((a,b) => {
+    let av = a[sortCol], bv = b[sortCol];
+    if (typeof av === 'string') av = av.toLowerCase();
+    if (typeof bv === 'string') bv = bv.toLowerCase();
+    return av < bv ? sortDir : av > bv ? -sortDir : 0;
+  });
+
+  tbody.innerHTML = data.map(c => {
+    const tc = tierColors[c.tier];
+    const langs = c.language.map(l => `<span class="lang-tag ${l.toLowerCase()}">${l}</span>`).join(' ');
+    return `
+      <tr data-tier="tier${c.tier}">
+        <td>${c.flag} ${c.name}</td>
+        <td><span class="tier-badge" style="${tc.labelStyle}">${tc.label}</span></td>
+        <td>
+          <div class="score-bar">
+            <div class="score-fill" style="width:${c.potential*10}px;background:${tc.border}"></div>
+            <span class="score-num">${c.potential}</span>
+          </div>
+        </td>
+        <td>
+          <div class="score-bar">
+            <div class="score-fill" style="width:${c.ease*10}px;background:var(--accent2)"></div>
+            <span class="score-num">${c.ease}</span>
+          </div>
+        </td>
+        <td>${c.rateLabel}</td>
+        <td><span class="margin-badge ${c.marginClass}">${c.marginText}</span></td>
+        <td>${langs}</td>
+        <td>${c.market}</td>
+      </tr>
+    `;
+  }).join('');
+
+  // update sort headers
+  document.querySelectorAll('.data-table th').forEach(th => {
+    th.classList.toggle('sorted', th.dataset.col === sortCol);
+    const arrow = th.querySelector('.sort-arrow');
+    if (arrow && th.dataset.col === sortCol) {
+      arrow.textContent = sortDir === -1 ? '↓' : '↑';
+    }
+  });
+}
+
+document.querySelectorAll('.data-table th').forEach(th => {
+  th.addEventListener('click', () => {
+    if (sortCol === th.dataset.col) sortDir *= -1;
+    else { sortCol = th.dataset.col; sortDir = -1; }
+    renderTable();
+  });
+});
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterTier = btn.dataset.filter;
+    renderTable();
+  });
+});
+
+// ══════════════════════════════════════════════
+// MARGIN CARDS
+// ══════════════════════════════════════════════
+function buildMarginCards() {
+  const grid = document.getElementById('marginGrid');
+  // sort by potential desc
+  const sorted = [...countries].sort((a,b) => b.potential - a.potential || b.ease - a.ease);
+  grid.innerHTML = sorted.map(c => {
+    const tc = tierColors[c.tier];
+    const czMin = 250, czMax = 450;
+    const travel = 130;
+    const grossMin = c.rateMin - czMax - travel;
+    const grossMax = c.rateMax - czMin - travel;
+    const grossStr = grossMin <= 0 ? (grossMax <= 0 ? 'Záporná' : `€0–${grossMax}`) : `€${grossMin}–${grossMax}`;
+    return `
+      <div class="margin-card">
+        <div class="margin-card-country">
+          <span>${c.flag} ${c.name}</span>
+          <span class="tier-badge" style="${tc.labelStyle}">${tc.label}</span>
+        </div>
+        <div class="margin-row"><span>PM Billing Rate</span><span>${c.rateLabel}/den</span></div>
+        <div class="margin-row"><span>CZ náklady (est.)</span><span>€250–450/den</span></div>
+        <div class="margin-row"><span>Fly-in travel</span><span>~€120–150/den</span></div>
+        <div class="margin-row"><span>Hrubá marže</span><span>${c.margin}/den</span></div>
+        <div class="margin-card-footer">
+          <span style="color:var(--muted);font-size:0.68rem;">${c.market} · ${c.growth}</span>
+          <span class="margin-badge ${c.marginClass}">${c.marginText}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════
+// REGULATORY CARDS
+// ══════════════════════════════════════════════
+function buildRegCards() {
+  const grid = document.getElementById('regGrid');
+  // only countries with real potential
+  const filtered = countries.filter(c => c.tier <= 3);
+  grid.innerHTML = filtered.map(c => {
+    const r = c.regulatory;
+    const riskClass = { low:'risk-low', mid:'risk-mid', high:'risk-high' }[r.risk];
+    const riskLabel = { low:'Nízké', mid:'Střední', high:'Vysoké' }[r.risk];
+    const tc = tierColors[c.tier];
+    return `
+      <div class="reg-card">
+        <h4>
+          ${c.flag} ${c.name}
+          <span class="risk-badge ${riskClass}">${riskLabel} riziko</span>
+        </h4>
+        <div class="reg-item"><strong>Systém:</strong> ${r.system}</div>
+        <div class="reg-item"><strong>Lhůta / Threshold:</strong> ${r.deadline}</div>
+        <div class="reg-item"><strong>Sankce / Limity:</strong> ${r.fine}</div>
+        <div class="reg-item" style="margin-top:0.5rem;color:var(--text)">${r.notes}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════
+// NAV TABS
+// ══════════════════════════════════════════════
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+buildQuadrant();
+renderTable();
+buildMarginCards();
+buildRegCards();
+</script>
+</body>
+</html>

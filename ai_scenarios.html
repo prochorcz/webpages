@@ -1,0 +1,410 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+  :root {
+    --pm-red: #FF525F;
+    --pm-blue: #A9C5DF;
+    --pm-dark: #1a1a1a;
+    --pm-body: #626567;
+    --pm-muted: #9aa3b0;
+    --pm-surf: #f4f7fa;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .wrap { font-family: 'Poppins', sans-serif; }
+  .hero {
+    background: var(--pm-dark);
+    color: white;
+    padding: 1.25rem 1.5rem 1.4rem;
+    border-radius: 0 0 12px 12px;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .hero-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+  }
+  .hero-logo {
+    height: 32px;
+    width: auto;
+    flex-shrink: 0;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--pm-blue);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .hero h1 {
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-bottom: 0.3rem;
+    color: white;
+  }
+  .hero-sub {
+    font-size: 13px;
+    color: #aab4be;
+    line-height: 1.5;
+  }
+  .hero-accent {
+    display: inline-block;
+    width: 32px;
+    height: 3px;
+    background: var(--pm-red);
+    border-radius: 2px;
+    margin-top: 0.65rem;
+  }
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 0 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--pm-body);
+  }
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dept-block {
+    margin: 0 0.75rem 1rem;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e8ecf0;
+  }
+  .dept-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    user-select: none;
+  }
+  .dept-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .dept-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--pm-dark);
+    flex: 1;
+  }
+  .dept-count {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: var(--pm-surf);
+    color: var(--pm-muted);
+  }
+  .dept-chevron {
+    font-size: 12px;
+    color: var(--pm-muted);
+    transition: transform 0.2s;
+  }
+  .dept-chevron.open { transform: rotate(180deg); }
+  .scenarios {
+    display: none;
+    padding: 0 0.75rem 0.75rem;
+    background: white;
+    gap: 8px;
+    flex-direction: column;
+  }
+  .scenarios.open { display: flex; }
+  .scenario-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--pm-surf);
+    border-radius: 8px;
+    padding: 0.65rem 0.8rem;
+    border-left: 3px solid transparent;
+  }
+  .scenario-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+  .scenario-body { flex: 1; }
+  .scenario-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--pm-dark);
+    line-height: 1.3;
+  }
+  .scenario-desc {
+    font-size: 11px;
+    color: var(--pm-muted);
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+  .scenario-tag {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 1px 7px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .footer-bar {
+    margin: 1.25rem 0.75rem 0;
+    background: var(--pm-surf);
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .footer-bar-icon {
+    width: 28px; height: 28px;
+    background: var(--pm-red);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .footer-bar-text { font-size: 12px; color: var(--pm-body); line-height: 1.4; }
+  .footer-bar-text strong { color: var(--pm-dark); font-weight: 600; }
+</style>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="hero-eyebrow">AI Adoption — Non-banking lending</div>
+        <h1>Typické scénáře užití AI</h1>
+        <div class="hero-sub">Osobní a týmová produktivita napříč klíčovými odděleními</div>
+        <div class="hero-accent"></div>
+      </div>
+      <img class="hero-logo"
+           alt="Projectman"
+           src="data:image/png;base64,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"/>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#FF525F"></div> Vysoký dopad</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#A9C5DF"></div> Střední dopad</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#d0d5da"></div> Podpůrný</div>
+  </div>
+
+  <div class="dept-block" id="bo">
+    <div class="dept-header" onclick="toggle('bo')" style="background:#fff8f8;">
+      <div class="dept-icon" style="background:#ffe5e7;">📋</div>
+      <div class="dept-title">Back Office (BO)</div>
+      <div class="dept-count">5 scénářů</div>
+      <div class="dept-chevron open" id="bo-ch">▼</div>
+    </div>
+    <div class="scenarios open" id="bo-sc">
+      <div class="scenario-card" style="border-left-color:#FF525F;">
+        <div class="scenario-dot" style="background:#FF525F;"></div>
+        <div class="scenario-body">
+          <div class="scenario-name">Automatizovaná kontrola žádostí</div>
+          <div class="scenario-desc">AI prochází příchozí žádosti o úvěr, extrahuje klíčová data a označuje chybějící nebo nekonzistentní informace.</div>
+        </div>
+        <div class="scenario-tag" style="background:#ffe5e7;color:#c0303a;">Vysoký</div>
+      </div>
+      <div class="scenario-card" style="border-left-color:#FF525F;">
+        <div class="scenario-dot" style="background:#FF525F;"></div>
+        <div class="scenario-body">
+          <div class="scenario-name">Scoring podpora & vysvětlitelnost</div>
+          <div class="scenario-desc">AI generuje čitelné shrnutí scoringového rozhodnutí pro referenta — proč byl úvěr schválen/zamítnut.</div>
+        </div>
+        <div class="scenario-tag" style="background:#ffe5e7;color:#c0303a;">Vysoký</div>
+      </div>
+      <div class="scenario-card" style="border-left-color:#A9C5DF;">
+        <div class="scenario-dot" style="background:#A9C5DF;"></div>
+        <div class="scenario-body">
+          <div class="scenario-name">Příprava dokumentů a smluv</div>
+          <div class="scenario-desc">Generování návrhů smluv a addend na základě šablon a parametrů z CRM — referent pouze validuje.</div>
+        </div>
+        <div class="scenario-tag" style="background:#e8f2f9;color:#3a6d8c;">Střední</div>
+      </div>
+      <div class="scenario-card" style="border-left-color:#A9C5DF;">
+        <div class="scenario-dot" style="background:#A9C5DF;"></div>
+        <div class="scenario-body">
+          <div class="scenario-name">Shrnutí komunikace s klientem</div>
+          <div class="scenario-desc">AI sumarizuje e-mailové vlákno či historii kontaktů před zahájením zpracování případu.</div>
+        </div>
+        <div class="scenario-tag" style="background:#e8f2f9;color:#3a6d8c;">Střední</div>
+      </div>
+      <div class="scenario-card" style="border-left-color:#d0d5da;">
+        <div class="scenario-dot" style="background:#d0d5da;"></div>
+        <div class="scenario-body">
+          <div class="scenario-name">Interní Q&A asistent</div>
+          <div class="scenario-desc">Chatbot nad interními manuály, produktovými listy a regulatorními příručkami — rychlé dohledání pravidel.</div>
+        </div>
+        <div class="scenario-tag" style="background:#f1f3f5;color:#7a8390;">Podpůrný</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dept-block" id="mkt">
+    <div class="dept-header" onclick="toggle('mkt')" style="background:#f8fff8;">
+      <div class="dept-icon" style="background:#e2f4e2;">📣</div>
+      <div class="dept-title">Marketing</div>
+      <div class="dept-count">4 scénáře</div>
+      <div class="dept-chevron" id="mkt-ch">▼</div>
+    </div>
+    <div class="scenarios" id="mkt-sc">
+      <div class="scenario-card" style="border-left-color:#FF525F;">
+        <div class="scenario-dot" style="background:#FF525F;"></div>
+        <div class="scenario-body">
+          <div class="scenario-name">Personalizovaný content marketing</div>
+          <div class="scenario-desc">Generování variant textů (e-mail, banner, SMS) přizpůsobených segmentům — věk, produkt, fáze cyklu.</div>
+        </div>
+        <div class="scenario-tag" style="background:#ffe5e7;color:#c0303a;">Vysoký</div>
+      </div>
+      <div class="scenario-card" style="border-left-color:#FF525F;">
+        <div class="scenario-dot" style="background:#FF525F;"></div>
+        <div class="scenario-body">
+          <div class="scenario-name">Lead scoring & segmentace</div>
+          <div class="scenario-desc">AI model predikuje pravděpodobnost konverze leadu a navrhuje optimální follow-up kanál a timing.</div>
+        </div>
+        <div class="scenario-tag" style="background:#ffe5e7;color:#c0303a;">Vysoký</div>
+      </div>
+      <div class="scenario-card" style="border-left-color:#A9C5DF;">
+        <div class="scenario-dot" style="background:#A9C5DF;"></div>
+        <div class="scenario-body">
+          <div class="scenario-name">Copywriting asistent</div>
+          <div class="scenario-desc">Pomoc s tvorbou návrhu textu pro kampaně, landing pages, sociální sítě — marketér edituje a schvaluje.</div>
+        </div>
+        <div class="scenario-tag" style="background:#e8f2f9;color:#3a6d8c;">Střední</div>
+      </div>
+      <div class="scenario-card" style="border-left-color:#d0d5da;">
+        <div class="scenario-dot" style="background:#d0d5da;"></div>
+        <div class="scenario-body">
+          <div class="scenario-name">Monitoring & analýza zpětné vazby</div>
+          <div class="scenario-desc">Automatická analýza sentimentu recenzí, social mentions a NPS komentářů s reportingem trendů.</div>
+        </div>
+        <div class="scenario-tag" style="background:#f1f3f5;color:#7a8390;">Podpůrný</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dept-block" id="it">
+    <div class="dept-header" onclick="toggle('it')" style="background:#f8f8ff;">
+      <div class="dept-icon" style="background:#e8e8ff;">💻</div>
+      <div class="dept-title">IT & Development</div>
+      <div class="dept-count">4 scénáře</div>
+      <div class="dept-chevron" id="it-ch">▼</div>
+    </div>
+    <div class="scenarios" id="it-sc">
+      <div class="scenario-card" style="border-left-color:#FF525F;">
+        <div class="scenario-dot" style="background:#FF525F;"></div>
+        <div class="scenario-body">
+          <div class="scenario-name">AI-asistované kódování</div>
+          <div class="scenario-desc">Copilot nástroje pro generování, review a refactoring kódu — zkrácení doby vývoje, méně chyb.</div>
+        </div>
+        <div class="scenario-tag" style="background:#ffe5e7;color:#c0303a;">Vysoký</div>
+      </div>
+      <div class="scenario-card" style="border-left-color:#A9C5DF;">
+        <div class="scenario-dot" style="background:#A9C5DF;"></div>
+        <div class="scenario-body">
+          <div class="scenario-name">Automatizovaná detekce anomálií</div>
+          <div class="scenario-desc">Monitoring systémů a transakcí — AI detekuje odchylky a upozorní tým dříve než dorazí stížnosti.</div>
+        </div>
+        <div class="scenario-tag" style="background:#e8f2f9;color:#3a6d8c;">Střední</div>
+      </div>
+      <div class="scenario-card" style="border-left-color:#A9C5DF;">
+        <div class="scenario-dot" style="background:#A9C5DF;"></div>
+        <div class="scenario-body">
+          <div class="scenario-name">Generování testovacích scénářů</div>
+          <div class="scenario-desc">AI navrhuje edge case testy na základě specifikace — pokrytí rohových případů bez manuálního vymýšlení.</div>
+        </div>
+        <div class="scenario-tag" style="background:#e8f2f9;color:#3a6d8c;">Střední</div>
+      </div>
+      <div class="scenario-card" style="border-left-color:#d0d5da;">
+        <div class="scenario-dot" style="background:#d0d5da;"></div>
+        <div class="scenario-body">
+          <div class="scenario-name">Technická dokumentace</div>
+          <div class="scenario-desc">Automatické generování API dokumentace, release notes a user stories z kódu a ticketů.</div>
+        </div>
+        <div class="scenario-tag" style="background:#f1f3f5;color:#7a8390;">Podpůrný</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dept-block" id="cx">
+    <div class="dept-header" onclick="toggle('cx')" style="background:#fffbf4;">
+      <div class="dept-icon" style="background:#ffefd0;">🎧</div>
+      <div class="dept-title">Zákaznická péče (CX)</div>
+      <div class="dept-count">5 scénářů</div>
+      <div class="dept-chevron" id="cx-ch">▼</div>
+    </div>
+    <div class="scenarios" id="cx-sc">
+      <div class="scenario-card" style="border-left-color:#FF525F;">
+        <div class="scenario-dot" style="background:#FF525F;"></div>
+        <div class="scenario-body">
+          <div class="scenario-name">Virtuální asistent (chatbot)</div>
+          <div class="scenario-desc">24/7 obsluha rutinních dotazů (stav žádosti, splatnosti, produktové info) — eskalace na živého agenta.</div>
+        </div>
+        <div class="scenario-tag" style="background:#ffe5e7;color:#c0303a;">Vysoký</div>
+      </div>
+      <div class="scenario-card" style="border-left-color:#FF525F;">
+        <div class="scenario-dot" style="background:#FF525F;"></div>
+        <div class="scenario-body">
+          <div class="scenario-name">Návrh odpovědí pro agenta</div>
+          <div class="scenario-desc">AI v reálném čase navrhuje odpověď e-mailem/chatem — agent schvaluje nebo upravuje před odesláním.</div>
+        </div>
+        <div class="scenario-tag" style="background:#ffe5e7;color:#c0303a;">Vysoký</div>
+      </div>
+      <div class="scenario-card" style="border-left-color:#A9C5DF;">
+        <div class="scenario-dot" style="background:#A9C5DF;"></div>
+        <div class="scenario-body">
+          <div class="scenario-name">Automatické shrnutí hovoru</div>
+          <div class="scenario-desc">Transkripce a sumarizace telefonního hovoru, zápis do CRM bez manuálního zadávání agenta.</div>
+        </div>
+        <div class="scenario-tag" style="background:#e8f2f9;color:#3a6d8c;">Střední</div>
+      </div>
+      <div class="scenario-card" style="border-left-color:#A9C5DF;">
+        <div class="scenario-dot" style="background:#A9C5DF;"></div>
+        <div class="scenario-body">
+          <div class="scenario-name">Predikce churn & proaktivní outreach</div>
+          <div class="scenario-desc">AI identifikuje klienty s rizikem odchodu nebo platební potíže — CX tým kontaktuje preventivně.</div>
+        </div>
+        <div class="scenario-tag" style="background:#e8f2f9;color:#3a6d8c;">Střední</div>
+      </div>
+      <div class="scenario-card" style="border-left-color:#d0d5da;">
+        <div class="scenario-dot" style="background:#d0d5da;"></div>
+        <div class="scenario-body">
+          <div class="scenario-name">Automatické kategorizace ticketů</div>
+          <div class="scenario-desc">Třídění a prioritizace příchozích požadavků podle tématu, urgence a segmentu klienta.</div>
+        </div>
+        <div class="scenario-tag" style="background:#f1f3f5;color:#7a8390;">Podpůrný</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    <div class="footer-bar-icon">✦</div>
+    <div class="footer-bar-text"><strong>18 scénářů napříč 4 odděleními.</strong> Infografika pokrývá úroveň osobní a týmové produktivity — bez nasazení vlastních AI modelů.</div>
+  </div>
+</div>
+
+<script>
+function toggle(id) {
+  const sc = document.getElementById(id + '-sc');
+  <br>const ch = document.getElementById(id + '-ch');
+  const isOpen = sc.classList.contains('open');
+  sc.classList.toggle('open', !isOpen);
+  ch.classList.toggle('open', !isOpen);
+}
+</script>

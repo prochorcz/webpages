@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shrnutí schůzky — Allianz Technology × Projectman</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-red: #FF525F;
+    --color-blue: #A9C5DF;
+    --color-white: #ffffff;
+    --color-light-surf: #f4f7fa;
+    --color-body-text: #626567;
+    --color-muted: #9aa3b0;
+    --color-dark: #1a1a1a;
+    --font-main: 'Poppins', sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font-main);
+    background: var(--color-light-surf);
+    color: var(--color-body-text);
+  }
+  header.hero {
+    background: var(--color-dark);
+    color: #fff;
+    padding: 26px 24px 20px;
+  }
+  header.hero .top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  header.hero img.logo { height: 44px; width: auto; }
+  header.hero .meta {
+    font-size: 12.5px;
+    color: var(--color-blue);
+    text-align: right;
+    line-height: 1.5;
+  }
+  header.hero .title-wrap { max-width: 920px; margin: 0 auto; }
+  header.hero h1 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 16px 0 4px;
+  }
+  header.hero h1 .accent { color: var(--color-red); }
+  header.hero p.sub {
+    margin: 0 0 2px;
+    font-size: 13.5px;
+    color: var(--color-blue);
+  }
+  nav.tabs {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 12px 16px;
+    background: var(--color-dark);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-top: 1px solid rgba(255,255,255,.08);
+    box-shadow: 0 2px 10px rgba(0,0,0,.2);
+  }
+  nav.tabs .tabs-inner {
+    display: flex;
+    gap: 6px;
+    max-width: 920px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  nav.tabs button {
+    flex: 0 0 auto;
+    font-family: var(--font-main);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-blue);
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all .15s ease;
+  }
+  nav.tabs button:hover { background: rgba(255,255,255,.14); }
+  nav.tabs button.active {
+    background: var(--color-red);
+    color: #fff;
+    border-color: var(--color-red);
+  }
+  main {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 24px 16px 60px;
+  }
+  section.panel { display: none; }
+  section.panel.active { display: block; animation: fadeIn .25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px);} to {opacity: 1; transform: translateY(0);} }
+
+  h2.section-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--color-dark);
+    margin: 26px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--color-red);
+    display: inline-block;
+  }
+  .intro-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    border-left: 3px solid var(--color-red);
+    box-shadow: 0 1px 4px rgba(0,0,0,.05);
+  }
+  .intro-card.blue { border-left-color: var(--color-blue); }
+  .intro-card h3 { margin: 0 0 8px; font-size: 15px; color: var(--color-dark); font-weight: 600;}
+  .intro-card p, .intro-card li { font-size: 13.5px; line-height: 1.6; }
+  .intro-card ul { margin: 8px 0 0; padding-left: 18px; }
+  .intro-card li { margin-bottom: 6px; }
+  .intro-card li::marker { color: var(--color-red); }
+
+  .badge {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--color-blue);
+    color: var(--color-dark);
+    margin-bottom: 8px;
+    margin-right: 6px;
+  }
+  .badge.red { background: var(--color-red); color: #fff; }
+  .badge.outline { background: transparent; border: 1px solid var(--color-blue); color: var(--color-body-text); }
+
+  .grid2 { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  @media (min-width: 680px) { .grid2 { grid-template-columns: 1fr 1fr; } }
+  .grid3 { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  @media (min-width: 680px) { .grid3 { grid-template-columns: 1fr 1fr 1fr; } }
+
+  /* Lead cards */
+  .lead-card {
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.05);
+    border: 1px solid #eceff2;
+    overflow: hidden;
+  }
+  .lead-head {
+    padding: 16px 20px 14px;
+    border-bottom: 1px solid #f0f2f5;
+  }
+  .lead-head h3 { margin: 4px 0 4px; font-size: 16px; font-weight: 600; color: var(--color-dark); }
+  .lead-head p.lead-sub { margin: 0; font-size: 13px; color: var(--color-muted); }
+  .lead-body { padding: 6px 20px 18px; }
+  .lead-block { margin-top: 14px; }
+  .lead-block-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--color-red);
+    margin-bottom: 6px;
+  }
+  .lead-block-label.blue { color: #6f93b8; }
+  .lead-block p { margin: 0 0 8px; font-size: 13.5px; line-height: 1.6; }
+  .lead-block ul { margin: 4px 0 0; padding-left: 18px; }
+  .lead-block li { font-size: 13.5px; line-height: 1.55; margin-bottom: 5px; }
+  .lead-block li::marker { color: var(--color-red); }
+
+  .quote {
+    background: var(--color-light-surf);
+    border-left: 3px solid var(--color-blue);
+    border-radius: 0 6px 6px 0;
+    padding: 12px 14px;
+    margin: 10px 0;
+    font-size: 13px;
+    line-height: 1.6;
+    font-style: italic;
+  }
+  .quote .who {
+    display: block;
+    margin-top: 8px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--color-dark);
+  }
+  .quote .who span { font-weight: 400; color: var(--color-muted); }
+
+  .value-box {
+    background: var(--color-dark);
+    color: #fff;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 14px;
+  }
+  .value-box .lead-block-label { color: var(--color-red); }
+  .value-box p { color: #fff; font-size: 13.5px; line-height: 1.6; margin: 0; }
+  .value-box ul { margin: 10px 0 0; padding-left: 18px; }
+  .value-box li { color: #fff; font-size: 13px; line-height: 1.55; margin-bottom: 6px; }
+  .value-box li::marker { color: var(--color-red); }
+  .value-box li strong { color: var(--color-blue); font-weight: 600; }
+
+  /* Accordion (profile tab) */
+  .acc-card {
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.05);
+    border: 1px solid #eceff2;
+    overflow: hidden;
+  }
+  .acc-head {
+    padding: 15px 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  .acc-head:hover { background: var(--color-light-surf); }
+  .acc-head h4 { margin: 0; font-size: 15px; font-weight: 600; color: var(--color-dark); }
+  .acc-head .role { display: block; font-size: 12px; color: var(--color-muted); font-weight: 400; margin-top: 2px; }
+  .chevron { font-size: 13px; color: var(--color-red); transition: transform .2s ease; flex-shrink: 0; }
+  .acc-card.open .chevron { transform: rotate(90deg); }
+  .acc-body { display: none; padding: 0 18px 18px; border-top: 1px solid #f0f2f5; }
+  .acc-card.open .acc-body { display: block; }
+  .acc-body p { font-size: 13.5px; line-height: 1.6; }
+  .acc-body ul { margin: 8px 0 0; padding-left: 18px; }
+  .acc-body li { font-size: 13.5px; line-height: 1.55; margin-bottom: 6px; }
+  .acc-body li::marker { color: var(--color-red); }
+  .acc-body strong { color: var(--color-dark); font-weight: 600; }
+
+  .comp-tile {
+    background: #fff;
+    border-radius: 8px;
+    padding: 16px 18px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.05);
+    border-top: 3px solid var(--color-red);
+  }
+  .comp-tile.blue { border-top-color: var(--color-blue); }
+  .comp-tile h4 { margin: 0 0 6px; font-size: 14px; font-weight: 600; color: var(--color-dark); }
+  .comp-tile p { margin: 0; font-size: 12.8px; line-height: 1.55; }
+
+  .clients-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .client-pill {
+    font-size: 12px;
+    background: #fff;
+    border: 1px solid var(--color-blue);
+    color: var(--color-body-text);
+    border-radius: 20px;
+    padding: 5px 12px;
+  }
+
+  footer.contact {
+    background: var(--color-dark);
+    color: #fff;
+    padding: 28px 24px;
+    margin-top: 30px;
+  }
+  footer.contact .inner { max-width: 920px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; align-items: center; }
+  footer.contact h4 { margin: 0 0 6px; font-size: 15px; font-weight: 600; }
+  footer.contact p { margin: 0; font-size: 12.8px; color: var(--color-blue); line-height: 1.6; }
+  footer.contact a { color: var(--color-red); text-decoration: none; font-weight: 500; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="top-row">
+    <img class="logo" src="data:image/png;base64,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" alt="Projectman — connecting experts">
+    <div class="meta">
+      Schůzka 2. 7. 2026<br>
+      Martin Juráš (Allianz Technology) × Jan Klimíček (Projectman)
+    </div>
+  </div>
+  <div class="title-wrap">
+    <h1>Shrnutí schůzky — <span class="accent">Allianz Technology CZ&nbsp;&amp;&nbsp;SK</span></h1>
+    <p class="sub">AI v PMO, kapacitní plánování a možnosti spolupráce</p>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <div class="tabs-inner">
+    <button class="active" data-tab="summary">O čem jsme se bavili</button>
+    <button data-tab="leads">Leady &amp; naše zkušenosti</button>
+    <button data-tab="profile">Projectman — služby &amp; kompetence</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ======================= TAB 1: SUMMARY ======================= -->
+<section class="panel active" id="tab-summary">
+
+  <div class="intro-card">
+    <h3>Díky za dnešní setkání!</h3>
+    <p>Níže posílám stručné shrnutí toho, co na schůzce zaznělo, dohodnuté další kroky a v dalších záložkách i naše zkušenosti k tématům, která jsme otevřeli, plus přehled všeho, co jako Projectman děláme.</p>
+  </div>
+
+  <h2 class="section-title">Kontext Allianz Technology CZ &amp; SK</h2>
+  <div class="intro-card blue">
+    <ul>
+      <li>Cca <strong>60 interních lidí</strong> — většina vývojáři, dále IT analýza, testing a governance. Nejdůležitější systémy drží interní vývojový tým a interní IT analytici, část aplikací je plně u vendorů (vývoj, částečně i analýza), testing se postupně přebírá interně.</li>
+      <li>Allianz Technology <strong>nemá vlastní projektovou kancelář</strong> — velké strategické projekty se řeší externě přes výběrová řízení, případně opakovaně přes ověřené dodavatele; menší věci si odtýkluje projektovka Allianz pojišťovny (cca 600 projekťáků na úrovni skupiny).</li>
+      <li>Model „captive" IT — Allianz Technology dodává výhradně pro Allianz pojišťovnu, což omezuje konkurenční tlak a přirozenou dynamiku dodávky.</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title">Hlavní témata a bolesti</h2>
+
+  <div class="intro-card">
+    <h3>Kapacitní plánování a release management</h3>
+    <ul>
+      <li>Chybí dedikovaný release manažer — plánování release dnes dělá šéf IT analýz společně s byznysem a projekty a se současným stavem není spokojenost.</li>
+      <li>Prioritizace probíhá nad backlogem <strong>~800 požadavků → do release se dostane ~100 → po finálním škrtu ~50</strong>.</li>
+      <li>Naplánovaná (nabookovaná) kapacita se výrazně rozchází s realitou ve výkazech — lidé jsou alokovaní na projekt, ale reálně na něm vykazují jen zlomek času, zbytek pohltí jiná (často run) agenda.</li>
+      <li>Do toho tlak skupiny na velmi přesný forecast (na půl roku dopředu s minimální odchylkou) — v praxi to znamená nutnost mít v rukávu flexibilní dodavatele a pracovat s předplacením či odkladem plnění.</li>
+      <li>Unplanned demand je běžnou součástí roku a komplikuje plánování rozpočtu.</li>
+    </ul>
+  </div>
+
+  <div class="intro-card">
+    <h3>Procesy a nákup</h3>
+    <ul>
+      <li>Skupinové procesy jsou rigidní a pomalé — konkrétní zkušenost: dodavatel vybrán v květnu, kontrakt podepsán až na konci listopadu.</li>
+      <li>Third-party assessmenty a smluvní dokumentace přidávají měsíce — velká část procesu leží na servisní organizaci a na vendorovi, teprve pak dochází k samotnému jednání o kontraktu s legal týmy všech stran.</li>
+      <li>Lokálně lze některé věci ovlivnit, globální procesy prakticky ne — o to důležitější je mít pružné partnery na lokální úrovni.</li>
+    </ul>
+  </div>
+
+  <div class="intro-card">
+    <h3>AI prostředí a využití</h3>
+    <ul>
+      <li>Skupina jede na Microsoft stacku, na group levelu je k dispozici GitHub Copilot; <strong>Claude se do Allianz dostává v létě</strong> (zatím základnější verze).</li>
+      <li>Martin AI aktivně používá zejména pro <strong>forecasting, analýzy a čištění/narovnávání dat z různých vstupů</strong> — pomáhá najít největší rozdíly a místa, kde „to hoří".</li>
+      <li>Nová AI řešení musí nejdřív projít skupinou (ověření, zda už řešení ve skupině neexistuje) — centralizovaná řešení ale bývají drahá a business case často nevychází; lokálně proto dává smysl hledat cesty s menšími, flexibilními dodavateli.</li>
+      <li>Jira je zavedená, konektory existují — prostor pro AI v PMO a v business analýze (reporting, visibility, predikce) jsme nakousli a je zájem ho rozvíjet.</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title">Dohodnuté další kroky</h2>
+  <div class="intro-card" style="border-left-color:#1a1a1a;">
+    <ul>
+      <li><span class="badge red">1</span><strong>Procesy &amp; kapacitní plánování</strong> — Martin pošle pár bodů k tomu, co ho aktuálně trápí a co umí lokálně ovlivnit; navážeme konkrétním návrhem (online, nebo osobně při další cestě do Prahy). Z pohledu rozpočtu je ideální okno začátek nového fiskálu (leden), dílčí kroky ale můžeme rozjet dřív.</li>
+      <li><span class="badge red">2</span><strong>RFP — IT analytik pro ABS Decommissioning</strong> — šéf IT analýz vypisuje výběrové řízení, Martin přepošle RFP.</li>
+      <li><span class="badge red">3</span><strong>RFP — projektový manažer</strong> — na další projekt bude vypsána samostatná poptávka, detail dorazí spolu s RFP.</li>
+    </ul>
+  </div>
+
+</section>
+
+<!-- ======================= TAB 2: LEADS ======================= -->
+<section class="panel" id="tab-leads">
+
+  <div class="intro-card">
+    <h3>Tři otevřená témata</h3>
+    <p>Ke každému tématu ze schůzky přikládám naše relevantní zkušenosti, vybrané reference a shrnutí toho, v čem vidíme naši největší přidanou hodnotu právě pro Allianz Technology.</p>
+  </div>
+
+  <!-- LEAD 1 -->
+  <div class="lead-card">
+    <div class="lead-head">
+      <span class="badge red">Lead 1</span><span class="badge">Consulting</span>
+      <h3>Procesy &amp; kapacitní plánování</h3>
+      <p class="lead-sub">Release management, prioritizace business požadavků, demand vs. kapacita, AI v PMO</p>
+    </div>
+    <div class="lead-body">
+
+      <div class="lead-block">
+        <div class="lead-block-label">Co zaznělo na schůzce</div>
+        <p>Chybí release manažer, prioritizace 800 → 100 → 50 požadavků, rozpor mezi nabookovanou kapacitou a realitou ve výkazech, tlak na přesný půlroční forecast a unplanned demand. Zájem o metodické i praktické nastavení — včetně využití AI nad daty z Jiry.</p>
+      </div>
+
+      <div class="lead-block">
+        <div class="lead-block-label blue">Naše zkušenosti</div>
+        <ul>
+          <li><strong>Řízení business demand vs. plánování kapacit</strong>, prioritizace a roadmapping je jedno z našich nejčastějších konzultačních témat — nastavujeme celý řetězec od sběru požadavků přes prioritizaci po release a zpětnou vazbu z výkazů.</li>
+          <li><strong>PMO strategie a PM procesy</strong> — návrh rolí (vč. release managementu), životního cyklu změny a metodiky šité na míru organizaci, která kombinuje agilní a klasickou dodávku.</li>
+          <li><strong>Data &amp; AI driven Project Management</strong> — od visibility po predikci; stavíme reporting a AI vrstvu nad nástroji typu Jira, aby plán a realita byly vidět v jednom pohledu.</li>
+          <li>Konkrétně v <strong>Air Bank</strong> jsme ladili kapacitní plánování a proces prioritizace business požadavků, nový životní cyklus změny a roli PMO; v <strong>Model Group</strong> portfolio management, potřebné kapacity a prioritizaci dle PMI.</li>
+        </ul>
+      </div>
+
+      <div class="lead-block">
+        <div class="lead-block-label blue">Reference</div>
+        <div class="quote">
+          „Kolegové z Projectman se aktivně zapojili do širokého spektra témat, které jsme potřebovali v rámci startující agilizace adresovat. Externí vhled a zkušenost jsme využili primárně pro správné nastavení klíčových rolí v nových agilních týmech či pro sjednocení pohledu na ‚lifecycle' dodávek změn, bez ohledu na způsob jejich vývoje."
+          <span class="who">Petr Malý <span>— Project Management Officer, Air Bank</span></span>
+        </div>
+        <div class="quote">
+          „The colleagues from Projectman enabled us to gain a comprehensive &amp; improved understanding along the topics of portfolio management, qualitative indications for project stakeholders, necessary capacities and prioritization."
+          <span class="who">Sebastian Chini <span>— Head of IT PMO, Model Group</span></span>
+        </div>
+      </div>
+
+      <div class="value-box">
+        <div class="lead-block-label">Hodnota, kterou přinášíme klientovi</div>
+        <p>Nekončíme u metodiky na papíře. Nastavíme prioritizaci a kapacitní plánování end-to-end — od business demandu přes stavbu release po konfrontaci plánu s realitou ve výkazech — a doplníme ho o data/AI vrstvu pro visibility a predikci.</p>
+        <ul>
+          <li><strong>Transparentní prioritizace</strong> — jeden srozumitelný proces od demandu po release, který ustojí i backlog o stovkách požadavků.</li>
+          <li><strong>Plán vs. realita v jednom pohledu</strong> — napojení na výkazy a Jiru, aby se odchylky alokací ukazovaly průběžně, ne až po skončení release.</li>
+          <li><strong>Přesnější forecast, klidnější rozpočet</strong> — predikce nad daty a flexibilní kapacita jako polštář pro unplanned demand.</li>
+          <li><strong>Know-how zůstává u vás</strong> — pracujeme iterativně s vašimi týmy, formou workshopů a mentoringu, ne dodáním šanonu.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- LEAD 2 -->
+  <div class="lead-card">
+    <div class="lead-head">
+      <span class="badge red">Lead 2</span><span class="badge">Outsourcing</span>
+      <h3>IT Business Analytik — ABS Decommissioning</h3>
+      <p class="lead-sub">Výběrové řízení na IT analytika pro odstavení core systému ABS</p>
+    </div>
+    <div class="lead-body">
+
+      <div class="lead-block">
+        <div class="lead-block-label">Co zaznělo na schůzce</div>
+        <p>Šéf IT analýz vypisuje výběrové řízení na IT analytika vyloženě pro decommissioning ABS. RFP dorazí v následujících dnech — profil: technicky silný analytik se schopností komunikovat s byznysem i vývojem.</p>
+      </div>
+
+      <div class="lead-block">
+        <div class="lead-block-label blue">Naše zkušenosti</div>
+        <ul>
+          <li><strong>Business a IT analýza</strong> je jedna z našich šesti klíčových odborností — v komunitě máme analytiky se zkušeností z core systémů finančních institucí (pojišťovny, banky, penzijní společnosti).</li>
+          <li>Přímá zkušenost s <strong>decommissioningem core systémů</strong>: řízení decommissioningu core banking systému pro ING Slovensko (payment engines SEPA/SWIFT, koordinace globálních týmů), decommissioning legacy platebního systému Generali Česká pojišťovna (AS/400, přenos funkcionalit do moderních systémů).</li>
+          <li>Loni jsme na Slovensku řídili <strong>výměnu celého core systému penzijní společnosti</strong> — včetně výběrového řízení na dodavatele.</li>
+          <li>Analytické dodávky s důrazem na dokumentaci: mapování AS-IS procesů a funkcionalit, strukturovaný sběr požadavků od klíčových uživatelů, TO-BE specifikace a podklady pro testování a datovou migraci (aktuálně např. senior BA pro re-implementaci ERP ve VAFO Group; migrace LMS pro 35 000 uživatelů v Sandoz vč. migrace historických dat dle SDLC).</li>
+          <li>Ve finančním sektoru pracujeme mj. pro Kooperativu, UNIQA, Českou pojišťovnu, VIG Re, ČSOB, Air Bank, Monetu či Českou spořitelnu.</li>
+        </ul>
+      </div>
+
+      <div class="lead-block">
+        <div class="lead-block-label blue">Reference</div>
+        <div class="quote">
+          „Projektoví manažeři, kteří byli nasazeni na naše IT projekty, prokázali vysokou odbornost, profesionální přístup a schopnost efektivně řídit složité projekty… Oceňujeme zejména schopnost poskytnout kvalifikované odborníky přesně dle našich požadavků a přizpůsobit se dynamice našich projektů."
+          <span class="who">Patrik Elbl <span>— Project Management Officer, Škoda Group</span></span>
+        </div>
+      </div>
+
+      <div class="value-box">
+        <div class="lead-block-label">Hodnota, kterou přinášíme klientovi</div>
+        <p>Nedodáváme CV, ale službu — analytika vybraného na míru zadání, s garancemi Projectmana v zádech.</p>
+        <ul>
+          <li><strong>Rychlost a jistota</strong> — prověřené kandidáty prezentujeme v horizontu dnů až týdnů a umíme rychle zareagovat i při výpadku člověka v průběhu projektu.</li>
+          <li><strong>Minimální onboarding</strong> — analytik s praxí z core systémů finančních institucí zná doménu, procesy i regulatorní kontext.</li>
+          <li><strong>Kvalita dodávky s garancí</strong> — pravidelné feedback sessions, hodnocení a v případě potřeby mentoring kontraktora; nespokojenost řešíme okamžitě, včetně výměny.</li>
+          <li><strong>Dokumentace, která přežije projekt</strong> — AS-IS/TO-BE, funkční specifikace a podklady pro testování a datovou migraci, srozumitelné pro byznys i IT.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- LEAD 3 -->
+  <div class="lead-card">
+    <div class="lead-head">
+      <span class="badge red">Lead 3</span><span class="badge">Outsourcing</span>
+      <h3>Projektový manažer — nový projekt</h3>
+      <p class="lead-sub">Samostatné RFP na projekťáka, detail zadání upřesní poptávka</p>
+    </div>
+    <div class="lead-body">
+
+      <div class="lead-block">
+        <div class="lead-block-label">Co zaznělo na schůzce</div>
+        <p>Vedle analytika bude vypsána i poptávka na projektového manažera pro další projekt. Očekávaný profil dle dřívější zkušenosti: technicky zdatný senior s výborným stakeholder managementem, který se nebojí konstruktivně oponovat.</p>
+      </div>
+
+      <div class="lead-block">
+        <div class="lead-block-label blue">Naše zkušenosti</div>
+        <ul>
+          <li>Jsme <strong>největší specializovaná firma na outsourcing projektového řízení v ČR a SR</strong> — síť více než 4 000 profesionálů, ze které vybíráme na míru konkrétnímu zadání a firemní kultuře.</li>
+          <li>Senioři s praxí z pojišťoven a bank (Generali/Česká pojišťovna, ČSOB Pojišťovna, Kooperativa, Air Bank, Česká spořitelna…), zkušení v prediktivním, agilním i <strong>hybridním řízení</strong>, s certifikacemi PMI, IPMA, PRINCE2.</li>
+          <li>Reference z velkých IT dodávek: řízení implementace PLM Siemens TeamCenter a SAP S/4HANA ve Škoda Group, migrace SAP S/4HANA ve Weberu, program přechodu desítek firem skupiny Veolia na nový ERP, největší projekt v historii ORLEN Benzina (rollout na 400 čerpacích stanic).</li>
+        </ul>
+      </div>
+
+      <div class="lead-block">
+        <div class="lead-block-label blue">Reference</div>
+        <div class="quote">
+          „Projectman řídil projekt zavedení Tank Karty EASY… Díky zvolenému přístupu a správnému řízení se podařilo řešení správně odpilotovat, zaškolit a bezproblémově nasadit v síti Benzina. Z business pohledu bylo zavedení Tank Karty EASY velkým úspěchem a bylo oceněno jako projekt roku v rámci celé skupiny PKN Orlen."
+          <span class="who">Lukáš Veselý <span>— Head of Retail IT Projects, Unipetrol</span></span>
+        </div>
+      </div>
+
+      <div class="value-box">
+        <div class="lead-block-label">Hodnota, kterou přinášíme klientovi</div>
+        <p>Rychlost a flexibilita, kterou režim přesného forecastu vyžaduje — s garancí kvality po celou dobu spolupráce.</p>
+        <ul>
+          <li><strong>Tailor-made výběr</strong> — z komunity 4 000+ profesionálů vybíráme dle zadání i firemní kultury; senior s technickou hloubkou a silným stakeholder managementem, který se nebojí konstruktivně oponovat.</li>
+          <li><strong>Pružné škálování kapacity</strong> — nahoru i dolů podle reálné potřeby release; přesně to, co model půlročního forecastu potřebuje.</li>
+          <li><strong>Garance kvality dodávky</strong> — pravidelný měsíční feedback, mentoring a možnost výměny bez rizika pro klienta.</li>
+          <li><strong>Kontinuita</strong> — při výpadku dodáme náhradu z ověřené komunity, projekt se nezastaví.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<!-- ======================= TAB 3: PROFILE ======================= -->
+<section class="panel" id="tab-profile">
+
+  <div class="intro-card">
+    <h3>Projectman — connecting experts</h3>
+    <p>Projectman je síť více než <strong>4 000 profesionálů</strong> a největší specializovaná firma v oblasti outsourcingu projektového řízení v ČR a SR. Rozvíjíme klienty v oblastech projektového řízení, agility, business analýzy, UX, datové analýzy a AI. Spolupracujeme s top experty na trhu i profesními komunitami, přednášíme na konferencích a jsme spolutvůrci podcastu PMPod.</p>
+    <p style="margin-top:8px;">Vytváříme prostředí, ve kterém rozvíjíme komunitu nejlepších lidí pro realizaci změn našich klientů — a záleží nám na tom, abychom dělali správné věci správně.</p>
+  </div>
+
+  <h2 class="section-title">Naše služby</h2>
+
+  <div class="acc-card open">
+    <div class="acc-head" onclick="toggleAcc(this)">
+      <div><h4>Outsourcing</h4><span class="role">Posílíme váš tým těmi správnými odborníky — dodáváme člověka jako službu</span></div>
+      <div class="chevron">▶</div>
+    </div>
+    <div class="acc-body">
+      <p>Outsourcing pečlivě vybraných expertů vhodně doplňuje interní kapacity. Klient získává motivovaného partnera s nadstandardní zkušeností a garancemi ze strany Projectman — včetně průběžné podpory, hodnocení a mentoringu kandidáta.</p>
+      <ul>
+        <li><strong>Project Manager</strong> — řídí projekty a zajišťuje optimální využití zdrojů.</li>
+        <li><strong>Program Manager</strong> — orchestrace více projektů, řešení priorit a konfliktů.</li>
+        <li><strong>Business Analyst</strong> — analýza a návrh systémů řízení a podnikových procesů.</li>
+        <li><strong>Datové role</strong> — Data Analyst, Data Engineer, Data Scientist a další.</li>
+        <li><strong>Agilní role</strong> — Scrum Master, Product Owner, Agile Coach.</li>
+        <li><strong>UX/CX role</strong> — UX Designer/Consultant, Product Designer, UX Researcher.</li>
+        <li><strong>Interim AI Ambassador a AI Team Lead</strong> — podpora adopce a udržitelného rozvoje AI napříč organizací.</li>
+      </ul>
+      <div class="value-box">
+        <div class="lead-block-label">Hodnota pro klienta</div>
+        <ul style="margin-top:0;">
+          <li><strong>Rychlost</strong> — prověřené kandidáty prezentujeme v horizontu dnů až týdnů; při výpadku zajistíme náhradu, projekt se nezastaví.</li>
+          <li><strong>Služba, ne bodyshopping</strong> — za dodávkou stojí Projectman: pravidelné feedback sessions, hodnocení a mentoring kontraktora.</li>
+          <li><strong>Flexibilita kapacit</strong> — škálování nahoru i dolů dle reálné potřeby, bez závazků a nákladů pracovního poměru.</li>
+          <li><strong>Kulturní fit</strong> — díky hluboké znalosti komunity vybíráme nejen dle dovedností, ale i hodnot a kultury vaší firmy.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="acc-card">
+    <div class="acc-head" onclick="toggleAcc(this)">
+      <div><h4>Consulting</h4><span class="role">Vyřešíme výzvy vašeho podnikání — nekončíme radou, doručujeme změny</span></div>
+      <div class="chevron">▶</div>
+    </div>
+    <div class="acc-body">
+      <p>Pomáháme klientům s konkrétními výzvami: akcelerujeme příležitosti, řešíme neefektivity, vylepšujeme procesy. Přinášíme know-how, „druhé oči" i expertní interim role — a jsme připraveni proces změny prožít společně až k výsledku.</p>
+      <ul>
+        <li><strong>AI adopce &amp; governance</strong> v týmech — scénáře, piloty, evaluace, ambasadoři.</li>
+        <li><strong>Transformace</strong> — design a exekuce transformativních změn.</li>
+        <li><strong>PMO strategie</strong> — tvorba hodnoty pro firmu a měření úspěchu.</li>
+        <li><strong>Řízení business demand vs. plánování kapacit</strong>, prioritizace a roadmapping.</li>
+        <li><strong>PM procesy a metodiky</strong> — jejich úroveň a zlepšování v týmech.</li>
+        <li><strong>Data &amp; AI driven Project Management</strong> — od visibility po predikci.</li>
+        <li><strong>Portfolio management</strong> a exekuce firemní strategie.</li>
+        <li><strong>Hybridní PM modely</strong> a praktická agilita v organizaci.</li>
+        <li>Maximalizace využití <strong>firemních dat a jejich governance</strong>.</li>
+        <li><strong>Design thinking a UX/CX</strong> v organizaci.</li>
+      </ul>
+      <div class="value-box">
+        <div class="lead-block-label">Hodnota pro klienta</div>
+        <ul style="margin-top:0;">
+          <li><strong>Doručená změna, ne prezentace</strong> — jsme připraveni proces změny s vámi prožít a dotáhnout do konkrétních akcí a výsledků.</li>
+          <li><strong>Best practice z desítek organizací</strong> — přenášíme ověřenou praxi z bank, pojišťoven i průmyslu do vašeho kontextu, bez zbytečné teorie.</li>
+          <li><strong>Nezávislé „druhé oči"</strong> — pohled bez provozní slepoty, který si dovolí pojmenovat skutečné příčiny neefektivit.</li>
+          <li><strong>Měřitelný dopad</strong> — od začátku definujeme, jak se úspěch změny pozná a měří.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="acc-card">
+    <div class="acc-head" onclick="toggleAcc(this)">
+      <div><h4>Education</h4><span class="role">Praktické tréninky, certifikační kurzy a týmové workshopy — už 14 let</span></div>
+      <div class="chevron">▶</div>
+    </div>
+    <div class="acc-body">
+      <p>Vzděláváme IT i business profesionály, leadery, projektové manažery i začátečníky. Programy stavíme na míru a dle kontextu zákazníka — s důrazem na využitelnost, prožitek a výsledky.</p>
+      <ul>
+        <li><strong>Rozvíjíme kompetence:</strong> projektový a produktový management, agilní řízení, AI, business analýza, UX/CX, datová analýza, soft skills.</li>
+        <li><strong>Špičkoví lektoři z praxe</strong> — pečlivě vybraní odborníci s výbornými referencemi.</li>
+        <li><strong>Praktický a interaktivní přístup</strong> — reálné zkušenosti, gamifikace, týmové aktivity.</li>
+        <li><strong>Okamžitá využitelnost</strong> — účastníci si odnášejí nástroje aplikovatelné ihned v praxi.</li>
+      </ul>
+      <div class="value-box">
+        <div class="lead-block-label">Hodnota pro klienta</div>
+        <ul style="margin-top:0;">
+          <li><strong>Znalosti, které se hned vrací</strong> — účastníci aplikují nové nástroje a postupy okamžitě ve své práci, ne „někdy později".</li>
+          <li><strong>Lektoři z praxe, ne teoretici</strong> — učí lidé, kteří dané disciplíny reálně dělají u klientů.</li>
+          <li><strong>Na míru kontextu</strong> — obsah i forma dle vaší situace, od certifikačních kurzů po týmové workshopy nad reálnými tématy.</li>
+          <li><strong>Rostoucí interní kompetence</strong> — dlouhodobě snižujeme závislost na externí kapacitě tím, že rozvíjíme vaše vlastní lidi.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-title">Odbornosti</h2>
+  <p style="font-size:13.5px; margin-top:-4px;">Šest odborných oblastí, na které nahlížíme neizolovaně a propojujeme je pro synergii ve prospěch klienta.</p>
+  <div class="grid3">
+    <div class="comp-tile">
+      <h4>Project management</h4>
+      <p>Pevné ukotvení v prediktivním řízení projektů s fixním scope; spolupráce i v rámci program a portfolio managementu.</p>
+    </div>
+    <div class="comp-tile blue">
+      <h4>Agile &amp; Product management</h4>
+      <p>Praxí ověřené, firmě na míru střižené postupy akcelerující iterativní vývoj produktů a adaptivnost na změny.</p>
+    </div>
+    <div class="comp-tile">
+      <h4>Business analýza</h4>
+      <p>Návrh řešení problému na základě existujících potřeb — definice CO a PROČ s ohledem na proveditelnost, včetně prototypování.</p>
+    </div>
+    <div class="comp-tile blue">
+      <h4>CX/UX</h4>
+      <p>Designové postupy, uživatelský výzkum, produktový management, prototypování a grafika s adaptací do UI.</p>
+    </div>
+    <div class="comp-tile">
+      <h4>Data</h4>
+      <p>Datová analytika, data science, data for business a BI — pokrok v rámci konceptu „data-driven company".</p>
+    </div>
+    <div class="comp-tile blue">
+      <h4>AI a automatizace</h4>
+      <p>Smysluplné zavádění AI s jasnou návratností a důrazem na AI Governance — od opakovatelných úkolů po rozhodování.</p>
+    </div>
+  </div>
+
+  <h2 class="section-title">Adopce AI</h2>
+  <div class="acc-card">
+    <div class="acc-head" onclick="toggleAcc(this)">
+      <div><h4>AI není jen technologie — je to změna způsobu práce</h4><span class="role">Strategie, orchestrace nástrojů, změna kultury i AI Governance</span></div>
+      <div class="chevron">▶</div>
+    </div>
+    <div class="acc-body">
+      <p>Společně definujeme AI strategii, pomůžeme s orchestrací nástrojů, doprovodíme změnu firemní kultury a připravíme týmy na budoucnost — bez zbytečných buzzwordů, s důrazem na reálný dopad.</p>
+      <ul>
+        <li>Zvýšení osobní a týmové produktivity pomocí AI.</li>
+        <li>Identifikace a validace AI use cases s jasnou návratností (ROI).</li>
+        <li>Virtuální týmy a AI agenti jako součást pracovních procesů.</li>
+        <li>AI-augmented projektové řízení (PMO).</li>
+        <li>Integrace napříč nástroji a systémy.</li>
+        <li>AI Governance — pravidla, odpovědnosti a etické hranice pro bezpečné nasazení AI.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="section-title">Komunita a partnerství</h2>
+  <div class="intro-card blue">
+    <p>Projectman spojuje poptávky klientů s nabídkou vhodných konzultantů na trhu. Jádrem jsou stálí spolupracovníci v našem týmu i na odborné bázi; kolem nich okruh lidí, kterým profesně věříme a přednostně jim nabízíme projektové příležitosti; a širší síť 4 000+ konzultantů v databázi. Udržujeme partnerství s etablovanými organizacemi — PMI Czech Republic, Transformation Summit, Konference Projektový management, UX Asociace — a tvoříme podcast PMpod.</p>
+  </div>
+
+  <h2 class="section-title">Naši klienti</h2>
+  <div class="intro-card">
+    <p>Specializujeme se na dodávané kompetence, nikoli na typ zákazníků — pracujeme pro firmy různých zaměření i velikostí:</p>
+    <div class="clients-wrap">
+      <span class="client-pill">Kooperativa (VIG)</span>
+      <span class="client-pill">UNIQA</span>
+      <span class="client-pill">Česká pojišťovna</span>
+      <span class="client-pill">VIG Re</span>
+      <span class="client-pill">ČSOB</span>
+      <span class="client-pill">Air Bank</span>
+      <span class="client-pill">Moneta</span>
+      <span class="client-pill">Česká spořitelna</span>
+      <span class="client-pill">Slovenská sporiteľňa</span>
+      <span class="client-pill">Raiffeisen Bank</span>
+      <span class="client-pill">Barclays</span>
+      <span class="client-pill">WOOD &amp; Company</span>
+      <span class="client-pill">Genesis Capital</span>
+      <span class="client-pill">Allwyn</span>
+      <span class="client-pill">O2</span>
+      <span class="client-pill">PRE</span>
+      <span class="client-pill">GasNet</span>
+      <span class="client-pill">Veolia</span>
+      <span class="client-pill">Unipetrol / ORLEN</span>
+      <span class="client-pill">Škoda</span>
+      <span class="client-pill">Škoda Auto</span>
+      <span class="client-pill">Foxconn</span>
+      <span class="client-pill">Garrett</span>
+      <span class="client-pill">Eldis Radar Systems</span>
+      <span class="client-pill">ČD-Telematika</span>
+      <span class="client-pill">Letiště Praha</span>
+      <span class="client-pill">Eurowag</span>
+      <span class="client-pill">IKEA</span>
+      <span class="client-pill">Globus</span>
+      <span class="client-pill">Notino</span>
+      <span class="client-pill">Shoptet</span>
+      <span class="client-pill">Heureka</span>
+      <span class="client-pill">Groupon</span>
+      <span class="client-pill">Weber</span>
+      <span class="client-pill">Novo Nordisk</span>
+      <span class="client-pill">Model</span>
+      <span class="client-pill">Vafo</span>
+      <span class="client-pill">Quadient</span>
+      <span class="client-pill">Prague Congress Centre</span>
+      <span class="client-pill">Auto IN</span>
+      <span class="client-pill">DNS</span>
+    </div>
+    <p style="margin-top:12px; font-size:12.5px; color:var(--color-muted);">Další reference na <a href="https://www.projectman.cz/pro-zakazniky/reference" style="color:var(--color-red); text-decoration:none;">projectman.cz/reference</a></p>
+  </div>
+
+</section>
+
+</main>
+
+<footer class="contact">
+  <div class="inner">
+    <div>
+      <h4>Jan Klimíček</h4>
+      <p>Business Development<br>
+      +420 605 035 405 · <a href="mailto:jan.klimicek@projectman.cz">jan.klimicek@projectman.cz</a></p>
+    </div>
+    <div style="text-align:right;">
+      <p>Projectman.cz, s.r.o. | Lidická 66/43 | Praha 5 | 150 00 | IČ: 247 98 720<br>
+      <a href="https://www.projectman.cz">www.projectman.cz</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('tabs').addEventListener('click', function(e) {
+  var btn = e.target.closest('button');
+  if (!btn) return;
+  document.querySelectorAll('nav.tabs button').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  var tab = btn.dataset.tab;
+  document.querySelectorAll('section.panel').forEach(function(p){ p.classList.remove('active'); });
+  document.getElementById('tab-' + tab).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+function toggleAcc(head) {
+  head.parentElement.classList.toggle('open');
+}
+</script>
+</body>
+</html>

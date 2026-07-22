@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Use Cases – IT Shared Services | US Steel Košice | Projectman</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-red:#FF525F; --color-blue:#A9C5DF; --color-white:#ffffff;
+    --color-light-surf:#f4f7fa; --color-body-text:#626567; --color-muted:#9aa3b0;
+    --color-dark:#1a1a1a; --font-main:'Poppins',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font-main);color:var(--color-body-text);background:var(--color-light-surf);}
+
+  .header{background:var(--color-dark);padding:32px 48px 28px;display:flex;align-items:flex-start;justify-content:space-between;gap:24px;}
+  .header-logo img{height:38px;width:auto;}
+  .header-content{flex:1;}
+  .header-tag{display:inline-block;background:var(--color-red);color:#fff;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:4px;margin-bottom:10px;}
+  .header h1{font-size:26px;font-weight:700;color:#fff;line-height:1.25;margin-bottom:6px;}
+  .header h1 span{color:var(--color-red);}
+  .header-sub{font-size:13px;color:var(--color-blue);font-weight:400;max-width:780px;}
+  .header-meta{text-align:right;color:var(--color-blue);font-size:12px;line-height:1.7;min-width:160px;}
+  .header-meta strong{color:#fff;font-weight:600;}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:32px 48px 64px;}
+
+  .scope{background:var(--color-white);border:1px solid #e8edf2;border-left:4px solid var(--color-red);border-radius:0 8px 8px 0;padding:20px 24px;margin-bottom:24px;}
+  .scope h2{font-size:15px;font-weight:600;color:var(--color-dark);margin-bottom:8px;}
+  .scope p{font-size:13px;line-height:1.7;margin-bottom:8px;}
+  .scope p:last-child{margin-bottom:0;}
+  .scope strong{color:var(--color-dark);}
+  .scope .star{color:var(--color-red);}
+  .scope .enabler{display:inline-block;background:#ddeef9;color:#3a7aab;font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
+  @media(max-width:760px){.stats{grid-template-columns:1fr 1fr;}}
+  .stat{background:var(--color-white);border:1px solid #e8edf2;border-top:3px solid var(--color-red);border-radius:8px;padding:16px 18px;}
+  .stat .num{font-size:26px;font-weight:700;color:var(--color-dark);line-height:1;}
+  .stat .lbl{font-size:11px;color:var(--color-muted);margin-top:6px;line-height:1.4;}
+
+  .filterbar{position:sticky;top:0;z-index:5;background:var(--color-light-surf);padding:14px 0 16px;margin-bottom:8px;border-bottom:1px solid #e3e9ef;}
+  .filter-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+  .filter-row + .filter-row{margin-top:10px;}
+  .filter-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--color-muted);margin-right:6px;}
+  .chip{font-family:var(--font-main);font-size:12px;font-weight:500;color:var(--color-body-text);background:var(--color-white);border:1px solid #dbe2ea;border-radius:20px;padding:6px 13px;cursor:pointer;transition:all .15s;white-space:nowrap;}
+  .chip:hover{border-color:var(--color-red);color:var(--color-red);}
+  .chip.active{background:var(--color-red);border-color:var(--color-red);color:#fff;}
+  .chip-lens.active{background:var(--color-dark);border-color:var(--color-dark);color:#fff;}
+  .chip-prio{border-color:var(--color-red);color:var(--color-red);font-weight:600;}
+  .chip .cstar{color:var(--color-red);}
+  .chip.active .cstar{color:#fff;}
+  .count{font-size:12px;color:var(--color-muted);margin-left:auto;}
+  .count strong{color:var(--color-dark);}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px;}
+  @media(max-width:980px){.grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:640px){.grid{grid-template-columns:1fr;}}
+  .idea{background:var(--color-white);border:1px solid #e8edf2;border-radius:8px;padding:18px 20px;display:flex;flex-direction:column;transition:box-shadow .15s,transform .15s;}
+  .idea:hover{box-shadow:0 4px 18px rgba(26,26,26,.07);transform:translateY(-2px);}
+  .idea.prio{border-left:4px solid var(--color-red);}
+  .idea.hidden{display:none;}
+  .idea-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
+  .idea-num{background:var(--color-dark);color:#fff;font-size:11px;font-weight:700;min-width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .idea h3{font-size:14px;font-weight:600;color:var(--color-dark);margin-bottom:8px;line-height:1.35;}
+  .idea p{font-size:12.5px;line-height:1.6;color:var(--color-body-text);flex:1;}
+  .badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10.5px;font-weight:600;}
+  .badge-red{background:#ffe0e2;color:var(--color-red);}
+  .badge-blue{background:#ddeef9;color:#3a7aab;}
+  .badge-green{background:#e0f5ec;color:#2a8a5e;}
+  .badge-grey{background:#eef0f2;color:#5a6068;}
+  .prio-pill{background:var(--color-red);color:#fff;font-size:9.5px;font-weight:600;padding:2px 7px;border-radius:4px;letter-spacing:.3px;}
+  .lenses{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;padding-top:12px;border-top:1px solid var(--color-light-surf);}
+  .lens{font-size:10.5px;font-weight:500;padding:3px 8px;border-radius:4px;background:var(--color-light-surf);color:var(--color-body-text);}
+  .lens-heavy{background:#fff1e8;color:#b5651d;}
+  .lens-quickwin{background:#fff6d9;color:#9a7a00;}
+
+  .divider{grid-column:1/-1;display:flex;align-items:center;gap:14px;margin:14px 0 2px;}
+  .divider:before,.divider:after{content:"";flex:1;height:1px;background:#dbe2ea;}
+  .divider span{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.9px;color:var(--color-muted);}
+
+  .empty{display:none;text-align:center;padding:50px 20px;color:var(--color-muted);font-size:14px;}
+
+  .foot{text-align:center;font-size:11px;color:var(--color-muted);padding:28px 48px;border-top:1px solid #e3e9ef;background:var(--color-white);}
+  .foot strong{color:var(--color-body-text);}
+</style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-content">
+      <span class="header-tag">AI Use Cases · po schůzce 18. 6.</span>
+      <h1>Mapa AI use cases pro <span>IT Shared Services</span></h1>
+      <div class="header-sub">Diskusní mapa nápadů uvnitř IT operací. Po úvodní schůzce jsou dvě oblasti označené ★ jako <strong>Priorita 1</strong> — klient je sám označil za prioritní. Otagováno podle oblastí a podle čoček (osobní / týmová produktivita, heavy effort, quick win).</div>
+    </div>
+    <div class="header-meta">
+      <strong>US Steel Košice</strong><br>
+      IT Shared Services<br>
+      Pracovní podklad · 2026
+    </div>
+    <div class="header-logo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABdwAAAI1CAYAAADM2TigAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
+bWFnZVJlYWR5ccllPAAAQjFJREFUeNrs3c1120jWMGBwzuxfTQTDjmDYEZiKoOUITEVgaWlvJG3s
+peQIREcgOQLTEZgdgTkRNL8I+KGkYg/brR+KLPwVnuccHHXbIgxe1C0AF4VCUQAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALCPgRA07+PH
+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
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+wP9nDw4JAAAAAAT9f+0MCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8EmAAPyYHMMvodcUAAAAASUVORK5CYII=" alt="Projectman"></div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="scope">
+      <h2>Priority po schůzce (18. 6.)</h2>
+      <p>Klient sám označil dvě prioritní oblasti: <strong><span class="star">★</span> Support / Service Desk</strong> a <strong><span class="star">★</span> Projektové řízení / PMO</strong>. Ty jsou v mapě řazené první a zvýrazněné. Ostatní scénáře (SAP/ERP, infrastruktura, bezpečnost, vývoj) <strong>ponecháváme jako navazující vrstvu (Priorita 2)</strong> — nasadit po prvních výsledcích v prioritních oblastech.</p>
+      <p><span class="enabler">Data Studio = enabler</span> &nbsp; Výrobní data science bereme jako kontext a technologický enabler, ne jako oblast, kde bychom dodávali. Kde scénář hraničí s hlubokým ML (např. AIOps), necháváme ho jako copilot vrstvu nad existující kapacitou.</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="num">33</div><div class="lbl">nápadů celkem</div></div>
+      <div class="stat"><div class="num">13</div><div class="lbl">★ v prioritních oblastech (support + PM)</div></div>
+      <div class="stat"><div class="num">16</div><div class="lbl">řeší heavy&nbsp;effort&nbsp;/ low&nbsp;value rutinu</div></div>
+      <div class="stat"><div class="num">4</div><div class="lbl">kandidátů na quick&nbsp;win</div></div>
+    </div>
+
+    <div class="filterbar">
+      <div class="filter-row">
+        <span class="filter-label">Oblast</span>
+        <button class="chip chip-all active" data-filter="all">Vše</button>
+        <button class="chip" data-filter="area:servicedesk"><span class="cstar">★</span> Service Desk / ITSM</button><button class="chip" data-filter="area:pmo"><span class="cstar">★</span> Projektové řízení (PMO)</button><button class="chip" data-filter="area:knowledge">Znalosti & dokumentace</button><button class="chip" data-filter="area:infra">Infrastruktura & provoz</button><button class="chip" data-filter="area:security">Bezpečnost & compliance</button><button class="chip" data-filter="area:dev">Vývoj aplikací</button><button class="chip" data-filter="area:erp">ERP & MES (SAP)</button><button class="chip" data-filter="area:cross">Napříč týmem</button>
+        <span class="count" id="count"></span>
+      </div>
+      <div class="filter-row">
+        <span class="filter-label">Čočka</span>
+        <button class="chip chip-lens" data-filter="lens:osobni">👤 Osobní produktivita</button><button class="chip chip-lens" data-filter="lens:tym">👥 Týmová produktivita</button><button class="chip chip-lens" data-filter="lens:heavy">🪨 Heavy effort / low value</button><button class="chip chip-lens" data-filter="lens:quickwin">⚡ Quick win</button>
+      </div>
+    </div>
+
+    <div class="grid" id="grid">
+      <article class="idea prio" data-area="servicedesk" data-lens="tym heavy" data-prio="1">
+        <div class="idea-top">
+          <span class="idea-num">1</span>
+          <span class="badge badge-red">Service Desk / ITSM</span>
+          <span class="prio-pill">★ Priorita 1</span>
+        </div>
+        <h3>AI triage a směrování ticketů</h3>
+        <p>Příchozí tickety se samy klasifikují, dostanou prioritu a putují na správný tým — agent neztrácí čas tříděním a ruční eskalací.</p>
+        <div class="lenses"><span class="lens lens-tym">👥 Týmová produktivita</span><span class="lens lens-heavy">🪨 Heavy effort / low value</span></div>
+      </article>
+      <article class="idea prio" data-area="servicedesk" data-lens="osobni quickwin" data-prio="1">
+        <div class="idea-top">
+          <span class="idea-num">2</span>
+          <span class="badge badge-red">Service Desk / ITSM</span>
+          <span class="prio-pill">★ Priorita 1</span>
+        </div>
+        <h3>Copilot pro agenty service desku</h3>
+        <p>Při zadání ticketu AI navrhne řešení z historických ticketů a metodických dokumentů — zkracuje čas hledání a odlehčuje L1. (Na schůzce zmíněno jako quick win.)</p>
+        <div class="lenses"><span class="lens lens-osobni">👤 Osobní produktivita</span><span class="lens lens-quickwin">⚡ Quick win</span></div>
+      </article>
+      <article class="idea prio" data-area="servicedesk" data-lens="tym" data-prio="1">
+        <div class="idea-top">
+          <span class="idea-num">3</span>
+          <span class="badge badge-red">Service Desk / ITSM</span>
+          <span class="prio-pill">★ Priorita 1</span>
+        </div>
+        <h3>Chytřejší hlasový kanál (voicebot)</h3>
+        <p>Až 70 % požadavků chodí telefonicky a voicebot „Zuzana“ (reset hesel) je částí uživatelů obcházen — 25–30 % stále řeší operátoři ručně. Hlasová AI rozšíří samoobsluhu za reset hesel.</p>
+        <div class="lenses"><span class="lens lens-tym">👥 Týmová produktivita</span></div>
+      </article>
+      <article class="idea prio" data-area="servicedesk" data-lens="tym heavy" data-prio="1">
+        <div class="idea-top">
+          <span class="idea-num">4</span>
+          <span class="badge badge-red">Service Desk / ITSM</span>
+          <span class="prio-pill">★ Priorita 1</span>
+        </div>
+        <h3>Self-service deflection bot</h3>
+        <p>Uživatelský chatbot odbaví opakující se dotazy (reset hesla, VPN, přístupy, navigace v SAP) dřív, než vznikne ticket.</p>
+        <div class="lenses"><span class="lens lens-tym">👥 Týmová produktivita</span><span class="lens lens-heavy">🪨 Heavy effort / low value</span></div>
+      </article>
+      <article class="idea prio" data-area="servicedesk" data-lens="osobni" data-prio="1">
+        <div class="idea-top">
+          <span class="idea-num">5</span>
+          <span class="badge badge-red">Service Desk / ITSM</span>
+          <span class="prio-pill">★ Priorita 1</span>
+        </div>
+        <h3>Automatické shrnutí vlákna ticketu</h3>
+        <p>Při převzetí ticketu agent dostane TL;DR celé historie místo čtení dlouhého vlákna.</p>
+        <div class="lenses"><span class="lens lens-osobni">👤 Osobní produktivita</span></div>
+      </article>
+      <article class="idea prio" data-area="servicedesk" data-lens="tym" data-prio="1">
+        <div class="idea-top">
+          <span class="idea-num">6</span>
+          <span class="badge badge-red">Service Desk / ITSM</span>
+          <span class="prio-pill">★ Priorita 1</span>
+        </div>
+        <h3>Vícejazyčné odbavení (SK/EN/CZ)</h3>
+        <p>AI překládá a odpovídá v jazyce uživatele — v multijazyčném prostředí bez nutnosti vyhrazených lidí na jazyky.</p>
+        <div class="lenses"><span class="lens lens-tym">👥 Týmová produktivita</span></div>
+      </article>
+      <article class="idea prio" data-area="servicedesk" data-lens="osobni heavy" data-prio="1">
+        <div class="idea-top">
+          <span class="idea-num">7</span>
+          <span class="badge badge-red">Service Desk / ITSM</span>
+          <span class="prio-pill">★ Priorita 1</span>
+        </div>
+        <h3>Automatický zápis po vyřešení</h3>
+        <p>Po uzavření ticketu AI sepíše resolution note a navrhne tag/článek do KB. Mizí nejnenáviděnější rutina agentů.</p>
+        <div class="lenses"><span class="lens lens-osobni">👤 Osobní produktivita</span><span class="lens lens-heavy">🪨 Heavy effort / low value</span></div>
+      </article>
+      <article class="idea prio" data-area="pmo" data-lens="osobni heavy" data-prio="1">
+        <div class="idea-top">
+          <span class="idea-num">8</span>
+          <span class="badge badge-green">Projektové řízení (PMO)</span>
+          <span class="prio-pill">★ Priorita 1</span>
+        </div>
+        <h3>Automatizace reportingu a administrativy PM</h3>
+        <p>AI sebere PM „mravenčí práci“ — příprava agendy, přepis statusů z porad na úkoly, generování one-pageru pro steering committee. PM místo sběru dat rozhodují.</p>
+        <div class="lenses"><span class="lens lens-osobni">👤 Osobní produktivita</span><span class="lens lens-heavy">🪨 Heavy effort / low value</span></div>
+      </article>
+      <article class="idea prio" data-area="pmo" data-lens="osobni" data-prio="1">
+        <div class="idea-top">
+          <span class="idea-num">9</span>
+          <span class="badge badge-green">Projektové řízení (PMO)</span>
+          <span class="prio-pill">★ Priorita 1</span>
+        </div>
+        <h3>AI průvodce tvorbou zadání projektu</h3>
+        <p>AI agent provede zadavatele strukturou zadání podle metodiky — zajistí úplnost a kvalitu a předchází nejasnostem v rozsahu (scope). Lepší vstup = méně problémů v průběhu.</p>
+        <div class="lenses"><span class="lens lens-osobni">👤 Osobní produktivita</span></div>
+      </article>
+      <article class="idea prio" data-area="pmo" data-lens="tym" data-prio="1">
+        <div class="idea-top">
+          <span class="idea-num">10</span>
+          <span class="badge badge-green">Projektové řízení (PMO)</span>
+          <span class="prio-pill">★ Priorita 1</span>
+        </div>
+        <h3>AI asistent → AI agent (virtuální kolega)</h3>
+        <p>Krok od asistenta, který PM zrychluje, k agentovi, který přebírá dílčí úlohy (např. rutinní vedení menšího projektu — na schůzce příklad „Evžen“). Pilot s mantinely a lidským dohledem.</p>
+        <div class="lenses"><span class="lens lens-tym">👥 Týmová produktivita</span></div>
+      </article>
+      <article class="idea prio" data-area="pmo" data-lens="osobni" data-prio="1">
+        <div class="idea-top">
+          <span class="idea-num">11</span>
+          <span class="badge badge-green">Projektové řízení (PMO)</span>
+          <span class="prio-pill">★ Priorita 1</span>
+        </div>
+        <h3>Starter kit projektových dokumentů</h3>
+        <p>Drafty charteru, risk logu a stakeholder mapy z pár vstupů — standardizace bez ruční tvorby od nuly.</p>
+        <div class="lenses"><span class="lens lens-osobni">👤 Osobní produktivita</span></div>
+      </article>
+      <article class="idea prio" data-area="pmo" data-lens="tym" data-prio="1">
+        <div class="idea-top">
+          <span class="idea-num">12</span>
+          <span class="badge badge-green">Projektové řízení (PMO)</span>
+          <span class="prio-pill">★ Priorita 1</span>
+        </div>
+        <h3>Detekce rizik z PM dat</h3>
+        <p>AI upozorní na skluzy milníků a konflikty zdrojů na základě vzorů v existujících projektových datech.</p>
+        <div class="lenses"><span class="lens lens-tym">👥 Týmová produktivita</span></div>
+      </article>
+      <article class="idea prio" data-area="pmo" data-lens="tym heavy" data-prio="1">
+        <div class="idea-top">
+          <span class="idea-num">13</span>
+          <span class="badge badge-green">Projektové řízení (PMO)</span>
+          <span class="prio-pill">★ Priorita 1</span>
+        </div>
+        <h3>Zápisy z meetingů → akční body → tracker</h3>
+        <p>Z nahrávky/poznámek AI vytáhne rozhodnutí a úkoly a založí je do trackeru (HP PPM, Planner/Teams). Konec ručního přepisování.</p>
+        <div class="lenses"><span class="lens lens-tym">👥 Týmová produktivita</span><span class="lens lens-heavy">🪨 Heavy effort / low value</span></div>
+      </article>
+      <div class="divider" id="divider"><span>Navazující scénáře · Priorita 2</span></div>
+      <article class="idea" data-area="knowledge" data-lens="tym heavy" data-prio="0">
+        <div class="idea-top">
+          <span class="idea-num">14</span>
+          <span class="badge badge-grey">Znalosti &amp; dokumentace</span>
+          
+        </div>
+        <h3>Auto-kurátorství knowledge base</h3>
+        <p>AI tvoří články z vyřešených ticketů a označuje zastaralé. KB se udržuje sama — přímý enabler pro helpdeskovou AI.</p>
+        <div class="lenses"><span class="lens lens-tym">👥 Týmová produktivita</span><span class="lens lens-heavy">🪨 Heavy effort / low value</span></div>
+      </article>
+      <article class="idea" data-area="knowledge" data-lens="osobni quickwin" data-prio="0">
+        <div class="idea-top">
+          <span class="idea-num">15</span>
+          <span class="badge badge-grey">Znalosti &amp; dokumentace</span>
+          
+        </div>
+        <h3>Enterprise „ask the docs“</h3>
+        <p>Sémantické vyhledávání napříč Confluence, SharePointem a SAP dokumentací — odpověď místo prohledávání složek.</p>
+        <div class="lenses"><span class="lens lens-osobni">👤 Osobní produktivita</span><span class="lens lens-quickwin">⚡ Quick win</span></div>
+      </article>
+      <article class="idea" data-area="knowledge" data-lens="tym" data-prio="0">
+        <div class="idea-top">
+          <span class="idea-num">16</span>
+          <span class="badge badge-grey">Znalosti &amp; dokumentace</span>
+          
+        </div>
+        <h3>Onboarding průvodce pro nové IT kolegy</h3>
+        <p>AI provede nováčka interními nástroji, procesy a dokumentací — méně zátěže na seniory.</p>
+        <div class="lenses"><span class="lens lens-tym">👥 Týmová produktivita</span></div>
+      </article>
+      <article class="idea" data-area="infra" data-lens="tym heavy" data-prio="0">
+        <div class="idea-top">
+          <span class="idea-num">17</span>
+          <span class="badge badge-grey">Infrastruktura &amp; provoz</span>
+          
+        </div>
+        <h3>Asistent pro triage logů a alertů</h3>
+        <p>Copilot shrne hlučné alerty, seskupí související a navrhne pravděpodobnou příčinu. (Hlubší AIOps modelování je spíš doména Data Studia.)</p>
+        <div class="lenses"><span class="lens lens-tym">👥 Týmová produktivita</span><span class="lens lens-heavy">🪨 Heavy effort / low value</span></div>
+      </article>
+      <article class="idea" data-area="infra" data-lens="tym heavy" data-prio="0">
+        <div class="idea-top">
+          <span class="idea-num">18</span>
+          <span class="badge badge-grey">Infrastruktura &amp; provoz</span>
+          
+        </div>
+        <h3>Generátor runbooků z incidentů</h3>
+        <p>Po uzavření incidentu AI sepíše/aktualizuje runbook. Znalost zůstává v týmu, ne jen v hlavě seniora.</p>
+        <div class="lenses"><span class="lens lens-tym">👥 Týmová produktivita</span><span class="lens lens-heavy">🪨 Heavy effort / low value</span></div>
+      </article>
+      <article class="idea" data-area="infra" data-lens="osobni heavy" data-prio="0">
+        <div class="idea-top">
+          <span class="idea-num">19</span>
+          <span class="badge badge-grey">Infrastruktura &amp; provoz</span>
+          
+        </div>
+        <h3>Shrnutí směny / handover</h3>
+        <p>Auto-kompilace stavu z ticketů a monitoringu na konec směny — předávka bez ručního sepisování.</p>
+        <div class="lenses"><span class="lens lens-osobni">👤 Osobní produktivita</span><span class="lens lens-heavy">🪨 Heavy effort / low value</span></div>
+      </article>
+      <article class="idea" data-area="infra" data-lens="osobni heavy" data-prio="0">
+        <div class="idea-top">
+          <span class="idea-num">20</span>
+          <span class="badge badge-grey">Infrastruktura &amp; provoz</span>
+          
+        </div>
+        <h3>Asistent pro change requesty</h3>
+        <p>Z krátkého popisu AI předvyplní CAB žádost o změnu (dopad, rollback, rizika). Méně formulářové dřiny.</p>
+        <div class="lenses"><span class="lens lens-osobni">👤 Osobní produktivita</span><span class="lens lens-heavy">🪨 Heavy effort / low value</span></div>
+      </article>
+      <article class="idea" data-area="security" data-lens="tym heavy" data-prio="0">
+        <div class="idea-top">
+          <span class="idea-num">21</span>
+          <span class="badge badge-red">Bezpečnost &amp; compliance</span>
+          
+        </div>
+        <h3>Asistent na NIS2 / DORA dokumentaci</h3>
+        <p>Drafty politik, mapování kontrol na požadavky, příprava podkladů k auditu. Compliance papírování je ideální kandidát na odlehčení.</p>
+        <div class="lenses"><span class="lens lens-tym">👥 Týmová produktivita</span><span class="lens lens-heavy">🪨 Heavy effort / low value</span></div>
+      </article>
+      <article class="idea" data-area="security" data-lens="osobni" data-prio="0">
+        <div class="idea-top">
+          <span class="idea-num">22</span>
+          <span class="badge badge-red">Bezpečnost &amp; compliance</span>
+          
+        </div>
+        <h3>Shrnutí nahlášených phishingů pro SOC</h3>
+        <p>AI shrne a roztřídí reportované podezřelé e-maily, aby se SOC díval jen na to podstatné. (Relevantní i kvůli riziku phishingu při přejmenování na Nippon Steel.)</p>
+        <div class="lenses"><span class="lens lens-osobni">👤 Osobní produktivita</span></div>
+      </article>
+      <article class="idea" data-area="security" data-lens="osobni" data-prio="0">
+        <div class="idea-top">
+          <span class="idea-num">23</span>
+          <span class="badge badge-red">Bezpečnost &amp; compliance</span>
+          
+        </div>
+        <h3>Generátor security awareness obsahu</h3>
+        <p>Lokalizované mikro-tréninky a texty pro phishingové simulace — bez ručního psaní pokaždé znovu.</p>
+        <div class="lenses"><span class="lens lens-osobni">👤 Osobní produktivita</span></div>
+      </article>
+      <article class="idea" data-area="dev" data-lens="osobni quickwin" data-prio="0">
+        <div class="idea-top">
+          <span class="idea-num">24</span>
+          <span class="badge badge-blue">Vývoj aplikací</span>
+          
+        </div>
+        <h3>Code copilot pro interní vývoj</h3>
+        <p>Asistent typu Copilot pro tým, který vyvíjí a udržuje interní aplikace. Rychlejší kód, méně boilerplate.</p>
+        <div class="lenses"><span class="lens lens-osobni">👤 Osobní produktivita</span><span class="lens lens-quickwin">⚡ Quick win</span></div>
+      </article>
+      <article class="idea" data-area="dev" data-lens="osobni heavy" data-prio="0">
+        <div class="idea-top">
+          <span class="idea-num">25</span>
+          <span class="badge badge-blue">Vývoj aplikací</span>
+          
+        </div>
+        <h3>Dokumentace a vysvětlení legacy kódu</h3>
+        <p>AI zdokumentuje nezdokumentované interní aplikace a vysvětlí starý kód novým lidem — kratší onboarding.</p>
+        <div class="lenses"><span class="lens lens-osobni">👤 Osobní produktivita</span><span class="lens lens-heavy">🪨 Heavy effort / low value</span></div>
+      </article>
+      <article class="idea" data-area="dev" data-lens="osobni" data-prio="0">
+        <div class="idea-top">
+          <span class="idea-num">26</span>
+          <span class="badge badge-blue">Vývoj aplikací</span>
+          
+        </div>
+        <h3>Požadavky → user stories / spec</h3>
+        <p>Z byznys zadání AI vytvoří draft user stories nebo specifikace, který analytik dotáhne.</p>
+        <div class="lenses"><span class="lens lens-osobni">👤 Osobní produktivita</span></div>
+      </article>
+      <article class="idea" data-area="erp" data-lens="osobni quickwin" data-prio="0">
+        <div class="idea-top">
+          <span class="idea-num">27</span>
+          <span class="badge badge-blue">ERP &amp; MES (SAP)</span>
+          
+        </div>
+        <h3>SAP „jak na to“ copilot</h3>
+        <p>Asistent nad SAP dokumentací a release notes odpovídá key userům přirozeným jazykem. Relevantní zejména kolem 2. fáze ERP, ale ne jako první krok.</p>
+        <div class="lenses"><span class="lens lens-osobni">👤 Osobní produktivita</span><span class="lens lens-quickwin">⚡ Quick win</span></div>
+      </article>
+      <article class="idea" data-area="erp" data-lens="tym heavy" data-prio="0">
+        <div class="idea-top">
+          <span class="idea-num">28</span>
+          <span class="badge badge-blue">ERP &amp; MES (SAP)</span>
+          
+        </div>
+        <h3>Překlad release notes do rolí</h3>
+        <p>Technické SAP release notes AI přepíše na „co se konkrétně mění pro tvoji roli“. Šetří desítky hodin výkladu.</p>
+        <div class="lenses"><span class="lens lens-tym">👥 Týmová produktivita</span><span class="lens lens-heavy">🪨 Heavy effort / low value</span></div>
+      </article>
+      <article class="idea" data-area="erp" data-lens="osobni heavy" data-prio="0">
+        <div class="idea-top">
+          <span class="idea-num">29</span>
+          <span class="badge badge-blue">ERP &amp; MES (SAP)</span>
+          
+        </div>
+        <h3>Návrh testovacích scénářů pro ERP změny</h3>
+        <p>Z popisu změny AI vygeneruje draft testovacích případů — tester upravuje místo psaní od nuly.</p>
+        <div class="lenses"><span class="lens lens-osobni">👤 Osobní produktivita</span><span class="lens lens-heavy">🪨 Heavy effort / low value</span></div>
+      </article>
+      <article class="idea" data-area="erp" data-lens="tym" data-prio="0">
+        <div class="idea-top">
+          <span class="idea-num">30</span>
+          <span class="badge badge-blue">ERP &amp; MES (SAP)</span>
+          
+        </div>
+        <h3>Klastrování opakovaných SAP dotazů</h3>
+        <p>AI seskupí proud podpory do nejčastějších témat a navrhne, co řešit proaktivně před další vlnou (2. fáze ERP).</p>
+        <div class="lenses"><span class="lens lens-tym">👥 Týmová produktivita</span></div>
+      </article>
+      <article class="idea" data-area="cross" data-lens="osobni tym" data-prio="0">
+        <div class="idea-top">
+          <span class="idea-num">31</span>
+          <span class="badge badge-green">Napříč týmem</span>
+          
+        </div>
+        <h3>Meeting copilot</h3>
+        <p>Agenda, zápis, shrnutí a follow-upy pro libovolný IT meeting — napříč všemi rolemi.</p>
+        <div class="lenses"><span class="lens lens-osobni">👤 Osobní produktivita</span><span class="lens lens-tym">👥 Týmová produktivita</span></div>
+      </article>
+      <article class="idea" data-area="cross" data-lens="osobni heavy" data-prio="0">
+        <div class="idea-top">
+          <span class="idea-num">32</span>
+          <span class="badge badge-green">Napříč týmem</span>
+          
+        </div>
+        <h3>Asistent pro e-maily a Teams</h3>
+        <p>Drafty odpovědí, eskalací a vendor komunikace. Drobná, ale všudypřítomná časová úspora.</p>
+        <div class="lenses"><span class="lens lens-osobni">👤 Osobní produktivita</span><span class="lens lens-heavy">🪨 Heavy effort / low value</span></div>
+      </article>
+      <article class="idea" data-area="cross" data-lens="tym heavy" data-prio="0">
+        <div class="idea-top">
+          <span class="idea-num">33</span>
+          <span class="badge badge-green">Napříč týmem</span>
+          
+        </div>
+        <h3>Pomocník na review IT smluv a SLA</h3>
+        <p>Extrakce klíčových termínů, závazků a deadlinů ze smluv s dodavateli — méně ručního pročítání.</p>
+        <div class="lenses"><span class="lens lens-tym">👥 Týmová produktivita</span><span class="lens lens-heavy">🪨 Heavy effort / low value</span></div>
+      </article>
+    </div>
+    <div class="empty" id="empty">Žádný nápad neodpovídá vybranému filtru.</div>
+
+  </div>
+
+  <div class="foot">
+    Projectman.cz &nbsp;·&nbsp; <strong>connecting experts</strong> &nbsp;·&nbsp; AI Adoption pro IT Shared Services &nbsp;·&nbsp; Interní pracovní podklad — neposílat klientovi
+  </div>
+
+<script>
+(function(){
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.idea'));
+  var grid = document.getElementById('grid');
+  var empty = document.getElementById('empty');
+  var divider = document.getElementById('divider');
+  var countEl = document.getElementById('count');
+  var active = 'all';
+
+  function apply(){
+    var shown = 0;
+    cards.forEach(function(card){
+      var ok = true;
+      if (active === 'all') { ok = true; }
+      else if (active.indexOf('area:') === 0) { ok = card.getAttribute('data-area') === active.slice(5); }
+      else if (active.indexOf('lens:') === 0) { ok = (' '+card.getAttribute('data-lens')+' ').indexOf(' '+active.slice(5)+' ') !== -1; }
+      else if (active.indexOf('prio:') === 0) { ok = card.getAttribute('data-prio') === active.slice(5); }
+      card.classList.toggle('hidden', !ok);
+      if (ok) shown++;
+    });
+    if (divider) divider.style.display = (active === 'all') ? 'flex' : 'none';
+    empty.style.display = shown === 0 ? 'block' : 'none';
+    grid.style.display = shown === 0 ? 'none' : 'grid';
+    countEl.innerHTML = '<strong>'+shown+'</strong> z '+cards.length+' nápadů';
+  }
+
+  chips.forEach(function(chip){
+    chip.addEventListener('click', function(){
+      var f = chip.getAttribute('data-filter');
+      if (f === active) { f = 'all'; }
+      active = f;
+      chips.forEach(function(c){ c.classList.toggle('active', c.getAttribute('data-filter') === active); });
+      if (active === 'all') { document.querySelector('.chip-all').classList.add('active'); }
+      apply();
+    });
+  });
+
+  apply();
+})();
+</script>
+</body>
+</html>

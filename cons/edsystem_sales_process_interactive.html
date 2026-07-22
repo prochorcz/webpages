@@ -1,0 +1,508 @@
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #FF525F;
+  --blue: #A9C5DF;
+  --dark: #1a1a1a;
+  --body: #626567;
+  --muted: #9aa3b0;
+  --surf: #f4f7fa;
+  --white: #ffffff;
+  --font: 'Poppins', sans-serif;
+  /* branch colors */
+  --br-std: #185FA5;
+  --br-proj: #7A4FBF;
+  --br-self: #0F8A8A;
+  --br-all: #0F6E56;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font); background: var(--surf); }
+
+.wrapper { max-width: 820px; margin: 0 auto; padding: 24px 16px 40px; }
+
+.header { background: var(--dark); border-radius: 10px; padding: 24px 28px; margin-bottom: 18px; }
+.header .ver { display:inline-block; font-size:10px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--dark); background:var(--blue); border-radius:20px; padding:3px 10px; margin-bottom:10px; }
+.header h1 { color: var(--white); font-size: 18px; font-weight: 600; line-height: 1.3; }
+.header p { color: var(--blue); font-size: 12px; font-weight: 400; margin-top: 6px; }
+.red-bar { width: 40px; height: 3px; background: var(--red); border-radius: 2px; margin: 10px 0 0; }
+
+/* context banner */
+.context { background: var(--white); border-radius: 8px; padding: 16px 18px; margin-bottom: 18px; border-left: 3px solid var(--red); }
+.context .ctitle { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--red); margin-bottom: 8px; }
+.context p { font-size: 12.5px; color: var(--body); line-height: 1.6; }
+.context p + p { margin-top: 8px; }
+.context b { color: var(--dark); font-weight: 600; }
+
+/* branches row */
+.branches { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 18px; }
+@media (max-width: 620px) { .branches { grid-template-columns: 1fr; } }
+.branch-card { background: var(--white); border-radius: 8px; padding: 13px 15px; border-top: 3px solid var(--muted); }
+.branch-card.self { border-top-color: var(--br-self); }
+.branch-card.std { border-top-color: var(--br-std); }
+.branch-card.proj { border-top-color: var(--br-proj); }
+.branch-card .bc-tag { font-size: 9px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 2px 7px; border-radius: 20px; color: var(--white); display:inline-block; margin-bottom:7px; }
+.branch-card.self .bc-tag { background: var(--br-self); }
+.branch-card.std .bc-tag { background: var(--br-std); }
+.branch-card.proj .bc-tag { background: var(--br-proj); }
+.branch-card .bc-title { font-size: 12.5px; font-weight: 600; color: var(--dark); line-height:1.3; }
+.branch-card .bc-vol { font-size: 10.5px; color: var(--muted); margin-top: 3px; }
+.branch-card .bc-desc { font-size: 11px; color: var(--body); line-height: 1.5; margin-top: 7px; }
+
+.section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--dark); margin: 4px 0 12px; }
+
+.legend { display: flex; gap: 16px 20px; margin-bottom: 16px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--body); font-family: var(--font); }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.legend-sep { width:100%; height:0; }
+.legend-pill { font-size: 9px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; padding: 2px 7px; border-radius: 20px; color:#fff; }
+
+.steps { display: flex; flex-direction: column; gap: 0; }
+
+.step-row { display: flex; align-items: stretch; gap: 0; }
+.connector { display: flex; flex-direction: column; align-items: center; width: 40px; flex-shrink: 0; }
+.connector-line { width: 2px; background: var(--blue); flex: 1; min-height: 16px; opacity: 0.4; }
+.connector-line.top { min-height: 8px; }
+.step-number-circle { width: 32px; height: 32px; border-radius: 50%; background: var(--white); border: 2px solid var(--blue); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--dark); flex-shrink: 0; font-family: var(--font); }
+.step-number-circle.active { background: var(--red); border-color: var(--red); color: var(--white); }
+.step-number-circle.cond { border-style: dashed; }
+
+.step-card { flex: 1; background: var(--white); border-radius: 8px; margin: 4px 0 4px 12px; border: 1.5px solid transparent; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s; overflow: hidden; }
+.step-card:hover { border-color: var(--blue); box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+.step-card.open { border-color: var(--red); box-shadow: 0 4px 18px rgba(255,82,95,0.10); }
+.step-card.conditional { border-style: dashed; border-color: var(--blue); }
+
+.step-header { padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.step-title-area { flex: 1; }
+.step-label { font-size: 10px; font-weight: 500; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; font-family: var(--font); }
+.step-label .hot { color: var(--red); font-weight: 600; }
+.step-title { font-size: 14px; font-weight: 600; color: var(--dark); font-family: var(--font); margin-top: 2px; line-height: 1.3; }
+.step-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.badge { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 20px; font-family: var(--font); }
+.badge-pain { background: #fff0f0; color: #c0392b; border: 1px solid #ffd0d0; }
+.badge-ai { background: #eaf6f0; color: #0F6E56; border: 1px solid #b2e0cc; }
+.badge-role { background: #eef4fa; color: #185FA5; border: 1px solid #c5daf0; }
+.badge-cond { background:#fff8e8; color:#9a6a00; border:1px solid #f0dca0; }
+.chevron { width: 20px; height: 20px; color: var(--muted); transition: transform 0.25s; flex-shrink: 0; }
+.step-card.open .chevron { transform: rotate(180deg); color: var(--red); }
+
+.step-body { display: none; border-top: 1px solid #f0f0f0; }
+.step-card.open .step-body { display: block; }
+
+.step-body-inner { padding: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 600px) { .step-body-inner { grid-template-columns: 1fr; } }
+
+.detail-block { border-radius: 6px; padding: 12px 14px; }
+.detail-block.activities { background: var(--surf); }
+.detail-block.pain { background: #fff5f5; border-left: 3px solid var(--red); }
+.detail-block.ai { background: #f0faf5; border-left: 3px solid #1D9E75; }
+.detail-title { font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; font-family: var(--font); }
+.detail-block.activities .detail-title { color: var(--muted); }
+.detail-block.pain .detail-title { color: #c0392b; }
+.detail-block.ai .detail-title { color: #0F6E56; }
+ul.detail-list { padding-left: 14px; }
+ul.detail-list li { font-size: 12px; color: var(--body); line-height: 1.6; font-family: var(--font); font-weight: 400; }
+
+ul.ai-list { list-style:none; padding-left:0; }
+ul.ai-list li { font-size: 12px; color: var(--body); line-height: 1.55; font-family: var(--font); font-weight: 400; display:flex; gap:7px; align-items:flex-start; margin-bottom:7px; }
+ul.ai-list li:last-child { margin-bottom:0; }
+.br-pill { flex-shrink:0; font-size:8.5px; font-weight:700; letter-spacing:0.03em; text-transform:uppercase; padding: 2px 6px; border-radius:5px; color:#fff; margin-top:1px; line-height:1.3; }
+.br-pill.std { background: var(--br-std); }
+.br-pill.proj { background: var(--br-proj); }
+.br-pill.self { background: var(--br-self); }
+.br-pill.all { background: var(--br-all); }
+
+.quote { font-size: 11px; color: var(--body); font-style: italic; background: var(--surf); border-left: 2px solid var(--blue); padding: 8px 11px; border-radius: 0 5px 5px 0; margin-top: 10px; line-height:1.5; }
+.quote span { color: var(--muted); font-style: normal; display:block; margin-top:3px; font-size:10px; }
+
+.time-badge { font-size: 11px; font-weight: 500; color: var(--red); background: #fff0f0; border-radius: 4px; padding: 2px 8px; font-family: var(--font); display: inline-block; margin-top: 8px; }
+
+/* data quality callout */
+.data-callout { background: var(--white); border-radius: 8px; padding: 16px 18px; margin-top: 22px; border: 1.5px dashed var(--br-proj); }
+.data-callout .dc-head { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.data-callout .dc-icon { font-size:15px; }
+.data-callout .dc-title { font-size: 12px; font-weight: 600; letter-spacing:0.04em; text-transform:uppercase; color: var(--br-proj); }
+.data-callout p { font-size: 12px; color: var(--body); line-height: 1.6; }
+.data-callout b { color: var(--dark); }
+
+.impact-bar { background: var(--dark); border-radius: 8px; padding: 20px 24px; margin-top: 22px; }
+.impact-bar h3 { color: var(--white); font-size: 14px; font-weight: 600; font-family: var(--font); margin-bottom: 4px; }
+.impact-bar .imp-sub { color: var(--blue); font-size: 11px; margin-bottom:14px; }
+.impact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 560px) { .impact-grid { grid-template-columns: 1fr; } }
+.impact-kpi { background: #2a2a2a; border-radius: 6px; padding: 12px 14px; border-top: 3px solid var(--red); }
+.impact-val { font-size: 22px; font-weight: 600; color: var(--white); font-family: var(--font); line-height: 1; }
+.impact-label { font-size: 11px; color: var(--blue); font-family: var(--font); margin-top: 5px; font-weight: 400; line-height:1.4; }
+.impact-areas { margin-top:16px; padding-top:14px; border-top:1px solid #333; }
+.impact-areas .ia-title { color:var(--blue); font-size:10px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:8px; }
+.impact-areas .ia-row { display:flex; gap:10px; flex-wrap:wrap; }
+.ia-chip { background:#2a2a2a; border:1px solid #3a3a3a; border-radius:6px; padding:7px 11px; font-size:11px; color:#fff; }
+.ia-chip b { color:var(--red); font-weight:600; }
+
+.footer-note { font-size: 10px; color: var(--muted); font-family: var(--font); text-align: center; margin-top: 16px; line-height:1.6; }
+</style>
+
+<div class="wrapper">
+  <div class="header">
+    <span class="ver">Verze 2 · po schůzce 24. 6. 2026</span>
+    <h1>Obchodní proces EDSystems<br>Od poptávky po naskladnění &amp; order</h1>
+    <p>Realita B2B distributora · bolesti a AI příležitosti v každém kroku · klikni na krok pro detail</p>
+    <div class="red-bar"></div>
+  </div>
+
+  <div class="context">
+    <div class="ctitle">Jak to u EDSystems reálně funguje</div>
+    <p>EDSystems není klasický „prodejce řešení" — je to <b>B2B2B distributor</b>. Zákazník je reseller / integrátor, který poptává až na základě poptávky svého koncového zákazníka (např. škola). Reselleři <b>nenakupují na sklad</b>, ale reaktivně podle aktuální poptávky.</p>
+    <p>Je to <b>hra o rychlost a cenu</b>: „kdo přijde s lepší cenou, kdo přijde rychleji a kdo přijde s oblíbenější značkou u zákazníka" — to je dle vedení <b>80–90 % byznysu</b>. Při marži v jednotkách procent je každá ušetřená hodina obchodníka i každá koruna marže kritická.</p>
+  </div>
+
+  <div class="section-label">Třemi cestami přitéká poptávka — mapa řeší hlavně cestu 2 (obchodník)</div>
+  <div class="branches">
+    <div class="branch-card self">
+      <span class="bc-tag">Cesta 1 · Self-service</span>
+      <div class="bc-title">B2B e-shop</div>
+      <div class="bc-vol">~40 000 malých zákazníků · bez obchodníka</div>
+      <div class="bc-desc">Malí zákazníci nakupují sami. Hlavní bolest: rozbité vyhledávání a špatná relevance produktů → zákazník zboží nenajde.</div>
+    </div>
+    <div class="branch-card std">
+      <span class="bc-tag">Cesta 2 · Standardní poptávka</span>
+      <div class="bc-title">Obchodník + produkťáci</div>
+      <div class="bc-vol">jádro adminu · ~70 obchodníků</div>
+      <div class="bc-desc">Reseller pošle volný text e-mailem / Skype / WhatsApp. Obchodník orchestruje nabídku mezi 5–8 produkťáky a vrací cenu. Zde je největší AI příležitost.</div>
+    </div>
+    <div class="branch-card proj">
+      <span class="bc-tag">Cesta 3 · Projektová zakázka</span>
+      <div class="bc-title">Výběrka &amp; velké zakázky</div>
+      <div class="bc-vol">servery, custom konfigurace, blokace ceny</div>
+      <div class="bc-desc">Upíše se projekt, blokuje se speciální cena a dodání u vendora. Až 4 hodiny orchestrace na zakázku. Zde existuje i interní schvalování.</div>
+    </div>
+  </div>
+
+  <div class="section-label">Detail hlavní cesty: standardní poptávka přes obchodníka</div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#c0392b"></div> Bolest / riziko</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div> AI příležitost</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#185FA5"></div> Role</div>
+    <div class="legend-sep"></div>
+    <div class="legend-item"><span class="legend-pill" style="background:var(--br-self)">Self-service</span></div>
+    <div class="legend-item"><span class="legend-pill" style="background:var(--br-std)">Standard</span></div>
+    <div class="legend-item"><span class="legend-pill" style="background:var(--br-proj)">Projekt</span></div>
+    <div class="legend-item"><span class="legend-pill" style="background:var(--br-all)">Vše</span> <span style="font-size:10px;color:var(--muted)">= label u AI nápadu = pro kterou cestu je relevantní</span></div>
+  </div>
+
+  <div class="steps" id="steps"></div>
+
+  <div class="data-callout">
+    <div class="dc-head"><span class="dc-icon">🗂️</span><span class="dc-title">Průřezový blokr: kvalita produktových dat</span></div>
+    <p>Většina AI příležitostí výše stojí a padá s <b>kvalitou produktových dat</b>. Data jsou z mnoha zdrojů (feedy, PDF, Wordy, JPEGy, odkazy na weby), nekompletní a nekonzistentní. Dřívější interní nástroj pro výběr zboží měl jen <b>60–70 % přesnost</b>, protože si data nedohledal. Firma proto staví <b>PIM mimo ERP</b> (MVP, nasazení do produkce začátkem příštího roku) a rozhodla se data i nakupovat. <b>Quick-win prostor do té doby:</b> interim znalostní báze nad nejčastěji poptávanými SKU + AI extrakce dat z dokumentů, ať je PIM rychleji použitelný.</p>
+  </div>
+
+  <div class="impact-bar">
+    <h3>Cílený dopad · ambice na straně obchodu</h3>
+    <div class="imp-sub">Hypotéza Projectman.cz k validaci — cíl ~10 % uvolněného času na obchodníka</div>
+    <div class="impact-grid">
+      <div class="impact-kpi"><div class="impact-val">~70</div><div class="impact-label">obchodníků = cílová skupina pro úsporu</div></div>
+      <div class="impact-kpi"><div class="impact-val">~6 FTE</div><div class="impact-label">ekvivalent uvolněné kapacity (ambice dostatečná)</div></div>
+      <div class="impact-kpi"><div class="impact-val">½ dne / týden</div><div class="impact-label">cíl úspory času na obchodníka (~10 %)</div></div>
+    </div>
+    <div class="impact-areas">
+      <div class="ia-title">Úsporu cílíme na obchod — ale proces se neobejde bez nákupu a produktu</div>
+      <div class="ia-row">
+        <div class="ia-chip"><b>Obchod</b> · orchestrace, admin, follow-up, notifikace</div>
+        <div class="ia-chip"><b>Produkt</b> · výběr SKU, cenotvorba, kompatibilita</div>
+        <div class="ia-chip"><b>Nákup</b> · speciální ceny, rabaty, dostupnost u vendora</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-note">Hypotéza Projectman.cz · k validaci se zákazníkem · vstupy ze schůzky 24. 6. 2026 a navazujícího přepisu.<br>Cíl ROI dle klienta: návratnost v řádu měsíců až ~1,5 roku · preferovaný stack: Microsoft (Copilot, Copilot Studio, Power Automate, Teams).</div>
+</div>
+
+<script>
+const steps = [
+  {
+    num: 1,
+    label: "Krok 1",
+    title: "Příjem poptávky (volný text)",
+    roles: ["Obchodník"],
+    pains: ["Ruční přepis", "Hra o rychlost"],
+    activities: [
+      "Poptávka přichází volným textem: e-mail, Skype, WhatsApp — často mimo e-shop („zákazníci jsou líní na shop“)",
+      "Typicky: „chci 10 počítačů / 20 notebooků v těchto parametrech, objednej, večer možná přidám“",
+      "Obchodník ručně čte a sestavuje zadání; čeká do uzávěrky do skladu (~17:30)"
+    ],
+    pain: [
+      "Ruční přepisování objednávek z e-mailů a chatů do systému",
+      "Vše je hra o rychlost — pomalá reakce = zákazník koupí u konkurence",
+      "Riziko ztráty poptávky v objemu zpráv napříč kanály"
+    ],
+    ai: [
+      { t: "Parser poptávky/objednávky — AI vytáhne parametry z volného textu (e-mail/chat) a předpřipraví strukturované zadání", br: "std" },
+      { t: "Auto-routing poptávky na správné produkťáky dle kategorie / značky", br: "std" },
+      { t: "AI shrnutí příchozí poptávky — klíčové parametry na první pohled", br: "all" }
+    ],
+    quote: "„Přijde e-mail, objednávka, prosím tě… chci tady toto, objednej mi to a počkej do večera. Tak on čeká… v 5:30 je poslední možnost poslat do skladu.“",
+    quoteWho: "inovační manažer, EDSystems",
+    time: "průběžně celý den / desítky poptávek"
+  },
+  {
+    num: 2,
+    label: "Krok 2",
+    labelHot: "NEJVĚTŠÍ PŘÍLEŽITOST",
+    title: "Orchestrace produktů s produkťáky",
+    roles: ["Obchodník", "5–8 produkťáků"],
+    pains: ["Čekání na produkťáky", "Časožrout"],
+    activities: [
+      "Obchodník NEkonfiguruje — „99,9 % obchodníků neumí skonfigurovat server“",
+      "Rozešle poptávku na 5–8 produkťáků („dodejte z portfolia, co se hodí“) a kolektuje odpovědi",
+      "Produkťák drží znalost značky, dostupnosti a aktuálně tlačených modelů (Dell, HP…)",
+      "Obchodník = orchestrátor: čeká, sbírá, skládá dohromady"
+    ],
+    pain: [
+      "Orchestrace mezi 5–8 produkťáky a čekání na odpovědi = u větší zakázky až 4 hodiny",
+      "Obchodník není „zboží-znalý“ — nemá šanci načerpat bázi znalostí pro efektivní odbavení",
+      "Výběr produktu se dělá ze zvyku, ne dle marže a dostupnosti",
+      "Chybí automatická kontrola kompatibility / příslušenství"
+    ],
+    ai: [
+      { t: "Digitální produkťák — AI navrhne shortlist produktů z poptávky, produkťák jen potvrdí (ne x hodin čekání)", br: "std" },
+      { t: "Doporučení příslušenství / souvisejících SKU („jakou nabíječku k loni koupeným notebookům“, „jaký zásobník do tiskárny“)", br: "all" },
+      { t: "Návrh varianty s nejvyšší marží při splnění parametrů a dostupnosti skladem", br: "std" },
+      { t: "AI předpřipraví první návrh komplexní konfigurace (server, výběrka) — zkrátí orchestraci", br: "proj" }
+    ],
+    quote: "„Orchestruje tu odpověď pro zákazníka… mezi pěti, šesti, sedmi, třeba osmi produktovými manažery. A čeká, co mu odpoví.“",
+    quoteWho: "Projectman + potvrzeno EDSystems",
+    time: "až 4 hod / větší zakázka"
+  },
+  {
+    num: 3,
+    label: "Krok 3",
+    labelHot: "NEJVĚTŠÍ PŘÍLEŽITOST",
+    title: "Cenotvorba & kalkulace",
+    roles: ["Produkťák", "Nákup", "Vendor"],
+    pains: ["Speciální ceny = čekání", "Tenká marže"],
+    activities: [
+      "Produkťák dává cenu dle pravidel a „nót od vendora“",
+      "Pokud vendor nemá standard, musí oslovit dodavatele o speciální cenu",
+      "Marži často diktuje výrobce (zpětné rabaty HP, tiery Samsung)",
+      "Kontrola dostupnosti / blokace u vendora"
+    ],
+    pain: [
+      "Speciální cena vyžaduje kontakt vendora = další čekání",
+      "Maržová logika se v praxi neřeší — „tohle lidi neřeší“",
+      "Rabatové struktury výrobců jsou složité a vážou volbu (tlačí se do HP kvůli rabatům)",
+      "Tenká hranice mezi černou a červenou — chyba v kalkulaci bolí"
+    ],
+    ai: [
+      { t: "Auto-kalkulace marže s ohledem na rabatové tiery výrobce", br: "all" },
+      { t: "Doporučení nejvýhodnější varianty splňující parametry zákazníka", br: "std" },
+      { t: "Automatický draft poptávky speciální ceny vendorovi / nákupu", br: "proj" },
+      { t: "Kontrola dostupnosti a alternativ v reálném čase", br: "all" }
+    ],
+    quote: "„U nás je díky maržím strašně tenká hranice mezi tím, kdy je firma v černý a kdy v červený.“",
+    quoteWho: "provozní ředitel, EDSystems",
+    time: "vázáno na odezvu vendora"
+  },
+  {
+    num: 4,
+    label: "Krok 4",
+    title: "Sestavení & odeslání nabídky",
+    roles: ["Obchodník"],
+    pains: ["Ruční kolektace", "Nekonzistentní výstup"],
+    activities: [
+      "Obchodník skládá odpovědi produkťáků do jedné nabídky",
+      "Sestaví dokument / e-mail a posílá zpět zákazníkovi (resellerovi)",
+      "U klíčových zákazníků případně doplní prezentaci"
+    ],
+    pain: [
+      "Ruční kolektace z více zdrojů do jednoho dokumentu",
+      "Různé šablony u různých obchodníků → nekonzistentní výstup",
+      "Pozdní dodání = zákazník koupí u konkurence (hra o rychlost)"
+    ],
+    ai: [
+      { t: "Auto-generování nabídky / průvodního e-mailu ze sesbíraných dat produkťáků", br: "std" },
+      { t: "Jednotná šablona výstupu bez závislosti na individuálním obchodníkovi", br: "all" },
+      { t: "Personalizovaný pitch deck pro klíčové / projektové zakázky", br: "proj" }
+    ],
+    quote: "„…pak to kolektuje a nějakým způsobem posílá zpátky zákazníkovi.“",
+    quoteWho: "technický ředitel, EDSystems",
+    time: "30 min – 2 hod / nabídka"
+  },
+  {
+    num: 5,
+    label: "Krok 5",
+    title: "Interní schválení",
+    conditional: true,
+    condNote: "jen velké / projektové zakázky",
+    roles: ["BUM / vedoucí", "Finance"],
+    pains: [],
+    activities: [
+      "U projektových zakázek: upíše se projekt, blokuje se speciální cena a dodání u vendora",
+      "Schválení nestandardní marže / slevy / platebních podmínek",
+      "U běžných zakázek se neřeší samostatným krokem — jede dle pravidel a kreditního rámce"
+    ],
+    pain: [
+      "Schvalování projektových odchylek probíhá ad hoc, bez strukturovaného podkladu",
+      "Vedoucí musí dohledávat kontext zakázky ručně"
+    ],
+    ai: [
+      { t: "AI approval brief — shrnutí zakázky, odchylky od standardu, doporučení", br: "proj" },
+      { t: "Automatická notifikace a eskalační pravidla u nestandardních podmínek", br: "proj" }
+    ],
+    quote: "Pozn.: Pro běžnou nabídku samostatné schvalování nezaznělo — relevantní hlavně u velkých / projektových zakázek (potvrzeno).",
+    quoteWho: "",
+    time: "dle typu projektu (čekání)"
+  },
+  {
+    num: 6,
+    label: "Krok 6",
+    title: "Vyjednávání & cenová soutěž",
+    roles: ["Obchodník", "Produkťák", "Vendor"],
+    pains: ["Opakovaná orchestrace"],
+    activities: [
+      "Zákazník porovnává s konkurencí — rozhoduje cena + oblíbenost značky",
+      "Přecenění, změny konfigurace = nové kolo orchestrace produkťáků",
+      "Vztahová složka: večeře, obědy, terén (obchodník = udržovatel vztahu)"
+    ],
+    pain: [
+      "Každé kolo úprav = znovu obejít produkťáky a vendora = hodiny práce",
+      "Ztráta přehledu o verzi nabídky",
+      "Koordinace s vendorem na nové podmínky je pomalá"
+    ],
+    ai: [
+      { t: "Rychlý přepočet variant konfigurace dle nových požadavků", br: "std" },
+      { t: "Verzování nabídky s přehledem změn", br: "all" },
+      { t: "Automatický draft komunikace s vendorem / nákupem na přecenění", br: "proj" }
+    ],
+    quote: "„Kdo přijde s lepší cenou, kdo přijde rychleji a kdo přijde s oblíbenější značkou u zákazníka — to je 80–90 %.“",
+    quoteWho: "inovační manažer, EDSystems",
+    time: "2–4 kola typicky"
+  },
+  {
+    num: 7,
+    label: "Krok 7",
+    title: "Order, naskladnění & info zákazníkovi",
+    roles: ["Obchodník", "Back-office", "ERP / sklad"],
+    pains: ["Zbytečné telefonování", "Ruční zadání"],
+    activities: [
+      "Objednávka se uzavře do skladu (uzávěrka ~17:30); u projektů smlouva",
+      "Zadání do ERP / skladu, předání na expedici",
+      "Obchodník proaktivně volá zákazníkům o stavu („už se ti to naskladnilo, Franto“)"
+    ],
+    pain: [
+      "Manuální zadání z nabídky do ERP / skladu = chyby a čas",
+      "Obchodníci tráví spoustu času telefonováním o stavu naskladnění — „komunikují většinou hovadiny“"
+    ],
+    ai: [
+      { t: "Automatické notifikace zákazníkům o stavu objednávky a naskladnění — obchodník vůbec nezvedne telefon", br: "all" },
+      { t: "Auto-naplnění ERP / skladu z potvrzené nabídky", br: "std" },
+      { t: "Generování smlouvy z nabídkových dat u projektových zakázek", br: "proj" }
+    ],
+    quote: "„V ideálním světě by obchodník neměl vůbec zvednout telefon — zákazník by od automatu věděl, že má naskladněno.“",
+    quoteWho: "provozní ředitel, EDSystems",
+    time: "30–60 min / zakázka + telefonáty"
+  }
+];
+
+const brName = { std: "Standard", proj: "Projekt", self: "Self-service", all: "Vše" };
+
+function renderSteps() {
+  const container = document.getElementById('steps');
+  steps.forEach((s, i) => {
+    const isLast = i === steps.length - 1;
+    const row = document.createElement('div');
+    row.className = 'step-row';
+
+    const conn = document.createElement('div');
+    conn.className = 'connector';
+    const lineTop = document.createElement('div');
+    lineTop.className = 'connector-line top';
+    if (i === 0) lineTop.style.opacity = '0';
+    const circle = document.createElement('div');
+    circle.className = 'step-number-circle' + (s.conditional ? ' cond' : '');
+    circle.textContent = s.num;
+    const lineBot = document.createElement('div');
+    lineBot.className = 'connector-line';
+    if (isLast) lineBot.style.opacity = '0';
+    conn.appendChild(lineTop);
+    conn.appendChild(circle);
+    conn.appendChild(lineBot);
+
+    const card = document.createElement('div');
+    card.className = 'step-card' + (s.conditional ? ' conditional' : '');
+
+    const labelHtml = s.labelHot
+      ? `${s.label} · <span class="hot">${s.labelHot}</span>`
+      : s.label;
+
+    const condBadge = s.conditional
+      ? `<span class="badge badge-cond">◇ ${s.condNote}</span>`
+      : '';
+
+    const aiHtml = s.ai.map(a =>
+      `<li><span class="br-pill ${a.br}">${brName[a.br]}</span><span>${a.t}</span></li>`
+    ).join('');
+
+    const quoteHtml = s.quote
+      ? `<div class="quote">${s.quote}${s.quoteWho ? `<span>— ${s.quoteWho}</span>` : ''}</div>`
+      : '';
+
+    card.innerHTML = `
+      <div class="step-header">
+        <div class="step-title-area">
+          <div class="step-label">${labelHtml}</div>
+          <div class="step-title">${s.title}</div>
+          <div class="step-badges">
+            ${s.roles.map(r => `<span class="badge badge-role">${r}</span>`).join('')}
+            ${condBadge}
+            ${s.pains.map(p => `<span class="badge badge-pain">⚠ ${p}</span>`).join('')}
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+      <div class="step-body">
+        <div class="step-body-inner">
+          <div>
+            <div class="detail-block activities">
+              <div class="detail-title">Co se reálně děje</div>
+              <ul class="detail-list">${s.activities.map(a => `<li>${a}</li>`).join('')}</ul>
+              <div class="time-badge">⏱ ${s.time}</div>
+            </div>
+            ${quoteHtml}
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div class="detail-block pain">
+              <div class="detail-title">⚠ Bolest / riziko</div>
+              <ul class="detail-list">${s.pain.map(p => `<li>${p}</li>`).join('')}</ul>
+            </div>
+            <div class="detail-block ai">
+              <div class="detail-title">✦ AI příležitosti <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted)">(label = pro kterou cestu)</span></div>
+              <ul class="ai-list">${aiHtml}</ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    card.querySelector('.step-header').addEventListener('click', () => {
+      const isOpen = card.classList.contains('open');
+      document.querySelectorAll('.step-card.open').forEach(c => {
+        c.classList.remove('open');
+        c.closest('.step-row').querySelector('.step-number-circle').classList.remove('active');
+      });
+      if (!isOpen) {
+        card.classList.add('open');
+        circle.classList.add('active');
+      }
+    });
+
+    row.appendChild(conn);
+    row.appendChild(card);
+    container.appendChild(row);
+  });
+}
+
+renderSteps();
+</script>

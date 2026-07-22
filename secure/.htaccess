@@ -1,0 +1,12 @@
+AuthType Basic
+AuthName "Restricted Area"
+# IMPORTANT: replace the path below with the ABSOLUTE server path to .htpasswd
+# Ask your host or check via FTP. Typical examples:
+#   /home/USERNAME/www/secret/.htpasswd
+#   /data/web/virtuals/12345/virtual/www/domains/example.com/secret/.htpasswd
+AuthUserFile /web/htdocs/www.projectman.cz/home/.htpasswd
+Require valid-user
+
+# Enable directory listing when no index file is present
+Options +Indexes
+IndexOptions FancyIndexing NameWidth=* DescriptionWidth=*

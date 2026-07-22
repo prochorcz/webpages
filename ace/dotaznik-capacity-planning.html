@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dotazník: Capacity Planning v praxi</title>
+<style>
+  :root {
+    --ink: #1c2733;
+    --ink-soft: #51606f;
+    --line: #dde4ea;
+    --bg: #f2f5f8;
+    --card: #ffffff;
+    --accent: #17506e;
+    --accent-soft: #e8f0f5;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    padding: 32px 16px 64px;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; }
+
+  header.page-head {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+  }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  h1 { font-size: 26px; font-weight: 700; margin-bottom: 10px; }
+  .intro { color: var(--ink-soft); font-size: 15px; }
+
+  .meta-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 18px; }
+  .meta-field { flex: 1 1 240px; }
+  .meta-field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .meta-field input {
+    width: 100%; padding: 9px 12px; border: 1px solid var(--line);
+    border-radius: 8px; font-size: 14px; font-family: inherit;
+  }
+  .meta-field input:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+
+  .question {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+  }
+  .q-num {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 6px;
+    padding: 2px 9px;
+    margin-bottom: 8px;
+  }
+  .q-title { font-size: 17px; font-weight: 700; margin-bottom: 14px; }
+  .option {
+    display: flex; gap: 12px; align-items: flex-start;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: background .12s, border-color .12s;
+  }
+  .option:hover { background: var(--accent-soft); }
+  .option input { margin-top: 4px; accent-color: var(--accent); flex-shrink: 0; }
+  .option.selected { background: var(--accent-soft); border-color: var(--accent); }
+  .opt-letter { font-weight: 700; color: var(--accent); }
+  .opt-text { font-size: 14.5px; }
+
+  .comment-block textarea {
+    width: 100%; min-height: 90px; padding: 12px 14px;
+    border: 1px solid var(--line); border-radius: 9px;
+    font-size: 14px; font-family: inherit; resize: vertical;
+  }
+  .comment-block textarea:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+
+  .actions { text-align: center; margin-top: 26px; }
+  .btn {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 9px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: inherit;
+    padding: 13px 38px;
+    cursor: pointer;
+  }
+  .btn:hover { filter: brightness(1.12); }
+  .btn.secondary {
+    background: var(--card); color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+  .warn {
+    display: none;
+    color: #a33b2e;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 12px;
+  }
+  .q-missing { border-color: #d08a80 !important; box-shadow: 0 0 0 3px rgba(163,59,46,.08); }
+
+  /* ---------- SUMMARY ---------- */
+  #summaryView { display: none; }
+  .summary-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 32px 36px;
+  }
+  .summary-head {
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 16px;
+    margin-bottom: 22px;
+  }
+  .summary-head h2 { font-size: 22px; margin-bottom: 4px; }
+  .summary-meta { color: var(--ink-soft); font-size: 14px; }
+  .s-item { margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+  .s-item:last-of-type { border-bottom: none; }
+  .s-q { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+  .s-a {
+    background: var(--accent-soft);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    font-size: 14.5px;
+  }
+  .s-a .s-letter { font-weight: 700; color: var(--accent); margin-right: 6px; }
+  .s-comment {
+    margin-top: 4px;
+    padding: 10px 14px;
+    background: #fbf8ef;
+    border-left: 4px solid #c9a94e;
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    white-space: pre-wrap;
+  }
+  .s-comment-label { font-weight: 700; font-size: 13px; color: #8a7328; }
+  .summary-actions { text-align: center; margin-top: 24px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    #formView, .summary-actions { display: none !important; }
+    .summary-card { border: none; padding: 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ================= FORM ================= -->
+  <div id="formView">
+    <header class="page-head">
+      <div class="eyebrow">Diagnostický dotazník</div>
+      <h1>Capacity Planning v praxi</h1>
+      <p class="intro">U každé z pěti otázek vyberte prosím <strong>jednu možnost</strong>, která nejlépe vystihuje vaši aktuální realitu — ne ideální stav, ale to, jak to u vás skutečně funguje dnes. Vyplnění zabere cca 5 minut. Na závěr můžete doplnit volný komentář.</p>
+      <div class="meta-row">
+        <div class="meta-field">
+          <label for="respName">Jméno (nepovinné)</label>
+          <input type="text" id="respName" placeholder="Jméno a příjmení">
+        </div>
+        <div class="meta-field">
+          <label for="respRole">Role / útvar (nepovinné)</label>
+          <input type="text" id="respRole" placeholder="Např. vedoucí PMO, delivery manager…">
+        </div>
+      </div>
+    </header>
+
+    <div id="questions"></div>
+
+    <div class="question comment-block">
+      <div class="q-title">Volný komentář (nepovinné)</div>
+      <textarea id="freeComment" placeholder="Cokoliv, co považujete za důležité doplnit — specifika vaší situace, největší bolest, co už jste zkoušeli…"></textarea>
+    </div>
+
+    <div class="actions">
+      <button class="btn" onclick="showSummary()">Zobrazit shrnutí odpovědí</button>
+      <div class="warn" id="warnMsg">Prosím odpovězte na všechny otázky — nezodpovězené jsou zvýrazněné výše.</div>
+    </div>
+  </div>
+
+  <!-- ================= SUMMARY ================= -->
+  <div id="summaryView">
+    <div class="summary-card" id="summaryCard"></div>
+    <div class="summary-actions">
+      <button class="btn secondary" onclick="backToForm()">← Zpět a upravit odpovědi</button>
+      <button class="btn" onclick="window.print()">Vytisknout / uložit jako PDF</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    title: "Odhadování kapacit na nových projektech",
+    options: [
+      "Odhadujeme primárně „od stolu“ na základě pocitu nebo předchozí zkušenosti daného PM.",
+      "PMs mají své vlastní nejednotné tabulky, kde si kapacity hrubě rozepisují.",
+      "Máme standardizovanou šablonu a plánujeme na základě definovaných rolí (např. senior BA, QA) a historických benchmarků.",
+      "Kapacity kalkulujeme automaticky na základě historické výkonnosti/rychlosti (velocity) týmů a statistických dat z minulých projektů."
+    ]
+  },
+  {
+    title: "Přehled o alokacích (jeden zdroj pravdy)",
+    options: [
+      "Nemáme jednotné místo. Informace o tom, kdo na čem dělá, jsou roztříštěné v e-mailech, chatech nebo hlavách manažerů.",
+      "Každý projektový manažer si udržuje svůj vlastní lokální plán. Tyto plány občas ručně konsolidujeme.",
+      "Všichni plánují v jednom centrálním nástroji (Jira, Asana apod.), který slouží jako jediný zdroj pravdy pro celou firmu.",
+      "Máme real-time dashboardy, které automaticky propojují plánované alokace se skutečně odpracovaným časem (timesheety) a predikují budoucí vytížení."
+    ]
+  },
+  {
+    title: "Řešení kapacitních konfliktů a prioritizace",
+    options: [
+      "Kdo dřív přijde (nebo víc křičí), ten lidi dostane. Konflikty se řeší ad-hoc v krizi.",
+      "PMs se snaží domluvit mezi sebou. Pokud se nedomluví, eskaluje se to na vedení, které rozhodne pocitově.",
+      "Máme jasná, formalizovaná pravidla prioritizace projektového portfolia (např. podle strategického přínosu), podle kterých se kapacity přednostně přidělují.",
+      "Provádíme „what-if“ analýzy a modelujeme dopady přesunu lidí na celé portfolio, než schválíme změnu alokace."
+    ]
+  },
+  {
+    title: "Práce s reálnou dostupností a rezervami (buffer)",
+    options: [
+      "Plánujeme lidi na 100 % (nebo víc) jejich pracovní doby. Nepřítomnost (nemoc, dovolená, administrativa) řešíme, až když nastane.",
+      "Víme, že lidé mají dovolené, ale nemáme žádné jednotné pravidlo, jakou reálnou kapacitu (utilizaci) u nich plánovat.",
+      "Máme standardně nastavené koeficienty reálné utilizace (např. interní zaměstnanec se plánuje max. na 80 % kapacity, zbytek je buffer a operativa).",
+      "Velikost bufferů a reálnou utilizaci dynamicky upravujeme na základě historických dat o nemocnosti, fluktuaci a neprojektové režii v daném období."
+    ]
+  },
+  {
+    title: "Revize a aktualizace kapacitních plánů",
+    options: [
+      "Plán se schválí na začátku projektu a pak už se k němu málokdy vracíme, dokud nehoří termín.",
+      "Plány kapacit aktualizujeme nepravidelně, většinou jednou za měsíc, nebo když dojde k výrazné změně v projektu.",
+      "Pravidelně (např. každý týden/dva týdny) probíhá strukturovaný capacity review mítink, kde se plány aktualizují podle reálného vývoje.",
+      "Odchylky plánu oproti realitě monitorujeme kontinuálně pomocí automatizovaných alertů, které PMs okamžitě upozorní na riziko přetížení či podhodnocení."
+    ]
+  }
+];
+const LETTERS = ["A", "B", "C", "D"];
+
+// render questions
+const qContainer = document.getElementById("questions");
+QUESTIONS.forEach((q, qi) => {
+  const div = document.createElement("div");
+  div.className = "question";
+  div.id = "q" + qi;
+  let html = `<span class="q-num">Otázka ${qi + 1} / ${QUESTIONS.length}</span>
+              <div class="q-title">${q.title}</div>`;
+  q.options.forEach((opt, oi) => {
+    html += `
+      <label class="option">
+        <input type="radio" name="q${qi}" value="${oi}" onchange="markSelected(${qi})">
+        <span class="opt-text"><span class="opt-letter">${LETTERS[oi]})</span> ${opt}</span>
+      </label>`;
+  });
+  div.innerHTML = html;
+  qContainer.appendChild(div);
+});
+
+function markSelected(qi) {
+  document.querySelectorAll(`#q${qi} .option`).forEach(o => o.classList.remove("selected"));
+  const checked = document.querySelector(`input[name="q${qi}"]:checked`);
+  if (checked) checked.closest(".option").classList.add("selected");
+  document.getElementById("q" + qi).classList.remove("q-missing");
+  document.getElementById("warnMsg").style.display = "none";
+}
+
+function showSummary() {
+  // validate
+  let firstMissing = null;
+  QUESTIONS.forEach((q, qi) => {
+    const answered = document.querySelector(`input[name="q${qi}"]:checked`);
+    const el = document.getElementById("q" + qi);
+    if (!answered) {
+      el.classList.add("q-missing");
+      if (firstMissing === null) firstMissing = el;
+    } else {
+      el.classList.remove("q-missing");
+    }
+  });
+  if (firstMissing) {
+    document.getElementById("warnMsg").style.display = "block";
+    firstMissing.scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
+
+  const name = document.getElementById("respName").value.trim();
+  const role = document.getElementById("respRole").value.trim();
+  const comment = document.getElementById("freeComment").value.trim();
+  const now = new Date();
+  const dateStr = now.toLocaleDateString("cs-CZ", { day: "numeric", month: "long", year: "numeric" });
+
+  let metaParts = [];
+  if (name) metaParts.push(name);
+  if (role) metaParts.push(role);
+  metaParts.push("Vyplněno: " + dateStr);
+
+  let html = `
+    <div class="summary-head">
+      <div class="eyebrow">Shrnutí odpovědí</div>
+      <h2>Capacity Planning v praxi</h2>
+      <div class="summary-meta">${metaParts.join(" &nbsp;·&nbsp; ")}</div>
+    </div>`;
+
+  QUESTIONS.forEach((q, qi) => {
+    const val = parseInt(document.querySelector(`input[name="q${qi}"]:checked`).value, 10);
+    html += `
+      <div class="s-item">
+        <div class="s-q">${qi + 1}. ${q.title}</div>
+        <div class="s-a"><span class="s-letter">${LETTERS[val]})</span>${q.options[val]}</div>
+      </div>`;
+  });
+
+  if (comment) {
+    html += `
+      <div class="s-comment">
+        <div class="s-comment-label">Komentář respondenta</div>${escapeHtml(comment)}
+      </div>`;
+  }
+
+  document.getElementById("summaryCard").innerHTML = html;
+  document.getElementById("formView").style.display = "none";
+  document.getElementById("summaryView").style.display = "block";
+  window.scrollTo({ top: 0 });
+}
+
+function backToForm() {
+  document.getElementById("summaryView").style.display = "none";
+  document.getElementById("formView").style.display = "block";
+  window.scrollTo({ top: 0 });
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+</script>
+</body>
+</html>

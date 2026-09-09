@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Erhartova cukrárna — přehled výrobků</title>
+<style>
+:root{
+  --sweep:#F7F7F5;        /* bílý foto sweep, na kterém jsou výrobky nafocené */
+  --tile:#FFFFFF;
+  --ink:#22201F;
+  --muted:#7C766F;
+  --line:#DEDCD6;
+  --currant:#5B2036;      /* rybízová - akcent, flagy */
+  --board:#A98B4E;        /* zlatá jako dortová podložka - jen linky */
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--sweep);color:var(--ink);
+  font:15px/1.5 "Segoe UI",system-ui,-apple-system,sans-serif;
+  font-variant-numeric:tabular-nums;
+}
+.wrap{max-width:1400px;margin:0 auto;padding:0 24px 96px}
+
+/* ---------- hlavicka ---------- */
+header{padding:40px 0 20px}
+h1{
+  font:400 34px/1.1 Georgia,"Times New Roman",serif;
+  margin:0 0 6px;letter-spacing:-.01em;
+}
+h1 em{font-style:italic;color:var(--currant)}
+.sub{color:var(--muted);font-size:13.5px;margin:0}
+
+.funnel{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:0;
+  margin:26px 0 0;padding:16px 0;
+  border-top:1px solid var(--board);border-bottom:1px solid var(--line);
+}
+.step{padding-right:26px;margin-right:26px;border-right:1px solid var(--line)}
+.step:last-child{border-right:0;margin-right:0;padding-right:0}
+.step b{display:block;font:400 27px/1 Georgia,serif}
+.step span{font-size:11.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+
+.note{
+  margin:18px 0 0;padding:13px 16px;background:#fff;
+  border-left:3px solid var(--currant);font-size:13.5px;color:#4A4540;
+}
+.note p{margin:0 0 7px}
+.note p:last-child{margin:0}
+
+/* ---------- filtry ---------- */
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:26px 0 18px}
+.chip{
+  border:1px solid var(--line);background:#fff;color:var(--ink);
+  padding:6px 13px;border-radius:999px;font-size:13px;cursor:pointer;
+  font-family:inherit;
+}
+.chip:hover{border-color:var(--board)}
+.chip[aria-pressed="true"]{background:var(--currant);border-color:var(--currant);color:#fff}
+.chip:focus-visible{outline:2px solid var(--currant);outline-offset:2px}
+
+/* ---------- mrizka ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:20px}
+.card{
+  background:var(--tile);border:1px solid var(--line);
+  display:flex;flex-direction:column;position:relative;
+}
+.card.flag{border-color:var(--currant)}
+.card.sel{box-shadow:0 0 0 3px var(--currant)}
+
+.shot{
+  aspect-ratio:3/2;background:#F0EFEC;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+.shot.none{
+  color:var(--muted);font-size:12.5px;text-align:center;padding:16px;
+  background:repeating-linear-gradient(45deg,#F0EFEC,#F0EFEC 9px,#E8E6E2 9px,#E8E6E2 18px);
+}
+
+.body{padding:13px 14px 14px;display:flex;flex-direction:column;gap:9px;flex:1}
+.when{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.when b{font:400 17px/1 Georgia,serif}
+.when i{font-style:normal;font-size:12px;color:var(--muted)}
+
+/* ---------- burst strip: signature ---------- */
+.burst{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:9px 0}
+.strip{position:relative;height:15px}
+.strip .rail{position:absolute;left:0;right:0;top:7px;height:1px;background:var(--line)}
+.strip .tick{
+  position:absolute;top:0;width:1.5px;height:15px;background:var(--currant);
+  transform:translateX(-.75px);
+}
+.strip .tick.raw{background:var(--board)}
+.burst .cap{margin-top:6px;font-size:11.5px;color:var(--muted)}
+
+.facts{font-size:12.5px;color:#4A4540;display:grid;gap:3px}
+.facts span{color:var(--muted)}
+
+.tags{display:flex;flex-wrap:wrap;gap:5px;min-height:24px;align-items:center}
+.tag{background:#F2EFF0;color:var(--currant);border:1px solid #E3D9DC;padding:2px 8px;font-size:11.5px;border-radius:3px}
+.tags .empty{font-size:11.5px;color:#A8A29B;font-style:italic}
+
+.foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto;padding-top:4px}
+.foot a{color:var(--currant);font-size:12px;text-decoration:none;border-bottom:1px solid #D9C6CB}
+.foot a:hover{border-bottom-color:var(--currant)}
+.pick{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);cursor:pointer}
+.pick input{accent-color:var(--currant);width:15px;height:15px;cursor:pointer}
+
+.warn{
+  position:absolute;top:0;right:0;background:var(--currant);color:#fff;
+  font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;
+}
+
+/* ---------- lista vyberu ---------- */
+.tray{
+  position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:#F2F0EC;
+  padding:13px 24px;display:flex;justify-content:space-between;align-items:center;
+  gap:16px;font-size:13.5px;transform:translateY(105%);transition:transform .22s ease;
+}
+.tray.on{transform:none}
+.tray button{
+  font-family:inherit;font-size:13px;padding:7px 15px;cursor:pointer;
+  background:none;color:#F2F0EC;border:1px solid #55504B;
+}
+.tray button:hover{border-color:#F2F0EC}
+.tray .out{max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#B6AFA7;font-size:12px}
+@media (prefers-reduced-motion:reduce){.tray{transition:none}}
+@media (max-width:520px){.wrap{padding:0 14px 96px}h1{font-size:26px}.step{padding-right:16px;margin-right:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Erhartova cukrárna — <em>přehled výrobků</em></h1>
+  <p class="sub">Camera Uploads, období 31. 1. – 31. 7. 2026 · sestaveno 31. 7. 2026</p>
+
+  <div class="funnel">
+    <div class="step"><b>98</b><span>souborů</span></div>
+    <div class="step"><b>58</b><span>snímků</span></div>
+    <div class="step"><b>29</b><span>výrobků</span></div>
+    <div class="step"><b>9</b><span>k posouzení</span></div>
+    <div class="step"><b>1</b><span>z 50 s GPS</span></div>
+  </div>
+
+  <div class="note">
+    <p><strong>Co je hotové:</strong> soubory jsou spárované podle časů z EXIF, sloučené napříč formáty (NEF + JPG téhož snímku) a seskupené do výrobků. Náhled je vždy snímek s největším objemem dat ve skupině — provizorní ukazatel detailu, ne měřená ostrost.</p>
+    <p><strong>Co hotové není:</strong> tagy a popisy jsou prázdné, protože obsah fotek dosud nebyl přečten. Skupiny označené <strong>K POSOUZENÍ</strong> mají tři a více snímků a může v nich být víc než jeden výrobek — časové pravidlo je nerozliší.</p>
+    <p><strong>Lokace chybí a chybět bude:</strong> 48 z 50 fotek je z Nikonu D5100, který nemá GPS. Souřadnice má jedině snímek z 23. 6. z iPhonu. Provozovnu bude nutné zaznamenávat podsložkou nebo prefixem.</p>
+  </div>
+
+  <div class="bar">
+    <button class="chip" data-f="all" aria-pressed="true">Vše</button>
+    <button class="chip" data-f="flag" aria-pressed="false">K posouzení</button>
+    <button class="chip" data-f="noimg" aria-pressed="false">Bez náhledu</button>
+    <button class="chip" data-f="phone" aria-pressed="false">Z telefonu</button>
+    <button class="chip" data-f="untag" aria-pressed="false">Bez tagů</button>
+  </div>
+</header>
+
+<div class="grid" id="grid"></div>
+</div>
+
+<div class="tray" id="tray">
+  <span><strong id="cnt">0</strong> vybráno</span>
+  <span class="out" id="out"></span>
+  <span>
+    <button id="copy">Zkopírovat seznam</button>
+    <button id="clear">Zrušit výběr</button>
+  </span>
+</div>
+
+<script>
+const DBX = "https://www.dropbox.com/scl/fo/7cny9clirsller6b50zos/ALrFpZG29q_yt_iFRWHwZkM?rlkey=w5i1g1agx6uj37lhqee2gid4c&preview=";
+
+/* offs = odstupy snimku ve sekundach od zacatku skupiny; raw = snimek existuje jen jako NEF */
+const D = [
+ {d:"15. 7. 2026",t:"14:37",rep:"2026-07-15 14.37.14.jpg",shots:1,files:2,fmt:"1 JPG + 1 NEF",dev:"neznámé (EXIF odstraněn)",offs:[0],raw:[],note:"4948×3280 — upscalovaný export"},
+ {d:"10. 7. 2026",t:"13:56",rep:"2026-07-10 13.56.13.jpg",shots:1,files:1,fmt:"1 JPG",dev:"Nikon D5100",offs:[0],raw:[],note:"bez raw"},
+ {d:"2. 7. 2026",t:"17:56",rep:"2026-07-02 17.56.16.jpg",shots:3,files:3,fmt:"1 JPG + 2 NEF",dev:"Nikon D5100",offs:[0,63,86],raw:[1,2],flag:1,note:"dva snímky jen v raw"},
+ {d:"27. 6. 2026",t:"15:14",rep:"2026-06-27 15.14.38.jpg",shots:3,files:3,fmt:"2 JPG + 1 NEF",dev:"Nikon D5100",offs:[0,10,21],raw:[2],flag:1},
+ {d:"25. 6. 2026",t:"17:18",rep:"2026-06-25 17.18.27.jpg",shots:1,files:2,fmt:"1 JPG + 1 NEF",dev:"Nikon D5100",offs:[0],raw:[]},
+ {d:"25. 6. 2026",t:"12:51",rep:"2026-06-25 12.51.30.jpg",shots:3,files:6,fmt:"3 JPG + 3 NEF",dev:"Nikon D5100",offs:[0,13,26],raw:[],flag:1,note:"tři snímky za 26 s"},
+ {d:"24. 6. 2026",t:"15:33",rep:"2026-06-24 15.36.23.jpg",shots:8,files:16,fmt:"8 JPG + 8 NEF",dev:"Nikon D5100",offs:[0,8,63,68,113,121,172,183],raw:[],flag:1,note:"čtyři dvojice po ~10 s — pravděpodobně 4 výrobky"},
+ {d:"23. 6. 2026",t:"16:19",rep:"IMG_0469.jpg",shots:1,files:1,fmt:"1 JPEG",dev:"Apple iPhone 12",phone:1,offs:[0],raw:[],note:"GPS 50,077817 / 14,456411 (Praha)"},
+ {d:"5. 6. 2026",t:"15:33",rep:"2026-06-05 15.34.08.jpg",shots:4,files:8,fmt:"4 JPG + 4 NEF",dev:"Nikon D5100",offs:[0,38,67,78],raw:[],flag:1,note:"čtyři snímky za 78 s"},
+ {d:"26. 5. 2026",t:"—",rep:null,shots:4,files:4,fmt:"4 NEF",dev:"Nikon D5100",offs:[0,8,80,98],raw:[0,1,2,3],flag:1,noimg:1,note:"DSC_0006–0010, jen raw · čas je z nahrání, ne z EXIF"},
+ {d:"10. 5. 2026",t:"10:19",rep:"2026-05-10 10.21.29.jpg",shots:2,files:4,fmt:"2 JPG + 2 NEF",dev:"Nikon D5100",offs:[0,112],raw:[]},
+ {d:"9. 5. 2026",t:"11:03",rep:"2026-05-09 11.03.53.jpg",shots:1,files:2,fmt:"1 JPG + 1 NEF",dev:"Nikon D5100",offs:[0],raw:[]},
+ {d:"8. 5. 2026",t:"16:16",rep:"2026-05-08 16.16.25.jpg",shots:1,files:2,fmt:"1 JPG + 1 NEF",dev:"Nikon D5100",offs:[0],raw:[]},
+ {d:"8. 5. 2026",t:"14:26",rep:"2026-05-08 14.26.39.jpg",shots:1,files:2,fmt:"1 JPG + 1 NEF",dev:"Nikon D5100",offs:[0],raw:[]},
+ {d:"8. 5. 2026",t:"14:02",rep:"2026-05-08 14.02.50.jpg",shots:3,files:6,fmt:"3 JPG + 3 NEF",dev:"Nikon D5100",offs:[0,71,149],raw:[],flag:1},
+ {d:"7. 5. 2026",t:"12:49",rep:"2026-05-07 12.49.40.jpg",shots:1,files:2,fmt:"1 JPG + 1 NEF",dev:"Nikon D5100",offs:[0],raw:[]},
+ {d:"7. 5. 2026",t:"12:44",rep:"2026-05-07 12.44.43.jpg",shots:1,files:3,fmt:"1 JPG + 1 NEF + 1 XMP",dev:"Nikon D5100",offs:[0],raw:[],note:"XMP = úprava v Lightroomu 13. 7."},
+ {d:"26. 4. 2026",t:"18:52",rep:"IMG_0323 (002).jpg",shots:1,files:1,fmt:"1 JPEG",dev:"Apple iPhone 12",phone:1,offs:[0],raw:[]},
+ {d:"25. 4. 2026",t:"09:36",rep:"špachtlovaný oranžový.jpg",shots:1,files:1,fmt:"1 JPG",dev:"Nikon D5100",offs:[0],raw:[],note:"ručně pojmenováno"},
+ {d:"16. 4. 2026",t:"09:06",rep:"2026-04-16 09.07.08.jpg",shots:2,files:4,fmt:"2 JPG + 2 NEF",dev:"Nikon D5100",offs:[0,10],raw:[]},
+ {d:"16. 4. 2026",t:"09:01",rep:"2026-04-16 09.01.06.jpg",shots:1,files:2,fmt:"1 JPG + 1 NEF",dev:"Nikon D5100",offs:[0],raw:[]},
+ {d:"3. 4. 2026",t:"16:28",rep:"špachtlovaný barevný.jpg",shots:1,files:1,fmt:"1 JPG",dev:"Nikon D5100",offs:[0],raw:[],note:"ručně pojmenováno · 2494×3118 na výšku"},
+ {d:"2. 4. 2026",t:"14:47",rep:"2026-04-02 14.49.41.jpg",shots:2,files:4,fmt:"2 JPG + 2 NEF",dev:"Nikon D5100",offs:[0,104],raw:[]},
+ {d:"31. 3. 2026",t:"14:37",rep:"2026-03-31 14.37.19.jpg",shots:1,files:2,fmt:"1 JPG + 1 NEF",dev:"Nikon D5100",offs:[0],raw:[]},
+ {d:"19. 3. 2026",t:"15:28",rep:"2026-03-19 15.28.43.jpg",shots:3,files:6,fmt:"3 JPG + 3 NEF",dev:"Nikon D5100",offs:[0,74,173],raw:[],flag:1},
+ {d:"25. 2. 2026",t:"16:05",rep:"2026-02-25 16.05.26.jpg",shots:1,files:1,fmt:"1 JPG",dev:"Nikon D5100",offs:[0],raw:[]},
+ {d:"22. 2. 2026",t:"12:00",rep:"2026-02-22 12.00.56.jpg",shots:1,files:1,fmt:"1 JPG",dev:"Nikon D5100",offs:[0],raw:[]},
+ {d:"19. 2. 2026",t:"15:26",rep:"2026-02-19 15.26.19.jpg",shots:1,files:1,fmt:"1 JPG",dev:"Nikon D5100",offs:[0],raw:[],note:"1222×1630 — oříznuto"},
+ {d:"5. 2. 2026",t:"16:14",rep:"2026-02-05 16.14.46.jpg",shots:4,files:7,fmt:"3 JPG + 4 NEF",dev:"Nikon D5100",offs:[0,48,116,198],raw:[1],flag:1,note:"jeden snímek jen v raw"}
+];
+
+const grid=document.getElementById("grid");
+const sel=new Set();
+
+D.forEach((g,i)=>{
+  const span=g.offs.length>1?g.offs[g.offs.length-1]:0;
+  const ticks=g.offs.map((o,k)=>{
+    const pct=span?(o/span)*100:0;
+    return `<i class="tick${g.raw.includes(k)?" raw":""}" style="left:${pct}%" title="+${o} s"></i>`;
+  }).join("");
+
+  const c=document.createElement("article");
+  c.className="card"+(g.flag?" flag":"");
+  c.dataset.i=i;
+  c.innerHTML=`
+    ${g.flag?'<span class="warn">k posouzení</span>':''}
+    <div class="shot${g.rep?'':' none'}">
+      ${g.rep
+        ? `<img src="male/${encodeURIComponent(g.rep)}" alt="${g.d} — náhled výrobku" loading="lazy">`
+        : 'Náhled nelze vytvořit<br>soubory jsou pouze v raw'}
+    </div>
+    <div class="body">
+      <div class="when"><b>${g.d}</b><i>${g.t}</i></div>
+
+      <div class="burst">
+        <div class="strip"><span class="rail"></span>${ticks}</div>
+        <div class="cap">${g.shots} ${g.shots===1?"snímek":(g.shots<5?"snímky":"snímků")}${span?` · rozptyl ${span} s`:""}</div>
+      </div>
+
+      <div class="facts">
+        <div><span>soubory:</span> ${g.fmt}</div>
+        <div><span>přístroj:</span> ${g.dev}</div>
+        ${g.note?`<div><span>pozn.:</span> ${g.note}</div>`:''}
+      </div>
+
+      <div class="tags"><span class="empty">tagy nepřiřazeny</span></div>
+
+      <div class="foot">
+        <label class="pick"><input type="checkbox" data-i="${i}"> vybrat</label>
+        ${g.rep?`<a href="${DBX}${encodeURIComponent(g.rep.replace(/\.jpg$/,''))}" target="_blank" rel="noopener">Dropbox ↗</a>`:''}
+      </div>
+    </div>`;
+  grid.appendChild(c);
+});
+
+/* --- filtry --- */
+document.querySelectorAll(".chip").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  const f=b.dataset.f;
+  document.querySelectorAll(".card").forEach(c=>{
+    const g=D[c.dataset.i];
+    let ok=true;
+    if(f==="flag")  ok=!!g.flag;
+    if(f==="noimg") ok=!!g.noimg;
+    if(f==="phone") ok=!!g.phone;
+    if(f==="untag") ok=true;           /* tagy zatím nikde nejsou */
+    c.style.display=ok?"":"none";
+  });
+}));
+
+/* --- vyber (jen v pameti, nic se neuklada) --- */
+const tray=document.getElementById("tray"),cnt=document.getElementById("cnt"),out=document.getElementById("out");
+function refresh(){
+  cnt.textContent=sel.size;
+  tray.classList.toggle("on",sel.size>0);
+  out.textContent=[...sel].map(i=>D[i].rep||`${D[i].d} (raw)`).join(", ");
+}
+grid.addEventListener("change",e=>{
+  if(e.target.type!=="checkbox")return;
+  const i=+e.target.dataset.i,card=e.target.closest(".card");
+  e.target.checked?sel.add(i):sel.delete(i);
+  card.classList.toggle("sel",e.target.checked);
+  refresh();
+});
+document.getElementById("clear").addEventListener("click",()=>{
+  sel.clear();
+  grid.querySelectorAll("input:checked").forEach(x=>x.checked=false);
+  grid.querySelectorAll(".sel").forEach(x=>x.classList.remove("sel"));
+  refresh();
+});
+document.getElementById("copy").addEventListener("click",async()=>{
+  const txt=[...sel].map(i=>D[i].rep||`${D[i].d} — pouze raw`).join("\n");
+  try{await navigator.clipboard.writeText(txt);document.getElementById("copy").textContent="Zkopírováno";
+      setTimeout(()=>document.getElementById("copy").textContent="Zkopírovat seznam",1400);}
+  catch{out.textContent=txt}
+});
+</script>
+</body>
+</html>

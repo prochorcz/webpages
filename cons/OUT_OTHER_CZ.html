@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OUT × OTHER — detailní rozbor</title>
+<meta name="description" content="Detailní rozbor produktu OUT_OTHER: 62
+uzavřených dealů, 6,49 mil. Kč marže, rozpad na 7 rodin služeb.
+Interní materiál Projectman.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+ rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --red:#FF525F; --blue:#A9C5DF; --white:#fff; --surf:#f4f7fa;
+  --body:#626567; --muted:#9aa3b0; --dark:#1a1a1a;
+  --font:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--white);color:var(--body);font-family:var(--font);
+  font-weight:400;font-size:16px;line-height:1.66}
+.wrap{max-width:920px;margin:0 auto;padding:0 28px}
+h1,h2,h3,h4{font-weight:600;color:var(--dark);line-height:1.25;margin:0}
+h2{font-size:1.55rem;margin:64px 0 6px}
+h3{font-size:1.12rem;font-weight:500;margin:38px 0 10px}
+h4{font-size:1rem;font-weight:600;margin:34px 0 12px}
+p{margin:0 0 16px}
+strong{color:var(--dark);font-weight:600}
+a{color:var(--red)}
+ul,ol{margin:0 0 16px;padding-left:20px}li{margin-bottom:7px}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.86em;
+  background:var(--surf);padding:1px 6px;border-radius:4px;color:var(--dark);
+  white-space:nowrap}
+
+.cover{background:var(--dark);color:#fff;padding:60px 0 66px;margin-bottom:8px}
+.cover img.logo{height:44px;width:auto;display:block;margin-bottom:52px}
+.cover h1{color:#fff;font-size:2.5rem;letter-spacing:-.015em;max-width:22ch}
+.cover .rule{width:76px;height:4px;background:var(--red);border-radius:2px;margin:24px 0 22px}
+.cover .sub{color:var(--blue);font-weight:500;font-size:1.12rem;max-width:62ch;margin:0 0 30px}
+.cover .meta{display:flex;flex-wrap:wrap;gap:12px 34px;font-size:.86rem;color:#fff;opacity:.82}
+.cover .meta div span{display:block;color:var(--blue);font-size:.74rem;text-transform:uppercase;
+  letter-spacing:.09em;margin-bottom:3px;opacity:1}
+
+.sec{border-top:3px solid var(--red);margin-top:74px;padding-top:8px}
+.sec .kicker{font-size:.74rem;text-transform:uppercase;letter-spacing:.11em;
+  color:var(--red);font-weight:600}
+.lead{font-size:1.06rem}
+
+.call{background:var(--surf);border-left:3px solid var(--red);padding:20px 24px;
+  border-radius:0 6px 6px 0;margin:24px 0}
+.call p:last-child{margin-bottom:0}
+.call.blue{border-left-color:var(--blue)}
+.impact{background:var(--dark);color:#fff;padding:34px 32px;border-radius:8px;margin:30px 0}
+.impact p{color:#fff}.impact p:last-child{margin-bottom:0}
+.impact .big{font-size:1.9rem;font-weight:600;color:#fff;line-height:1.2;margin-bottom:12px}
+.impact .cap{color:var(--blue)}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:14px;margin:26px 0}
+.kpi{background:var(--white);border:1px solid #e6ecf2;border-top:3px solid var(--red);
+  border-radius:6px;padding:16px 18px}
+.kpi .v{font-size:1.62rem;font-weight:600;color:var(--dark);line-height:1.1}
+.kpi .l{font-size:.79rem;color:var(--muted);margin-top:5px;line-height:1.4}
+.kpi.dk{background:var(--dark);border-color:var(--dark)}
+.kpi.dk .v{color:#fff}.kpi.dk .l{color:var(--blue)}
+
+.tw{overflow-x:auto;margin:22px 0;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:440px}
+thead th{background:var(--blue);color:var(--dark);font-weight:600;text-align:left;
+  padding:10px 13px;white-space:nowrap}
+tbody td{padding:9px 13px;border-bottom:1px solid #eceff3;vertical-align:top}
+tbody tr:nth-child(even){background:var(--surf)}
+tbody tr.hi{background:#fff4f5}
+tbody tr.hi td{font-weight:500;color:var(--dark)}
+td:not(:first-child),th:not(:first-child){text-align:right;white-space:nowrap}
+td.t,th.t{text-align:left;white-space:normal;min-width:190px}
+
+.ev{border-left:2px solid var(--blue);padding:2px 0 2px 18px;margin:0 0 18px}
+.ev-h{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;margin-bottom:4px}
+.ev-org{font-weight:600;color:var(--dark);font-size:.95rem}
+.ev-dt{font-size:.76rem;color:var(--muted);font-family:ui-monospace,Menlo,monospace}
+.ev p{margin:0;font-size:.95rem;font-style:italic}
+
+.chart{width:100%;height:auto;display:block;margin:26px 0 8px}
+.cx-hd{font:600 12px var(--font);fill:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.cx-ax{font:400 13px var(--font);fill:var(--body)}
+.cx-ax.b{font-weight:600;fill:var(--dark)}
+.cx-vl{font:600 12.5px var(--font);fill:var(--dark)}
+.cx-lg{font:400 12px var(--font);fill:var(--body)}
+.cx-sub{font:400 11.5px var(--font);fill:var(--muted)}
+.cx-sub .b{font-weight:600;fill:var(--dark)}
+
+.hyp{border-left:3px solid var(--blue);padding:4px 0 4px 20px;margin:0 0 24px}
+.hyp h4{margin:0 0 6px}
+.hyp .test{font-size:.9rem;color:var(--muted)}
+.foot{border-top:1px solid #e6ecf2;margin-top:80px;padding:26px 0 60px;
+  font-size:.84rem;color:var(--muted)}
+@media(max-width:600px){.cover h1{font-size:1.9rem}h2{font-size:1.3rem;margin-top:48px}}
+
+/* Scoped addition to the shared CID block above. The theme paints `strong` in --dark, which is
+   invisible on the two dark surfaces (.cover, .impact); the earlier reports simply avoided
+   <strong> there. These reports use it to carry the argument, so it is scoped back to white. */
+.cover .sub strong,.impact strong{color:#fff}
+.impact .mono{background:#333;color:#fff}
+
+.legend{display:flex;flex-wrap:wrap;gap:7px 18px;margin:10px 0 0;font-size:.8rem;color:var(--body)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:13px;height:13px;border-radius:3px;display:inline-block;flex:0 0 auto}
+.code{display:inline-block;font-family:ui-monospace,Menlo,monospace;font-size:.7rem;
+  color:var(--muted)}
+td.t b{display:block;color:var(--dark);line-height:1.3}
+td.t.sm{font-size:.82rem;color:var(--body);min-width:260px}
+table{font-size:.87rem}
+.tw.wide{width:min(1120px,calc(100vw - 40px));position:relative;left:50%;
+  transform:translateX(-50%)}
+.chart{max-width:100%}
+.fnote{font-size:.82rem;color:var(--muted);margin:8px 0 0}
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="wrap">
+    <img class="logo" src="data:image/png;base64,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"
+         alt="Projectman — connecting experts">
+    <h1>OUT × OTHER: co je uvnitř zbytkové kategorie</h1>
+    <div class="rule"></div>
+    <p class="sub"><strong>2. produkt portfolia podle marže v 2026 H1</strong>
+      — a jediný, který není službou, ale zbytkem. 62 uzavřených dealů,
+      6,49 mil. Kč marže, 28 organizací, sedm různých rodin
+      služeb pod jedním kódem.</p>
+    <div class="meta">
+      <div><span>Extrakce</span>2026-08-16 · pouze Pipedrive</div>
+      <div><span>Okno</span>2024 H1 → 2026 H2</div>
+      <div><span>Rozsah</span>20 výher · 42 proher</div>
+      <div><span>Peněžní metrika</span>Total Gross Margin (KPI Total), CZK ekvivalent</div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="call">
+  <p><strong>Proč tenhle produkt potřebuje vlastní rozbor.</strong>
+  <span class="mono">OTHER</span> není kompetence — je to hodnota, kterou
+  <span class="mono">config/product_map.csv</span> přiřadí dealu, jehož kompetence není ani
+  PM, ani BA, UX, DATA, AGILE nebo AI. Řádek v portfoliové mřížce se proto čte jako produkt,
+  ale produktem není: 12,1 % marže portfolia leží
+  pod kódem, který neříká, co se prodalo. Tenhle dokument ten kód rozebírá na
+  7 rodin podle <span class="mono">config/other_cell_family_draft.csv</span> —
+  klasifikátoru nad názvy dealů, který pokrývá všech 62 uzavřených
+  dealů okna 1:1.</p>
+</div>
+
+<div class="kpis">
+  <div class="kpi"><div class="v">6,49 mil. Kč</div><div class="l">marže za okno 2024 H1–2026 H2</div></div>
+  <div class="kpi"><div class="v">32,3 %</div><div class="l">konverze (20/62)</div></div>
+  <div class="kpi"><div class="v">8 / 28</div><div class="l">organizací s výhrou / oslovených</div></div>
+  <div class="kpi dk"><div class="v">2,56 mil. Kč</div><div class="l">otevřená pipeline (7 dealů)</div></div>
+</div>
+
+<section class="sec">
+  <div class="kicker">Rozpad</div>
+  <h2>Sedm rodin, ne jeden produkt</h2>
+  <p class="lead">Rodina je jednotka, která se chová jako produkt. Průměrná konverze
+  32,3 % za celou kategorii je artefakt sčítání:
+  dvě rodiny mají
+  konverzi 100 %,
+  jedna nulovou.</p>
+  <svg class="chart" viewBox="0 0 860 245" role="img" aria-label="marže podle rodiny"><text class="cx-ax" x="240" y="17.0" text-anchor="end">Pharma / průmysl</text><rect x="250" y="3" width="524.0" height="20" rx="2" fill="#2f6f9f"/><text class="cx-vl" x="782.0" y="17.0">2 859</text><text class="cx-ax" x="240" y="52.0" text-anchor="end">IT vývoj a test</text><rect x="250" y="38" width="212.7" height="20" rx="2" fill="#FF525F"/><text class="cx-vl" x="470.7" y="52.0">1 160</text><text class="cx-ax" x="240" y="87.0" text-anchor="end">Platformy CRM/ITSM</text><rect x="250" y="73" width="211.3" height="20" rx="2" fill="#4fae74"/><text class="cx-vl" x="469.3" y="87.0">1 153</text><text class="cx-ax" x="240" y="122.0" text-anchor="end">IT service ops</text><rect x="250" y="108" width="144.8" height="20" rx="2" fill="#e0a93c"/><text class="cx-vl" x="402.8" y="122.0">790</text><text class="cx-ax" x="240" y="157.0" text-anchor="end">Nečitelný název</text><rect x="250" y="143" width="60.2" height="20" rx="2" fill="#c3cbd6"/><text class="cx-vl" x="318.2" y="157.0">328</text><text class="cx-ax" x="240" y="192.0" text-anchor="end">Byznys mimo IT</text><rect x="250" y="178" width="36.3" height="20" rx="2" fill="#8a6fae"/><text class="cx-vl" x="294.3" y="192.0">198</text><text class="cx-ax" x="240" y="227.0" text-anchor="end">Interim vedení</text><rect x="250" y="213" width="1.5" height="20" rx="2" fill="#9aa3b0"/><text class="cx-vl" x="259.5" y="227.0">0</text></svg>
+  <p class="fnote">Marže vyhraných dealů, tis. Kč, okno 2024 H1 – 2026 H2.</p>
+  <div class="tw wide"><div class="tw"><table><thead><tr><th class="t">Rodina</th><th>Uzavř.</th><th>Výher</th><th>Konverze</th><th>Marže tis. Kč</th><th>Podíl</th><th>Medián výhry</th><th>Org.</th></tr></thead><tbody><tr class="hi"><td class="t"><b>Farmaceutické a průmyslové inženýrství</b><span class="code">pharma-industrial-eng</span></td><td>6</td><td>6</td><td>100,0 %</td><td>2 859</td><td>44,1 %</td><td>387</td><td>1</td></tr><tr><td class="t"><b>IT vývoj, test, architektura</b><span class="code">it-dev-test-arch</span></td><td>27</td><td>3</td><td>11,1 %</td><td>1 160</td><td>17,9 %</td><td>200</td><td>18</td></tr><tr class="hi"><td class="t"><b>Platformy CRM / ITSM (Salesforce, ServiceNow)</b><span class="code">platform-crm-itsm</span></td><td>5</td><td>5</td><td>100,0 %</td><td>1 153</td><td>17,8 %</td><td>261</td><td>2</td></tr><tr><td class="t"><b>IT service management a provoz</b><span class="code">it-service-ops</span></td><td>9</td><td>1</td><td>11,1 %</td><td>790</td><td>12,2 %</td><td>790</td><td>7</td></tr><tr><td class="t"><b>Nečitelný název dealu</b><span class="code">opaque-title</span></td><td>4</td><td>2</td><td>50,0 %</td><td>328</td><td>5,1 %</td><td>164</td><td>2</td></tr><tr><td class="t"><b>Byznysové role mimo IT</b><span class="code">business-nonit</span></td><td>5</td><td>3</td><td>60,0 %</td><td>198</td><td>3,1 %</td><td>32</td><td>3</td></tr><tr class="hi"><td class="t"><b>Interim a transformační vedení</b><span class="code">interim-leadership</span></td><td>6</td><td>0</td><td>0,0 %</td><td>0</td><td>0,0 %</td><td>—</td><td>6</td></tr></tbody></table></div></div>
+  <p class="fnote">Zvýrazněny rodiny s konverzí 100 % a rodiny bez jediné výhry.</p>
+  <ul>
+    <li><b>Farmaceutické a průmyslové inženýrství</b> je největší rodina
+      (2 859 tis. Kč, 44,1 % marže
+      kategorie) a má <b>konverzi 100,0 %</b> —
+      6 dealů,
+      6 výher, žádná prohra. Nejde o IT:
+      role jsou OT expert, Pilot Scientist, Process Automation Consultant, procesní inženýr.</li>
+    <li><b>IT vývoj, test, architektura</b> je největší rodina <em>počtem</em>
+      (27 dealů, 43,5 % kategorie)
+      s konverzí <b>11,1 %</b> (3 z 27) —
+      shodnou, na desetinu procenta, s rodinou IT service ops
+      (1 z 9). Tady se spotřebuje většina úsilí.</li>
+    <li><b>Platformy CRM / ITSM (Salesforce, ServiceNow)</b> má také konverzi
+      100,0 % (5 z 5), ale poslední výhra
+      padla v 2025 H2
+      — v 2026 H1 nemá tato rodina ani jeden uzavřený deal.</li>
+    <li><b>Interim a transformační vedení</b>: 6 dealů,
+      <b>0 výher</b>. Jediná rodina, která za celé okno nevydělala nic, a v 2026 H1
+      měla 3 uzavřené dealy —
+      tedy se o ni pokoušíme dál.</li>
+  </ul>
+</section>
+
+<section class="sec">
+  <div class="kicker">Vývoj</div>
+  <h2>Co se stalo po pololetích</h2>
+  <svg class="chart" viewBox="0 0 756 270" role="img" aria-label="složení marže po pololetích"><rect x="0" y="218.6" width="96" height="9.4" fill="#c3cbd6"/><text class="cx-vl" x="48.0" y="211.6" text-anchor="middle">158</text><text class="cx-ax" x="48.0" y="248" text-anchor="middle">2024 H1</text><text class="cx-sub" x="48.0" y="264" text-anchor="middle">2/7 dealů</text><rect x="126" y="225.4" width="96" height="2.6" fill="#4fae74"/><text class="cx-vl" x="174.0" y="218.4" text-anchor="middle">44</text><text class="cx-ax" x="174.0" y="248" text-anchor="middle">2024 H2</text><text class="cx-sub" x="174.0" y="264" text-anchor="middle">1/10 dealů</text><rect x="252" y="225.2" width="96" height="2.8" fill="#FF525F"/><rect x="252" y="192.8" width="96" height="32.4" fill="#4fae74"/><rect x="252" y="145.9" width="96" height="46.9" fill="#e0a93c"/><text class="cx-vl" x="300.0" y="138.9" text-anchor="middle">1 382</text><text class="cx-ax" x="300.0" y="248" text-anchor="middle">2025 H1</text><text class="cx-sub" x="300.0" y="264" text-anchor="middle">4/13 dealů</text><rect x="378" y="182.0" width="96" height="46.0" fill="#2f6f9f"/><rect x="378" y="148.6" width="96" height="33.5" fill="#4fae74"/><rect x="378" y="146.6" width="96" height="1.9" fill="#8a6fae"/><text class="cx-vl" x="426.0" y="139.6" text-anchor="middle">1 370</text><text class="cx-ax" x="426.0" y="248" text-anchor="middle">2025 H2</text><text class="cx-sub" x="426.0" y="264" text-anchor="middle">5/10 dealů</text><rect x="504" y="104.1" width="96" height="123.9" fill="#2f6f9f"/><rect x="504" y="38.0" width="96" height="66.1" fill="#FF525F"/><rect x="504" y="27.8" width="96" height="10.2" fill="#c3cbd6"/><rect x="504" y="18.0" width="96" height="9.8" fill="#8a6fae"/><text class="cx-vl" x="552.0" y="11.0" text-anchor="middle">3 535</text><text class="cx-ax" x="552.0" y="248" text-anchor="middle">2026 H1</text><text class="cx-sub" x="552.0" y="264" text-anchor="middle">8/21 dealů</text><text class="cx-vl" x="678.0" y="221.0" text-anchor="middle">0</text><text class="cx-ax" x="678.0" y="248" text-anchor="middle">2026 H2 ČÁST.</text><text class="cx-sub" x="678.0" y="264" text-anchor="middle">0/1 dealů</text></svg><div class="legend"><span><i style="background:#2f6f9f"></i>Pharma / průmysl</span><span><i style="background:#FF525F"></i>IT vývoj a test</span><span><i style="background:#4fae74"></i>Platformy CRM/ITSM</span><span><i style="background:#e0a93c"></i>IT service ops</span><span><i style="background:#c3cbd6"></i>Nečitelný název</span><span><i style="background:#8a6fae"></i>Byznys mimo IT</span><span><i style="background:#9aa3b0"></i>Interim vedení</span></div>
+  <div class="tw"><div class="tw"><table><thead><tr><th class="t">Pololetí</th><th>Marže tis. Kč</th><th>Výher</th><th>Uzavř.</th><th>Konverze</th><th>Org.</th><th>z toho nových</th></tr></thead><tbody><tr><td class="t">2024 H1</td><td>158</td><td>2</td><td>7</td><td>28,6 %</td><td>6</td><td>6</td></tr><tr><td class="t">2024 H2</td><td>44</td><td>1</td><td>10</td><td>10,0 %</td><td>8</td><td>6</td></tr><tr><td class="t">2025 H1</td><td>1 382</td><td>4</td><td>13</td><td>30,8 %</td><td>8</td><td>3</td></tr><tr><td class="t">2025 H2</td><td>1 370</td><td>5</td><td>10</td><td>50,0 %</td><td>5</td><td>3</td></tr><tr class="hi"><td class="t">2026 H1</td><td>3 535</td><td>8</td><td>21</td><td>38,1 %</td><td>12</td><td>9</td></tr><tr><td class="t">2026 H2 <span class="code">částečné</span></td><td>0</td><td>0</td><td>1</td><td>0,0 %</td><td>1</td><td>1</td></tr></tbody></table></div></div>
+  <div class="call blue">
+    <p><strong>Rozpad růstu v 2026 H1.</strong> Marže vyskočila z
+    1 370 na 3 535 tis. Kč. Skládá se z:
+    Pharma / průmysl 2 085, IT vývoj a test 1 114, Nečitelný název 171, Byznys mimo IT 166 tis. Kč.
+    Dvě rodiny, které v 2025 H2 marži přinesly — Platformy CRM/ITSM
+    (564
+    tis. Kč) — v 2026 H1 nevydělaly nic. Růst tedy není pokračováním předchozího pololetí,
+    ale <em>výměnou</em> náplně.</p>
+  </div>
+  <p>Počet oslovených organizací v 2026 H1 byl
+  12, z toho
+  9 nových v této kategorii —
+  nejvíc za celé okno. Zároveň 21 uzavřených dealů proti
+  10 v 2025 H2.</p>
+</section>
+
+<section class="sec">
+  <div class="kicker">Klienti</div>
+  <h2>Koncentrace: tři účty nesou 74,5 % marže</h2>
+  <div class="tw wide"><div class="tw"><table><thead><tr><th class="t">Klient</th><th>Uzavř.</th><th>Výher</th><th>Konverze</th><th>Marže tis. Kč</th><th>Rodin</th></tr></thead><tbody><tr class="hi"><td class="t">Novo Nordisk Production Czech s.r.o.</td><td>6</td><td>6</td><td>100,0 %</td><td>2 859</td><td>1</td></tr><tr class="hi"><td class="t">Edwards Lifesciences Czech Republic s.r.o.</td><td>10</td><td>7</td><td>70,0 %</td><td>1 063</td><td>3</td></tr><tr><td class="t">ELDIS Pardubice, s.r.o.</td><td>1</td><td>1</td><td>100,0 %</td><td>914</td><td>1</td></tr><tr><td class="t">ČD - Telematika a.s.</td><td>2</td><td>1</td><td>50,0 %</td><td>790</td><td>2</td></tr><tr><td class="t">Česká spořitelna, a.s.</td><td>3</td><td>2</td><td>66,7 %</td><td>335</td><td>3</td></tr><tr><td class="t">VAFO Production s.r.o.</td><td>2</td><td>1</td><td>50,0 %</td><td>200</td><td>2</td></tr><tr class="hi"><td class="t">Raiffeisenbank a.s.</td><td>10</td><td>1</td><td>10,0 %</td><td>171</td><td>3</td></tr><tr><td class="t">Škoda Auto a.s.</td><td>1</td><td>1</td><td>100,0 %</td><td>158</td><td>1</td></tr><tr><td class="t">VIG RE zajišťovna, a.s.</td><td>3</td><td>0</td><td>0,0 %</td><td>0</td><td>2</td></tr><tr><td class="t">Československá obchodní banka, a. s.</td><td>3</td><td>0</td><td>0,0 %</td><td>0</td><td>2</td></tr><tr><td class="t">MAKRO Cash &amp; Carry ČR s.r.o.</td><td>2</td><td>0</td><td>0,0 %</td><td>0</td><td>1</td></tr><tr><td class="t">accompani consulting GmbH</td><td>2</td><td>0</td><td>0,0 %</td><td>0</td><td>2</td></tr><tr><td class="t">O2 Slovakia, s.r.o.</td><td>2</td><td>0</td><td>0,0 %</td><td>0</td><td>1</td></tr><tr><td class="t">ČD - Informační Systémy, a.s.</td><td>1</td><td>0</td><td>0,0 %</td><td>0</td><td>1</td></tr></tbody></table></div></div>
+  <p class="fnote">Prvních 14 z 28 organizací podle marže. Zvýrazněny účty
+  se šesti a více uzavřenými dealy.</p>
+  <ul>
+    <li><b>Novo Nordisk Production Czech s.r.o.</b> — 6 dealů,
+      6 výher,
+      konverze 100,0 %,
+      2 859 tis. Kč
+      (44,1 % kategorie). Celá rodina
+      Pharma / průmysl je tento jeden účet.</li>
+    <li><b>Raiffeisenbank a.s.</b> — 10
+      uzavřených dealů a
+      1
+      výhra za 171
+      tis. Kč. Stejný počet dealů jako u Edwards Lifesciences, který přinesl
+      1 063 tis. Kč
+      ze 7 výher.</li>
+    <li><b>20 z 28 organizací nemá v této kategorii jedinou výhru.</b></li>
+    <li>Jediný největší deal kategorie: <b>ELDIS Pardubice</b>,
+      914 tis. Kč
+      z jednoho dealu — role Senior Systems Engineer (MBSE).</li>
+  </ul>
+</section>
+
+<section class="sec">
+  <div class="kicker">Prohry</div>
+  <h2>42 proher, 64,7 % „Quality“ v jedné rodině</h2>
+  <div class="tw wide"><div class="tw"><table><thead><tr><th class="t">Rodina</th><th>Quality (kvalita kandidáta)</th><th>Zrušeno klientem</th><th>Zrušeno PJM</th><th>Cena</th><th>Klient přestal reagovat</th><th>Celkem</th></tr></thead><tbody><tr><td class="t">IT vývoj a test</td><td>11</td><td>7</td><td>3</td><td>2</td><td>1</td><td><b>24</b></td></tr><tr><td class="t">IT service ops</td><td>3</td><td>3</td><td>2</td><td>·</td><td>·</td><td><b>8</b></td></tr><tr><td class="t">Nečitelný název</td><td>·</td><td>1</td><td>·</td><td>1</td><td>·</td><td><b>2</b></td></tr><tr><td class="t">Byznys mimo IT</td><td>2</td><td>·</td><td>·</td><td>·</td><td>·</td><td><b>2</b></td></tr><tr><td class="t">Interim vedení</td><td>1</td><td>2</td><td>2</td><td>·</td><td>1</td><td><b>6</b></td></tr><tr class="hi"><td class="t"><b>Celkem</b></td><td><b>17</b></td><td><b>13</b></td><td><b>7</b></td><td><b>3</b></td><td><b>2</b></td><td><b>42</b></td></tr></tbody></table></div></div>
+  <p>Nejčastější důvod je <b>Quality (kvalita kandidáta)</b>
+  (17×). Z 17 proher s důvodem <span class="mono">Quality</span> jich
+  11 leží v rodině IT vývoj a test — to je
+  45,8 % proher té rodiny.
+  <span class="mono">Quality</span> v OUT kontextu znamená, že kandidát na stole byl
+  odmítnut, ne že chyběla poptávka.</p>
+</section>
+
+<section class="sec">
+  <div class="kicker">Ekonomika obchodu</div>
+  <h2>Sazby, typ umístění, délka cyklu</h2>
+  <div class="tw"><div class="tw"><table><thead><tr><th class="t">Rodina</th><th>Výher</th><th>Medián prodejní MD</th><th>Medián nákupní MD</th><th>Medián KPI/MD %</th></tr></thead><tbody><tr><td class="t">Farmaceutické a průmyslové inženýrství</td><td>6</td><td>11 000 Kč</td><td>8 000 Kč</td><td>27,0 %</td></tr><tr><td class="t">IT vývoj, test, architektura</td><td>3</td><td>10 500 Kč</td><td>8 000 Kč</td><td>23,8 %</td></tr><tr><td class="t">Platformy CRM / ITSM (Salesforce, ServiceNow)</td><td>5</td><td>13 000 Kč</td><td>12 000 Kč</td><td>7,7 %</td></tr><tr><td class="t">IT service management a provoz</td><td>1</td><td>15 000 Kč</td><td>10 000 Kč</td><td>33,3 %</td></tr><tr><td class="t">Nečitelný název dealu</td><td>2</td><td>11 625 Kč</td><td>9 500 Kč</td><td>19,6 %</td></tr><tr><td class="t">Byznysové role mimo IT</td><td>3</td><td>13 625 Kč</td><td>12 788 Kč</td><td>6,1 %</td></tr></tbody></table></div></div>
+  <p class="fnote">Mediány přes vyhrané dealy s vyplněnou sazbou
+  (19 z 20 výher). U prohraných dealů je sazba
+  vyplněná jen 5× ze 42 — srovnání vyhraných
+  a prohraných sazeb proto tento dataset neunese.</p>
+  <ul>
+    <li>Medián prodejní sazby na výhrách je <b>12 600 Kč</b>/MD, nákupní
+      <b>10 000 Kč</b>/MD, medián <span class="mono">KPI/MD&nbsp;%</span>
+      <b>18,8 %</b>.</li>
+    <li><b>Nejvyšší sazba není nejvyšší marže.</b> Platformy CRM/ITSM prodává
+      za 13 000 Kč/MD při KPI/MD 7,7 %;
+      Pharma / průmysl prodává za 11 000 Kč/MD, ale
+      KPI/MD 27,0 %. Rozdíl je v nákupní sazbě
+      (12 000 Kč proti 8 000 Kč).</li>
+    <li>Délka cyklu od vzniku dealu k uzavření: medián <b>25,5 dní</b>
+      u výher, 29,5 dní u proher.</li>
+  </ul>
+  <div class="tw"><div class="tw"><table><thead><tr><th class="t">Typ umístění</th><th>Uzavř.</th><th>Výher</th><th>Konverze</th><th>Marže tis. Kč</th><th>Medián výhry</th></tr></thead><tbody><tr><td class="t">New Placement</td><td>44</td><td>13</td><td>29,5 %</td><td>5 053</td><td>261</td></tr><tr><td class="t">Resale</td><td>5</td><td>5</td><td>100,0 %</td><td>1 134</td><td>171</td></tr><tr><td class="t">Replacement</td><td>1</td><td>1</td><td>100,0 %</td><td>302</td><td>302</td></tr><tr><td class="t">(nevyplneno)</td><td>12</td><td>1</td><td>8,3 %</td><td>0</td><td>0</td></tr></tbody></table></div></div>
+  <p><b>5 z 20 výher jsou přeprodeje</b>
+  (<span class="mono">Resale</span>) za 1 134 tis. Kč,
+  tedy 17,5 % marže
+  kategorie. 50 z 62 dealů má typ umístění vyplněný.
+  U vyhraných dealů je FTE téměř bez výjimky 1,0 — jde o plná obsazení, ne částečné kapacity.</p>
+</section>
+
+<section class="sec">
+  <div class="kicker">Vlastnictví</div>
+  <h2>Marži kategorie drží jeden vlastník</h2>
+  <div class="tw"><div class="tw"><table><thead><tr><th class="t">Vlastník dealu</th><th>Uzavř.</th><th>Výher</th><th>Konverze</th><th>Marže tis. Kč</th><th>Podíl marže</th></tr></thead><tbody><tr><td class="t">Pavel Veselý</td><td>19</td><td>13</td><td>68,4 %</td><td>4 668</td><td>71,9 %</td></tr><tr><td class="t">Jan Klimíček</td><td>5</td><td>2</td><td>40,0 %</td><td>1 114</td><td>17,2 %</td></tr><tr><td class="t">Jiří Tonar</td><td>11</td><td>2</td><td>18,2 %</td><td>335</td><td>5,2 %</td></tr><tr><td class="t">Petr Vesely</td><td>6</td><td>2</td><td>33,3 %</td><td>328</td><td>5,1 %</td></tr><tr><td class="t">Petr Holub</td><td>8</td><td>1</td><td>12,5 %</td><td>44</td><td>0,7 %</td></tr><tr><td class="t">Jiří Zázvorka</td><td>8</td><td>0</td><td>0,0 %</td><td>0</td><td>0,0 %</td></tr><tr><td class="t">Petr Janiš</td><td>3</td><td>0</td><td>0,0 %</td><td>0</td><td>0,0 %</td></tr><tr><td class="t">Lubomir Slocik</td><td>2</td><td>0</td><td>0,0 %</td><td>0</td><td>0,0 %</td></tr></tbody></table></div></div>
+  <p><b>Pavel Veselý</b> má 19 z 62
+  uzavřených dealů a 71,9 % marže kategorie.
+  3 vlastníci nemají
+  v této kategorii jedinou výhru (13
+  dealů dohromady).</p>
+</section>
+
+<section class="sec">
+  <div class="kicker">Pipeline</div>
+  <h2>Otevřeno k datu extrakce: 2,56 mil. Kč</h2>
+  <div class="tw wide"><div class="tw"><table><thead><tr><th class="t">Klient</th><th class="t">Deal</th><th>Marže tis. Kč</th><th>Věk (dní)</th></tr></thead><tbody><tr><td class="t">EXCALIBUR INTERNATIONAL a.s.</td><td class="t sm">Senior Software Engineer (zaměření Model Based Systems Engineering): Nová firma CSG, EXCALIBUR INTERNATIONAL a.s.</td><td>1 100</td><td>150</td></tr><tr><td class="t">RETIA, a.s.</td><td class="t sm">C/C++ Programátor - grafika a vizualizace: RETIA, a.s.</td><td>500</td><td>104</td></tr><tr><td class="t">Novo Nordisk Production Czech s.r.o.</td><td class="t sm">OT Network &amp; Systems Engineer</td><td>500</td><td>24</td></tr><tr><td class="t">EXCALIBUR INTERNATIONAL a.s.</td><td class="t sm">PERM: SSE do interního kontrolního týmu: EXCALIBUR INTERNATIONAL a.s.</td><td>260</td><td>166</td></tr><tr><td class="t">Novo Nordisk Production Czech s.r.o.</td><td class="t sm">IT infrastructure/security manager</td><td>200</td><td>58</td></tr><tr><td class="t">Elevion Group B.V.</td><td class="t sm">Solution architect pro MS Dynamics ERP</td><td>—</td><td>40</td></tr><tr><td class="t">RETIA, a.s.</td><td class="t sm">Senior architect pro radarový systém: RETIA, a.s.</td><td>—</td><td>4</td></tr></tbody></table></div></div>
+  <p>7 otevřených dealů, z toho
+  2 bez vyplněné marže. Náplň je
+  převážně obranné a průmyslové inženýrství (MBSE, C/C++ pro radarové systémy, OT
+  network engineering) — tedy pokračování rodiny
+  Pharma / průmysl a strojírenské části
+  IT vývoj a test, ne platforem CRM/ITSM.</p>
+  <p class="fnote">Otevřené dealy nejsou součástí mřížky ani žádného čísla o marži výše —
+  mřížka počítá pouze uzavřené dealy.</p>
+</section>
+
+<section class="sec">
+  <div class="kicker">Kontext</div>
+  <h2>Tito klienti nakupují především jinde</h2>
+  <div class="tw"><div class="tw"><table><thead><tr><th class="t">Produkt</th><th>Uzavř.</th><th>Výher</th><th>Marže tis. Kč</th></tr></thead><tbody><tr><td class="t"><span class="mono">OUT_PM</span></td><td>61</td><td>21</td><td>11 421</td></tr><tr><td class="t"><span class="mono">OUT_BA</span></td><td>38</td><td>11</td><td>5 110</td></tr><tr><td class="t"><span class="mono">OUT_UX</span></td><td>11</td><td>6</td><td>4 626</td></tr><tr><td class="t"><span class="mono">OUT_DATA</span></td><td>20</td><td>7</td><td>3 805</td></tr><tr><td class="t"><span class="mono">OUT_AGILE</span></td><td>17</td><td>6</td><td>1 577</td></tr><tr><td class="t"><span class="mono">CONS_PM</span></td><td>4</td><td>2</td><td>1 174</td></tr><tr><td class="t"><span class="mono">CONS_AI</span></td><td>10</td><td>4</td><td>894</td></tr><tr><td class="t"><span class="mono">CONS_AGILE</span></td><td>4</td><td>4</td><td>732</td></tr><tr><td class="t"><span class="mono">OUT_AI</span></td><td>3</td><td>1</td><td>41</td></tr><tr><td class="t"><span class="mono">CONS_OTHER</span></td><td>2</td><td>1</td><td>20</td></tr></tbody></table></div></div>
+  <p>28 organizací, které v okně koupily nebo poptaly OUT × OTHER, utratilo
+  v <em>ostatních</em> produktech 29,40 mil. Kč marže —
+  4,5× víc než v samotné
+  kategorii OTHER. Celá marže produktů <span class="mono">OUT_UX</span> a
+  <span class="mono">OUT_DATA</span> za okno pochází z účtů, které jsou v této množině.
+  OUT × OTHER tedy není samostatný trh: jsou to doplňkové role v účtech, které už držíme
+  jinými produkty.</p>
+</section>
+
+<section class="sec">
+  <div class="kicker">Omezení</div>
+  <h2>Co tato data neunesou</h2>
+  <ul>
+    <li><b>Rodiny jsou návrh, ne evidence.</b> Vznikly klasifikátorem nad názvy dealů
+      (<span class="mono">analysis/other_cell_classify.py</span>), ne polem v Pipedrive.
+      Rodinu <span class="mono">opaque-title</span> (4 dealů,
+      328 tis. Kč) nebylo z názvu možné určit vůbec —
+      názvy obsahují jméno člověka a nic o službě.</li>
+    <li><b>Sazby na prohraných dealech nejsou použitelné.</b> Vyplněné jsou
+      5× ze 42, takže „prohráli jsme na ceně“ se
+      z tohoto datasetu doložit nedá — a důvod <span class="mono">Price</span> nesou jen
+      3 prohry.</li>
+    <li><b>Zápis proher se rozjížděl během roku 2024.</b> Konverze v 2024 H1
+      (28,6 %) je proto nadhodnocená a s pozdějšími pololetími není
+      plně srovnatelná.</li>
+    <li><b>1 vyhraný deal má marži zapsanou jako nulu</b> a
+      1 deal má datum uzavření před datem vzniku — obojí je zápis
+      v CRM, ne výpočet.</li>
+    <li>2026 H2 drží necelých sedm týdnů z půlroku
+      (1 uzavřený deal) a nesmí se čítat proti úplným pololetím.</li>
+  </ul>
+</section>
+
+<section class="sec">
+  <div class="kicker">Závěr</div>
+  <h2>Co data říkají</h2>
+  <div class="impact">
+    <p class="big">Jeden kód, 7 rodin, 100,0 % versus 11,1 %</p>
+    <p><strong>Pharma / průmysl</strong> dělá
+    44,1 % marže kategorie z
+    9,7 % dealů, se stoprocentní konverzí a jediným
+    klientem. <strong>IT vývoj a test</strong> dělá
+    43,5 % dealů a
+    17,9 % marže.
+    <span class="cap">Sečteno do jednoho řádku mřížky se obojí ztratí.</span></p>
+  </div>
+  <ul>
+    <li><b>Růst v 2026 H1 není růstem kategorie.</b> Marže stoupla z 1 370
+      na 3 535 tis. Kč, ale složení se vyměnilo: platformy CRM/ITSM zmizely,
+      pharma a průmyslové inženýrství nastoupily. Trend čtený na úrovni kódu
+      <span class="mono">OUT_OTHER</span> popisuje dvě různé věci za sebou.</li>
+    <li><b>Koncentrace je vyšší, než ukazuje mřížka.</b> Tři účty nesou
+      74,5 % marže, největší z nich
+      44,1 %, a
+      20 z 28 organizací nepřineslo nic.</li>
+    <li><b>Úsilí a výnos leží v jiných rodinách.</b> IT vývoj a test a
+      Interim vedení spotřebovaly
+      33 z 62 dealů a přinesly
+      17,9 % marže.</li>
+    <li><b>Marže nejde za sazbou.</b> Rodina s nejvyšší prodejní sazbou
+      (Platformy CRM/ITSM, 13 000 Kč/MD) má KPI/MD
+      7,7 %; rodina s nižší sazbou
+      (Pharma / průmysl, 11 000 Kč/MD) má
+      27,0 %.</li>
+    <li><b>Kategorie není trh.</b> Její klienti utratili v ostatních produktech
+      29,40 mil. Kč — OUT × OTHER je vrstva doplňkových rolí
+      na existujících účtech.</li>
+  </ul>
+</section>
+
+<div class="foot">
+  <p><strong>Zdroje.</strong>
+  <span class="mono">analysis/out_other.sql</span> — rodiny, klienti, sazby, pipeline ·
+  <span class="mono">config/other_cell_family_draft.csv</span> — klasifikace
+  62 dealů do rodin
+  (<span class="mono">analysis/other_cell_classify.py</span>) ·
+  <span class="mono">analysis/portfolio_halves.sql</span> — pololetní okno ·
+  brána pokrytí: <span class="mono">oo_coverage</span>.</p>
+  <p>Každé číslo je čteno z warehouse při renderu
+  (<span class="mono">analysis/out_other_cz_html.py</span>), žádné není přepsáno ručně.
+  Interní materiál Projectman — obsahuje marže, sazby a jména klientů.</p>
+</div>
+
+</main>
+</body>
+</html>

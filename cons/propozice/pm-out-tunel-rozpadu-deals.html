@@ -1,0 +1,1387 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PM OUT — tunel rozpadu deals</title>
+<style>
+@font-face{font-family:Poppins;font-weight:400;font-display:swap;
+  src:url("https://www.projectman.cz/themes/custom/projectman/fonts/Poppins/Poppins-Regular.woff2") format("woff2")}
+@font-face{font-family:Poppins;font-weight:600;font-display:swap;
+  src:url("https://www.projectman.cz/themes/custom/projectman/fonts/Poppins/Poppins-SemiBold.woff2") format("woff2")}
+:root{
+  --pjm-dark:#20272F; --pjm-coral:#FF525F; --pjm-blue:#A9C5DF; --pjm-blue-dark:#5C7894;
+  --pjm-grey:#878787; --pjm-bg:#F7F7F7; --pjm-bg-alt:#F0F2F5; --pjm-line:#DADADA;
+  --surface:#FFFFFF; --ink:#20272F; --ink-2:#3F4A57; --ink-muted:#878787; --grid:#E8E8E8;
+  /* validated dataviz palette — light (validate_palette.js: ALL PASS, --pairs all) */
+  --c-win:#2B72B8; --c-loss:#DC2F3C; --c-neutral:#9AA3B0; --c-open:#C4CAD1;
+  --hatch:rgba(255,255,255,.55);
+}
+@media (prefers-color-scheme:dark){
+  :root{--surface:#20272F; --ink:#FFFFFF; --ink-2:#C9D2DB; --ink-muted:#8C97A3;
+    --pjm-bg:#171D23; --pjm-bg-alt:#1C242C; --pjm-line:#333D48; --grid:#333D48;
+    /* validated dataviz palette — dark (own steps, not a flip; ALL PASS) */
+    --c-win:#4E97DC; --c-loss:#F0555F; --c-neutral:#7C8794; --c-open:#4A5561;
+    --hatch:rgba(0,0,0,.42);}
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--pjm-bg);color:var(--ink);
+  font:400 15px/1.62 Poppins,Helvetica,Calibri,Arial,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px 80px}
+h1{font-weight:400;font-size:40px;line-height:1.16;margin:0;color:var(--pjm-coral);max-width:24ch}
+h1 span{display:block;border-bottom:1.5px solid var(--pjm-coral);padding-bottom:7px;margin-bottom:7px}
+h2{font-weight:600;font-size:20px;margin:0 0 4px;letter-spacing:-.01em}
+h2 em{font-style:normal;color:var(--pjm-coral)}
+h3{font-weight:600;font-size:14.5px;margin:26px 0 8px}
+p{max-width:88ch}
+.hero{position:relative;background:var(--pjm-dark);color:#fff;overflow:hidden;margin-bottom:34px}
+.hero-in{max-width:1180px;margin:0 auto;padding:50px 24px 44px;position:relative;z-index:2}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:40px}
+.logo-grid{display:grid;grid-template-columns:repeat(6,3px);gap:2.5px}
+.logo-grid i{width:3px;height:3px;background:var(--pjm-grey);border-radius:50%}
+.logo-wm{font-weight:600;font-size:19px;letter-spacing:-.01em}
+.logo-claim{font-size:9px;color:var(--pjm-grey);letter-spacing:.06em;margin-top:-2px}
+.hero-sub{color:#C9D2DB;font-size:14.5px;max-width:74ch;margin-top:20px}
+.orn{position:absolute;right:-70px;top:-40px;z-index:1;opacity:.85}
+.pill{display:inline-block;font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;
+  padding:4px 9px;border:1px solid var(--pjm-coral);color:var(--pjm-coral);border-radius:11px;margin-bottom:18px}
+section{background:var(--surface);border:1px solid var(--pjm-line);padding:26px 28px 30px;margin-bottom:20px}
+.lede{color:var(--ink-2);font-size:14px;margin:0 0 20px;max-width:88ch}
+.snum{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;
+  background:var(--pjm-coral);color:#fff;font-size:11px;font-weight:600;margin-right:9px;vertical-align:2px}
+
+/* ---- controls ---- */
+.ctl{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;padding:16px 18px;background:var(--pjm-bg-alt);
+  margin:0 0 24px;border-left:3px solid var(--pjm-coral)}
+.ctl .f{display:flex;flex-direction:column;gap:5px}
+.ctl label{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted)}
+select,input[type=search]{font:400 13.5px Poppins,Arial,sans-serif;padding:7px 9px;background:var(--surface);
+  color:var(--ink);border:1px solid var(--pjm-line);border-radius:2px;min-width:132px}
+.seg{display:inline-flex;border:1px solid var(--pjm-line);border-radius:2px;overflow:hidden;background:var(--surface)}
+.seg button{font:600 11.5px Poppins,Arial,sans-serif;padding:7px 13px;background:transparent;color:var(--ink-2);
+  border:0;cursor:pointer}
+.seg button+button{border-left:1px solid var(--pjm-line)}
+.seg button[aria-pressed=true]{background:var(--pjm-dark);color:#fff}
+.ctl .hint{font-size:11.5px;color:var(--ink-muted);max-width:30ch;line-height:1.45}
+.halves{display:flex;flex-wrap:wrap;gap:2px}
+.hv{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;padding:7px 11px;
+  background:var(--surface);border:1px solid var(--pjm-line);cursor:pointer;user-select:none;
+  font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.hv:hover{border-color:var(--pjm-coral)}
+.hv input{margin:0;accent-color:var(--pjm-coral);width:14px;height:14px;cursor:pointer}
+.hv[data-on="1"]{background:var(--pjm-dark);color:#fff;border-color:var(--pjm-dark)}
+.ctl .quick{display:flex;gap:2px}
+.ctl .quick button{font:600 10.5px Poppins,Arial,sans-serif;padding:6px 10px;background:var(--surface);
+  color:var(--ink-2);border:1px solid var(--pjm-line);cursor:pointer;text-transform:uppercase;
+  letter-spacing:.05em}
+.ctl .quick button:hover{border-color:var(--pjm-coral);color:var(--pjm-coral)}
+table.mx{margin:0 0 26px}
+table.mx td.h{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+table.mx td .dl{font-size:10.5px;font-weight:600;margin-left:7px;font-variant-numeric:tabular-nums}
+table.mx td .dl.up{color:var(--c-win)} table.mx td .dl.dn{color:var(--c-loss)}
+table.mx td .dl.fl{color:var(--ink-muted)}
+table.mx tr.hi td{background:var(--pjm-bg-alt)}
+
+/* ---- KPI ---- */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:2px;margin:0 0 26px}
+.kpi{background:var(--pjm-bg-alt);padding:15px 17px 14px}
+.kpi .k{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted)}
+.kpi .row{display:flex;gap:16px;align-items:baseline;margin-top:6px}
+.kpi .v{font-size:25px;font-weight:600;line-height:1.05;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kpi .vb{color:var(--ink-2)}
+.kpi .d{font-size:11.5px;font-weight:600;margin-left:auto;font-variant-numeric:tabular-nums}
+.kpi .d.up{color:var(--c-win)} .kpi .d.dn{color:var(--c-loss)} .kpi .d.fl{color:var(--ink-muted)}
+.kpi .n{font-size:11px;color:var(--ink-muted);line-height:1.42;margin-top:5px}
+.kpi .tagA b,.kpi .tagB b{color:var(--pjm-coral);font-weight:600;cursor:help}
+.kpi .tagA,.kpi .tagB{font-size:9px;font-weight:600;letter-spacing:.06em;color:var(--ink-muted);
+  text-transform:uppercase;display:block}
+
+/* ---- funnel ladder ---- */
+.scale{display:flex;justify-content:space-between;font-size:10px;color:var(--ink-muted);
+  font-variant-numeric:tabular-nums;border-bottom:1px solid var(--grid);padding-bottom:3px;margin-bottom:2px}
+.lvl{padding:13px 0 11px;border-bottom:1px solid var(--grid)}
+.lvl.sumlvl{border-top:2px solid var(--ink-2);margin-top:6px;padding-top:15px}
+.lvl.sumlvl .lvl-n{color:var(--ink)}
+.lvl:last-child{border-bottom:0}
+.lvl-h{display:flex;align-items:baseline;gap:9px;margin-bottom:9px}
+.lvl-n{font-size:9.5px;font-weight:600;letter-spacing:.09em;color:var(--pjm-coral);text-transform:uppercase;
+  min-width:26px}
+.lvl-t{font-size:13.5px;font-weight:600}
+.lvl-d{font-size:11.5px;color:var(--ink-muted)}
+.brow{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:center;margin-bottom:5px}
+.brow .per{font-size:10.5px;font-weight:600;color:var(--ink-muted);font-variant-numeric:tabular-nums;
+  text-align:right;letter-spacing:.02em}
+.brow .per .sum{display:block;font-size:11.5px;font-weight:600;color:var(--ink);letter-spacing:-.01em;
+  margin-top:1px}
+.bar{display:flex;gap:2px;height:30px;position:relative}
+.bar .pad{flex:0 0 auto}
+.sg{position:relative;min-width:2px;cursor:pointer;border:0;padding:0;display:flex;align-items:center;
+  justify-content:center;overflow:hidden;transition:filter .12s,opacity .12s}
+.sg:first-child{border-radius:3px 0 0 3px} .sg:last-child{border-radius:0 4px 4px 0}
+.sg:only-child{border-radius:3px 4px 4px 3px}
+.sg:hover{filter:brightness(1.12)}
+.sg.dim{opacity:.3}
+.sg.on{box-shadow:inset 0 0 0 2px var(--ink),0 0 0 2px var(--surface)}
+.sg b{font:600 11.5px/1 Poppins,Arial,sans-serif;font-variant-numeric:tabular-nums;pointer-events:none;
+  white-space:nowrap;position:relative;z-index:1}
+.sg-win{background:var(--c-win)} .sg-loss{background:var(--c-loss)}
+.sg-neutral{background:var(--c-neutral)} .sg-open{background:var(--c-open)}
+.hatch::after{content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(135deg,transparent 0 4px,var(--hatch) 4px 7px)}
+.sg-win b,.sg-loss b,.sg-neutral b{color:#fff} .sg-open b{color:var(--ink-2)}
+.crow{display:grid;grid-template-columns:44px 1fr;gap:10px;margin:0 0 9px}
+.cert{display:flex;gap:1px;height:4px;max-width:100%}
+.cert i{display:block}
+.cert .c1{background:var(--ink-2)} .cert .c2{background:var(--pjm-blue)} .cert .c3{background:var(--grid)}
+/* ---- carry-forward (šedý pruh, který jde do dalšího stupně) ---- */
+.sg.flow{box-shadow:inset 0 -4px 0 var(--pjm-coral),inset 0 -5px 0 var(--surface)}
+.sg.flow.on{box-shadow:inset 0 -4px 0 var(--pjm-coral),inset 0 -5px 0 var(--surface),
+  inset 0 0 0 2px var(--ink)}
+.frow{display:grid;grid-template-columns:44px 1fr;gap:10px;margin:2px 0 10px}
+.rail{display:flex;height:13px}
+.rail-off{flex:0 0 auto}
+.rail-seg{flex:0 0 auto;position:relative;display:flex;align-items:center;justify-content:center;
+  border-left:1px dashed var(--pjm-coral);border-right:1px dashed var(--pjm-coral);
+  background:linear-gradient(var(--pjm-coral),var(--pjm-coral)) no-repeat center bottom/100% 1px}
+.rail-seg::after{content:"▼";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);
+  font-size:9px;line-height:1;color:var(--pjm-coral)}
+.rail-seg b{font:600 9.5px/1 Poppins,Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--pjm-coral);background:var(--surface);padding:0 6px;white-space:nowrap;overflow:hidden}
+.lvl-in{font-size:9px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--pjm-coral);
+  border:1px solid var(--pjm-coral);border-radius:8px;padding:2px 7px;white-space:nowrap}
+.lvl-in b{font-weight:600}
+
+/* ---- L2, L3, L5: dvě skupiny vedle sebe jako dva boxy ---- */
+.brow.split-row{align-items:stretch}
+.split{display:flex;gap:10px;min-width:0}
+.gcol{min-width:0;box-sizing:border-box;display:flex;flex-direction:column}
+.gcap{border:1px solid var(--pjm-line);border-bottom:0;border-radius:3px 3px 0 0;padding:7px 9px 6px;
+  background:var(--pjm-bg-alt);min-height:52px}
+.gcap .gt{font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink)}
+.gcap .gn{display:block;font-size:10.5px;color:var(--ink-muted);letter-spacing:0;text-transform:none;
+  margin-top:1px}
+.gcell{border-left:1px solid var(--pjm-line);border-right:1px solid var(--pjm-line);padding:7px 0 0}
+.gfoot{border:1px solid var(--pjm-line);border-top:0;border-radius:0 0 3px 3px;padding:5px 9px 6px;
+  font-size:10px;color:var(--ink-muted);line-height:1.4;flex:1 1 auto}
+.gcap.fl,.gcell.fl,.gfoot.fl{border-color:var(--pjm-coral);background:rgba(255,82,95,.05)}
+.gcap.fl{border-bottom:0} .gcell.fl{border-left:1.5px solid var(--pjm-coral);border-right:1.5px solid var(--pjm-coral)}
+.gfoot.fl{color:var(--pjm-coral);font-weight:600;letter-spacing:.05em;text-transform:uppercase;font-size:9.5px}
+.gfoot.fl .ar{font-size:11px;margin-right:4px}
+.gcell .bar{height:26px}
+.gcell .cert{margin:4px 0 7px}
+.cper{display:block;font-size:9px;font-weight:600;letter-spacing:.08em;color:var(--ink-muted);
+  font-variant-numeric:tabular-nums;margin:0 0 3px;padding-left:1px}
+.gcap+.gcell{padding-top:8px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 20px;margin:20px 0 0;padding-top:16px;border-top:1px solid var(--grid)}
+.lg{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-2)}
+.lg i{width:20px;height:11px;position:relative;border-radius:2px;flex:0 0 auto;overflow:hidden;display:block}
+.tip{position:fixed;z-index:60;pointer-events:none;background:var(--pjm-dark);color:#fff;font-size:12px;
+  line-height:1.5;padding:9px 12px;max-width:290px;box-shadow:0 6px 22px rgba(0,0,0,.28);opacity:0;
+  transition:opacity .1s;border-left:2px solid var(--pjm-coral)}
+.tip.show{opacity:1}
+.tip b{font-weight:600}
+.tip .tk{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--pjm-blue);display:block;
+  margin-bottom:3px}
+
+/* ---- postupné dělení: icicle + odstíny důvodů prohry ---- */
+/* Ramp jde od nejtmavšího po nejsvětlejší v pořadí číselníku Pipedrive — legenda se pak čte jako škála.
+   Každý odstín má vlastní barvu popisku, aby kontrast textu držel v obou motivech. */
+:root{
+  --lr1:#7A0F19; --lr1f:#FFFFFF; --lr2:#AE1F2B; --lr2f:#FFFFFF; --lr3:#D03B46; --lr3f:#FFFFFF;
+  --lr4:#EE8A92; --lr4f:#20272F; --lr5:#F8C6CA; --lr5f:#20272F;
+}
+@media (prefers-color-scheme:dark){
+  :root{--lr1:#A8323C; --lr1f:#FFFFFF; --lr2:#CB4F59; --lr2f:#FFFFFF; --lr3:#E5787F; --lr3f:#20272F;
+        --lr4:#F0A5AB; --lr4f:#20272F; --lr5:#FBD3D6; --lr5f:#20272F;}
+}
+.sg-lr1{background:var(--lr1)} .sg-lr1 b{color:var(--lr1f)}
+.sg-lr2{background:var(--lr2)} .sg-lr2 b{color:var(--lr2f)}
+.sg-lr3{background:var(--lr3)} .sg-lr3 b{color:var(--lr3f)}
+.sg-lr4{background:var(--lr4)} .sg-lr4 b{color:var(--lr4f)}
+.sg-lr5{background:var(--lr5)} .sg-lr5 b{color:var(--lr5f)}
+.tcard{border:1px solid var(--pjm-line);border-radius:3px;margin:0 0 14px;overflow:hidden}
+.tch{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:9px 13px 8px;
+  background:var(--pjm-bg-alt);border-bottom:1px solid var(--pjm-line)}
+.tch b{font-size:13.5px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink)}
+.tch span{font-size:11px;color:var(--ink-muted)}
+.trow{display:grid;grid-template-columns:118px 1fr;gap:11px;align-items:center;padding:8px 13px}
+.trow+.trow{border-top:1px dashed var(--grid)}
+/* bez gapu: bloky nižších kroků musí sedět přesně pod rodičem, dělítko nese border-box border */
+.trow .bar{height:32px;gap:0}
+.trow .sg+.sg,.trow .pad+.sg{border-left:1px solid var(--surface)}
+.tstep i{display:block;font-style:normal;font-size:9px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--pjm-coral)}
+.tstep b{display:block;font-size:10.5px;font-weight:600;color:var(--ink);line-height:1.26;margin-top:1px}
+.tstep u{display:block;text-decoration:none;font-size:9.5px;color:var(--ink-muted);line-height:1.3}
+.trow .sg b{display:flex;gap:7px;align-items:baseline;padding:5px 8px;overflow:hidden;max-width:100%;border-radius:2px}
+.trow .sg b em{font-style:normal;font-weight:600;letter-spacing:.02em;overflow:hidden;
+  text-overflow:ellipsis}
+.trow .sg b u{text-decoration:none;font-size:10px;opacity:.85;flex:0 0 auto}
+.trow .sg-win.hatch b{background:var(--c-win)}
+.trow .sg-loss.hatch b{background:var(--c-loss)}
+.trow .sg-neutral.hatch b{background:var(--c-neutral)}
+table.tree{min-width:520px}
+table.tree td.lb{color:var(--ink);white-space:nowrap}
+table.tree .ind{display:inline-flex;align-items:center;gap:8px}
+table.tree .sw{width:10px;height:10px;border-radius:2px;flex:0 0 auto;display:block;position:relative;
+  overflow:hidden}
+table.tree tr.r0 td{font-weight:600}
+table.tree tr.r1 td.lb{padding-left:24px} table.tree tr.r2 td.lb{padding-left:46px}
+table.tree tr.r3 td.lb{padding-left:68px;font-size:12px}
+table.tree tr[data-k]{cursor:pointer}
+table.tree tr[data-k]:hover td{background:rgba(255,82,95,.08)}
+table.tree tr.on td{background:rgba(255,82,95,.11);box-shadow:inset 3px 0 0 var(--pjm-coral)}
+table.tree td.num .p{display:block;font-size:11px;color:var(--ink-muted);font-weight:400}
+table.tree td.num .z{opacity:.35}
+
+/* ---- tables ---- */
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:560px}
+th{background:var(--pjm-blue);color:#20272F;font-weight:600;text-align:left;padding:8px 10px;font-size:11px;
+  letter-spacing:.02em;vertical-align:bottom;white-space:nowrap}
+th.s{cursor:pointer;user-select:none} th.s:hover{background:#BAD1E5}
+th.s::after{content:"";opacity:.4;margin-left:5px} th.s[data-dir="1"]::after{content:"▲";opacity:.9}
+th.s[data-dir="-1"]::after{content:"▼";opacity:.9}
+td{padding:7px 10px;border-bottom:1px solid var(--pjm-line);vertical-align:top;color:var(--ink-2)}
+tbody tr:nth-child(even) td{background:var(--pjm-bg-alt)}
+td b{color:var(--ink)}
+td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.ev{font-size:11.5px;color:var(--ink-muted);min-width:200px}
+caption{caption-side:bottom;text-align:left;font-size:12px;color:var(--ink-muted);padding-top:9px}
+.capline{font-size:12px;color:var(--ink-muted);margin:9px 0 0;max-width:none}
+tr.tot td{border-top:2px solid var(--ink-2);font-weight:600}
+.b{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:600;letter-spacing:.04em;
+  padding:2px 7px;border-radius:9px;white-space:nowrap;text-transform:uppercase}
+.b i{width:8px;height:8px;border-radius:2px;display:block;position:relative;overflow:hidden}
+.b-cat{background:var(--pjm-bg-alt);color:var(--ink-2);border:1px solid var(--pjm-line)}
+.b-1{background:var(--ink-2);color:#fff} .b-2{background:var(--pjm-blue);color:#20272F}
+.b-3{background:transparent;border:1px solid var(--ink-muted);color:var(--ink-muted)}
+.tbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:0 0 14px}
+.tbar .fl{font-size:12.5px;color:var(--ink-2)}
+.tbar .fl b{color:var(--ink)}
+.tbar button.clr{font:600 11px Poppins,Arial,sans-serif;background:var(--pjm-coral);color:#fff;border:0;
+  padding:5px 10px;border-radius:9px;cursor:pointer;letter-spacing:.04em;text-transform:uppercase}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2px}
+.card{background:var(--pjm-bg-alt);padding:18px 19px 19px;border-top:3px solid var(--pjm-coral)}
+.card .cno{font-size:9.5px;font-weight:600;letter-spacing:.09em;color:var(--pjm-coral);text-transform:uppercase}
+.card h4{font-weight:600;font-size:14.5px;margin:5px 0 8px;color:var(--ink);line-height:1.34}
+.card p{font-size:12.5px;color:var(--ink-2);margin:0 0 9px}
+.card .prf{font-size:11px;color:var(--ink-muted);border-top:1px solid var(--pjm-line);padding-top:9px}
+.card .prf b{color:var(--ink-2);font-weight:600}
+.card.ok{border-top-color:var(--pjm-blue)} .card.ok .cno{color:var(--pjm-blue-dark)}
+.note{background:var(--pjm-bg-alt);border-left:3px solid var(--pjm-blue);padding:14px 17px;margin:18px 0 0;
+  font-size:12.5px;color:var(--ink-2)}
+.note b{color:var(--ink)}
+.note.warn{border-left-color:var(--pjm-coral)}
+footer{max-width:1180px;margin:0 auto;padding:26px 24px 0;border-top:1px solid var(--pjm-line);
+  font-size:11.5px;color:var(--ink-muted);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a{color:var(--pjm-coral);text-decoration:none}
+@media (max-width:720px){
+  h1{font-size:29px} .hero-in{padding:38px 20px 34px} .wrap{padding:0 16px 60px}
+  section{padding:20px 17px 24px} .brow,.crow,.frow{grid-template-columns:38px 1fr;gap:7px}
+  .split{gap:6px} .gcap .gn{display:none} .gcap{min-height:0}
+  .trow{grid-template-columns:62px 1fr;gap:7px;padding:7px 9px}
+  .tstep u{display:none} .tstep b{font-size:9.5px} .tch{padding:8px 9px 7px}
+}
+@media print{body{background:#fff} .ctl,.tbar button{display:none} section{break-inside:avoid}}
+</style>
+</head>
+<body data-palette="#2B72B8,#DC2F3C">
+
+<div class="hero">
+  <svg class="orn" width="330" height="270" viewBox="0 0 330 270" aria-hidden="true">
+    <rect x="126" y="52" width="176" height="176" rx="34" fill="#A9C5DF" opacity=".2"/>
+    <circle cx="196" cy="118" r="86" fill="none" stroke="#FF525F" stroke-width="1.6" opacity=".55"
+      stroke-dasharray="404 136"/>
+  </svg>
+  <div class="hero-in">
+    <div class="logo">
+      <div class="logo-grid"></div>
+      <div><div class="logo-wm">projectman</div><div class="logo-claim">connecting experts</div></div>
+    </div>
+    <span class="pill">PM Comp · Propositions · OUT_PM</span>
+    <h1><span>Tunel rozpadu deals</span>kde se ztrácí konverze</h1>
+    <p class="hero-sub">Rozpad vytvořených outstaffingových PM zakázek, po pololetích 2024H1 – 2026H1.
+      Kaskáda odečítá v pořadí <b>nešlo ovlivnit → nesoutěžní výhra → výsledek zbytku → rozpad
+      prohry</b>, takže na konci zůstane jen to, co jsme skutečně mohli ovlivnit. Každý stupeň je
+      klikatelný a propsaný do tabulky dealů pod grafem. Zařazení stojí na ručně přečtených zápisech
+      u <b>všech 140 rozhodnutých dealů</b>; zbylé 4 jsou k datu extraktu otevřené.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+<section>
+  <h2><span class="snum">1</span>Tunel — <em>dvě pololetí proti sobě</em></h2>
+  <p class="lede">Stejná škála pixelů na deal v obou pruzích, takže délky jsou přímo srovnatelné.
+    <b>Plná plocha = soutěž proběhla, šrafovaná = neproběhla</b> — šrafa je nositel významu, ne
+    dekorace. Klikni na jakýkoli segment: tabulka v sekci 3 se zúží na ty dealy. Zaškrtnutím
+    přidáš pololetí do srovnání — klidně všech pět naráz.</p>
+  <p class="lede">Žebřík se čte jako <b>průtok</b>: v každém stupni je jeden přenosový pruh
+    s <b style="color:var(--pjm-coral)">korálovou hranou a kolejí ▼</b> pod ním — právě ten celý
+    vstupuje do stupně následujícího. Všechno ostatní je v daném stupni koncové. Kaskáda odečítá
+    v tomto pořadí: <b>L2</b> to, co nešlo ovlivnit (klient zrušil výběrko nebo obsadil interně,
+    role obsazené pod rámcem konkurence, prohry s insiderem konkurence) · <b>L3</b> nesoutěžní
+    výhry · <b>L4</b> výsledek toho, co zbylo, plus dosud nerozhodnuté ·
+    <b>L5</b> rozpad prohry — vlevo prohry, které dotekly do L4, vpravo blok odečtený už v L2.
+    <b>L2, L3 a L5 jsou proto dvojice boxů vedle sebe</b>; v L2 a L3 platí vlevo odchází, vpravo
+    teče dál. Oba boxy mají stejnou škálu jako zbytek žebříku, takže jejich šířky lze přímo
+    srovnávat.</p>
+  <p class="lede"><b>L10 je uzávěrka</b>, ne další stupeň kaskády: jeden pruh na pololetí se všemi
+    koncovými kategoriemi, v pořadí <i>výhra bez soutěže → výhra v soutěži → nedoložené →
+    prohra v soutěži → prohra bez soutěže</i>, otevřené na konci. Nedoložené leží uprostřed jako
+    dělicí pásmo mezi výhrami a prohrami — právě tam, kam patří, protože o výsledku soutěže u nich
+    zápis mlčí. Šířka pruhu se rovná L1, u popisku pololetí je celkový počet dealů.</p>
+
+  <div class="ctl">
+    <div class="f"><label>Pololetí — vyber libovolný počet</label>
+      <div class="halves" id="halves"></div></div>
+    <div class="f"><label>Rychlá volba</label>
+      <div class="quick" id="quick">
+        <button data-q="all">Vše</button>
+        <button data-q="h1">Jen H1</button>
+        <button data-q="last2">Poslední 2</button>
+      </div></div>
+    <div class="f"><label>Metrika</label>
+      <div class="seg" id="metric">
+        <button data-m="n" aria-pressed="true">Počet dealů</button>
+        <button data-m="v" aria-pressed="false">Hodnota Kč</button>
+      </div></div>
+    <div class="f"><label>Šířka pruhů</label>
+      <div class="seg" id="scaleMode">
+        <button data-s="abs" aria-pressed="true">Absolutní</button>
+        <button data-s="rel" aria-pressed="false">Na 100 %</button>
+      </div></div>
+    <div class="hint">Absolutní škála srovnává i objem, 100 % jen strukturu rozpadu.</div>
+  </div>
+
+  <div class="scroll"><table class="mx" id="mx"></table></div>
+  <p class="capline"><b>Soutěž</b> = doložená soutěž (výhra i prohra v soutěži) <b>plus skupina B</b>
+    — poptávka byla reálná a soutěž běžela, jen jsme do ní nedodali nabídku. Kvalifikační poměr
+    i soutěžní WR stojí na této definici — bez skupiny B by soutěžní WR vyšlo o 1 až 8 procentních
+    bodů výš. <b>Skupina I tu zůstává</b>, i když v tunelu odchází v L2 jako neovlivnitelná: soutěž
+    se u ní reálně konala, jen nebyla vyhratelná. Kolik to je, ukazuje pravý box L5.</p>
+  <div class="scale" id="scaleTicks"></div>
+  <div id="ladder"></div>
+
+  <div class="legend" id="legend"></div>
+
+  <h3>Neovlivnitelné prohry — A, C, I: to, co odchází z tunelu v L2</h3>
+  <p class="lede">Tři mechanismy, u kterých v daném dealu nešlo udělat nic — proto z tunelu
+    odcházejí hned v <b>L2</b> a v <b>L5</b> mají vlastní box vpravo. U <b>A</b> soutěž vůbec
+    nevznikla, u <b>C</b> a <b>I</b> formálně proběhla, ale výsledek byl daný předem: buď rámcovou
+    smlouvou konkurence, nebo kandidátem, na kterého jsme z pozice dodavatele nemohli. Kdyby tyhle
+    tři zůstaly v tunelu, ředí každou úvahu o tom, co zlepšit.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Skupina</th><th>Co to je</th><th>Typický zápis</th><th>Kdo to ovlivní</th></tr></thead>
+      <tbody>
+        <tr><td><b>A</b><br><span style="font-size:11px;color:var(--ink-muted)">klient zrušil
+          nebo obsadil interně</span></td>
+          <td>Potřeba zmizela nebo si ji klient pokryl sám. Zrušený budget, odložený projekt,
+            interní nábor, reorganizace, rozhodnutí otočené o úroveň výš.</td>
+          <td class="ev">„Vybrali si interneho kandidata“ · „Kobza budget na novy team neschvalil“ ·
+            „Top MGMT rozhodl, že do spolupráce nepůjdou“</td>
+          <td><b>nikdo z nás</b><br><span style="font-size:11px;color:var(--ink-muted)">šanci
+            neměla ani konkurence</span></td></tr>
+        <tr><td><b>C</b><br><span style="font-size:11px;color:var(--ink-muted)">rozhodnuto mimo
+          tendr</span></td>
+          <td>Role se obsadila bez soutěže, protože konkurence už měla rámcovou smlouvu nebo člověka
+            na místě. Soutěž formálně proběhla nebo neproběhla vůbec — výsledek byl daný předem.</td>
+          <td class="ev">„vybrali někoho ze zdrojů Trask pod existující smlouvou bez výběrka“ ·
+            „Poptávka byla jen pro forma“</td>
+          <td><b>nikdo z nás</b><br><span style="font-size:11px;color:var(--ink-muted)">rozhodly
+            rámcové smlouvy, dávno předem — ne sourcing</span></td></tr>
+        <tr><td><b>I</b><br><span style="font-size:11px;color:var(--ink-muted)">konkurent měl
+          insidera</span></td>
+          <td>Soutěž proběhla, ale vyhrál kandidát, na kterého jsme z pozice dodavatele nemohli:
+            bývalý kontraktor klienta, člověk ze skupiny, nebo znalost konkrétního systému, kterou
+            trh nemá.</td>
+          <td class="ev">„dáme příležitost kandidátovi, který pro nás již pracoval“ · „našla
+            kandidáta, který měl vyloženě zkušenosti z Allianz SE“ · „znalostí SW DeltaV“</td>
+          <td><b>nikdo z nás</b><br><span style="font-size:11px;color:var(--ink-muted)">v daném
+            tendru už těžko, jen dřívějším vstupem</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="capline"><b>A</b> a <b>C</b> jsou kódované v poli <code>sub</code> (prohry bez doložené
+    soutěže), <b>I</b> v poli <code>subc</code> (prohry v soutěži) — v tunelu ale končí na stejném
+    místě, protože rozhodovací pravidlo je stejné: šanci neměla ani konkurence, ani my. Šrafa u A a C
+    znamená, že soutěž neproběhla; I je plnou plochou, protože proběhla.</p>
+
+  <h3>Ovlivnitelné prohry — K, B, P, T, N: levý box L5</h3>
+  <p class="lede">Prohry, se kterými se dalo něco udělat — tady se měřila naše práce, ne pozice
+    na trhu. Dělí se podle otázky <b>na čem jsme prohráli</b>, kódováno z mechanismu a citace
+    v zápisu u každého dealu. <b>B je mezi nimi</b>, i když v CRM doloženou soutěž nemá: poptávka
+    byla reálná a soutěž běžela, jen jsme do ní nedodali nabídku — v soutěži jsme byli, selhali
+    jsme my. Proto je i v kvalifikačním poměru a v soutěžním WR nad grafem.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Skupina</th><th>Co to je</th><th>Typický zápis</th><th>Kdo to ovlivní</th></tr></thead>
+      <tbody>
+        <tr><td><b>K</b><br><span style="font-size:11px;color:var(--ink-muted)">kandidát prohrál
+          srovnání</span></td>
+          <td>Soutěž doběhla do srovnání lidí a klient vybral kandidáta konkurence — profil,
+            reference, zkušenost, případně náš kandidát odpadl až po výběru.</td>
+          <td class="ev">„V druhém kole byli celkem 4 kandidáti. Nakonec si vybrali jinou
+            kandidátku“ · „Hlavním důvodem byly reference“ · „nedodali jsme nejlepší kandidátku“</td>
+          <td><b>my</b><br><span style="font-size:11px;color:var(--ink-muted)">kvalita a rychlost
+            sourcingu</span></td></tr>
+        <tr><td><b>B</b><br><span style="font-size:11px;color:var(--ink-muted)">nedodali jsme
+          kandidáta</span></td>
+          <td>Poptávka byla reálná a soutěž běžela, ale nabídka nikdy nevznikla — nenašli jsme
+            člověka, nestihli jsme to, kandidát nesplnil kvalifikaci nebo nabídku odmítl.
+            <b>V soutěži jsme byli, selhali jsme my.</b></td>
+          <td class="ev">„Nebyli jsme schopni najít vhodného kandidáta“ · „ani jsme nedokazali
+            rozjet rec“ · „kandidát nebyl schopen prokázat kvalifikaci“</td>
+          <td><b>my, plně</b><br><span style="font-size:11px;color:var(--ink-muted)">recruitment
+            kapacita, ne kvalita nabídky</span></td></tr>
+        <tr><td><b>P</b><br><span style="font-size:11px;color:var(--ink-muted)">cena a komerční
+          podmínky</span></td>
+          <td>Technicky jsme prošli, rozhodla cena nebo obchodní model — aukce, levnější
+            konkurent, jiný model garance kapacity.</td>
+          <td class="ev">„Vybrali jiného, levnějšího“ · „levnější konkurence šla pak v aukci na
+            polovinu našeho minima“ · „nemají garanci, jdou čistě na využití hodin“</td>
+          <td><b>my</b><br><span style="font-size:11px;color:var(--ink-muted)">pricing a model
+            garance</span></td></tr>
+        <tr><td><b>T</b><br><span style="font-size:11px;color:var(--ink-muted)">technické nebo
+          procesní vyřazení</span></td>
+          <td>Ke srovnání lidí se vůbec nedošlo — nabídka neprošla hodnocením, nebo jsme se
+            zdrželi a role se mezitím obsadila.</td>
+          <td class="ev">„Projectman shledána jako technicky nevyhovující“ · „Pomalý postup…
+            mezitím letiště přijalo někoho jiného“</td>
+          <td><b>my</b><br><span style="font-size:11px;color:var(--ink-muted)">kvalifikace nabídky
+            a tempo</span></td></tr>
+        <tr><td><b>N</b><br><span style="font-size:11px;color:var(--ink-muted)">nedoloženo</span></td>
+          <td>Víme jen, že deal je tagovaný <code>Quality</code>, a že soutěž proběhla. Zápis
+            o výběru mlčí — u těchto dealů se nedá říct, na čem jsme prohráli.</td>
+          <td class="ev">„lost_reason = Quality, LL prázdné“</td>
+          <td><b>nevíme</b><br><span style="font-size:11px;color:var(--ink-muted)">tag Quality má
+            chybovost 3/11 na kontrolovaném vzorku</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="capline">K / P / T / N jsou kódované v <code>config/contest_coding.csv</code> ve sloupci
+    <code>subc</code> (39 řádků), <b>B</b> ve sloupci <code>sub</code>. Skupina <b>I</b> v téhle
+    tabulce není — patří mezi neovlivnitelné výš, protože soutěž sice proběhla, ale vyhrát ji nešlo.
+    V KPI tabulce nad grafem I do soutěže dál patří: tvrzení „soutěž se konala" u ní platí.</p>
+
+  <div class="note"><b>Pásek pod každým pruhem</b> je jistota zařazení, ne další kategorie:
+    <b style="color:var(--ink-2)">tmavá</b> = doloženo (ruční kódování zápisů nebo explicitní pole
+    v CRM) · <b style="color:var(--pjm-blue-dark)">modrá</b> = indikace (pravidlo nad
+    <i>lost_reason</i> / incumbency) · <b>světlá</b> = nedoloženo. Plné kódování zápisů existuje
+    jen pro 2025H1 a 2026H1; u 2024H1, 2024H2 a 2025H2 nese rozpad pravidlo, ne přečtený zápis.</div>
+</section>
+
+<section>
+  <h2><span class="snum">2</span>Postupné dělení — <em>od všech dealů k důvodu prohry</em></h2>
+  <p class="lede">Stejná populace jako v tunelu, ale dělená jinak: ne kaskádou odečtů, nýbrž
+    <b>čtyřmi kroky, ve kterých se každý blok rozpadá na své části</b>. Bloky ve sloupci pod sebou
+    vždy sedí přesně pod svým rodičem, takže se dá číst shora dolů jako strom. Šířka je vždy podíl
+    z celého pololetí, procenta u popisku jsou <b>konverze uvnitř rodiče</b> — dá se přepnout na
+    podíl z celku.</p>
+  <p class="lede"><b>Krok 1</b> celé pololetí (PM_OUT, jen outstaffingové PM zakázky) ·
+    <b>Krok 2</b> soutěž × bez soutěže × nedoloženo a otevřené · <b>Krok 3</b> výhra × prohra
+    uvnitř každého pruhu · <b>Krok 4</b> prohry rozdělené podle štítku <code>lost_reason</code>
+    z číselníku Pipedrive. Klik na blok nebo na řádek tabulky zúží tabulku dealů v sekci 3.</p>
+  <div class="note" style="margin:18px 0 22px"><b>Třetí pruh v kroku 2 je záměrný.</b> Binární dělení soutěž × bez soutěže by
+    muselo někam schovat dealy, u kterých zápis o soutěži mlčí, plus dosud otevřené. Kdyby spadly
+    do „bez soutěže", nesoutěžní konverze by se o ně naředila a číslo by lhalo. Proto stojí
+    vlastním pruhem stranou — stejně jako v souhrnu L10 nahoře.</div>
+
+  <div class="ctl">
+    <div class="f"><label>Pololetí — vyber libovolný počet</label>
+      <div class="halves" id="halves2"></div></div>
+    <div class="f"><label>Rychlá volba</label>
+      <div class="quick" id="quick2">
+        <button data-q="all">Vše</button>
+        <button data-q="h1">Jen H1</button>
+        <button data-q="last2">Poslední 2</button>
+      </div></div>
+    <div class="f"><label>Metrika</label>
+      <div class="seg" id="metric2">
+        <button data-m="n">Počet dealů</button>
+        <button data-m="v">Hodnota Kč</button>
+      </div></div>
+    <div class="f"><label>Procenta počítat</label>
+      <div class="seg" id="tbasis">
+        <button data-b="par">Z nadřazeného bloku</button>
+        <button data-b="tot">Z celého pololetí</button>
+      </div></div>
+    <div class="hint">Výběr pololetí i metrika jsou společné s tunelem v sekci 1.</div>
+  </div>
+
+  <div id="tree"></div>
+  <div class="legend" id="treeLegend"></div>
+
+  <h3>Tabulka dělení — absolutní čísla i konverze</h3>
+  <p class="lede">Stejný strom jako v grafu, jen čitelně vedle sebe. Horní číslo je absolutní
+    počet (nebo hodnota), spodní procento se řídí přepínačem nad grafem. Řádek je klikatelný.</p>
+  <div class="scroll"><table class="tree" id="treeTbl"></table></div>
+  <p class="capline" id="treeCap"></p>
+  <p class="capline"><b>Číselník <code>lost_reason</code></b> je pole z Pipedrive, ne naše kódování —
+    proto se s dělením A/B/C/K/I/P/T/N v tunelu nemusí krýt. Vyplňuje ho obchodník při zavírání
+    dealu a nese jeden důvod na deal: <b>Cancelled by client</b> (klient poptávku zrušil nebo si ji
+    pokryl sám) · <b>Quality</b> (klient vybral jiného dodavatele nebo kandidáta) ·
+    <b>Cancelled by PJM</b> (zavřeli jsme to my) · <b>Silent client</b> (klient přestal komunikovat)
+    · <b>Price</b> (rozhodla cena nebo komerční podmínky).</p>
+</section>
+
+<section>
+  <h2><span class="snum">3</span>Detail dealů — <em>co přesně kam spadlo</em></h2>
+  <p class="lede">Každý deal z obou vybraných pololetí, s důkazem, na základě kterého je zařazen.
+    Kliknutím na segment v tunelu se seznam zúží; hlavičky sloupců řadí.</p>
+  <div class="tbar">
+    <input type="search" id="q" placeholder="Hledat klienta, zakázku, vlastníka…" style="min-width:250px">
+    <span class="fl" id="filterLbl"></span>
+    <button class="clr" id="clr" hidden>Zrušit filtr</button>
+  </div>
+  <div class="scroll">
+    <table id="tbl">
+      <thead><tr>
+        <th class="s" data-k="half">Pol.</th>
+        <th class="s" data-k="org_name">Klient</th>
+        <th class="s" data-k="title">Zakázka</th>
+        <th class="s" data-k="owner_name">Vlastník</th>
+        <th class="s" data-k="add_time">Vytvořeno</th>
+        <th class="s" data-k="closed">Uzavřeno</th>
+        <th class="s" data-k="val">tis. Kč</th>
+        <th class="s" data-k="cat">Kategorie</th>
+        <th class="s" data-k="cert">Jistota</th>
+        <th>Důkaz / pravidlo zařazení</th>
+      </tr></thead>
+      <tbody id="tb"></tbody>
+    </table>
+  </div>
+  <p class="capline" id="cap"></p>
+</section>
+
+<section>
+  <h2><span class="snum">4</span>Kódování — <em>jak zařazení vzniklo a co opravilo</em></h2>
+  <p class="lede">Kategorie „proběhla soutěž?“ v CRM jako pole neexistuje. Vznikla přečtením zápisu
+    (aktivity + poznámky) u každého jednotlivého dealu. Kategorie souhlasí se statusem dealu
+    u všech 140 rozhodnutých a součty souhlasí s warehouse na řádek.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Pololetí</th><th class="num">Dealů</th><th class="num">Doloženo</th>
+        <th class="num">Indikace</th><th class="num">Nedoloženo</th><th>Kvalita záznamu</th></tr></thead>
+      <tbody>
+        <tr><td><b>2024H1</b></td><td class="num">22</td><td class="num">50 %</td>
+          <td class="num">36 %</td><td class="num">14 %</td>
+          <td class="ev">nejtenčí — migrované ZOHO pole <i>KAM comment</i> + <i>LL</i>, u části dealů prázdné</td></tr>
+        <tr><td><b>2024H2</b></td><td class="num">25</td><td class="num">52 %</td>
+          <td class="num">28 %</td><td class="num">20 %</td><td class="ev">tenká první polovina, od 11/2024 se zápisy lámou k lepšímu</td></tr>
+        <tr><td><b>2025H1</b></td><td class="num">39</td><td class="num">76 %</td>
+          <td class="num">18 %</td><td class="num">6 %</td><td class="ev">plné BANT záznamy, náběrové cally, feedback od klientů</td></tr>
+        <tr><td><b>2025H2</b></td><td class="num">28</td><td class="num">82 %</td>
+          <td class="num">11 %</td><td class="num">7 %</td><td class="ev">bohatý záznam</td></tr>
+        <tr><td><b>2026H1</b></td><td class="num">30</td><td class="num">96 %</td>
+          <td class="num">0 %</td><td class="num">3 %</td><td class="ev">nejlepší — u 21 z 22 proher je doslovný důvod prohry</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note warn"><b>Kvalita záznamu roste v čase — a to je past na srovnávání.</b>
+    U 2024H1 stojí polovina zařazení na CRM tagu, u 2026H1 jen 3 %. Nesoutěžní prohry i výhry se
+    proto v novějších pololetích <b>odhalí spolehlivěji</b>, ne nutně že jich je víc. Absolutní
+    tvrzení o 2025H1, 2025H2 a 2026H1 jsou solidní; trend proti roku 2024 čti opatrně.</div>
+
+  <h3>Pět věcí, které kódování opravilo proti dosud publikovaným číslům</h3>
+  <div class="cards">
+    <div class="card">
+      <div class="cno">oprava 1 · největší</div>
+      <h4>Nesoutěžních výher je 12 ze 13, ne 5 ze 13</h4>
+      <p>Publikované kódování označilo 6 výher 2025H1 za nerozhodnutelné a 2 za soutěžní. Po
+        přečtení všech osmi zápisů se ukazuje jediná doložená soutěž: MAKRO, kde klient explicitně
+        „poptal konkurenci“. U zbylých sedmi konkurence v zápisu nefiguruje vůbec.</p>
+      <div class="prf"><b>Soutěžní win rate 2025H1 = 1 z 13 = 7,7 %</b>, ne rozsah 11,1–33,3 %
+        (bez skupiny B by to bylo 1 z 10 = 10 %).
+        Dosavadní narativ „letos jsou 3 ze 4 výher nesoutěžní“ platil i loni — <b>nesoutěžní výhry
+        byly dominantní vždy</b>, jen se v dřívějších zápisech nedaly doložit</div>
+    </div>
+    <div class="card">
+      <div class="cno">oprava 2 · skupina B</div>
+      <h4>„Nedodali jsme“ není totéž jako <i>Cancelled by PJM</i></h4>
+      <p>CRM tag <b>skupinu B</b> (nabídka nikdy nevznikla) zároveň podhodnocuje i nadhodnocuje. Pět zakázek, kde jsme prokazatelně
+        nedodali člověka, je tagováno jinak — a jedna tagovaná <i>Cancelled by PJM</i> naším
+        selháním vůbec není.</p>
+      <div class="prf"><b>+ accompani</b> (<i>Silent client</i>) · <b>+ Heimstaden</b>,
+        <b>+ O2 Milkyway</b>, <b>+ O2 SAP Migration Lead</b> (<i>Quality</i>) ·
+        <b>+ Comcentra</b> (<i>Price</i> — klient našeho kandidáta chtěl, on odmítl Přerov) ·
+        <b>− ČD-Telematika 1,5 mil.</b> („ČDT nevyhrálo tender, pro který jsme měli PM hledat“)</div>
+    </div>
+    <div class="card">
+      <div class="cno">oprava 3 · skupina C</div>
+      <h4>Rozhodnuto mimo tendr — tři doložené případy</h4>
+      <p>Dosud platilo, že <b>skupinu C</b> (role obsazená pod rámcem konkurence) z CRM izolovat
+        nelze. Ze zápisu jde, a je systematická:
+        všude, kde konkurence drží rámcovou smlouvu, se role obsadí bez soutěže.</p>
+      <div class="prf"><b>ČSOB Leasing</b> („vybrali někoho ze zdrojů Trask pod existující smlouvou
+        bez výběrka“) · <b>ORLEN</b> („vyberou si někoho od vysoutěžených dodavatelů s rámcovkou“) ·
+        <b>Škoda Auto PM Admin</b> („Poptávka byla jen pro forma“) <b>V tunelu proto C odchází spolu s A už v L2</b> — v daném dealu s tím nešlo nic dělat.</div>
+    </div>
+    <div class="card">
+      <div class="cno">oprava 4 · 2025H2</div>
+      <h4>2025H2 nemá ani jednu výhru v soutěži</h4>
+      <p>Šest z osmi výher je nesoutěžních a mechanismem je incumbency. Tři z nich u jednoho
+        klienta, kde roli definoval a na výběru sedel <b>náš vlastní kontraktor</b>.</p>
+      <div class="prf">Propad tedy není skok v roce 2026. Headline řada 33,3 % → 28,6 % → 15,4 %
+        vypadá jako sešup, ale soutěžní výkon byl slabý celou dobu. <b>Toto pololetí nebylo dosud
+        v žádném výstupu.</b></div>
+    </div>
+    <div class="card ok">
+      <div class="cno">oprava 5 · L5 vlevo</div>
+      <h4>Soutěžní prohra má jeden dominantní mechanismus</h4>
+      <p>Dosud byla soutěžní prohra v tunelu jeden nedělený blok. Po zakódování všech 39 proher
+        vychází: <b>22 z 39 je srovnání kandidátů</b>, které klient rozhodl proti nám. Cena
+        rozhodla jen <b>4×</b>, technické nebo procesní vyřazení <b>3×</b>.</p>
+      <div class="prf"><b>Insider u konkurence 5×</b> (bývalý kontraktor klienta, člověk ze skupiny,
+        znalost jejich systému) — a <b>3 z nich padly v 2026H1</b>. Tahle skupina v tunelu odchází
+        jako neovlivnitelná už v L2: soutěž proběhla, vyhrát ji ale nešlo. Všech <b>5 nedoložených</b>
+        je z roku 2024, kde zápis o výběru mlčí.</div>
+    </div>
+  </div>
+
+  <div class="note"><b>Kde je zařazení nejslabší.</b> Sedm nesoutěžních výher 2025H1 nese jistotu
+    <i>indikace</i>, ne <i>doloženo</i> — zápis u nich ukazuje původ poptávky (referral, přímý
+    kontakt na rozhodovatele, kapacitní potřeba) a celý průběh bez konkurence, ale nikde neříká
+    výslovně „soutěž neproběhla“. Je to argument z nepřítomnosti důkazu, a tak s ním zacházej.
+    Pásek pod pruhy v tunelu tento podíl ukazuje u každého stupně.</div>
+  <div class="note"><b>Pozor na proxy podle organizace.</b> Incumbency počítaná přes
+    <i>org_name</i> nezachytí skupinu: výhru u <b>AGEL SSC a.s.</b> (2025H2) vykazuje jako „bez
+    dřívější výhry“, přitom navazuje na náš projekt Čipových karet u <b>AGEL a.s.</b> a kontakt na
+    CTO i PMO jsme měli přímý. Proto je přečtený zápis nezastupitelný.</div>
+  <div class="note"><b>Zdroje a hranice čtení.</b> Warehouse <i>fct_deal</i>,
+    <code>product_code = 'OUT_PM'</code>, dealy vytvořené 2024-01-01 – 2026-06-30, extrakt
+    2026-08-19 — 144 dealů, žádný vyloučený. Kódování je v
+    <code>config/contest_coding.csv</code>: 131 dealů přečtených ze zápisu (jeden řádek na deal
+    s citací) + 9 výher 2025H1/2026H1 přebraných ze <i>Sales — plán zvýšení konverze (v2)</i> +
+    4 otevřené dealy, které kódovat nelze. Podskupiny soutěžní prohry (K / I / P / T / N) jsou
+    v témže souboru ve sloupci <code>subc</code> — 39 řádků, zakódováno z pole <i>mech</i> a citace
+    v zápisu, ověřeno proti CRM poli <code>lost_reason</code>. Hodnota = <i>contract_value_czk_equiv</i>, fill 100 %,
+    ale EUR dealy jsou přepočtené jedním fixním kurzem — u hodnotové metriky to v pololetích
+    s velkými EUR dealy zkresluje, počty jsou tvrdší.</div>
+</section>
+
+<footer>
+  <span>Projectman · <a href="https://www.projectman.cz">www.projectman.cz</a></span>
+  <span>OUT_PM · 144 dealů · extrakt 2026-08-19 · sestaveno 2026-08-20</span>
+</footer>
+</div>
+
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+
+<script>
+const DEALS = [{"deal_id":138,"title":"PM pro FVE Region lead","org_name":"CTP Invest, spol. s r.o.","owner_name":"Jiří Zázvorka","status":"lost","lost_reason":"Cancelled by client","val":0.0,"ccy":"CZK","add_time":"2024-01-03","won_time":null,"lost_time":"2024-03-26","half":"2024H1","prior_wins":0,"prior_win_time":null,"evidence":"„Vedle hlavního prj FVE to nemělo velkou prioritu řešit externě“","mech":"klient řešil interně","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":105,"title":"Project manager transition of overall IT services","org_name":"EmbedIT s.r.o.","owner_name":"Jiří Zázvorka","status":"lost","lost_reason":"Quality","val":0.0,"ccy":"CZK","add_time":"2024-05-13","won_time":null,"lost_time":"2024-07-03","half":"2024H1","prior_wins":0,"prior_win_time":null,"evidence":"lost_reason = Quality, v zápisu feedback na 4 naše kandidáty → klient vybíral","mech":"","sub":"","cat":"loss_c","cert":"indikace","subc":"K"},{"deal_id":117,"title":"Program Manager for a Yettel Mobile Operator/PPF Group","org_name":"EmbedIT s.r.o.","owner_name":"Jiří Zázvorka","status":"lost","lost_reason":"Cancelled by client","val":0.0,"ccy":"CZK","add_time":"2024-03-11","won_time":null,"lost_time":"2024-05-16","half":"2024H1","prior_wins":0,"prior_win_time":null,"evidence":"lost_reason = Cancelled by client, LL prázdné","mech":"klient zrušil nebo obsadil interně","sub":"A","cat":"loss_nc","cert":"indikace"},{"deal_id":192,"title":"PM Integrace","org_name":"Infinite Solution a.s.","owner_name":"Petr Janiš","status":"lost","lost_reason":"Cancelled by PJM","val":0.0,"ccy":"CZK","add_time":"2024-04-22","won_time":null,"lost_time":"2024-04-23","half":"2024H1","prior_wins":3,"prior_win_time":"2023-02-05","evidence":"lost_reason = Cancelled by PJM, uzavřeno den po vzniku","mech":"nedodali jsme","sub":"B","cat":"loss_nc","cert":"doloženo"},{"deal_id":108,"title":"IT Projekt Manager na projekt migrace datového centra","org_name":"Livesport s.r.o.","owner_name":"Jiří Zázvorka","status":"lost","lost_reason":"Quality","val":0.0,"ccy":"CZK","add_time":"2024-04-16","won_time":null,"lost_time":"2024-05-10","half":"2024H1","prior_wins":0,"prior_win_time":null,"evidence":"lost_reason = Quality, lead z webu, o výsledku výběru zápis mlčí","mech":"","sub":"","cat":"loss_c","cert":"indikace","subc":"N"},{"deal_id":100,"title":"PM pro stavbu pekárny v Berlíně","org_name":"Logio s.r.o.","owner_name":"Radim","status":"lost","lost_reason":"Cancelled by client","val":0.0,"ccy":"CZK","add_time":"2024-06-21","won_time":null,"lost_time":"2025-01-06","half":"2024H1","prior_wins":0,"prior_win_time":null,"evidence":"„Logio nezískal GO od jejich klienta (Rohlik)“ — projekt nevznikl","mech":"klient zrušil — potřeba odpadla","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":110,"title":"Project Manager pro business projekty","org_name":"MAKRO Cash & Carry ČR s.r.o.","owner_name":"Jiří Tonar","status":"lost","lost_reason":"Quality","val":0.0,"ccy":"CZK","add_time":"2024-03-28","won_time":null,"lost_time":"2024-05-03","half":"2024H1","prior_wins":1,"prior_win_time":"2023-10-22","evidence":"„V druhém kole byli celkem 4 kandidáti. Nakonec si vybrali jinou kandidátku“","mech":"","sub":"","cat":"loss_c","cert":"doloženo","subc":"K"},{"deal_id":126,"title":"Medior PM pro implementační projekt","org_name":"MAKRO Cash & Carry ČR s.r.o.","owner_name":"Jiří Tonar","status":"lost","lost_reason":"Quality","val":0.0,"ccy":"CZK","add_time":"2024-01-26","won_time":null,"lost_time":"2024-12-09","half":"2024H1","prior_wins":1,"prior_win_time":"2023-10-22","evidence":"„ještě nevybral z kandidátů od konkurence“ → „Vráťa si vybral jiného kandidáta“","mech":"","sub":"","cat":"loss_c","cert":"doloženo","subc":"K"},{"deal_id":119,"title":"PM pro CODO","org_name":"ORLEN Unipetrol RPA s.r.o.","owner_name":"Jiří Zázvorka","status":"lost","lost_reason":"Cancelled by client","val":0.0,"ccy":"CZK","add_time":"2024-03-04","won_time":null,"lost_time":"2024-03-06","half":"2024H1","prior_wins":5,"prior_win_time":"2022-07-25","evidence":"lost_reason = Cancelled by client, uzavřeno 2 dny po vzniku","mech":"klient zrušil — okamžitě","sub":"A","cat":"loss_nc","cert":"indikace"},{"deal_id":115,"title":"PM pro Apple/Google pay","org_name":"PPF banka a.s.","owner_name":"Jiří Tonar","status":"lost","lost_reason":"Cancelled by client","val":0.0,"ccy":"CZK","add_time":"2024-03-13","won_time":null,"lost_time":"2024-04-16","half":"2024H1","prior_wins":0,"prior_win_time":null,"evidence":"„nakonec zrušeno klientem - musela poptat interní zdroj“","mech":"obsazeno interně","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":99,"title":"PM do Bratislavy pro WAG","org_name":"W.A.G. payment solutions, a.s.","owner_name":"Pavel Veselý","status":"lost","lost_reason":"Price","val":0.0,"ccy":"CZK","add_time":"2024-06-25","won_time":null,"lost_time":"2024-07-31","half":"2024H1","prior_wins":1,"prior_win_time":"2022-06-07","evidence":"„Měli 40 kandidátů, 20 interviewed. Vybrali jiného, levnějšího“ — soutěž proběhla, prohráli jsme na ceně","mech":"","sub":"","cat":"loss_c","cert":"doloženo","subc":"P"},{"deal_id":114,"title":"2 all rounder PM","org_name":"accompani consulting GmbH","owner_name":"Petr Janiš","status":"lost","lost_reason":"Cancelled by client","val":0.0,"ccy":"CZK","add_time":"2024-03-19","won_time":null,"lost_time":"2024-06-30","half":"2024H1","prior_wins":6,"prior_win_time":"2024-02-28","evidence":"lost_reason = Cancelled by client, KAM comment i LL prázdné","mech":"klient zrušil nebo obsadil interně","sub":"A","cat":"loss_nc","cert":"indikace"},{"deal_id":125,"title":"PM Infra migrace HR core","org_name":"accompani consulting GmbH","owner_name":"Petr Janiš","status":"lost","lost_reason":"Quality","val":0.0,"ccy":"CZK","add_time":"2024-01-30","won_time":null,"lost_time":"2024-03-25","half":"2024H1","prior_wins":5,"prior_win_time":"2024-01-19","evidence":"lost_reason = Quality, LL prázdné","mech":"","sub":"","cat":"loss_c","cert":"indikace","subc":"N"},{"deal_id":137,"title":"PM Lada Jakubicka","org_name":"CTP Invest, spol. s r.o.","owner_name":"Jiří Zázvorka","status":"won","lost_reason":null,"val":0.0,"ccy":"CZK","add_time":"2024-03-15","won_time":"2024-04-17","lost_time":null,"half":"2024H1","prior_wins":0,"prior_win_time":null,"evidence":"„Posílení projektu FVE, ke Koberovi přijde Láďa jako hlavní PM“ — přidání k našemu člověku na projektu","mech":"posílení stávajícího projektu","sub":"","cat":"win_nc","cert":"doloženo"},{"deal_id":127,"title":"Senior PM pro novou entitu","org_name":"Edwards Lifesciences Czech Republic s.r.o.","owner_name":"Pavel Veselý","status":"won","lost_reason":null,"val":0.0,"ccy":"CZK","add_time":"2024-01-26","won_time":"2024-03-03","lost_time":null,"half":"2024H1","prior_wins":9,"prior_win_time":"2024-01-09","evidence":"9 dřívějších výher u Edwards, „Slávek Dufek k sobě hledá seniorního PM“ — poptávka od manažera, se kterým už pracujeme","mech":"už jsme uvnitř","sub":"","cat":"win_nc","cert":"indikace"},{"deal_id":135,"title":"Martin Matějovský - přeprodej","org_name":"Edwards Lifesciences Czech Republic s.r.o.","owner_name":"Pavel Veselý","status":"won","lost_reason":null,"val":0.0,"ccy":"CZK","add_time":"2024-01-09","won_time":"2024-01-15","lost_time":null,"half":"2024H1","prior_wins":8,"prior_win_time":"2023-06-18","evidence":"„Martin už tam pracuje, Edwards ho nyní pouze potřebuje přeprodat přes nás“","mech":"přeprodej","sub":"","cat":"win_nc","cert":"doloženo"},{"deal_id":124,"title":"PM pro EHS - automatické vypořádání realitních transakcí","org_name":"European Housing Services s.r.o.","owner_name":"Pavel Veselý","status":"won","lost_reason":null,"val":2576000.0,"ccy":"CZK","add_time":"2024-02-08","won_time":"2024-03-06","lost_time":null,"half":"2024H1","prior_wins":0,"prior_win_time":null,"evidence":"„Dobrý tip od Prochora. Okamžitá nabídka Jirky Blažka + 1“ — klient vybíral jen mezi našimi dvěma kandidáty","mech":"osobní vztah / tip, jediný dodavatel","sub":"","cat":"win_nc","cert":"doloženo"},{"deal_id":121,"title":"PM pro VIG rollout - Jiří Blažek","org_name":"Kooperativa pojišťovna, a.s., Vienna Insurance Group","owner_name":"Jiří Tonar","status":"won","lost_reason":null,"val":2800000.0,"ccy":"CZK","add_time":"2024-02-28","won_time":"2024-04-26","lost_time":null,"half":"2024H1","prior_wins":0,"prior_win_time":null,"evidence":"„Lead od Honzíka Tolara“, LL prázdné — pozdější zápisy řeší až prolongace","mech":"","sub":"","cat":"win_unknown","cert":"nedoloženo"},{"deal_id":106,"title":"PM pro VIG rollout - Michaela Jelínková","org_name":"Kooperativa pojišťovna, a.s., Vienna Insurance Group","owner_name":"Jiří Tonar","status":"won","lost_reason":null,"val":2450000.0,"ccy":"CZK","add_time":"2024-02-28","won_time":"2024-04-26","lost_time":null,"half":"2024H1","prior_wins":0,"prior_win_time":null,"evidence":"„Lead od Honzíka Tolara“, LL prázdné — zápis neumožňuje rozhodnout","mech":"","sub":"","cat":"win_unknown","cert":"nedoloženo"},{"deal_id":103,"title":"Medior PM - Zuzana Melinová","org_name":"MAKRO Cash & Carry ČR s.r.o.","owner_name":"Jiří Tonar","status":"won","lost_reason":null,"val":2061900.0,"ccy":"CZK","add_time":"2024-05-31","won_time":"2024-06-17","lost_time":null,"half":"2024H1","prior_wins":1,"prior_win_time":"2023-10-22","evidence":"„První vlně jsme neuspěli, ale jeden konkurenční kandidát to složil a VČ se rozhodl pro Zuzku“","mech":"druhá volba po odpadnutí konkurenta","sub":"","cat":"win_c","cert":"doloženo"},{"deal_id":136,"title":"Project Manager - P&O Infrastructure - Zdeněk Svatý","org_name":"accompani consulting GmbH","owner_name":"Radim","status":"won","lost_reason":null,"val":0.0,"ccy":"CZK","add_time":"2024-01-08","won_time":"2024-03-04","lost_time":null,"half":"2024H1","prior_wins":3,"prior_win_time":"2023-11-30","evidence":"3 dřívější výhry u accompani, poptávka po 2x seniorní PM na core/infra","mech":"už jsme uvnitř","sub":"","cat":"win_nc","cert":"indikace"},{"deal_id":120,"title":"2x PgMO Support/Admin Kamila Krčmář","org_name":"accompani consulting GmbH","owner_name":"Petr Janiš","status":"won","lost_reason":null,"val":0.0,"ccy":"CZK","add_time":"2024-02-28","won_time":"2024-03-21","lost_time":null,"half":"2024H1","prior_wins":5,"prior_win_time":"2024-01-19","evidence":"„Evča měla kandidátku v networku, když přišla poptávka“ — 5 dřívějších výher u accompani, obsazeno z networku","mech":"už jsme uvnitř — kapacitní poptávka","sub":"","cat":"win_nc","cert":"indikace"},{"deal_id":95,"title":"PM for a local ERP/MES implementation  (Kiwiplan/SAP)","org_name":"DS Smith Packaging Czech Republic s.r.o.","owner_name":"Pavel Veselý","status":"lost","lost_reason":"Cancelled by client","val":0.0,"ccy":"CZK","add_time":"2024-07-15","won_time":null,"lost_time":"2024-09-09","half":"2024H2","prior_wins":0,"prior_win_time":null,"evidence":"„spokojeni s cenou 600 EUR, vybrán Robert Jiřík. Po návratu CFO z dovolené - ukončeno“ — už jsme byli vybraní","mech":"rozhodnutí otočeno o úroveň výš","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":92,"title":"Junior PM pro DBG","org_name":"Deutsche Börse Prague Branch","owner_name":"Pavel Veselý","status":"lost","lost_reason":"Quality","val":0.0,"ccy":"CZK","add_time":"2024-07-18","won_time":null,"lost_time":"2024-08-28","half":"2024H2","prior_wins":0,"prior_win_time":null,"evidence":"„Přes nákupní portál DBG… Žádná reakce nepřišla“ — nevíme, zda někdo vyhrál","mech":"","sub":"","cat":"loss_unknown","cert":"nedoloženo"},{"deal_id":67,"title":"Senior IT PM v pozicii dodavatela  v Bratislave","org_name":"EEA s.r.o.","owner_name":"Lubomir Slocik","status":"lost","lost_reason":"Cancelled by client","val":0.0,"ccy":"CZK","add_time":"2024-10-17","won_time":null,"lost_time":"2024-12-20","half":"2024H2","prior_wins":0,"prior_win_time":null,"evidence":"„Vybrali si interneho kandidata“","mech":"obsazeno interně","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":70,"title":"PM pro security projekt","org_name":"Euro Enterprise Development s.r.o.","owner_name":"Jiří Tonar","status":"lost","lost_reason":"Quality","val":0.0,"ccy":"CZK","add_time":"2024-10-07","won_time":null,"lost_time":"2024-11-07","half":"2024H2","prior_wins":0,"prior_win_time":null,"evidence":"„Důvodem pro výběr jiného kandidáta byla nízká zkušenost p. Hlubučka“ — vybrán někdo jiný","mech":"","sub":"","cat":"loss_c","cert":"doloženo","subc":"K"},{"deal_id":216,"title":"PM pro optimalizace firemního autoparku","org_name":"Heimstaden s.r.o.","owner_name":"Jiří Tonar","status":"lost","lost_reason":"Quality","val":0.0,"ccy":"CZK","add_time":"2024-11-13","won_time":null,"lost_time":"2024-12-30","half":"2024H2","prior_wins":0,"prior_win_time":null,"evidence":"„Nebyli jsme schopni najít relevantního kandidáta. Klient poptávku uzavřel“ — POZOR: CRM tag je Quality, ne Cancelled by PJM","mech":"nedodali jsme","sub":"B","cat":"loss_nc","cert":"doloženo"},{"deal_id":96,"title":"Senior PM pro KPCS","org_name":"KPCS CZ, s.r.o.","owner_name":"Pavel Veselý","status":"lost","lost_reason":"Quality","val":0.0,"ccy":"CZK","add_time":"2024-07-09","won_time":null,"lost_time":"2024-08-07","half":"2024H2","prior_wins":0,"prior_win_time":null,"evidence":"„Hledali do interna, na IČO a přes nás. Vybrali si napřímo. Kvalitu kandidátů ocenili“","mech":"obsazeno napřímo","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":93,"title":"IT PM pro ERP roll-out","org_name":"MITSUBISHI ELECTRIC AUTOMOTIVE CZECH s.r.o.","owner_name":"Jiří Zázvorka","status":"lost","lost_reason":"Quality","val":0.0,"ccy":"CZK","add_time":"2024-07-15","won_time":null,"lost_time":"2024-08-27","half":"2024H2","prior_wins":0,"prior_win_time":null,"evidence":"lost_reason = Quality, LL prázdné","mech":"","sub":"","cat":"loss_c","cert":"indikace","subc":"N"},{"deal_id":73,"title":"SAP PM pro S/4HANA Public Cloud","org_name":"MTX Group a.s.","owner_name":"Jiří Zázvorka","status":"lost","lost_reason":"Cancelled by client","val":0.0,"ccy":"CZK","add_time":"2024-10-03","won_time":null,"lost_time":"2024-11-04","half":"2024H2","prior_wins":0,"prior_win_time":null,"evidence":"lost_reason = Cancelled by client, zápis prázdný","mech":"klient zrušil","sub":"A","cat":"loss_nc","cert":"indikace"},{"deal_id":226,"title":"PM for Water Purification","org_name":"Novo Nordisk Production Czech s.r.o.","owner_name":"Pavel Veselý","status":"lost","lost_reason":"Quality","val":2350000.0,"ccy":"CZK","add_time":"2024-11-19","won_time":null,"lost_time":"2025-04-28","half":"2024H2","prior_wins":0,"prior_win_time":null,"evidence":"„Má ještě nějakou alternativu od jiného dodavatele“ → „posoudili jsme a nevybrali jsme… dáme příležitost kandidátovi, který pro nás již pracoval“","mech":"prohra s jejich vlastním bývalým kontraktorem","sub":"","cat":"loss_c","cert":"doloženo","subc":"I"},{"deal_id":227,"title":"Novo Nordisk - PM (DMS?)","org_name":"Novo Nordisk Production Czech s.r.o.","owner_name":"Pavel Veselý","status":"lost","lost_reason":"Cancelled by PJM","val":1500000.0,"ccy":"CZK","add_time":"2024-11-19","won_time":null,"lost_time":"2025-06-09","half":"2024H2","prior_wins":0,"prior_win_time":null,"evidence":"lost_reason = Cancelled by PJM, „Zatím se nic neděje - parkujeme“","mech":"nedodali jsme — zakázka zaparkována","sub":"B","cat":"loss_nc","cert":"doloženo"},{"deal_id":74,"title":"PM pro SF roll out - international project","org_name":"PricewaterhouseCoopers Česká republika, s.r.o.,","owner_name":"Petr Holub","status":"lost","lost_reason":"Quality","val":0.0,"ccy":"CZK","add_time":"2024-10-03","won_time":null,"lost_time":"2024-10-20","half":"2024H2","prior_wins":0,"prior_win_time":null,"evidence":"lost_reason = Quality, LL prázdné","mech":"","sub":"","cat":"loss_c","cert":"indikace","subc":"N"},{"deal_id":88,"title":"Project manager SME Loan","org_name":"Raiffeisenbank a.s.","owner_name":"Petr Vesely","status":"lost","lost_reason":"Quality","val":0.0,"ccy":"CZK","add_time":"2024-08-01","won_time":null,"lost_time":"2024-09-16","half":"2024H2","prior_wins":5,"prior_win_time":"2023-08-21","evidence":"lost_reason = Quality, poptávka „na levelu Lukáše Veselého nebo Jirky Drbohlava“, LL prázdné","mech":"","sub":"","cat":"loss_c","cert":"indikace","subc":"N"},{"deal_id":205,"title":"Senior PM na implementaci datového skladu","org_name":"VIG RE zajišťovna, a.s.","owner_name":"Jiří Tonar","status":"lost","lost_reason":"Quality","val":0.0,"ccy":"CZK","add_time":"2024-11-01","won_time":null,"lost_time":"2024-12-05","half":"2024H2","prior_wins":0,"prior_win_time":null,"evidence":"„Našli si interního člověka. Ale máme zatím dobrou zpětnou vazbu na naší práci“","mech":"obsazeno interně","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":75,"title":"Program Manager Corporate finance IT","org_name":"accompani consulting GmbH","owner_name":"Petr Janiš","status":"lost","lost_reason":"Silent client","val":0.0,"ccy":"CZK","add_time":"2024-09-27","won_time":null,"lost_time":"2025-02-12","half":"2024H2","prior_wins":6,"prior_win_time":"2024-02-28","evidence":"„Velmi složitá pozice, několik kandidátů nám vrátili, nechali jsme vyhnít“ — POZOR: CRM tag je Silent client, ne Cancelled by PJM","mech":"nedodali jsme","sub":"B","cat":"loss_nc","cert":"indikace"},{"deal_id":221,"title":"Zdeněk Vondra ČSOB","org_name":"Československá obchodní banka, a. s.","owner_name":"Petr Janiš","status":"lost","lost_reason":"Cancelled by client","val":0.0,"ccy":"CZK","add_time":"2024-11-15","won_time":null,"lost_time":"2024-11-26","half":"2024H2","prior_wins":1,"prior_win_time":"2024-10-04","evidence":"„Milan by preferoval do interna“ → „Na pozici museli přijmout interního člověka“","mech":"obsazeno interně","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":238,"title":"Kontrakt v EI (+1FTE navíc ve 2025)","org_name":"Škoda Auto a.s.","owner_name":"Petr Vesely","status":"lost","lost_reason":"Cancelled by client","val":0.0,"ccy":"CZK","add_time":"2024-11-29","won_time":null,"lost_time":"2025-04-08","half":"2024H2","prior_wins":25,"prior_win_time":"2024-11-29","evidence":"„MIchal tam chce nás“ → „sešktali mu rozpočet a nebude tým posilovat“ — navýšení u našeho vlastního člověka","mech":"škrt rozpočtu","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":242,"title":"PM pro G1E","org_name":"Škoda Auto a.s.","owner_name":"Pavel Veselý","status":"lost","lost_reason":"Price","val":3000000.0,"ccy":"CZK","add_time":"2024-12-03","won_time":null,"lost_time":"2025-02-05","half":"2024H2","prior_wins":25,"prior_win_time":"2024-11-29","evidence":"prošli technickým hodnocením se 3 kandidáty, „Zakázku získala (podvodem) společnost Cvario. Nabídli cenu 600 Kč/hod.“","mech":"prohra na ceně","sub":"","cat":"loss_c","cert":"doloženo","subc":"P"},{"deal_id":235,"title":"Škoda Auto a.s. - krizový PM","org_name":"Škoda Auto a.s.","owner_name":"Pavel Veselý","status":"lost","lost_reason":"Cancelled by PJM","val":3750000.0,"ccy":"CZK","add_time":"2024-11-27","won_time":null,"lost_time":"2024-11-29","half":"2024H2","prior_wins":24,"prior_win_time":"2024-11-01","evidence":"lost_reason = Cancelled by PJM, „Šlo pouze o zástěrku k přesoutěžení pozice existujícího PM“ — ne recruitment, ale vlastní diskvalifikace","mech":"sami jsme odstoupili","sub":"B","cat":"loss_nc","cert":"doloženo"},{"deal_id":228,"title":"Novavax CZ -  Access Control  PM","org_name":"Novo Nordisk Production Czech s.r.o.","owner_name":"Pavel Veselý","status":"won","lost_reason":null,"val":4984000.0,"ccy":"CZK","add_time":"2024-11-19","won_time":"2025-02-14","lost_time":null,"half":"2024H2","prior_wins":0,"prior_win_time":null,"evidence":"na účtu doloženo konkurenční pole („baví se asi s 8 firmami“), klient si vybral našeho kontraktora Kotrlu","mech":"","sub":"","cat":"win_c","cert":"indikace"},{"deal_id":86,"title":"PM pro WMS implementaci (náhrada Peláka)","org_name":"SPORTISIMO s.r.o.","owner_name":"Pavel Veselý","status":"won","lost_reason":null,"val":4117500.0,"ccy":"CZK","add_time":"2024-08-05","won_time":"2024-08-28","lost_time":null,"half":"2024H2","prior_wins":0,"prior_win_time":null,"evidence":"„Spolupráce s aktuálním PM, briefing, předvýběr“ — o konkurenci ani přímém zadání zápis nic neříká","mech":"","sub":"","cat":"win_unknown","cert":"nedoloženo"},{"deal_id":90,"title":"Senior PM pro migrační projekt a nový vývoj","org_name":"UNIQA pojištovna, a.s.","owner_name":"Petr Holub","status":"won","lost_reason":null,"val":0.0,"ccy":"CZK","add_time":"2024-07-22","won_time":"2024-08-26","lost_time":null,"half":"2024H2","prior_wins":0,"prior_win_time":null,"evidence":"zápis popisuje jen potřebu a pozdější výměnu kontraktora, ne způsob výběru","mech":"","sub":"","cat":"win_unknown","cert":"nedoloženo"},{"deal_id":72,"title":"PM na core bankovní systémy - Martin Horný","org_name":"Československá obchodní banka, a. s.","owner_name":"Petr Janiš","status":"won","lost_reason":null,"val":0.0,"ccy":"CZK","add_time":"2024-10-04","won_time":"2024-10-18","lost_time":null,"half":"2024H2","prior_wins":0,"prior_win_time":null,"evidence":"„Prvni realna poptavka z CSOB - rychla recyklace kandidata z RB zakazky… nas kandidat se znal s relevantnimi lidmi“ — o soutěži zápis nemluví","mech":"reference a vztah kandidáta","sub":"","cat":"win_nc","cert":"indikace"},{"deal_id":246,"title":"ČSOB  Seniorní projektový manažer pro Transformation office","org_name":"Československá obchodní banka, a. s.","owner_name":"Petr Janiš","status":"won","lost_reason":null,"val":3250000.0,"ccy":"CZK","add_time":"2024-12-09","won_time":"2025-02-10","lost_time":null,"half":"2024H2","prior_wins":1,"prior_win_time":"2024-10-04","evidence":"jen ZOHO ID a objednávka na kontraktora; 1 dřívější výhra u ČSOB, ale způsob výběru nezaznamenán","mech":"","sub":"","cat":"win_unknown","cert":"nedoloženo"},{"deal_id":237,"title":"PM Admin - FIG/2 (security log management)","org_name":"Škoda Auto a.s.","owner_name":"Pavel Veselý","status":"won","lost_reason":null,"val":712980.0,"ccy":"CZK","add_time":"2024-11-29","won_time":"2025-05-29","lost_time":null,"half":"2024H2","prior_wins":24,"prior_win_time":"2024-11-01","evidence":"„Všechny projekty se budou soutěžit podle nových rámcovek… Nižší cena vítězí“; výhra po pohovoru kandidátky, po odchodu iXperty","mech":"","sub":"","cat":"win_c","cert":"indikace"},{"deal_id":77,"title":"PM pro BI - náhrada za Třasáka","org_name":"Škoda Transportation a.s.","owner_name":"Jiří Zázvorka","status":"won","lost_reason":null,"val":534750.0,"ccy":"CZK","add_time":"2024-09-19","won_time":"2024-11-21","lost_time":null,"half":"2024H2","prior_wins":3,"prior_win_time":"2024-01-02","evidence":"„chemie k PM si nesedla, chce urychlit výměnu“; klient pak vybíral jen mezi našimi třemi kandidáty (Jelínková / Hlubuček / Kovacs)","mech":"už jsme uvnitř — výměna PM","sub":"","cat":"win_nc","cert":"doloženo"},{"deal_id":389,"title":"Medior PM pre implementaciu/ rollout IT Systemov","org_name":"AGEL SSC a.s.","owner_name":"Lubomir Slocik","status":"lost","lost_reason":"Cancelled by client","val":1935200.0,"ccy":"EUR","add_time":"2025-03-26","won_time":null,"lost_time":"2025-06-24","half":"2025H1","prior_wins":0,"prior_win_time":null,"evidence":"„zrusili tuto poziciu“","mech":"pozice zrušena","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":415,"title":"ARBES PM outsourcing","org_name":"ARBES Technologies, a.s.","owner_name":"Jan Procházka","status":"lost","lost_reason":"Cancelled by PJM","val":500000.0,"ccy":"CZK","add_time":"2025-04-23","won_time":null,"lost_time":"2025-07-28","half":"2025H1","prior_wins":0,"prior_win_time":null,"evidence":"lost_reason = Cancelled by PJM, „ani jsme nedokazali rozjet rec“","mech":"nedodali jsme — search nezahájen","sub":"B","cat":"loss_nc","cert":"doloženo"},{"deal_id":260,"title":"Sazka - SAP senior PM","org_name":"Allwyn Česko a.s.","owner_name":"Jan Procházka","status":"lost","lost_reason":"Quality","val":3037500.0,"ccy":"CZK","add_time":"2025-01-06","won_time":null,"lost_time":"2025-02-25","half":"2025H1","prior_wins":4,"prior_win_time":"2024-11-01","evidence":"„jim CGI KAM podstrčil někoho od nich“ → „je preferován před konkurenčním kandidátem z CGI“ → „V posledni iteraci měli Pavla a jeste dva odjinud… vybrali jineho“","mech":"vyhráli jsme, kandidát odpadl, pak vybrali jiného","sub":"","cat":"loss_c","cert":"doloženo","subc":"K"},{"deal_id":400,"title":"SAZKA - loterijni senior PM","org_name":"Allwyn Česko a.s.","owner_name":"Jan Procházka","status":"lost","lost_reason":"Cancelled by client","val":1680000.0,"ccy":"CZK","add_time":"2025-04-07","won_time":null,"lost_time":"2025-04-15","half":"2025H1","prior_wins":4,"prior_win_time":"2024-11-01","evidence":"„zastavuji search na loterijniho PM; a neni to, ze by nekoho meli; deprioritizovali potrebu“","mech":"potřeba deprioritizována","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":435,"title":"Sazka, PM, FUN-P","org_name":"Allwyn Česko a.s.","owner_name":"Jan Procházka","status":"lost","lost_reason":"Quality","val":2000000.0,"ccy":"CZK","add_time":"2025-05-23","won_time":null,"lost_time":"2025-07-16","half":"2025H1","prior_wins":4,"prior_win_time":"2024-11-01","evidence":"„náš kandidát (T. Vojtíšek) byl ve final kole, ale druhý“","mech":"","sub":"","cat":"loss_c","cert":"doloženo","subc":"K"},{"deal_id":272,"title":"Medior PM pro dočasnou výpomoc pro logistiku","org_name":"Alza.cz a.s.","owner_name":"Jiří Tonar","status":"lost","lost_reason":"Cancelled by client","val":1120000.0,"ccy":"CZK","add_time":"2025-01-15","won_time":null,"lost_time":"2025-03-14","half":"2025H1","prior_wins":0,"prior_win_time":null,"evidence":"„Info od Václava - budou to řešit interně“","mech":"obsazeno interně","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":443,"title":"Junior PM support","org_name":"CME MEDIA ENTERPRISES B.V.","owner_name":"Petr Vesely","status":"lost","lost_reason":"Cancelled by client","val":0.0,"ccy":"CZK","add_time":"2025-05-30","won_time":null,"lost_time":"2025-06-23","half":"2025H1","prior_wins":1,"prior_win_time":"2025-05-28","evidence":"„v CME nastaly změny na úrovni boardu… pozici nebudou potřebovat a výběrko zrušili“ — přitom „nejspíš by si tu Zuzanu i vzali“","mech":"změny v boardu","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":259,"title":"PM Cyber Security","org_name":"Deutsche Börse Prague Branch","owner_name":"Pavel Veselý","status":"lost","lost_reason":"Silent client","val":3000000.0,"ccy":"CZK","add_time":"2025-01-06","won_time":null,"lost_time":"2025-02-06","half":"2025H1","prior_wins":0,"prior_win_time":null,"evidence":"„pořád jsou kluci ve hře... Tak uvidíme“ a pak zápis končí; CRM Silent client","mech":"","sub":"","cat":"loss_unknown","cert":"nedoloženo"},{"deal_id":439,"title":"Pricing tool PM - EDW","org_name":"Edwards Lifesciences Czech Republic s.r.o.","owner_name":"Pavel Veselý","status":"lost","lost_reason":"Cancelled by client","val":1000000.0,"ccy":"CZK","add_time":"2025-05-29","won_time":null,"lost_time":"2025-07-31","half":"2025H1","prior_wins":22,"prior_win_time":"2025-05-05","evidence":"„Potřeba vyšuměla. Místo toho hledají spíše BA“; sponzor Struckel přešel do interna","mech":"potřeba se rozplynula, sponzor odešel do interna","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":455,"title":"PM pro Dr. Max","org_name":"FLO Group s.r.o.","owner_name":"Pavel Veselý","status":"lost","lost_reason":"Cancelled by client","val":0.0,"ccy":"CZK","add_time":"2025-06-17","won_time":null,"lost_time":"2025-06-30","half":"2025H1","prior_wins":0,"prior_win_time":null,"evidence":"„Zrušeno“","mech":"zrušeno","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":289,"title":"Senior PM - autentizace/terminaly","org_name":"Global Payments Europe, s.r.o.","owner_name":"Jan Procházka","status":"lost","lost_reason":"Quality","val":4000000.0,"ccy":"CZK","add_time":"2025-01-31","won_time":null,"lost_time":"2025-05-09","half":"2025H1","prior_wins":1,"prior_win_time":"2024-04-03","evidence":"„Na původní pozici na 90% vybrali. Odjinud“ → u druhé pozice „rozhodli, že nabídku dáme druhému kandidátovi, tudíž Tomáš nevyhrál výběrové řízení“","mech":"","sub":"","cat":"loss_c","cert":"doloženo","subc":"K"},{"deal_id":307,"title":"SAP BASIS Project Manager","org_name":"ITmatch s.r.o.","owner_name":"Lubomir Slocik","status":"lost","lost_reason":"Silent client","val":0.0,"ccy":"EUR","add_time":"2025-02-13","won_time":null,"lost_time":"2025-06-19","half":"2025H1","prior_wins":0,"prior_win_time":null,"evidence":"„bola to poziadavka cez tretiu stranu a nedostali sme sa priamo na klienta“","mech":"nedostali jsme se na klienta","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":284,"title":"Koordinátor Programu CRM pro DAB J&T","org_name":"J&T BANKA, a.s.","owner_name":"Jiří Zázvorka","status":"lost","lost_reason":"Cancelled by client","val":1920000.0,"ccy":"CZK","add_time":"2025-01-24","won_time":null,"lost_time":"2025-04-01","half":"2025H1","prior_wins":1,"prior_win_time":"2024-10-31","evidence":"naši 2 kandidáti prošli pohovory, pak „rozhodnutí o obsazení pozice se odkládá“ a role nebyla schválena","mech":"board nerozhodl","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":406,"title":"PM_Workday Implementation","org_name":"Multitude IT Labs s.r.o","owner_name":"Lubomir Slocik","status":"lost","lost_reason":"Quality","val":1935200.0,"ccy":"EUR","add_time":"2025-04-11","won_time":null,"lost_time":"2025-06-24","half":"2025H1","prior_wins":0,"prior_win_time":null,"evidence":"kandidáti posláni, urgence bez reakce, zápis končí bez výsledku","mech":"","sub":"","cat":"loss_unknown","cert":"nedoloženo"},{"deal_id":392,"title":"Senior SAP Project Manager - Program: Milkyway","org_name":"O2 Slovakia, s.r.o.","owner_name":"Lubomir Slocik","status":"lost","lost_reason":"Quality","val":2419000.0,"ccy":"EUR","add_time":"2025-03-26","won_time":null,"lost_time":"2025-04-16","half":"2025H1","prior_wins":0,"prior_win_time":null,"evidence":"„Nebyli jsme schopni nalézt kandidáta s požadovaným skillsetem a ve stanoveném čase“ — POZOR: CRM tag Quality","mech":"nedodali jsme","sub":"B","cat":"loss_nc","cert":"doloženo"},{"deal_id":387,"title":"IT PM pro SAP Upgrade program Orlen","org_name":"ORLEN Unipetrol RPA s.r.o.","owner_name":"Jiří Zázvorka","status":"lost","lost_reason":"Cancelled by client","val":1920000.0,"ccy":"CZK","add_time":"2025-03-21","won_time":null,"lost_time":"2025-05-26","half":"2025H1","prior_wins":5,"prior_win_time":"2022-07-25","evidence":"„vyberou si někoho od vysoutěžených dodavatelů s rámcovkou… Takže PJM nový zdroj nedodá“","mech":"rozhodnuto pod rámcem konkurence","sub":"C","cat":"loss_nc","cert":"doloženo"},{"deal_id":303,"title":"Senior Project Manager SaaS_Java","org_name":"PosAm, spol. s r.o.","owner_name":"Lubomir Slocik","status":"lost","lost_reason":"Cancelled by client","val":1451400.0,"ccy":"EUR","add_time":"2025-02-12","won_time":null,"lost_time":"2025-03-24","half":"2025H1","prior_wins":0,"prior_win_time":null,"evidence":"„Dospeli sme interne k rozhodnutiu, ze nebudeme nakoniec outsourcovat tuto poziciu“","mech":"klient nakonec neoutsourcoval","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":306,"title":"Projektový manažér - senior Tatrabanka","org_name":"Tatra banka, a.s.","owner_name":"Lubomir Slocik","status":"lost","lost_reason":"Quality","val":725700.0,"ccy":"EUR","add_time":"2025-02-13","won_time":null,"lost_time":"2025-02-24","half":"2025H1","prior_wins":0,"prior_win_time":null,"evidence":"„v rámci minitendra sme dostali ponuky, ktoré sa lepšie hodili na obsadzovanú pozíciu“","mech":"prohra v minitendru","sub":"","cat":"loss_c","cert":"doloženo","subc":"K"},{"deal_id":385,"title":"Senior Program Manager - EW Office (Apps)","org_name":"W.A.G. payment solutions, a.s.","owner_name":"Pavel Veselý","status":"lost","lost_reason":"Quality","val":2700000.0,"ccy":"CZK","add_time":"2025-03-21","won_time":null,"lost_time":"2025-05-06","half":"2025H1","prior_wins":2,"prior_win_time":"2024-09-13","evidence":"„business pokračuje s jinými kandidáty. Detaily nemáme“","mech":"","sub":"","cat":"loss_c","cert":"doloženo","subc":"K"},{"deal_id":431,"title":"Project Manager – Financial Solutions","org_name":"accompani consulting GmbH","owner_name":"Petr Janiš","status":"lost","lost_reason":"Silent client","val":0.0,"ccy":"CZK","add_time":"2025-05-16","won_time":null,"lost_time":"2025-07-30","half":"2025H1","prior_wins":6,"prior_win_time":"2024-02-28","evidence":"„Hiring manager v Sandozu… přes urgence bez reakce“; zápis zmiňuje i konkurenční tlak (sourcing z Indie), výsledek neznámý","mech":"","sub":"","cat":"loss_unknown","cert":"nedoloženo"},{"deal_id":323,"title":"PM Nový intranet a Nová autodoprava","org_name":"ČEPS, a.s.","owner_name":"Jiří Zázvorka","status":"lost","lost_reason":"Cancelled by PJM","val":1800000.0,"ccy":"CZK","add_time":"2025-02-24","won_time":null,"lost_time":"2025-11-19","half":"2025H1","prior_wins":0,"prior_win_time":null,"evidence":"„Kandidát nebyl schopen prokázat základní a profesní kvalifikaci - má dluhy na sociálním poj.“ (nabídka do DNS podána)","mech":"nedodali jsme — kandidát nesplnil kvalifikaci","sub":"B","cat":"loss_nc","cert":"doloženo"},{"deal_id":281,"title":"Medior PM/koordinátor pro tribe Protection","org_name":"Česká spořitelna, a.s.","owner_name":"Jiří Tonar","status":"lost","lost_reason":"Cancelled by client","val":0.0,"ccy":"CZK","add_time":"2025-01-23","won_time":null,"lost_time":"2025-06-26","half":"2025H1","prior_wins":3,"prior_win_time":"2023-01-24","evidence":"„Kobza budget na novy team neschvalil“ — stejný boardman ho předtím přislíbil","mech":"neschválený budget","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":276,"title":"EXQ: Administrativní podpora Technického vedení projektu","org_name":"Škoda Auto a.s.","owner_name":"Jiří Tonar","status":"lost","lost_reason":"Quality","val":0.0,"ccy":"CZK","add_time":"2025-01-20","won_time":null,"lost_time":"2025-02-26","half":"2025H1","prior_wins":25,"prior_win_time":"2024-11-29","evidence":"„shledána jako technicky nevyhovující“ — druhé z dvojice výběrových řízení EXQ","mech":"prohra v tendru na technickém hodnocení","sub":"","cat":"loss_c","cert":"doloženo","subc":"T"},{"deal_id":292,"title":"VAS3: Connected car 2nd level support team","org_name":"Škoda Auto a.s.","owner_name":"Petr Vesely","status":"lost","lost_reason":"Price","val":0.0,"ccy":"CZK","add_time":"2025-02-05","won_time":null,"lost_time":"2025-04-24","half":"2025H1","prior_wins":27,"prior_win_time":"2025-01-20","evidence":"prošli technicky, pak „vyřadili nás po jednacím protokolu a levnější konkurence šla pak v aukci na polovinu našeho minima“","mech":"prohra v aukci na ceně","sub":"","cat":"loss_c","cert":"doloženo","subc":"P"},{"deal_id":275,"title":"EXQ: Podpora Projektmanager Technické vedení projektu","org_name":"Škoda Auto a.s.","owner_name":"Jiří Tonar","status":"lost","lost_reason":"Quality","val":0.0,"ccy":"CZK","add_time":"2025-01-20","won_time":null,"lost_time":"2025-02-20","half":"2025H1","prior_wins":25,"prior_win_time":"2024-11-29","evidence":"„Přihlásilo se jim 11 nebo 12 firem“ → „Projectman shledána jako technicky nevyhovující“","mech":"prohra v tendru na technickém hodnocení","sub":"","cat":"loss_c","cert":"doloženo","subc":"T"},{"deal_id":414,"title":"PM Admin - FIP/2 (app mng - bateriové linky MB)","org_name":"Škoda Auto a.s.","owner_name":"Pavel Veselý","status":"lost","lost_reason":"Quality","val":1225000.0,"ccy":"CZK","add_time":"2025-04-22","won_time":null,"lost_time":"2025-06-02","half":"2025H1","prior_wins":29,"prior_win_time":"2025-04-03","evidence":"„Příliš aktivní kandidáti… Hledali ale dlouhodobé adminy. Vybrali si jiné kandidáty“","mech":"prohra na profilu kandidátů","sub":"","cat":"loss_c","cert":"doloženo","subc":"K"},{"deal_id":388,"title":"PM pre implementaciu Čipove karty","org_name":"AGEL a.s.","owner_name":"Lubomir Slocik","status":"won","lost_reason":null,"val":1120825.0,"ccy":"CZK","add_time":"2025-03-26","won_time":"2025-05-07","lost_time":null,"half":"2025H1","prior_wins":0,"prior_win_time":null,"evidence":"„Authority: Head of IT projects - Adriana“, náběrový call přímo s ní, „Chtějí Lukáše Luttera!“ — soutěž v zápisu nikde, klient nás zároveň poptal na další role","mech":"přímý kontakt na Head of IT projects","sub":"","cat":"win_nc","cert":"indikace"},{"deal_id":438,"title":"Senior ERP PM","org_name":"CME MEDIA ENTERPRISES B.V.","owner_name":"Petr Vesely","status":"won","lost_reason":null,"val":1740000.0,"ccy":"CZK","add_time":"2025-05-28","won_time":"2025-07-16","lost_time":null,"half":"2025H1","prior_wins":0,"prior_win_time":null,"evidence":"„Schůzku zorganizoval Zoran Janković na základě propojení od Filipa Rozsívala“; „hrají sami roli systémového integrátora, ale nemají PM kapacitu“","mech":"intro přes referral, kapacita po odchodu Accenture","sub":"","cat":"win_nc","cert":"indikace"},{"deal_id":433,"title":"PM Eagle 5 revamp","org_name":"ESSITY SLOVAKIA S.R.O.","owner_name":"Lubomir Slocik","status":"won","lost_reason":null,"val":2525436.0,"ccy":"EUR","add_time":"2025-05-19","won_time":"2025-09-18","lost_time":null,"half":"2025H1","prior_wins":0,"prior_win_time":null,"evidence":"„Authority: mame kontak na decision makers“, „Adrian (sef Projektovych manazerov) hlada externeho PM“ — soutěž v zápisu nikde","mech":"přímý kontakt na decision makery","sub":"","cat":"win_nc","cert":"indikace"},{"deal_id":432,"title":"PM pro Heureku na 6M","org_name":"Heureka Group a.s.","owner_name":"Jan Klimíček","status":"won","lost_reason":null,"val":1716000.0,"ccy":"CZK","add_time":"2025-05-18","won_time":"2025-07-14","lost_time":null,"half":"2025H1","prior_wins":0,"prior_win_time":null,"evidence":"„Heuréka nemá projektovou strukturu ani PMO, proto chce pilotně vyzkoušet externí spolupráci“ — po prezentaci PJM přímo náběr a smlouva, konkurence v zápisu nikde","mech":"pilot sjednaný přímo","sub":"","cat":"win_nc","cert":"indikace"},{"deal_id":454,"title":"PMO Suport role pro H!G","org_name":"Heureka Group a.s.","owner_name":"Jan Klimíček","status":"won","lost_reason":null,"val":1320000.0,"ccy":"CZK","add_time":"2025-06-17","won_time":"2025-07-28","lost_time":null,"half":"2025H1","prior_wins":1,"prior_win_time":"2025-05-18","evidence":"druhá role u téhož klienta, „kapacita pro něj“","mech":"už jsme uvnitř","sub":"","cat":"win_nc","cert":"doloženo"},{"deal_id":422,"title":"PM experienced in IT Configuration & IT Asset Management & ServiceNow","org_name":"Kooperativa pojišťovna, a.s., Vienna Insurance Group","owner_name":"Jiří Tonar","status":"won","lost_reason":null,"val":992000.0,"ccy":"CZK","add_time":"2025-05-05","won_time":"2025-07-10","lost_time":null,"half":"2025H1","prior_wins":4,"prior_win_time":"2025-04-17","evidence":"„doplnění kapacity Jirky — Andrea ho chce celého“","mech":"už jsme uvnitř","sub":"","cat":"win_nc","cert":"doloženo"},{"deal_id":419,"title":"Medior PM - cenotvorba","org_name":"MAKRO Cash & Carry ČR s.r.o.","owner_name":"Jiří Tonar","status":"won","lost_reason":null,"val":1635300.0,"ccy":"CZK","add_time":"2025-04-24","won_time":"2025-06-24","lost_time":null,"half":"2025H1","prior_wins":2,"prior_win_time":"2024-05-31","evidence":"„S náhradou Zuzky řeší několik variant → Veme si někoho interně - od Laury / Poptal konkurenci / Vezme od nás“ — soutěž proběhla a vyhráli jsme","mech":"náhrada našeho kontraktora, klient poptal i konkurenci","sub":"","cat":"win_c","cert":"doloženo"},{"deal_id":376,"title":"PM s DE pro PoC se success fee - Miroslava Slamená","org_name":"Model Obaly a.s.","owner_name":"Jiří Tonar","status":"won","lost_reason":null,"val":387000.0,"ccy":"CZK","add_time":"2025-03-06","won_time":"2025-03-28","lost_time":null,"half":"2025H1","prior_wins":2,"prior_win_time":"2025-02-12","evidence":"PoC navržen společně: „budeme to muset spolu hodně vymyslet“","mech":"osobní vztah obchodníka","sub":"","cat":"win_nc","cert":"doloženo"},{"deal_id":381,"title":"Matouš Vamberský přeprodej do RB","org_name":"Raiffeisenbank a.s.","owner_name":"Petr Vesely","status":"won","lost_reason":null,"val":3250500.0,"ccy":"CZK","add_time":"2025-03-12","won_time":"2025-03-30","lost_time":null,"half":"2025H1","prior_wins":6,"prior_win_time":"2024-10-04","evidence":"kandidát si přinesl vlastní projekt a klienta: „potřebuje převozníka z PwC“","mech":"NE náš vztah — kandidát","sub":"","cat":"win_nc","cert":"doloženo"},{"deal_id":449,"title":"PM pro Huawei projekt","org_name":"Suntel s.r.o.","owner_name":"Jiří Tonar","status":"won","lost_reason":null,"val":1223000.0,"ccy":"CZK","add_time":"2025-06-12","won_time":"2025-08-14","lost_time":null,"half":"2025H1","prior_wins":0,"prior_win_time":null,"evidence":"„Chtějí to vyzkoušet s externistou. zároveň jsou krátký na zdroje a čeká je peak sezóny“ — poptávka přišla zprávou od kontaktu, konkurence v zápisu nikde","mech":"kapacitní potřeba z existujícího vztahu","sub":"","cat":"win_nc","cert":"indikace"},{"deal_id":367,"title":"AI PM pro Veolii","org_name":"intoit, s.r.o.","owner_name":"Petr Janiš","status":"won","lost_reason":null,"val":885600.0,"ccy":"CZK","add_time":"2025-03-05","won_time":"2025-05-26","lost_time":null,"half":"2025H1","prior_wins":0,"prior_win_time":null,"evidence":"„kupuje si to Šmejky sám sobě“","mech":"osobní vztah obchodníka","sub":"","cat":"win_nc","cert":"doloženo"},{"deal_id":416,"title":"Project Coordinator","org_name":"ČD - Telematika a.s.","owner_name":"Pavel Veselý","status":"won","lost_reason":null,"val":1362500.0,"ccy":"CZK","add_time":"2025-04-23","won_time":"2025-06-30","lost_time":null,"half":"2025H1","prior_wins":0,"prior_win_time":null,"evidence":"„Need: Přetíženost Znamenáčka - někoho mu k ruce“; postupně pohovorováni 4 naši kandidáti (Kosková, Lucie, Regrútová, Milová), po nevydařeném fitu jsme dostali objednávku znovu","mech":"kapacitní potřeba, vybíráno jen z našich kandidátů","sub":"","cat":"win_nc","cert":"doloženo"},{"deal_id":315,"title":"Senior PM pro účetní systémy ČSOBLeasing","org_name":"ČSOB Leasing, a.s.","owner_name":"Jiří Zázvorka","status":"won","lost_reason":null,"val":5393500.0,"ccy":"CZK","add_time":"2025-02-20","won_time":"2025-03-12","lost_time":null,"half":"2025H1","prior_wins":0,"prior_win_time":null,"evidence":"„Authority: vybírá externisty na role PM, BA, SA“ (Felix Kozelský); klient si vyžádal referenci a osobní pohovor jediného našeho kandidáta (T. Doubek), konkurence v zápisu nikde","mech":"přímé zadání — jediný posuzovaný kandidát","sub":"","cat":"win_nc","cert":"indikace"},{"deal_id":485,"title":"PM pre projekt Jira ITSM","org_name":"DÔVERA zdravotná poisťovňa, a.s.","owner_name":"Lubomir Slocik","status":"lost","lost_reason":"Cancelled by client","val":2419000.0,"ccy":"EUR","add_time":"2025-07-22","won_time":null,"lost_time":"2025-08-31","half":"2025H2","prior_wins":0,"prior_win_time":null,"evidence":"„dostali viacero CV aj do interna“ → „Nasli si kandidata do interna“","mech":"obsazeno interně","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":587,"title":"Integrační PM do projektu pro Agel","org_name":"Euro Enterprise Development s.r.o.","owner_name":"Jiří Tonar","status":"lost","lost_reason":"Quality","val":0.0,"ccy":"CZK","add_time":"2025-11-26","won_time":null,"lost_time":"2025-12-05","half":"2025H2","prior_wins":0,"prior_win_time":null,"evidence":"„Našli dřív lepší kandidáty a zastavili nám i pohovor“","mech":"","sub":"","cat":"loss_c","cert":"doloženo","subc":"K"},{"deal_id":502,"title":"PM pro Groupon Finance","org_name":"Groupon Management, LLC - Czech Branch","owner_name":"Pavel Veselý","status":"lost","lost_reason":"Silent client","val":1000000.0,"ccy":"CZK","add_time":"2025-08-18","won_time":null,"lost_time":"2025-11-28","half":"2025H2","prior_wins":2,"prior_win_time":"2024-11-19","evidence":"postup do jednání s nákupem o rámcové smlouvě, pak zápis končí bez výsledku; CRM Silent client","mech":"","sub":"","cat":"loss_unknown","cert":"nedoloženo"},{"deal_id":607,"title":"Delivery manager pro nový produkt - Heureka Group a.s.","org_name":"Heureka Group a.s.","owner_name":"Jan Klimíček","status":"lost","lost_reason":"Cancelled by client","val":2500000.0,"ccy":"CZK","add_time":"2025-12-29","won_time":null,"lost_time":"2026-04-27","half":"2025H2","prior_wins":2,"prior_win_time":"2025-06-17","evidence":"„Nový stakeholder, reorganizace, nový plán“","mech":"reorganizace u klienta","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":503,"title":"PM pro implementaci SAPu","org_name":"MIBCON a.s.","owner_name":"Petr Janiš","status":"lost","lost_reason":"Cancelled by client","val":6000000.0,"ccy":"CZK","add_time":"2025-08-18","won_time":null,"lost_time":"2025-09-04","half":"2025H2","prior_wins":1,"prior_win_time":"2024-08-09","evidence":"„Pomalý postup na straně Mibconu, který měl validovat kandidáta, mezitím letiště přijalo někoho jiného“","mech":"zdržení u partnera, klient obsadil jinde","sub":"","cat":"loss_c","cert":"doloženo","subc":"T"},{"deal_id":495,"title":"Automation Engineer PLC Systems Integration & Lifecycle Management","org_name":"Novo Nordisk Production Czech s.r.o.","owner_name":"Pavel Veselý","status":"lost","lost_reason":"Cancelled by client","val":1000000.0,"ccy":"CZK","add_time":"2025-08-07","won_time":null,"lost_time":"2025-09-25","half":"2025H2","prior_wins":5,"prior_win_time":"2025-07-11","evidence":"„pozice byla řešena interními zdroji“","mech":"obsazeno interně","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":529,"title":"PM Automatizace pro Novo Nordisk","org_name":"Novo Nordisk Production Czech s.r.o.","owner_name":"Pavel Veselý","status":"lost","lost_reason":"Quality","val":1000000.0,"ccy":"CZK","add_time":"2025-09-22","won_time":null,"lost_time":"2025-10-07","half":"2025H2","prior_wins":7,"prior_win_time":"2025-09-12","evidence":"„Našli jinde kandidáty s velmi specifickou znalostí SW DeltaV“","mech":"specifická znalost, kterou jsme nedodali","sub":"","cat":"loss_c","cert":"doloženo","subc":"I"},{"deal_id":590,"title":"Project Manager - Automatizace výroby","org_name":"Orkla Foods Česko a Slovensko a.s.","owner_name":"Jiří Tonar","status":"lost","lost_reason":"Quality","val":0.0,"ccy":"CZK","add_time":"2025-12-01","won_time":null,"lost_time":"2026-01-13","half":"2025H2","prior_wins":0,"prior_win_time":null,"evidence":"„nebudeme pokračovat s vašimi kandidáty. Hlavním důvodem byly reference“; „Do okamžiku feedbacku jsme byli braní jako jednička“","mech":"prohra na referencích kandidátů","sub":"","cat":"loss_c","cert":"doloženo","subc":"K"},{"deal_id":582,"title":"Senior PM pro FSM - PosAm","org_name":"PosAm, spol. s r.o.","owner_name":"Lubomir Slocik","status":"lost","lost_reason":"Cancelled by client","val":2419000.0,"ccy":"EUR","add_time":"2025-11-20","won_time":null,"lost_time":"2026-03-16","half":"2025H2","prior_wins":0,"prior_win_time":null,"evidence":"„Vybrali si kandidata do interna“","mech":"obsazeno interně","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":581,"title":"PMO lead","org_name":"PosAm, spol. s r.o.","owner_name":"Lubomir Slocik","status":"lost","lost_reason":"Cancelled by client","val":2902800.0,"ccy":"EUR","add_time":"2025-11-20","won_time":null,"lost_time":"2026-03-09","half":"2025H2","prior_wins":0,"prior_win_time":null,"evidence":"„bude zvazovat CV do interna“ → „Vybrali si Head of PMO sami“","mech":"obsazeno interně","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":506,"title":"OT koordinátor pro Stage One (NN projekt)","org_name":"Stage One Computing A/S","owner_name":"Pavel Veselý","status":"lost","lost_reason":"Cancelled by client","val":2000000.0,"ccy":"CZK","add_time":"2025-08-26","won_time":null,"lost_time":"2025-10-07","half":"2025H2","prior_wins":0,"prior_win_time":null,"evidence":"„nejistá situace ohledně nových projektů. Stage One má obavy teď nabírat“","mech":"potřeba odpadla — stop nabírání","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":597,"title":"Tatra banka_Projektový manažér senior","org_name":"Tatra banka, a.s.","owner_name":"Lubomir Slocik","status":"lost","lost_reason":"Quality","val":2902800.0,"ccy":"EUR","add_time":"2025-12-15","won_time":null,"lost_time":"2026-01-26","half":"2025H2","prior_wins":0,"prior_win_time":null,"evidence":"„Vybrali ineho kandidata, nasho kandidata chceli mat v back-up“","mech":"prohra v minitendru","sub":"","cat":"loss_c","cert":"doloženo","subc":"K"},{"deal_id":528,"title":"PM/IT Delivery Manazer Tatrabanka","org_name":"Tatra banka, a.s.","owner_name":"Lubomir Slocik","status":"lost","lost_reason":"Quality","val":1451400.0,"ccy":"EUR","add_time":"2025-09-18","won_time":null,"lost_time":"2025-10-22","half":"2025H2","prior_wins":0,"prior_win_time":null,"evidence":"„v rámci výberového konania dostali viacero kandidátov, kt. sa lepšie hodili“ → „vybrali si kandodata od ineho dodavatela“","mech":"prohra v minitendru","sub":"","cat":"loss_c","cert":"doloženo","subc":"K"},{"deal_id":576,"title":"PM pro re-implementaci ERP, VAFO Group a.s.","org_name":"VAFO Production s.r.o.","owner_name":"Jan Klimíček","status":"lost","lost_reason":"Cancelled by client","val":2500000.0,"ccy":"CZK","add_time":"2025-11-13","won_time":null,"lost_time":"2026-01-05","half":"2025H2","prior_wins":0,"prior_win_time":null,"evidence":"lost_reason = Cancelled by client, zápis končí po náběru bez výsledku","mech":"klient zrušil","sub":"A","cat":"loss_nc","cert":"indikace"},{"deal_id":542,"title":"PM pro implementaci ESS v ČD","org_name":"ČD - Telematika a.s.","owner_name":"Pavel Veselý","status":"lost","lost_reason":"Cancelled by PJM","val":1500000.0,"ccy":"CZK","add_time":"2025-10-09","won_time":null,"lost_time":"2026-05-10","half":"2025H2","prior_wins":2,"prior_win_time":"2025-04-23","evidence":"„ČDT nevyhrálo tender, pro který jsme následně měli PM hledat. Tím pádem celá příležitost zanikla“ — POZOR: CRM tag Cancelled by PJM je zavádějící, nejde o naše selhání","mech":"potřeba zanikla u koncového klienta","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":572,"title":"Delivery Manager pro externí spolupráci","org_name":"Česká spořitelna, a.s.","owner_name":"Jiří Tonar","status":"lost","lost_reason":"Quality","val":0.0,"ccy":"CZK","add_time":"2025-11-07","won_time":null,"lost_time":"2025-12-05","half":"2025H2","prior_wins":4,"prior_win_time":"2025-10-28","evidence":"„Našeho kandidáta (Milan Dřízhal) si nevybrali. Mají dva jiné a z nich si prý vyberou“","mech":"","sub":"","cat":"loss_c","cert":"doloženo","subc":"K"},{"deal_id":478,"title":"PM Coordinator for Hello Success SAP HR projekt","org_name":"Škoda Auto a.s.","owner_name":"Pavel Veselý","status":"lost","lost_reason":"Quality","val":1000000.0,"ccy":"CZK","add_time":"2025-07-14","won_time":null,"lost_time":"2025-09-09","half":"2025H2","prior_wins":29,"prior_win_time":"2025-04-03","evidence":"„Kandidátky neodpovídaly požadavkům klienta. Hlavně v oblasti znalosti JIRA“ — vybraný konkurent nepojmenován","mech":"prohra na profilu kandidáta","sub":"","cat":"loss_c","cert":"indikace","subc":"K"},{"deal_id":547,"title":"PM Admin pro ŠKODA","org_name":"Škoda Auto a.s.","owner_name":"Pavel Veselý","status":"lost","lost_reason":"Cancelled by client","val":1000000.0,"ccy":"CZK","add_time":"2025-10-17","won_time":null,"lost_time":"2025-10-20","half":"2025H2","prior_wins":30,"prior_win_time":"2025-10-13","evidence":"„Mají tam už dámu, s níž chtějí pokračovat. Poptávka byla jen pro forma“","mech":"rozhodnuto mimo tendr","sub":"C","cat":"loss_nc","cert":"doloženo"},{"deal_id":570,"title":"Senior PM pro ERP Škoda Electric","org_name":"Škoda Transportation a.s.","owner_name":"Jiří Zázvorka","status":"lost","lost_reason":"Cancelled by client","val":2860000.0,"ccy":"CZK","add_time":"2025-11-03","won_time":null,"lost_time":"2025-12-12","half":"2025H2","prior_wins":6,"prior_win_time":"2025-08-29","evidence":"„neschválený budget na ext.PM, bude to nějak ŠE řídit interně sama“","mech":"neschválený budget","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":569,"title":"senior PM pro ERP Pohoda","org_name":"Škoda Transportation a.s.","owner_name":"Jiří Zázvorka","status":"lost","lost_reason":"Cancelled by client","val":3540000.0,"ccy":"CZK","add_time":"2025-11-03","won_time":null,"lost_time":"2025-12-12","half":"2025H2","prior_wins":6,"prior_win_time":"2025-08-29","evidence":"kandidát J. Sedlák prošel pohovorem a byla poslána nabídka, pak „neschválený budget na ext. PM na ERP Pohoda“","mech":"neschválený budget","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":561,"title":"PM pre implementáciu bezpečnostných IT systémov-CZ","org_name":"AGEL SSC a.s.","owner_name":"Lubomir Slocik","status":"won","lost_reason":null,"val":1132092.0,"ccy":"EUR","add_time":"2025-10-28","won_time":"2025-12-02","lost_time":null,"half":"2025H2","prior_wins":0,"prior_win_time":null,"evidence":"„Authority: Dominik CTO, Adriana PMO - mame na nich priami kontakt“, návaznost na náš projekt Čipové karty; org proxy to nezachytí — jiná právní entita než AGEL a.s.","mech":"už jsme uvnitř (skupina AGEL)","sub":"","cat":"win_nc","cert":"doloženo"},{"deal_id":585,"title":"Náhrada PM pro CRM projekt","org_name":"Kongresové centrum Praha, a.s.","owner_name":"Jiří Tonar","status":"won","lost_reason":null,"val":953600.0,"ccy":"CZK","add_time":"2025-11-25","won_time":"2026-01-20","lost_time":null,"half":"2025H2","prior_wins":0,"prior_win_time":null,"evidence":"inbound lead, náhrada odcházejícího PM, žádná dřívější výhra u klienta a o konkurenci zápis mlčí","mech":"","sub":"","cat":"win_unknown","cert":"nedoloženo"},{"deal_id":475,"title":"IT PM pro NN","org_name":"Novo Nordisk Production Czech s.r.o.","owner_name":"Pavel Veselý","status":"won","lost_reason":null,"val":3199500.0,"ccy":"CZK","add_time":"2025-07-11","won_time":"2025-07-25","lost_time":null,"half":"2025H2","prior_wins":3,"prior_win_time":"2025-07-04","evidence":"náběrový call vedl náš vlastní kontraktor Tomáš Kotrla („Jako Project Lead si je vezme do péče Tomáš“) a sedel i na výběru za NN","mech":"už jsme uvnitř — náš kontraktor definoval roli","sub":"","cat":"win_nc","cert":"doloženo"},{"deal_id":476,"title":"OT PM pro NN","org_name":"Novo Nordisk Production Czech s.r.o.","owner_name":"Pavel Veselý","status":"won","lost_reason":null,"val":2691000.0,"ccy":"CZK","add_time":"2025-07-11","won_time":"2025-08-18","lost_time":null,"half":"2025H2","prior_wins":4,"prior_win_time":"2025-07-11","evidence":"interview našich kandidátů (Berezovský, Walenda) s Pavlem Kratinou, konkurence v zápisu nikde","mech":"už jsme uvnitř","sub":"","cat":"win_nc","cert":"doloženo"},{"deal_id":470,"title":"PM pro oblast Quality Assurance","org_name":"Novo Nordisk Production Czech s.r.o.","owner_name":"Pavel Veselý","status":"won","lost_reason":null,"val":1290300.0,"ccy":"CZK","add_time":"2025-07-04","won_time":"2025-07-22","lost_time":null,"half":"2025H2","prior_wins":2,"prior_win_time":"2025-05-07","evidence":"BANT: „Authority: ANO - sám je šéf PMO, hledá roli pod sebe“, „INBOUND z portálu? NE“, „od partnera? NE“; 2 dřívější výhry u NN","mech":"už jsme uvnitř — přímá poptávka","sub":"","cat":"win_nc","cert":"doloženo"},{"deal_id":541,"title":"PM pro Cloud AI Platform implementation","org_name":"Revolgy Business Solutions a.s.","owner_name":"Pavel Veselý","status":"won","lost_reason":null,"val":36562.5,"ccy":"CZK","add_time":"2025-10-09","won_time":"2025-10-17","lost_time":null,"half":"2025H2","prior_wins":0,"prior_win_time":null,"evidence":"jen záznam v ATS, hodnota 37 tis. Kč, o způsobu výběru nic","mech":"","sub":"","cat":"win_unknown","cert":"nedoloženo"},{"deal_id":533,"title":"PM Underwriting & RFP Stream","org_name":"VIG RE zajišťovna, a.s.","owner_name":"Jiří Tonar","status":"won","lost_reason":null,"val":3888900.0,"ccy":"CZK","add_time":"2025-09-25","won_time":"2025-11-24","lost_time":null,"half":"2025H2","prior_wins":2,"prior_win_time":"2025-08-26","evidence":"„Lead přinesla Verča po schůzce s Petrem“, „Need: Kapacita do týmu“; 2 dřívější výhry u VIG RE","mech":"už jsme uvnitř — lead z CONS streamu","sub":"","cat":"win_nc","cert":"doloženo"},{"deal_id":594,"title":"PM pro implementaci Asset management systému","org_name":"WOOD & Company Financial Services, a.s.","owner_name":"Jan Klimíček","status":"won","lost_reason":null,"val":3750000.0,"ccy":"CZK","add_time":"2025-12-09","won_time":"2025-12-29","lost_time":null,"half":"2025H2","prior_wins":2,"prior_win_time":"2025-07-17","evidence":"„Historicky ověřený zákazník Projectmanu (školení a konzultace)“; klient vybíral jen mezi našimi dvěma kandidáty (Jakubička, Konečný)","mech":"už jsme uvnitř — historický klient","sub":"","cat":"win_nc","cert":"doloženo"},{"deal_id":675,"title":"PM pro migraci z ABS do UNIUS/OPUS, Allianz Technology s.r.o.","org_name":"Allianz Technology s.r.o.","owner_name":"Jan Klimíček","status":"lost","lost_reason":"Quality","val":3100000.0,"ccy":"CZK","add_time":"2026-04-20","won_time":null,"lost_time":"2026-07-02","half":"2026H1","prior_wins":0,"prior_win_time":null,"evidence":"„Jediná konkurence která tam byla našla kandidáta, který měl vyloženě zkušenosti z Allianz SE, kde pracoval s OPUSem“","mech":"konkurent měl kandidáta z Allianz SE","sub":"","cat":"loss_c","cert":"doloženo","subc":"I"},{"deal_id":661,"title":"PM pro přesun výroby ve pharma industry (IT problematika): Comcentra IT-Consulting GmbH, Jens Harms","org_name":"Comcentra IT-Consulting GmbH","owner_name":"Jan Klimíček","status":"lost","lost_reason":"Price","val":4434027.0,"ccy":"EUR","add_time":"2026-03-26","won_time":null,"lost_time":"2026-04-20","half":"2026H1","prior_wins":0,"prior_win_time":null,"evidence":"„Kandidát byl vybraný skvělý, chtěli ho, nakonec ale chtěli moc velkou kapacitu on-site… což náš kandidát nemohl přijmout“ — POZOR: CRM tag Price","mech":"nedodali jsme — kandidát odmítl","sub":"B","cat":"loss_nc","cert":"doloženo"},{"deal_id":670,"title":"PM ITSM Implementation","org_name":"DÔVERA zdravotná poisťovňa, a.s.","owner_name":"Lubomir Slocik","status":"lost","lost_reason":"Cancelled by client","val":2419000.0,"ccy":"EUR","add_time":"2026-04-10","won_time":null,"lost_time":"2026-04-27","half":"2026H1","prior_wins":0,"prior_win_time":null,"evidence":"„nemame konkurenciu, oslovila zatial mna“ → „Projektak ktoreho sme mali nahradit zmenil rozhodnutie“ — sole-sourced a přesto prohra","mech":"zastupovaný PM změnil rozhodnutí","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":720,"title":"PM pro stavbu nemocnice v Oceánii: EuroHealth Global Projects s.r.o.","org_name":"EuroHealth Global Projects s.r.o.","owner_name":"Jan Klimíček","status":"lost","lost_reason":"Cancelled by client","val":2880000.0,"ccy":"CZK","add_time":"2026-06-22","won_time":null,"lost_time":"2026-07-22","half":"2026H1","prior_wins":0,"prior_win_time":null,"evidence":"„jste jediní protože znám Janiše“, „Projectman je sám“ → „boarďák z LINETu to zastavil… chtějí radši najít někoho do interna“","mech":"board zastavil, autorita nepomohla","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":668,"title":"PM pro Citrix decommissioning, Generali","org_name":"Generali Česká pojišťovna a.s.","owner_name":"Jan Klimíček","status":"lost","lost_reason":"Cancelled by client","val":1760000.0,"ccy":"CZK","add_time":"2026-04-02","won_time":null,"lost_time":"2026-06-08","half":"2026H1","prior_wins":3,"prior_win_time":"2024-12-19","evidence":"„Ruší výběrko“","mech":"výběrko zrušeno","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":677,"title":"PM pro vývoj mobilních aplikací do zdravotnictví","org_name":"Infini One, a.s.","owner_name":"Petr Vesely","status":"lost","lost_reason":"Quality","val":2052000.0,"ccy":"CZK","add_time":"2026-04-20","won_time":null,"lost_time":"2026-05-07","half":"2026H1","prior_wins":0,"prior_win_time":null,"evidence":"„poslali jsme kandidátku, kterou měli už od konkurence… po nás představil Gažo kandidátku, ze které byli nadšeni“","mech":"kandidátka už byla u konkurence","sub":"","cat":"loss_c","cert":"doloženo","subc":"I"},{"deal_id":710,"title":"Medior PM IKIS_HPP","org_name":"Medical Systems a.s.","owner_name":"Lubomir Slocik","status":"lost","lost_reason":"Quality","val":154816.0,"ccy":"EUR","add_time":"2026-06-18","won_time":null,"lost_time":"2026-07-15","half":"2026H1","prior_wins":0,"prior_win_time":null,"evidence":"pohovor 2. 7. proběhl („naborovy manazer bol spokojny“), pak zápis končí bez výsledku; HPP deal, 155 tis.","mech":"","sub":"","cat":"loss_unknown","cert":"nedoloženo"},{"deal_id":702,"title":"Senior PM _IKIS vyvoj&implementace","org_name":"Medical Systems a.s.","owner_name":"Lubomir Slocik","status":"lost","lost_reason":"Quality","val":1959390.0,"ccy":"EUR","add_time":"2026-06-03","won_time":null,"lost_time":"2026-06-30","half":"2026H1","prior_wins":0,"prior_win_time":null,"evidence":"„Nasli si vraj lepsieho kandidata ktory uz mal skusenosti s ich klientom a systemom“","mech":"prohra s kandidátem se znalostí jejich systému","sub":"","cat":"loss_c","cert":"doloženo","subc":"I"},{"deal_id":642,"title":"O2_Technical Project Manager","org_name":"O2 Slovakia, s.r.o.","owner_name":"Lubomir Slocik","status":"lost","lost_reason":"Quality","val":2419000.0,"ccy":"EUR","add_time":"2026-02-19","won_time":null,"lost_time":"2026-03-16","half":"2026H1","prior_wins":0,"prior_win_time":null,"evidence":"„Client selected other candidates“","mech":"","sub":"","cat":"loss_c","cert":"doloženo","subc":"K"},{"deal_id":658,"title":"SAP Migration Lead","org_name":"O2 Slovakia, s.r.o.","owner_name":"Lubomir Slocik","status":"lost","lost_reason":"Quality","val":2419000.0,"ccy":"EUR","add_time":"2026-03-25","won_time":null,"lost_time":"2026-04-27","half":"2026H1","prior_wins":0,"prior_win_time":null,"evidence":"„Jeden kandidat nesplnal poziadavky… druhy kandidat splnal poziadavky no bol drahy (900 EUR/MD)“ — POZOR: CRM tag Quality","mech":"nedodali jsme","sub":"B","cat":"loss_nc","cert":"doloženo"},{"deal_id":711,"title":"Senior PM2 - Orange","org_name":"Orange Slovensko a.s.","owner_name":"Lubomir Slocik","status":"lost","lost_reason":"Quality","val":2660900.0,"ccy":"EUR","add_time":"2026-06-18","won_time":null,"lost_time":"2026-07-20","half":"2026H1","prior_wins":0,"prior_win_time":null,"evidence":"„vybrali si inych, vhodnejsich kandidatov“","mech":"","sub":"","cat":"loss_c","cert":"doloženo","subc":"K"},{"deal_id":704,"title":"Nahrada PM pre PMO","org_name":"Orange Slovensko a.s.","owner_name":"Lubomir Slocik","status":"lost","lost_reason":"Quality","val":2554464.0,"ccy":"EUR","add_time":"2026-06-05","won_time":null,"lost_time":"2026-06-25","half":"2026H1","prior_wins":0,"prior_win_time":null,"evidence":"„Pozvali si na pohovor nasho kandidata R. Kantorek, no mali lepsich kandidatov“","mech":"","sub":"","cat":"loss_c","cert":"doloženo","subc":"K"},{"deal_id":654,"title":"PM for Swiss  and Czech market - Quadient CXM Czech","org_name":"Quadient CXM Czech s.r.o.","owner_name":"Jan Klimíček","status":"lost","lost_reason":"Cancelled by client","val":1556626.5,"ccy":"EUR","add_time":"2026-03-19","won_time":null,"lost_time":"2026-04-22","half":"2026H1","prior_wins":0,"prior_win_time":null,"evidence":"„Top MGMT nakonec rozhodl, že do spolupráce nepůjdou, byť bylo komunikováno předtím, že mají schváleno. Vše bylo domluveno, nástup měl proběhnout minulý týden“","mech":"top management otočil schválené rozhodnutí","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":627,"title":"PM pro stavbu depa: Raben Logistics Czech s.r.o.","org_name":"Raben Logistics Czech s.r.o.","owner_name":"Jan Klimíček","status":"lost","lost_reason":"Price","val":3059700.0,"ccy":"CZK","add_time":"2026-02-05","won_time":null,"lost_time":"2026-03-19","half":"2026H1","prior_wins":0,"prior_win_time":null,"evidence":"„šli s nabídkou od konkurence, protože nemají garanci, jdou čistě na využití hodin“","mech":"prohra na garanci kapacity","sub":"","cat":"loss_c","cert":"doloženo","subc":"P"},{"deal_id":624,"title":"PM pro postavení systému pro penzijní fondy","org_name":"Raiffeisenbank a.s.","owner_name":"Petr Vesely","status":"lost","lost_reason":"Quality","val":3000000.0,"ccy":"CZK","add_time":"2026-01-28","won_time":null,"lost_time":"2026-03-26","half":"2026H1","prior_wins":11,"prior_win_time":"2025-12-01","evidence":"„nedodali jsme nejlepší kandidátku, klient si vybral od konkurence… přesto, že jsme o poptávce věděli dřív než trh“","mech":"","sub":"","cat":"loss_c","cert":"doloženo","subc":"K"},{"deal_id":695,"title":"PM pro migraci JIRA do CLOUDU","org_name":"Raiffeisenbank a.s.","owner_name":"Petr Vesely","status":"lost","lost_reason":"Quality","val":2394000.0,"ccy":"CZK","add_time":"2026-05-27","won_time":null,"lost_time":"2026-07-09","half":"2026H1","prior_wins":11,"prior_win_time":"2025-12-01","evidence":"„Naši kandidáti neobstáli s konkurencí. Jednoho nepozvali ani na pohovor, druhý… nevybrali si jej“","mech":"","sub":"","cat":"loss_c","cert":"doloženo","subc":"K"},{"deal_id":662,"title":"PM pro zavedení nového e-shopu, SECURITAS ČR s.r.o.","org_name":"SECURITAS ČR s.r.o.","owner_name":"Jan Klimíček","status":"lost","lost_reason":"Cancelled by client","val":1750000.0,"ccy":"CZK","add_time":"2026-03-26","won_time":null,"lost_time":"2026-03-30","half":"2026H1","prior_wins":0,"prior_win_time":null,"evidence":"„Na mail ale přišla odpověď, že ve čtvrtek odpoledne pozici obsadili“ — 4 dny po vzniku dealu","mech":"obsazeno před zahájením","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":689,"title":"PM pro BIM projekt STA-VED2","org_name":"ČEPS, a.s.","owner_name":"Jiří Zázvorka","status":"lost","lost_reason":"Cancelled by PJM","val":4200000.0,"ccy":"CZK","add_time":"2026-05-06","won_time":null,"lost_time":"2026-05-18","half":"2026H1","prior_wins":2,"prior_win_time":"2025-08-05","evidence":"lost_reason = Cancelled by PJM, „Nebyli jsme schopni najít vhodného kandidáta, který by splnil požadovaná kritéria“","mech":"nedodali jsme","sub":"B","cat":"loss_nc","cert":"doloženo"},{"deal_id":622,"title":"senior PM pro Emerald PMI projekt","org_name":"ČSOB Leasing, a.s.","owner_name":"Jiří Zázvorka","status":"lost","lost_reason":"Cancelled by client","val":2300000.0,"ccy":"CZK","add_time":"2026-01-20","won_time":null,"lost_time":"2026-02-09","half":"2026H1","prior_wins":1,"prior_win_time":"2025-02-20","evidence":"„vybrali někoho ze zdrojů Trask pod existující smlouvou bez výběrka“ — my přitom drželi CV","mech":"rozhodnuto pod rámcem konkurence","sub":"C","cat":"loss_nc","cert":"doloženo"},{"deal_id":634,"title":"Junior Project Manager","org_name":"ČSOB Leasing, a.s.","owner_name":"Jiří Zázvorka","status":"lost","lost_reason":"Quality","val":1200000.0,"ccy":"CZK","add_time":"2026-02-09","won_time":null,"lost_time":"2026-02-27","half":"2026H1","prior_wins":1,"prior_win_time":"2025-02-20","evidence":"„nevybrali si jí na shortlist pro 1.kolo a nyní dokončují 2.kolo a někoho vyberou“","mech":"","sub":"","cat":"loss_c","cert":"doloženo","subc":"K"},{"deal_id":626,"title":"CSOB_SK Sr. PM na Smart Banking app","org_name":"Československá obchodná banka, a.s.","owner_name":"Lubomir Slocik","status":"lost","lost_reason":"Cancelled by client","val":2660900.0,"ccy":"EUR","add_time":"2026-02-03","won_time":null,"lost_time":"2026-02-05","half":"2026H1","prior_wins":0,"prior_win_time":null,"evidence":"„dali ponuku na rolu kandidatovi do interna, CSOB SK robi merge s 365 bankou a tam nasli v PMO vhodneho kandidata“","mech":"interní pool po fúzi","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":615,"title":"senior PM Core Banking Replacement - Milan Buriánek","org_name":"Československá obchodní banka, a. s.","owner_name":"Jiří Zázvorka","status":"lost","lost_reason":"Cancelled by client","val":2750000.0,"ccy":"CZK","add_time":"2026-01-13","won_time":null,"lost_time":"2026-03-13","half":"2026H1","prior_wins":2,"prior_win_time":"2024-12-09","evidence":"„ještě se oddaluje smlouva s Oraclem a tudíž implementace“","mech":"projekt odložen","sub":"A","cat":"loss_nc","cert":"doloženo"},{"deal_id":657,"title":"PM SECO Tools - Deviation Black Box in PO","org_name":"Dormer Pramet s.r.o.","owner_name":"Jiří Zázvorka","status":"open","lost_reason":null,"val":421875.0,"ccy":"CZK","add_time":"2026-03-24","won_time":null,"lost_time":null,"half":"2026H1","prior_wins":0,"prior_win_time":null,"evidence":"k datu extraktu (2026-08-19) nerozhodnuto","mech":"","sub":"","cat":"open","cert":"fakt"},{"deal_id":708,"title":"Senior Program Manažer pro MS Dynamics","org_name":"Elevion Group B.V.","owner_name":"Jiří Tonar","status":"open","lost_reason":null,"val":4371750.0,"ccy":"CZK","add_time":"2026-06-15","won_time":null,"lost_time":null,"half":"2026H1","prior_wins":0,"prior_win_time":null,"evidence":"k datu extraktu (2026-08-19) nerozhodnuto","mech":"","sub":"","cat":"open","cert":"fakt"},{"deal_id":714,"title":"SAP Program Manager pro SAP Transformaci PRE","org_name":"Pražská energetika, a.s.","owner_name":"Jiří Zázvorka","status":"open","lost_reason":null,"val":3500000.0,"ccy":"CZK","add_time":"2026-06-19","won_time":null,"lost_time":null,"half":"2026H1","prior_wins":1,"prior_win_time":"2025-10-09","evidence":"k datu extraktu (2026-08-19) nerozhodnuto","mech":"","sub":"","cat":"open","cert":"fakt"},{"deal_id":715,"title":"SAP PM pro streamy ERP/ISU SAP Transformace PRE","org_name":"Pražská energetika, a.s.","owner_name":"Jiří Zázvorka","status":"open","lost_reason":null,"val":2700000.0,"ccy":"CZK","add_time":"2026-06-19","won_time":null,"lost_time":null,"half":"2026H1","prior_wins":1,"prior_win_time":"2025-10-09","evidence":"k datu extraktu (2026-08-19) nerozhodnuto","mech":"","sub":"","cat":"open","cert":"fakt"},{"deal_id":614,"title":"eHealth-Senior Projektový manažér","org_name":"AGEL SSC a.s.","owner_name":"Lubomir Slocik","status":"won","lost_reason":null,"val":2777979.6,"ccy":"EUR","add_time":"2026-01-07","won_time":"2026-02-13","lost_time":null,"half":"2026H1","prior_wins":1,"prior_win_time":"2025-10-28","evidence":"„nástup 02/26 (výměna PM)“, „jednáme přímo se šéfem PMO“","mech":"už jsme uvnitř","sub":"","cat":"win_nc","cert":"doloženo"},{"deal_id":697,"title":"PM na stavbu hotelu pro Orea Hotels","org_name":"BUDĚJOVICKÝ BUDVAR, N. P.","owner_name":"Jiří Tonar","status":"won","lost_reason":null,"val":3120000.0,"ccy":"CZK","add_time":"2026-06-01","won_time":"2026-07-31","lost_time":null,"half":"2026H1","prior_wins":0,"prior_win_time":null,"evidence":"jediná doložená výhra v soutěži 2026H1","mech":"","sub":"","cat":"win_c","cert":"doloženo"},{"deal_id":609,"title":"Delivery manager na AI projekty","org_name":"Kooperativa pojišťovna, a.s., Vienna Insurance Group","owner_name":"Jiří Tonar","status":"won","lost_reason":null,"val":2000000.0,"ccy":"CZK","add_time":"2026-01-06","won_time":"2026-04-08","lost_time":null,"half":"2026H1","prior_wins":6,"prior_win_time":"2025-10-06","evidence":"„posílit stávající kapacitu (0,5 ext FTE)“ — navýšení u klienta, kde už jsme","mech":"už jsme uvnitř","sub":"","cat":"win_nc","cert":"doloženo"},{"deal_id":636,"title":"Project manager for projects on the German market","org_name":"Quadient Germany GmbH & Co. KG","owner_name":"Jan Klimíček","status":"won","lost_reason":null,"val":4166969.4000000004,"ccy":"EUR","add_time":"2026-02-11","won_time":"2026-06-30","lost_time":null,"half":"2026H1","prior_wins":0,"prior_win_time":null,"evidence":"„zná naše ceny z Modelu“, „chybí jim prostě kapacita“","mech":"vztah z jiného streamu","sub":"","cat":"win_nc","cert":"doloženo"}];
+const HALVES = ["2024H1","2024H2","2025H1","2025H2","2026H1"];
+// Úplnost kódování zápisů podle pololetí: "full" = výhry i prohry, "wins" = jen výhry
+const COV = {"2024H1":"full","2024H2":"full","2025H1":"full","2025H2":"full","2026H1":"full"};
+const COVL = {full:"kódováno ze zápisů", wins:"prohry pravidlem"};
+
+const CAT = {
+  win_c:       {lbl:"Výhra v soutěži",     tone:"win",     hatch:false, short:"Výhra v soutěži"},
+  win_nc:      {lbl:"Výhra bez soutěže",   tone:"win",     hatch:true,  short:"Výhra bez soutěže"},
+  win_unknown: {lbl:"Výhra — nedoloženo",  tone:"neutral", hatch:false, short:"Výhra nedoloženo"},
+  loss_c:      {lbl:"Prohra v soutěži",    tone:"loss",    hatch:false, short:"Prohra v soutěži"},
+  loss_nc:     {lbl:"Prohra bez soutěže",  tone:"loss",    hatch:true,  short:"Prohra bez soutěže"},
+  loss_unknown:{lbl:"Prohra — nedoloženo", tone:"neutral", hatch:false, short:"Prohra nedoloženo"},
+  open:        {lbl:"Otevřené",            tone:"open",    hatch:false, short:"Otevřené"},
+  // zobrazovací kategorie: skupina B je soutěžní prohra (soutěž běžela, nedodali jsme nabídku)
+  loss_c_b:    {lbl:"Prohra v soutěži — nedodali jsme", tone:"loss", hatch:false,
+                short:"Prohra v soutěži"}
+};
+const catKey = d => isB(d) ? "loss_c_b" : d.cat;
+const CERT = {"doloženo":"b-1","indikace":"b-2","nedoloženo":"b-3","fakt":"b-1"};
+// podskupiny nesoutěžní prohry — dělené podle toho, kdo to mohl ovlivnit
+const SUBL = {A:"klient zrušil nebo obsadil interně — nikdo z nás to neovlivní",
+              B:"nedodali jsme kandidáta do běžící soutěže — plně na nás (recruitment kapacita)",
+              C:"rozhodnuto mimo tendr — na úrovni rámcových smluv, dávno předem"};
+// podskupiny SOUTĚŽNÍ prohry — dělené podle toho, na čem jsme prohráli (kódováno z mech + zápisu)
+const SUBCL = {K:"kandidát prohrál srovnání — klient vybral kandidáta konkurence",
+               I:"konkurent měl kandidáta, na kterého jsme nemohli — insider u klienta nebo znalost jejich systému",
+               P:"cena a komerční podmínky — levnější konkurence nebo jiný model garance",
+               T:"technické nebo procesní vyřazení — nabídka neprošla hodnocením, případně jsme se zdrželi",
+               N:"nedoloženo — jen CRM tag Quality, zápis o výběru mlčí"};
+
+const isWin = d => d.cat.startsWith("win"), isLoss = d => d.cat.startsWith("loss");
+const decided = d => d.cat !== "open";
+/* Soutěž = doložená soutěž (win_c / loss_c) PLUS skupina B: soutěž běžela, nabídku jsme do ní
+   nedodali. Jedna definice pro KPI tabulku, L5 i souhrn L10 — ať se report nehádá sám se sebou. */
+const isB = d => d.cat === "loss_nc" && d.sub === "B";
+const isContest = d => ["win_c","loss_c"].includes(d.cat) || isB(d);
+/* Neovlivnitelná prohra — v daném dealu s ní nešlo nic dělat, proto odchází z tunelu v L2:
+   A (potřeba zmizela) · C (rámec konkurence) · I (konkurent měl insidera nebo znalost systému).
+   Pozor: I zůstává v KPI „soutěž" — ta se reálně konala, jen nebyla vyhratelná. */
+const isUnfixable = d => (d.cat === "loss_nc" && (d.sub === "A" || d.sub === "C"))
+                      || (d.cat === "loss_c" && d.subc === "I");
+
+/* Levels: each segment carries a predicate, so the click filter and the bar are the same rule.
+   flow:"Lx" = šedý přenosový segment, který je vstupem stupně Lx (vizuálně zdůrazněno korálově).
+   groups   = stupeň se kreslí jako dva boxy vedle sebe, ne jako jeden pruh. */
+const LEVELS = [
+ {n:"L1", t:"Dealy", d:"vše, co v pololetí vzniklo — jmenovatel všeho dalšího",
+   groups:[
+    {g:"all", title:"Vytvořené dealy", note:"celý objem pololetí — do L2 vstupuje beze zbytku",
+     flow:"L2", segs:[
+      {k:"all", lbl:"Vytvořené dealy", tone:"neutral", hatch:false, flow:"L2", f:()=>true}]}
+   ]},
+
+ {n:"L2", t:"Nešlo ovlivnit × zbytek", d:"první odečet — rozhodlo se mimo nás",
+   groups:[
+    {g:"out", title:"Nešlo ovlivnit", note:"klient rozhodl mimo nás",
+     foot:"A — potřeba zmizela nebo si ji klient pokryl sám. C — role se obsadila pod rámcovou "
+        + "smlouvou konkurence. I — vyhrál kandidát, na kterého jsme z pozice dodavatele nemohli: "
+        + "bývalý kontraktor klienta, člověk ze skupiny, znalost jejich systému. U žádné z nich "
+        + "nešlo v daném dealu udělat nic. Šrafa = soutěž neproběhla, plná plocha u I = proběhla, "
+        + "ale vyhratelná nebyla.",
+     segs:[
+      {k:"cancA", lbl:"A · klient zrušil nebo obsadil interně", tone:"loss", hatch:true,
+        f:d=>d.cat==="loss_nc"&&d.sub==="A", who:"nikdo z nás — šanci neměla ani konkurence"},
+      {k:"cancC", lbl:"C · rozhodnuto mimo tendr", tone:"loss", hatch:true,
+        f:d=>d.cat==="loss_nc"&&d.sub==="C", who:"nikdo z nás — rozhodly rámcové smlouvy, dávno předem"},
+      {k:"cancI", lbl:"I · konkurent měl insidera nebo znalost systému", tone:"loss", hatch:false,
+        f:d=>d.cat==="loss_c"&&d.subc==="I", who:"nikdo z nás — soutěž proběhla, ale vyhratelná nebyla"}]},
+    {g:"rest2", title:"Zbytek", note:"tady jsme ve hře my — včetně dosud nerozhodnutých",
+     flow:"L3", segs:[
+      {k:"rest2", lbl:"Zbytek — ve hře", tone:"neutral", hatch:false, flow:"L3",
+        f:d=>!isUnfixable(d)}]}
+   ]},
+
+ {n:"L3", t:"Výhra bez soutěže × zbytek", d:"nesoutěžní příjem se odečítá druhý",
+   inFrom:{lvl:"L2", lbl:"Zbytek"},
+   groups:[
+    {g:"wnc", title:"Výhra bez soutěže", note:"konkurence v zápisu nefiguruje vůbec",
+     foot:"Terminální kategorie — příjem, který nevznikl vítězstvím v soutěži, ale kapacitní "
+        + "potřebou, referralem nebo pozicí incumbenta. Šrafa = soutěž neproběhla.",
+     segs:[
+      {k:"win_nc", lbl:"Výhra bez soutěže", tone:"win", hatch:true, f:d=>d.cat==="win_nc",
+        who:"neopakovatelné soutěžním výkonem — drží to vztah, ne nabídka"}]},
+    {g:"rest3", title:"Zbytek — soutěž", note:"soutěž proběhla, nejde to určit, nebo ještě běží",
+     flow:"L4", segs:[
+      {k:"rest3", lbl:"Zbytek — soutěž", tone:"neutral", hatch:false, flow:"L4",
+        f:d=>d.cat!=="win_nc" && !isUnfixable(d)}]}
+   ]},
+
+ {n:"L4", t:"Výhra × prohra ze zbytku", d:"výsledek toho, co jsme mohli ovlivnit — a co ještě běží",
+   inFrom:{lvl:"L3", lbl:"Zbytek — soutěž"}, segs:[
+    {k:"w4", lbl:"Výhra", tone:"win", hatch:false,
+      f:d=>["win_c","win_unknown"].includes(d.cat)},
+    {k:"l4", lbl:"Prohra", tone:"loss", hatch:false, flow:"L5",
+      f:d=>isLoss(d) && !isUnfixable(d)},
+    {k:"open4", lbl:"Otevřené / ještě nerozhodnuté", tone:"open", hatch:false, muted:1,
+      f:d=>d.cat==="open", who:"ještě nikdo — k datu extraktu běží, do konverze nepatří"}]},
+
+ {n:"L5", t:"Rozpad prohry", d:"z L4 × z L2",
+   groups:[
+    {g:"fromL4", title:"Prohra z L4", note:"všechno, co doteklo jako prohra — v soutěži i bez ní",
+     foot:"Podskupiny K / I / P / T jsou kódované z mechanismu a citace v zápisu. B se počítá "
+        + "do soutěže — ta běžela, jen jsme do ní nedodali nabídku, takže je plnou plochou stejně "
+        + "jako ostatní soutěžní prohry. Nedoloženo je záměrně na konci pruhu.", segs:[
+      {k:"lcK", lbl:"K · kandidát prohrál srovnání", tone:"loss", hatch:false,
+        f:d=>d.cat==="loss_c"&&d.subc==="K", who:"my — kvalita a rychlost sourcingu"},
+      {k:"subB", lbl:"B · nedodali jsme kandidáta do běžící soutěže", tone:"loss", hatch:false,
+        f:isB, who:"my, plně — recruitment kapacita, nabídka nikdy nevznikla"},
+      {k:"lcP", lbl:"P · cena a komerční podmínky", tone:"loss", hatch:false,
+        f:d=>d.cat==="loss_c"&&d.subc==="P", who:"my — pricing a model garance"},
+      {k:"lcT", lbl:"T · technické nebo procesní vyřazení", tone:"loss", hatch:false,
+        f:d=>d.cat==="loss_c"&&d.subc==="T", who:"my — kvalifikace nabídky a tempo"},
+      {k:"subX", lbl:"bez soutěže — nezařazeno do podskupiny", tone:"loss", hatch:true,
+        f:d=>d.cat==="loss_nc"&&!d.sub},
+      {k:"lcN", lbl:"N · prohra v soutěži — nedoloženo", tone:"neutral", hatch:false, muted:1,
+        f:d=>d.cat==="loss_c"&&(!d.subc||d.subc==="N"), who:"nevíme — zápis o výběru mlčí"},
+      {k:"lossUnk", lbl:"Prohra — nedoloženo", tone:"neutral", hatch:false, muted:1,
+        f:d=>d.cat==="loss_unknown", who:"nevíme — ze zápisu nejde určit, zda soutěž proběhla"}]},
+    {g:"fromL2", title:"Prohra z L2", note:"A, C, I — odečteny hned, nešlo s nimi nic dělat",
+     foot:"A — potřeba zmizela nebo si ji klient pokryl sám: zrušený budget, odložený projekt, "
+        + "interní nábor, reorganizace, rozhodnutí otočené o úroveň výš. C — role se obsadila pod "
+        + "rámcovou smlouvou konkurence, výsledek byl daný předem. I — vyhrál kandidát, na kterého "
+        + "jsme nemohli: insider u klienta nebo znalost jejich systému. U C a I soutěž formálně "
+        + "proběhla, vyhratelná ale nebyla.",
+     segs:[
+      {k:"cancA", lbl:"A · klient zrušil nebo obsadil interně", tone:"loss", hatch:true,
+        f:d=>d.cat==="loss_nc"&&d.sub==="A", who:"nikdo z nás — šanci neměla ani konkurence"},
+      {k:"cancC", lbl:"C · rozhodnuto mimo tendr", tone:"loss", hatch:true,
+        f:d=>d.cat==="loss_nc"&&d.sub==="C", who:"nikdo z nás — rozhodly rámcové smlouvy, dávno předem"},
+      {k:"cancI", lbl:"I · konkurent měl insidera nebo znalost systému", tone:"loss", hatch:false,
+        f:d=>d.cat==="loss_c"&&d.subc==="I", who:"nikdo z nás — soutěž proběhla, ale vyhratelná nebyla"}]}
+   ]},
+
+ {n:"L10", t:"Souhrn — celé pololetí", d:"koncové kategorie: výhry, prohry, pak nedoloženo a otevřené",
+   showSum:1, segs:[
+    {k:"sumWnc", lbl:"Výhra bez soutěže", tone:"win", hatch:true, f:d=>d.cat==="win_nc"},
+    {k:"sumWc", lbl:"Výhra v soutěži", tone:"win", hatch:false, f:d=>d.cat==="win_c"},
+    {k:"sumWunk", lbl:"Výhra — nedoloženo", tone:"neutral", hatch:false, muted:1,
+      f:d=>d.cat==="win_unknown"},
+    {k:"sumLunk", lbl:"Prohra — nedoloženo", tone:"neutral", hatch:false, muted:1,
+      f:d=>d.cat==="loss_unknown"},
+    {k:"sumLc", lbl:"Prohra v soutěži (včetně B — nedodali jsme)", tone:"loss", hatch:false,
+      f:d=>d.cat==="loss_c"||isB(d)},
+    {k:"sumLnc", lbl:"Prohra bez soutěže (A, C)", tone:"loss", hatch:true,
+      f:d=>d.cat==="loss_nc"&&!isB(d)},
+    {k:"sumOpen", lbl:"Otevřené / nerozhodnuté", tone:"open", hatch:false, muted:1,
+      f:d=>d.cat==="open"}]}
+];
+// u seskupených stupňů drž plochý seznam segmentů — filtr, tooltip i klik čtou L.segs
+LEVELS.forEach(L => { if (L.groups) L.segs = L.groups.flatMap(g => g.segs); });
+
+let state = {sel:["2025H1","2026H1"], metric:"n", scale:"abs", filter:null, q:"",
+             tbasis:"par", sort:{k:"org_name", dir:1}};
+// vybraná pololetí vždy chronologicky, ať se pruhy čtou zleva jako časová řada
+const selHalves = () => HALVES.filter(h => state.sel.includes(h));
+
+const $ = s => document.querySelector(s);
+const nf = n => n.toLocaleString("cs-CZ");
+const mil = v => (v/1e6).toLocaleString("cs-CZ",{minimumFractionDigits:1,maximumFractionDigits:1})+" mil.";
+const pct = (a,b) => b ? (100*a/b).toLocaleString("cs-CZ",{maximumFractionDigits:1})+" %" : "—";
+const plural = n => n+" "+(n===1?"deal":(n>=2&&n<=4?"dealy":"dealů"));
+const forHalf = h => DEALS.filter(d=>d.half===h);
+const amount = ds => state.metric==="n" ? ds.length : ds.reduce((s,d)=>s+d.val,0);
+const fmt = v => state.metric==="n" ? nf(v) : mil(v);
+
+/* ---------- init controls ---------- */
+/* Ovládání existuje dvakrát — v sekci 1 (tunel) a v sekci 2 (postupné dělení). Stav je jeden,
+   obě kopie se jen překreslují ze `state`, aby se nemohly rozejít. */
+function renderHalves(){
+  const html = HALVES.map(h=>{
+    const on = state.sel.includes(h);
+    return `<label class="hv" data-on="${on?1:0}" title="${h} · ${COVL[COV[h]]}">
+      <input type="checkbox" value="${h}"${on?" checked":""}>${h}</label>`;}).join("");
+  document.querySelectorAll(".halves").forEach(box=>{
+    box.innerHTML = html;
+    box.querySelectorAll("input").forEach(cb=>cb.onchange=()=>{
+      const h = cb.value;
+      if (cb.checked) { if (!state.sel.includes(h)) state.sel.push(h); }
+      else if (state.sel.length > 1) state.sel = state.sel.filter(x=>x!==h);
+      else { cb.checked = true; return; }   // poslední pololetí nelze odškrtnout
+      render();
+    });
+  });
+}
+/* aria-pressed se nastavuje z `state`, ne z kliknutého tlačítka — jinak by se druhá kopie neaktualizovala */
+function syncSegs(){
+  const set = (sel, attr, val) => document.querySelectorAll(sel).forEach(b=>
+    b.setAttribute("aria-pressed", b.dataset[attr] === val));
+  set("#metric button, #metric2 button", "m", state.metric);
+  set("#scaleMode button", "s", state.scale);
+  set("#tbasis button", "b", state.tbasis);
+}
+document.querySelectorAll(".quick").forEach(el => el.onclick = e => {
+  const b = e.target.closest("button"); if(!b) return;
+  state.sel = b.dataset.q==="all"   ? [...HALVES]
+            : b.dataset.q==="h1"    ? HALVES.filter(h=>h.endsWith("H1"))
+            : HALVES.slice(-2);
+  render(); });
+document.querySelectorAll("#metric, #metric2").forEach(el => el.onclick = e => {
+  const b=e.target.closest("button"); if(!b) return; state.metric=b.dataset.m; render(); });
+$("#scaleMode").onclick = e => { const b=e.target.closest("button"); if(!b) return;
+  state.scale=b.dataset.s; render(); };
+$("#tbasis").onclick = e => { const b=e.target.closest("button"); if(!b) return;
+  state.tbasis=b.dataset.b; render(); };
+$("#q").oninput = e => { state.q = e.target.value.trim().toLowerCase(); renderTable(); };
+$("#clr").onclick = () => { state.filter=null; render(); };
+document.querySelectorAll("th.s").forEach(th=>th.onclick=()=>{
+  const k=th.dataset.k;
+  state.sort = {k, dir: state.sort.k===k ? -state.sort.dir : 1};
+  renderTable();
+});
+
+/* ---------- tooltip ---------- */
+const tip = $("#tip");
+function showTip(html, ev){
+  tip.innerHTML = html; tip.classList.add("show");
+  const r = tip.getBoundingClientRect();
+  let x = ev.clientX + 14, y = ev.clientY - r.height - 12;
+  if (x + r.width > innerWidth - 10) x = ev.clientX - r.width - 14;
+  if (y < 8) y = ev.clientY + 18;
+  tip.style.left = x+"px"; tip.style.top = y+"px";
+}
+const hideTip = () => tip.classList.remove("show");
+
+/* ---------- metriky: jeden řádek na pololetí, Δ proti předchozímu vybranému ---------- */
+function metrics(h){
+  const ds = forHalf(h), dec = ds.filter(decided);
+  const wins = dec.filter(isWin);
+  const contest = dec.filter(isContest);
+  const wc = dec.filter(d=>d.cat==="win_c").length;
+  const nc = dec.filter(d=>d.cat==="win_nc");
+  return {tot:ds.length, open:ds.filter(d=>d.cat==="open").length, dec:dec.length,
+    head: dec.length?100*wins.length/dec.length:0, wins:wins.length,
+    qual: dec.length?100*contest.length/dec.length:0, con:contest.length,
+    cwr: contest.length?100*wc/contest.length:0, wc,
+    ncN: nc.length, ncV: nc.reduce((a,d)=>a+d.val,0)};
+}
+const one = v => v.toLocaleString("cs-CZ",{maximumFractionDigits:1})+" %";
+function dl(cur, prev, inv){
+  if (prev===null || prev===undefined) return "";
+  const d = cur-prev;
+  if (Math.abs(d) < 0.05) return '<span class="dl fl">±0</span>';
+  const cls = (d>0)!==!!inv ? "up" : "dn";
+  return `<span class="dl ${cls}">${d.toLocaleString("cs-CZ",{maximumFractionDigits:1,signDisplay:"always"})}</span>`;
+}
+function renderMetrics(){
+  const hs = selHalves();
+  let rows = "", prev = null;
+  for (const h of hs){
+    const m = metrics(h);
+    rows += `<tr${hs.length>2&&h===hs[hs.length-1]?' class="hi"':""}>
+      <td class="h">${h}</td>
+      <td class="num">${m.tot}${m.open?` <span style="color:var(--ink-muted)">(${m.open} otev.)</span>`:""}</td>
+      <td class="num">${one(m.head)}${dl(m.head, prev&&prev.head)}<br>
+        <span style="font-size:11px;color:var(--ink-muted)">${m.wins} z ${m.dec}</span></td>
+      <td class="num">${one(m.qual)}${dl(m.qual, prev&&prev.qual)}<br>
+        <span style="font-size:11px;color:var(--ink-muted)">${m.con} soutěží</span></td>
+      <td class="num">${one(m.cwr)}${dl(m.cwr, prev&&prev.cwr)}<br>
+        <span style="font-size:11px;color:var(--ink-muted)">${m.wc} z ${m.con}</span></td>
+      <td class="num">${m.ncN}${dl(m.ncN, prev&&prev.ncN)}<br>
+        <span style="font-size:11px;color:var(--ink-muted)">${mil(m.ncV)} Kč</span></td></tr>`;
+    prev = m;
+  }
+  $("#mx").innerHTML = `<thead><tr><th>Pololetí</th><th class="num">Vytvořeno</th>
+    <th class="num">Headline WR</th><th class="num">Kvalifikační poměr</th>
+    <th class="num">Soutěžní WR</th><th class="num">Nesoutěžní výhry</th></tr></thead>
+    <tbody>${rows}</tbody>`;
+}
+
+/* ---------- ladder ---------- */
+/* Jedna škála pixelů na deal pro celý žebřík — i vevnitř boxů L2, aby délky zůstaly srovnatelné. */
+function segHTML(L, s, sd, per, wPct, effPct){
+  const v = amount(sd);
+  const on = state.filter && state.filter.key === s.k+"|"+L.n;
+  const dim = state.filter && !on;
+  const lab = effPct > 6.5 ? `<b>${fmt(v)}</b>` : "";
+  return `<button class="sg sg-${s.tone}${s.hatch?" hatch":""}${s.flow?" flow":""}${on?" on":""}${
+    dim?" dim":""}" style="flex:0 0 ${wPct.toFixed(3)}%${s.muted?";opacity:.55":""}"
+    data-lvl="${L.n}" data-seg="${s.k}" data-per="${per}"
+    title="${s.lbl}: ${fmt(v)}${s.flow?" → vstup do "+s.flow:""}">${lab}</button>`;
+}
+function certHTML(ds, widthPct){
+  const c = {"doloženo":0,"indikace":0,"nedoloženo":0,"fakt":0};
+  ds.forEach(d=>c[d.cert]++);
+  const t = ds.length||1;
+  const w1 = 100*(c["doloženo"]+c["fakt"])/t, w2 = 100*c["indikace"]/t, w3 = 100*c["nedoloženo"]/t;
+  return `<div class="cert" style="width:${Math.max(Math.min(widthPct,100),0).toFixed(2)}%">
+    <i class="c1" style="flex:0 0 ${w1.toFixed(2)}%"></i>
+    <i class="c2" style="flex:0 0 ${w2.toFixed(2)}%"></i>
+    <i class="c3" style="flex:0 0 ${w3.toFixed(2)}%"></i></div>`;
+}
+/* korálová kolej pod přenosovým segmentem: co z tohoto stupně jde dál jako vstup */
+function railHTML(off, w, target, v){
+  const lab = w > 15 ? `<b>${fmt(v)} → vstup do ${target}</b>` : (w > 8 ? `<b>→ ${target}</b>` : "");
+  return `<div class="frow"><span></span><div class="rail">${
+    off > .05 ? `<span class="rail-off" style="flex:0 0 ${off.toFixed(3)}%"></span>` : ""}
+    <span class="rail-seg" style="flex:0 0 ${w.toFixed(3)}%">${lab}</span></div></div>`;
+}
+
+function plainBody(L, hs, maxUnit){
+  let html = "";
+  for (const per of hs){
+    const ds = forHalf(per);
+    const segs = L.segs.map(s=>({s, ds: ds.filter(s.f)})).filter(o=>o.ds.length);
+    const lvlTot = segs.reduce((t,o)=>t+amount(o.ds),0);
+    const base = state.scale==="rel" ? (lvlTot||1) : maxUnit;
+    const usedPct = state.scale==="rel" ? 100 : 100*lvlTot/base;
+    html += `<div class="brow"><span class="per">${per}${
+      L.showSum?`<span class="sum">${fmt(lvlTot)}</span>`:""}</span><div class="bar">`;
+    if (!segs.length) html += `<div class="pad" style="flex:0 0 100%;display:flex;align-items:center">
+      <span style="font-size:11.5px;color:var(--ink-muted)">žádné dealy v této kategorii</span></div>`;
+    let off = 0, flow = null;
+    for (const {s, ds:sd} of segs){
+      const w = 100*amount(sd)/base;
+      if (s.flow) flow = {off, w, target:s.flow, v:amount(sd)};
+      html += segHTML(L, s, sd, per, w, w);
+      off += w;
+    }
+    if (state.scale!=="rel" && usedPct < 99.9)
+      html += `<div class="pad" style="flex:0 0 ${(100-usedPct).toFixed(3)}%"></div>`;
+    html += `</div></div>`;
+    const all = segs.flatMap(o=>o.ds);
+    html += `<div class="crow"><span></span>${certHTML(all,
+      state.scale==="rel" ? 100 : 100*amount(all)/(maxUnit||1))}</div>`;
+    if (flow) html += railHTML(flow.off, flow.w, flow.target, flow.v);
+  }
+  return html;
+}
+
+/* L2: dva boxy vedle sebe. Šířka boxu = jeho maximum přes vybraná pololetí, ve stejné
+   škále jako ostatní stupně — takže box „zbytek" je vidět jako to, co teče do L3. */
+function splitBody(L, hs, maxUnit){
+  const lvlTot = h => amount(forHalf(h).filter(d=>L.segs.some(x=>x.f(d))));
+  const valOf = (h, preds) => {
+    const v = amount(forHalf(h).filter(d=>preds.some(x=>x.f(d))));
+    if (state.scale!=="rel") return v;
+    const t = lvlTot(h); return t ? 100*v/t : 0;
+  };
+  const groups = L.groups.map(g=>({g, max: Math.max(...hs.map(h=>valOf(h, g.segs)))}))
+                         .filter(o=>o.max > 0);
+  const cap = state.scale==="rel" ? 100 : (maxUnit||1);
+  let pct = groups.map(o=>100*o.max/cap);
+  const sum = pct.reduce((a,b)=>a+b, 0);
+  if (sum > 100) pct = pct.map(x=>x*100/sum);
+  // gap 10px mezi boxy: každý box se zkrátí o svůj podíl, u jediného boxu se neubírá nic
+  const shave = (groups.length - 1) * 10 / groups.length;
+
+  let html = `<div class="brow split-row"><span></span><div class="split">`;
+  groups.forEach((o,i)=>{
+    const g = o.g, fl = g.flow ? " fl" : "";
+    const w = `flex:0 0 ${shave ? `calc(${pct[i].toFixed(3)}% - ${shave.toFixed(1)}px)`
+                                : pct[i].toFixed(3)+"%"}`;
+    html += `<div class="gcol" style="${w}">
+      <div class="gcap${fl}"><span class="gt">${g.title}</span><span class="gn">${g.note}</span></div>`;
+    for (const per of hs){
+      const gv = valOf(per, g.segs);
+      html += `<div class="gcell${fl}"><span class="cper">${per}</span><div class="bar">`;
+      const segs = g.segs.map(s=>({s, ds: forHalf(per).filter(s.f)})).filter(x=>x.ds.length);
+      if (!segs.length) html += `<div class="pad" style="flex:0 0 100%"></div>`;
+      for (const {s, ds:sd} of segs){
+        const w2 = o.max ? 100*valOf(per,[s])/o.max : 0;
+        html += segHTML(L, s, sd, per, w2, pct[i]*w2/100);
+      }
+      html += `</div>`;
+      html += certHTML(segs.flatMap(x=>x.ds), o.max ? 100*gv/o.max : 0);
+      html += `</div>`;
+    }
+    html += g.flow
+      ? `<div class="gfoot fl"><span class="ar">▼</span>vstup do ${g.flow}</div>`
+      : `<div class="gfoot">${g.foot||""}</div>`;
+    html += `</div>`;
+  });
+  return html + `</div></div>`;
+}
+
+function renderLadder(){
+  const hs = selHalves();
+  const maxUnit = state.scale==="rel" ? null
+                : Math.max(...hs.map(h=>amount(forHalf(h)))) || 1;
+  const tickMax = maxUnit;
+  $("#scaleTicks").innerHTML = state.scale==="rel"
+    ? ["0 %","25 %","50 %","75 %","100 %"].map(t=>`<span>${t}</span>`).join("")
+    : [0,.25,.5,.75,1].map(f=>`<span>${state.metric==="n"?Math.round(tickMax*f):mil(tickMax*f)}</span>`).join("");
+
+  let html = "";
+  for (const L of LEVELS){
+    html += `<div class="lvl${L.showSum?" sumlvl":""}"><div class="lvl-h"><span class="lvl-n">${L.n}</span>
+      <span class="lvl-t">${L.t}</span><span class="lvl-d">${L.d}</span>
+      ${L.inFrom?`<span class="lvl-in">vstup: ${L.inFrom.lbl} z ${L.inFrom.lvl}</span>`:""}
+      </div>`;
+    html += L.groups ? splitBody(L, hs, maxUnit) : plainBody(L, hs, maxUnit);
+    html += `</div>`;
+  }
+  $("#ladder").innerHTML = html;
+  // hlavičky boxů mohou zlomit text na různý počet řádků → dorovnat, ať pruhy sedí na lince
+  document.querySelectorAll("#ladder .split").forEach(sp=>{
+    const caps = [...sp.querySelectorAll(":scope > .gcol > .gcap")];
+    caps.forEach(c=>c.style.minHeight="");
+    const h = Math.max(...caps.map(c=>c.getBoundingClientRect().height));
+    caps.forEach(c=>c.style.minHeight = h.toFixed(1)+"px");
+  });
+
+  document.querySelectorAll("#ladder .sg").forEach(el=>{
+    const L = LEVELS.find(l=>l.n===el.dataset.lvl);
+    const s = L.segs.find(x=>x.k===el.dataset.seg);
+    el.onclick = () => {
+      const key = s.k+"|"+L.n;
+      state.filter = (state.filter && state.filter.key===key) ? null : {key, lbl:s.lbl, lvl:L, seg:s};
+      render();
+    };
+    el.onmousemove = ev => {
+      const per = el.dataset.per;
+      const sd = forHalf(per).filter(s.f);
+      const lvlTot = L.segs.reduce((t,x)=>t+amount(forHalf(per).filter(x.f)),0);
+      showTip(`<span class="tk">${per} · ${L.n} ${L.t}</span><b>${s.lbl}</b><br>
+        ${plural(sd.length)} · ${mil(sd.reduce((a,d)=>a+d.val,0))} Kč<br>
+        ${pct(amount(sd),lvlTot)} stupně${s.flow?`<br><i>přenosový pruh — celý vstupuje do ${s.flow}</i>`:""}${
+        s.who?"<br><i>ovlivní: "+s.who+"</i>":""}
+        <br><span style="color:#A9C5DF">klikni pro detail v tabulce</span>`, ev);
+    };
+    el.onmouseleave = hideTip;
+  });
+}
+
+/* ---------- legend ---------- */
+function renderLegend(){
+  const items = [
+    ["win", false, "Výhra v soutěži"], ["win", true, "Výhra bez soutěže"],
+    ["loss", false, "Prohra v soutěži"], ["loss", true, "Prohra bez soutěže"],
+    ["neutral", false, "Nedoloženo / mezistupeň"], ["open", false, "Otevřené"]
+  ];
+  $("#legend").innerHTML = items.map(([t,h,l])=>
+    `<span class="lg"><i class="sg-${t}${h?" hatch":""}"></i>${l}</span>`).join("")
+    + `<span class="lg"><i class="sg-neutral flow" style="box-shadow:inset 0 -3px 0 var(--pjm-coral)"></i>
+        <b style="font-weight:600">Přenosový pruh</b> — korálová hrana a kolej ▼ pod ním:
+        právě tenhle pruh celý vstupuje do dalšího stupně, ostatní jsou koncové</span>`
+    + `<span class="lg" style="color:var(--ink-muted)">Šrafa = soutěž neproběhla</span>`;
+}
+
+/* ---------- postupné dělení: strom od všech dealů k důvodu prohry ---------- */
+/* Číselník lost_reason z Pipedrive. Pořadí = četnost v celém CRM, odstíny jdou od nejtmavšího
+   po nejsvětlejší ve stejném pořadí, takže legenda se čte jako škála a ne jako náhodné barvy. */
+const LR = [
+  {k:"Cancelled by client", cls:"lr1", note:"klient poptávku zrušil nebo si ji pokryl sám"},
+  {k:"Quality",             cls:"lr2", note:"klient vybral jiného dodavatele nebo kandidáta"},
+  {k:"Cancelled by PJM",    cls:"lr3", note:"deal jsme zavřeli my"},
+  {k:"Silent client",       cls:"lr4", note:"klient přestal komunikovat, deal doběhl bez rozhodnutí"},
+  {k:"Price",               cls:"lr5", note:"rozhodla cena nebo komerční podmínky"}
+];
+/* Nedoloženo a otevřené drží vlastní pruh — kdyby spadly do „bez soutěže", naředí jeho konverzi. */
+const isUnkLane = d => ["win_unknown","loss_unknown","open"].includes(d.cat);
+const LANES = [
+  {k:"c",  lbl:"Soutěž", cls:"neutral", hatch:false, f:isContest,
+    note:"doložená soutěž (výhra i prohra) plus skupina B — soutěž běžela, jen jsme do ní nedodali nabídku"},
+  {k:"nc", lbl:"Bez soutěže", cls:"neutral", hatch:true, f:d=>!isContest(d)&&!isUnkLane(d),
+    note:"konkurence v zápisu nefiguruje vůbec — potřeba zmizela, nebo se role obsadila mimo tendr"},
+  {k:"unk", lbl:"Nedoloženo a otevřené", cls:"open", hatch:false, muted:1, f:isUnkLane,
+    note:"zápis o soutěži mlčí, nebo deal k datu extraktu ještě běží — do konverze nepatří"}
+];
+const OUTC = L => L.k !== "unk"
+  ? [{k:"win",  lbl:"Výhra",  cls:"win",  hatch:L.hatch, f:isWin,
+       note:"konverze tohoto pruhu — kolik z něj skončilo výhrou"},
+     {k:"loss", lbl:"Prohra", cls:"loss", hatch:L.hatch, loss:1, f:isLoss,
+       note:"dělí se dál podle štítku lost_reason"}]
+  : [{k:"win",  lbl:"Výhra — nedoloženo",  cls:"neutral", muted:1, f:d=>d.cat==="win_unknown",
+       note:"vyhráli jsme, ale ze zápisu nejde určit, jestli se soutěžilo"},
+     {k:"loss", lbl:"Prohra — nedoloženo", cls:"neutral", muted:1, loss:1, f:d=>d.cat==="loss_unknown",
+       note:"prohráli jsme, ale ze zápisu nejde určit, jestli se soutěžilo"},
+     {k:"open", lbl:"Otevřené", cls:"open", muted:1, f:d=>d.cat==="open",
+       note:"k datu extraktu běží — štítek lost_reason nemá"}];
+
+/* Strom je postavený jednou; predikáty pololetí neřeší, to dělá až forHalf() při vyhodnocení. */
+const TREE = (()=>{
+  const root = {key:"root", lbl:"Všechny dealy", cls:"neutral", hatch:false, f:()=>true, kids:[],
+                path:"Všechny dealy", note:"vše, co v pololetí vzniklo — jmenovatel všeho dalšího"};
+  for (const L of LANES){
+    const lane = {key:"L:"+L.k, lbl:L.lbl, cls:L.cls, hatch:!!L.hatch, muted:L.muted, f:L.f,
+                  note:L.note, path:L.lbl, kids:[]};
+    for (const O of OUTC(L)){
+      const oc = {key:lane.key+"/O:"+O.k, lbl:O.lbl, cls:O.cls, hatch:!!O.hatch, muted:O.muted,
+                  f:d=>L.f(d)&&O.f(d), note:O.note, path:L.lbl+" → "+O.lbl, kids:[]};
+      if (O.loss) for (const R of LR)
+        oc.kids.push({key:oc.key+"/R:"+R.k, lbl:R.k, cls:R.cls, hatch:false, note:R.note,
+                      f:d=>L.f(d)&&O.f(d)&&d.lost_reason===R.k, path:oc.path+" → "+R.k, kids:[]});
+      lane.kids.push(oc);
+    }
+    root.kids.push(lane);
+  }
+  return root;
+})();
+const TSTEPS = [
+  {t:"Všechny dealy",         d:"vytvořeno v pololetí"},
+  {t:"Soutěž × bez soutěže",  d:"proběhla soutěž?"},
+  {t:"Výhra × prohra",        d:"konverze uvnitř pruhu"},
+  {t:"Důvod prohry",          d:"štítek z Pipedrive"}
+];
+
+/* v = hodnota uzlu, pv = hodnota rodiče (jmenovatel konverze), tot = celé pololetí */
+function tstats(ds){
+  const m = new Map(), tot = amount(ds);
+  (function walk(n, pv){
+    const v = amount(ds.filter(n.f));
+    m.set(n.key, {v, pv, tot});
+    n.kids.forEach(k => walk(k, v));
+  })(TREE, tot);
+  return m;
+}
+/* Segmenty jednoho kroku zleva doprava. Uzel bez potomků (nebo se zbytkem, který se do potomků
+   nevešel) vrací mezeru — díky ní zůstanou bloky nižších kroků zarovnané pod svými rodiči. */
+function tlevel(depth, st){
+  const out = [];
+  (function walk(n, d){
+    const v = st.get(n.key).v;
+    if (v <= 0) return;
+    if (d === depth) { out.push({n, v}); return; }
+    let cov = 0;
+    for (const k of n.kids){ const kv = st.get(k.key).v; if (kv > 0){ walk(k, d+1); cov += kv; } }
+    if (v - cov > 0) out.push({n:null, v: v - cov});
+  })(TREE, 0);
+  return out;
+}
+const tpct = c => state.tbasis === "tot" ? pct(c.v, c.tot) : pct(c.v, c.pv);
+const tkey = (h, k) => "tree|" + h + "|" + k;
+const treeFilterOn = () => state.filter && String(state.filter.key).startsWith("tree|");
+
+function tsegHTML(o, h, w, st){
+  if (!o.n) return `<div class="pad" style="flex:0 0 ${w.toFixed(3)}%"></div>`;
+  const n = o.n, c = st.get(n.key), p = tpct(c);
+  const on = state.filter && state.filter.key === tkey(h, n.key);
+  const dim = treeFilterOn() && !on;
+  const lab = w > 13 ? `<b><em>${esc(n.lbl)}</em><u>${fmt(c.v)} · ${p}</u></b>`
+            : w > 6  ? `<b><u>${fmt(c.v)} · ${p}</u></b>`
+            : w > 3.2? `<b><u>${fmt(c.v)}</u></b>` : "";
+  return `<button class="sg sg-${n.cls}${n.hatch?" hatch":""}${on?" on":""}${dim?" dim":""}"
+    style="flex:0 0 ${w.toFixed(3)}%${n.muted?";opacity:.62":""}" data-tk="${esc(n.key)}"
+    data-per="${h}" title="${esc(n.path)}: ${fmt(c.v)} · ${p}">${lab}</button>`;
+}
+
+function renderTree(){
+  const hs = selHalves();
+  let html = "";
+  for (const h of hs){
+    const ds = forHalf(h), st = tstats(ds);
+    const base = st.get("root").v || 1;
+    html += `<div class="tcard"><div class="tch"><b>${h}</b>
+      <span>${plural(ds.length)} · ${mil(ds.reduce((a,d)=>a+d.val,0))} Kč · ${COVL[COV[h]]}</span></div>`;
+    TSTEPS.forEach((S,i)=>{
+      html += `<div class="trow"><span class="tstep"><i>Krok ${i+1}</i><b>${S.t}</b><u>${S.d}</u></span>
+        <div class="bar">`;
+      let used = 0;
+      for (const o of tlevel(i, st)){ const w = 100*o.v/base; used += w; html += tsegHTML(o, h, w, st); }
+      if (used < 99.9) html += `<div class="pad" style="flex:0 0 ${(100-used).toFixed(3)}%"></div>`;
+      html += `</div></div>`;
+    });
+    html += `</div>`;
+  }
+  $("#tree").innerHTML = html;
+
+  const byKey = new Map();
+  (function w(n){ byKey.set(n.key, n); n.kids.forEach(w); })(TREE);
+  document.querySelectorAll("#tree .sg").forEach(el=>{
+    const n = byKey.get(el.dataset.tk), h = el.dataset.per;
+    el.onclick = () => {
+      const key = tkey(h, n.key);
+      state.filter = (state.filter && state.filter.key === key) ? null
+        : {key, lbl: h+" · "+n.path, lvl:{n:"Dělení"}, seg:{f: d => d.half === h && n.f(d)}};
+      render();
+    };
+    el.onmousemove = ev => {
+      const sd = forHalf(h).filter(n.f), c = tstats(forHalf(h)).get(n.key);
+      showTip(`<span class="tk">${h} · ${esc(n.path)}</span>
+        ${plural(sd.length)} · ${mil(sd.reduce((a,d)=>a+d.val,0))} Kč<br>
+        <b>${pct(c.v, c.pv)}</b> z nadřazeného · <b>${pct(c.v, c.tot)}</b> z celého pololetí<br>
+        <i>${esc(n.note||"")}</i>
+        <br><span style="color:#A9C5DF">klikni pro detail v tabulce</span>`, ev);
+    };
+    el.onmouseleave = hideTip;
+  });
+
+  renderTreeTable(hs);
+  renderTreeLegend();
+}
+
+function renderTreeTable(hs){
+  const stats = hs.map(h => tstats(forHalf(h)));
+  const rows = [];
+  (function w(n, l){ rows.push({n, l}); n.kids.forEach(k => w(k, l+1)); })(TREE, 0);
+  // hluboké řádky bez jediného dealu ve výběru se skrývají, kostra stromu (kroky 1–2) zůstává vždy
+  const keep = rows.filter(r => r.l <= 1 || stats.some(s => s.get(r.n.key).v > 0));
+  const body = keep.map(r=>{
+    const key = tkey("*", r.n.key);
+    const on = state.filter && state.filter.key === key;
+    const cells = stats.map(s=>{
+      const c = s.get(r.n.key);
+      return `<td class="num"><b${c.v?"":' class="z"'}>${fmt(c.v)}</b>
+        <span class="p${c.v?"":" z"}">${tpct(c)}</span></td>`;}).join("");
+    return `<tr class="r${r.l}${on?" on":""}" data-k="${esc(r.n.key)}">
+      <td class="lb"><span class="ind"><i class="sw sg-${r.n.cls}${r.n.hatch?" hatch":""}"></i>${
+        esc(r.n.lbl)}</span></td>${cells}</tr>`;}).join("");
+  $("#treeTbl").innerHTML = `<thead><tr><th>Krok — kategorie</th>${
+    hs.map(h=>`<th class="num">${h}</th>`).join("")}</tr></thead><tbody>${body}</tbody>`;
+
+  const byKey = new Map();
+  (function w(n){ byKey.set(n.key, n); n.kids.forEach(w); })(TREE);
+  $("#treeTbl").querySelectorAll("tr[data-k]").forEach(tr=>tr.onclick=()=>{
+    const n = byKey.get(tr.dataset.k), key = tkey("*", n.key);
+    state.filter = (state.filter && state.filter.key === key) ? null
+      : {key, lbl: n.path, lvl:{n:"Dělení"}, seg:{f: n.f}};
+    render();
+  });
+
+  // dynamická poznámka: nakolik štítek lost_reason sám o sobě prozrazuje, jestli se soutěžilo
+  const sel = DEALS.filter(d => state.sel.includes(d.half));
+  const loss = sel.filter(isLoss);
+  const cbc = loss.filter(d => d.lost_reason === "Cancelled by client");
+  const qua = loss.filter(d => d.lost_reason === "Quality");
+  const cbcNc = cbc.filter(d => !isContest(d) && !isUnkLane(d)).length;
+  const quaC = qua.filter(isContest).length;
+  $("#treeCap").innerHTML =
+    `Výběr <b>${hs.join(" + ")}</b> · ${plural(sel.length)}, z toho ${plural(loss.length)} prohraných. `
+    + `Štítek <code>lost_reason</code> je vyplněný u <b>${loss.filter(d=>d.lost_reason).length} z ${
+        loss.length}</b> proher. `
+    + (cbc.length ? `Nese přitom skoro celou informaci o tom, jestli se soutěžilo: z ${
+        plural(cbc.length)} se štítkem <b>Cancelled by client</b> jich ${cbcNc} (${
+        pct(cbcNc, cbc.length)}) leží v pruhu bez soutěže` : "")
+    + (qua.length ? `, z ${plural(qua.length)} se štítkem <b>Quality</b> jich ${quaC} (${
+        pct(quaC, qua.length)}) v pruhu soutěž.` : ".");
+}
+
+function renderTreeLegend(){
+  const base = [["neutral",false,"Soutěž"], ["neutral",true,"Bez soutěže — šrafa = soutěž neproběhla"],
+                ["open",false,"Nedoloženo a otevřené"], ["win",false,"Výhra"], ["loss",false,"Prohra"]];
+  $("#treeLegend").innerHTML =
+    base.map(([t,h,l])=>`<span class="lg"><i class="sg-${t}${h?" hatch":""}"></i>${l}</span>`).join("")
+    + `<span class="lg" style="width:100%;color:var(--ink-muted);margin-top:2px">
+        <b style="font-weight:600;color:var(--ink-2)">Krok 4 — štítky lost_reason</b> od nejčastějšího
+        po nejvzácnější, odstín se s četností zesvětluje:</span>`
+    + LR.map(r=>`<span class="lg"><i class="sg-${r.cls}"></i>${r.k}</span>`).join("");
+}
+
+/* ---------- table ---------- */
+function renderTable(){
+  let rows = DEALS.filter(d=>state.sel.includes(d.half));
+  if (state.filter) rows = rows.filter(state.filter.seg.f);
+  if (state.q) rows = rows.filter(d=>
+    ((d.org_name||"")+" "+(d.title||"")+" "+(d.owner_name||"")+" "+CAT[catKey(d)].lbl)
+      .toLowerCase().includes(state.q));
+  const {k,dir} = state.sort;
+  rows = rows.slice().sort((x,y)=>{
+    const gv = d => k==="closed" ? (d.won_time||d.lost_time||"")
+                  : k==="cat" ? CAT[catKey(d)].lbl : (d[k]??"");
+    const a=gv(x), b=gv(y);
+    return (typeof a==="number" ? a-b : String(a).localeCompare(String(b),"cs")) * dir;
+  });
+  $("#tb").innerHTML = rows.map(d=>`<tr>
+    <td><b>${d.half}</b></td>
+    <td><b>${esc(d.org_name)}</b></td>
+    <td>${esc(d.title||"")}</td>
+    <td>${esc(d.owner_name||"")}</td>
+    <td class="num">${d.add_time||""}</td>
+    <td class="num">${d.won_time||d.lost_time||"—"}</td>
+    <td class="num">${d.val?nf(Math.round(d.val/1000)):"—"}</td>
+    <td><span class="b b-cat"${d.sub?` title="Podskupina ${d.sub}: ${SUBL[d.sub]}"`
+      :d.subc?` title="Podskupina ${d.subc}: ${SUBCL[d.subc]}"`:""}><i class="sg-${
+      CAT[catKey(d)].tone}${CAT[catKey(d)].hatch?" hatch":""}"></i>
+      ${CAT[catKey(d)].short}${d.sub?" · "+d.sub:d.subc?" · "+d.subc:""}</span></td>
+    <td><span class="b ${CERT[d.cert]}">${d.cert}</span></td>
+    <td class="ev">${esc(d.evidence||"")}${d.mech?` <b style="color:var(--ink-2)">(${esc(d.mech)})</b>`:""}</td>
+  </tr>`).join("");
+  const tv = rows.reduce((s,d)=>s+d.val,0);
+  $("#cap").textContent = `${plural(rows.length)} · ${mil(tv)} Kč kontraktní hodnoty`
+    + (state.filter?` · filtr: ${state.filter.lvl.n} ${state.filter.lbl}`:"")
+    + (state.q?` · hledání „${state.q}“`:"");
+  $("#filterLbl").innerHTML = state.filter
+    ? `Aktivní filtr: <b>${state.filter.lvl.n} · ${state.filter.lbl}</b>`
+    : `Bez filtru — <b>${selHalves().join(" + ")}</b>, všech ${plural(rows.length)}`;
+  $("#clr").hidden = !state.filter;
+}
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+
+function render(){ renderHalves(); syncSegs(); renderMetrics(); renderLadder(); renderLegend();
+                   renderTree(); renderTable(); }
+$(".logo-grid").innerHTML = "<i></i>".repeat(30);
+render();
+
+/* sanity check kaskády: každý stupeň musí sedět na svůj vstup — jinak křičet do konzole */
+(function auditCascade(){
+  const n = (h,f) => forHalf(h).filter(f).length;
+  for (const h of HALVES){
+    const tot = forHalf(h).length;
+    const l2out = n(h,isUnfixable);
+    const rest2 = n(h,d=>!isUnfixable(d));
+    const wnc = n(h,d=>d.cat==="win_nc");
+    const rest3 = n(h,d=>d.cat!=="win_nc" && !isUnfixable(d));
+    const w4 = n(h,d=>["win_c","win_unknown"].includes(d.cat)) + n(h,d=>d.cat==="open");
+    const l4 = n(h,d=>isLoss(d) && !isUnfixable(d));
+    const l5 = l4;
+    const bad = [];
+    if (l2out + rest2 !== tot) bad.push("L1→L2");
+    if (wnc + rest3 !== rest2) bad.push("L2→L3");
+    if (w4 + l4 !== rest3) bad.push("L3→L4");
+    if (l5 !== l4) bad.push("L4→L5 vlevo");
+    if (n(h,isUnfixable) !== l2out) bad.push("L5 vpravo = A+C+I z L2");
+    const sum10 = ["win_nc","win_c","loss_c","loss_nc","win_unknown","loss_unknown","open"]
+      .reduce((t,c)=>t+n(h,d=>d.cat===c),0);
+    if (sum10 !== tot) bad.push("L10 souhrn");
+    if (bad.length) console.error("Tunel: kaskáda nezavírá v "+h+" — "+bad.join(", "));
+  }
+})();
+</script>
+</body>
+</html>

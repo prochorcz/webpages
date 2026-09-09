@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nesoutěžní výhry — Vztahová kniha 2026</title>
+<style>
+@font-face{font-family:Poppins;font-weight:400;font-display:swap;
+  src:url("https://www.projectman.cz/themes/custom/projectman/fonts/Poppins/Poppins-Regular.woff2") format("woff2")}
+@font-face{font-family:Poppins;font-weight:600;font-display:swap;
+  src:url("https://www.projectman.cz/themes/custom/projectman/fonts/Poppins/Poppins-SemiBold.woff2") format("woff2")}
+:root{
+  --pjm-dark:#20272F; --pjm-dark-soft:#3F4A57; --pjm-coral:#FF525F; --pjm-coral-light:#FF7580;
+  --pjm-blue:#A9C5DF; --pjm-blue-dark:#5C7894; --pjm-blue-light:#BAD1E5;
+  --pjm-grey:#878787; --pjm-bg:#F7F7F7; --pjm-bg-alt:#F0F2F5; --pjm-line:#DADADA;
+  --surface:#FFFFFF; --ink:#20272F; --ink-2:#3F4A57; --ink-muted:#878787;
+  --ok-bg:#E8F1E9; --ok-ink:#2C6B45; --warn-bg:#FDF0E3; --warn-ink:#8A5A18;
+  --bad-bg:#FDE9EA; --bad-ink:#A32B36; --row-hl:#FFF6F7;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --surface:#20272F; --ink:#FFFFFF; --ink-2:#C9D2DB; --ink-muted:#8C97A3;
+    --pjm-bg:#171D23; --pjm-bg-alt:#1C242C; --pjm-line:#333D48;
+    --ok-bg:#1D3227; --ok-ink:#8FD3A6; --warn-bg:#33281A; --warn-ink:#E5B673;
+    --bad-bg:#3A1F23; --bad-ink:#F0959D; --row-hl:#2A1F22;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--pjm-bg);color:var(--ink);
+  font:400 15px/1.6 Poppins,Helvetica,Calibri,Arial,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px 80px}
+.hero{position:relative;background:var(--pjm-dark);color:#fff;overflow:hidden}
+.hero-in{max-width:1240px;margin:0 auto;padding:52px 24px 40px;position:relative;z-index:2}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:40px}
+.logo-grid{display:grid;grid-template-columns:repeat(6,3px);gap:2.5px}
+.logo-grid i{width:3px;height:3px;background:var(--pjm-grey);border-radius:50%}
+.logo-wm{font-weight:600;font-size:19px;letter-spacing:-.01em}
+.logo-claim{font-size:9px;color:var(--pjm-grey);letter-spacing:.06em;margin-top:-2px}
+h1{font-weight:400;font-size:38px;line-height:1.16;margin:0 0 2px;color:var(--pjm-coral);max-width:26ch}
+.hero h1 span{display:block;border-bottom:1.5px solid var(--pjm-coral);padding-bottom:7px;margin-bottom:7px}
+.hero-sub{color:#C9D2DB;font-size:14px;max-width:82ch;margin-top:20px}
+.orn{position:absolute;right:-70px;top:-40px;z-index:1;opacity:.85}
+.pill{display:inline-block;font-size:9.5px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.09em;padding:4px 9px;border:1px solid var(--pjm-coral);color:var(--pjm-coral);
+  border-radius:11px;margin-bottom:18px}
+.nav{background:var(--pjm-dark-soft);margin-bottom:32px}
+.nav-in{max-width:1240px;margin:0 auto;padding:0 24px;display:flex;flex-wrap:wrap;gap:2px}
+.nav a{display:block;padding:12px 16px;font-size:12px;font-weight:600;color:#C9D2DB;
+  text-decoration:none;border-bottom:2.5px solid transparent}
+.nav a:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav a.on{color:#fff;border-bottom-color:var(--pjm-coral)}
+.nav a .n{color:var(--pjm-coral);margin-right:7px}
+.nav a.idx{margin-left:auto;color:var(--pjm-grey)}
+section{background:var(--surface);border:1px solid var(--pjm-line);padding:28px 30px 26px;margin-bottom:20px}
+h2{font-weight:600;font-size:21px;margin:0 0 6px;letter-spacing:-.01em}
+h2 em{font-style:normal;color:var(--pjm-coral)}
+h3{font-weight:600;font-size:16.5px;margin:0;letter-spacing:-.005em}
+.q{color:var(--ink-2);font-size:13.5px;margin:0 0 18px;max-width:96ch;
+  border-left:2px solid var(--pjm-blue);padding-left:12px}
+p{max-width:96ch}
+.lede{color:var(--ink-2);font-size:14px;margin:0 0 18px}
+.lede b{color:var(--ink)}
+.tldr{background:var(--pjm-bg-alt);border:none;border-left:3px solid var(--pjm-coral)}
+.tldr ol{margin:6px 0 0;padding-left:22px}
+.tldr li{margin-bottom:11px;font-size:14px;color:var(--ink-2);max-width:94ch}
+.tldr li b{color:var(--ink)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;
+  background:var(--pjm-line);margin:0 0 22px}
+.kpis>div{background:var(--surface);padding:14px 16px}
+.kpis .k{display:block;font-size:26px;font-weight:600;line-height:1.1;letter-spacing:-.02em}
+.kpis .l{display:block;font-size:11px;color:var(--ink-muted);margin-top:4px;line-height:1.4}
+.coral{color:var(--pjm-coral)}
+.tw{overflow-x:auto;margin:0 -30px;padding:0 30px}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th{text-align:left;font-weight:600;font-size:9.5px;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--ink-muted);border-bottom:1.5px solid var(--pjm-line);padding:0 10px 7px 0;
+  vertical-align:bottom;white-space:nowrap}
+td{padding:9px 10px 9px 0;border-bottom:1px solid var(--pjm-line);vertical-align:top;
+  color:var(--ink-2)}
+tbody tr:hover td{background:var(--pjm-bg-alt)}
+tr.hl td{background:var(--row-hl)}
+td.org{font-weight:600;color:var(--ink);min-width:170px}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+td.c,th.c{text-align:center;font-variant-numeric:tabular-nums}
+td.b{font-weight:600;color:var(--ink)}
+td.sm{font-size:11.5px;line-height:1.5}
+.nw{white-space:nowrap}
+.na{color:var(--ink-muted);font-size:11px}
+.neg{color:var(--pjm-coral)}
+.chip{display:inline-block;font-size:10px;font-weight:600;padding:2.5px 8px;border-radius:10px;
+  white-space:nowrap;line-height:1.4}
+.chip.ok{background:var(--ok-bg);color:var(--ok-ink)}
+.chip.warn{background:var(--warn-bg);color:var(--warn-ink)}
+.chip.bad{background:var(--bad-bg);color:var(--bad-ink)}
+.chip.neutral{background:var(--pjm-bg-alt);color:var(--ink-2)}
+.owner{border-top:1px solid var(--pjm-line);padding-top:22px;margin-top:26px}
+.owner-head{display:flex;flex-wrap:wrap;gap:14px 26px;align-items:flex-start;
+  justify-content:space-between;margin-bottom:12px}
+.tag{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;
+  padding:2px 8px;border-radius:9px;margin-left:8px;vertical-align:2px}
+.tag.gone{background:var(--bad-bg);color:var(--bad-ink)}
+.tag.here{background:var(--pjm-blue-light);color:#20272F}
+.owner-kpi{display:flex;gap:22px;flex-wrap:wrap}
+.owner-kpi .k{display:block;font-size:17px;font-weight:600;color:var(--ink);
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.owner-kpi .l{display:block;font-size:10px;color:var(--ink-muted);margin-top:1px}
+.mix{font-size:11.5px;color:var(--ink-muted);margin:0 0 9px}
+.mix b{color:var(--ink-2)}
+.onote{font-size:13px;color:var(--ink-2);margin:0 0 10px;line-height:1.62}
+.onote b{color:var(--ink)}
+.tally{font-size:11px;font-weight:600;color:var(--ink-muted);text-transform:uppercase;
+  letter-spacing:.05em;margin:0 0 12px}
+details{margin-top:14px}
+summary{cursor:pointer;font-size:12px;font-weight:600;color:var(--pjm-coral);
+  padding:7px 0;user-select:none}
+summary:hover{color:var(--pjm-coral-light)}
+.caveat{background:var(--pjm-bg-alt);border-left:3px solid var(--pjm-blue-dark);
+  padding:16px 20px;margin:18px 0 0;font-size:12.5px;color:var(--ink-2);line-height:1.62}
+.caveat b{color:var(--ink)}
+.caveat ul{margin:8px 0 0;padding-left:20px}
+.caveat li{margin-bottom:7px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;
+  background:var(--pjm-bg-alt);padding:1px 5px;border-radius:3px}
+footer{background:var(--pjm-dark);color:#fff;margin-top:34px}
+.foot-in{max-width:1240px;margin:0 auto;padding:26px 24px;display:flex;
+  justify-content:space-between;align-items:center;font-size:12px;flex-wrap:wrap;gap:8px}
+.foot-in a{color:#fff;text-decoration:none}
+.foot-in .v{color:var(--pjm-coral);font-weight:600}
+@media (max-width:720px){
+  h1{font-size:28px} .hero-in{padding:38px 20px 30px}
+  section{padding:22px 18px} .tw{margin:0 -18px;padding:0 18px}
+  .wrap{padding:0 18px 60px} .nav-in{padding:0 18px} .nav a.idx{margin-left:0}
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <svg class="orn" width="330" height="290" viewBox="0 0 330 290" aria-hidden="true">
+    <rect x="150" y="52" width="176" height="176" rx="40" fill="none" stroke="#A9C5DF" stroke-width="2"/>
+    <path d="M212 60 a86 86 0 1 1 -60 146" fill="none" stroke="#FF525F" stroke-width="2"/>
+  </svg>
+  <div class="hero-in">
+    <div class="logo">
+      <div class="logo-grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div><div class="logo-wm">projectman</div><div class="logo-claim">connecting experts</div></div>
+    </div>
+    <span class="pill">Vztahová kniha 2026 · otázka 2 ze 3 · interní</span>
+    <h1><span>Nesoutěžní výhry</span>kde jsme vyhráli bez tendru — a kde jsme dnes</h1>
+    <p class="hero-sub">Sedmnáct klientů s doloženou nesoutěžní výhrou v 2024–2025 a jejich dnešní stav. Zdroj: warehouse (Pipedrive + Tracker), extrakt 16. 8. 2026, 662 zakázek, 0 nezařazených.</p>
+  </div>
+</header>
+<nav class="nav"><div class="nav-in"><a href="vztahova-kniha-1-kohorta-2025.html" class=""><span class="n">1</span>Kohorta 2025</a><a href="vztahova-kniha-2-nesoutezni-vyhry.html" class="on"><span class="n">2</span>Nesoutěžní výhry</a><a href="vztahova-kniha-3-obchodnici.html" class=""><span class="n">3</span>Obchodníci s propadem</a><a href="index.html" class="idx">← rozcestník</a></div></nav>
+<div class="wrap">
+
+  <section class="tldr">
+    <h2>TL;DR</h2>
+    <ol>
+      <li><b>Nesoutěžní výhry drží nejlépe z celé knihy.</b> Z 17 klientů, kde
+        jsme v 2024–2025 vyhráli bez soutěže, u <b>11 pořád něco běží</b>
+        (65 %). Deset z nich má běžící PM obsazení.</li>
+      <li><b>Vyhaslý je jediný</b> — European Housing Services. Další tři žijí jen na kontaktu
+        (CME, Suntel, CTP Invest), jeden na pipeline (ČSOB) a jeden na prohře (Heureka).</li>
+      <li><b>Obchodní důsledek:</b> nesoutěžní výhra není „slabší" zakázka. Je to
+        <b>nejlepší predikce dlouhého vztahu, kterou v datech máme</b> — a stojí za to ji
+        vykazovat zvlášť, ne schovávat do jednoho win rate se soutěžemi.</li>
+      <li><b>Hranice:</b> soutěžnost je ručně kódovaná jen pro OUT_PM. Z
+        37 výher OUT_PM v 2024+2025 je 21 doložených
+        nesoutěžních, 4 soutěžní a <b>12 neurčených</b> — podíl je tedy „aspoň
+        57 %", ne přesné číslo.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Klienti, které jsme získali <em>bez soutěže</em></h2>
+    <p class="q"><b>Otázka:</b> jak jsou na tom dnes klienti, kde jsme dřív (2024+2025) vyhráli
+      bez soutěže? Vyjmenovat a u každého uvést, jaký s ním máme vztah v roce 2026.</p>
+    <div class="kpis"><div><span class="k">21</span><span class="l">nesoutěžních výher 2024–25</span></div><div><span class="k">17</span><span class="l">klientů</span></div><div><span class="k coral">11</span><span class="l">z nich dnes něco běží</span></div><div><span class="k">6</span><span class="l">bez běžícího obsazení</span></div><div><span class="k">65 %</span><span class="l">udrženo</span></div></div>
+    <p class="lede">Tohle je nejlepší číslo z celé vztahové knihy a stojí za pozornost vedení:
+      <b>11 ze 17 klientů získaných bez tendru u nás pořád je</b>.
+      Deset má dnes běžící PM obsazení, jeden běží na jiné kompetenci. Tam, kde nás vzali bez
+      soutěže, zůstáváme — obrácený obrázek než u soutěžených zakázek.</p>
+    <div class="tw"><table style="min-width:1080px"><thead><tr><th class="">Klient</th><th class="c">Nesoutěžních výher</th><th class="">Roky</th><th class="r">Marže (tis. Kč)</th><th class="">Kdo vyhrál</th><th class="">Vztah 2026</th><th class="">Co tam je dnes</th><th class="">Kdo se ozval 2026</th></tr></thead><tbody>
+      <tr>
+        <td class="org">Novo Nordisk Production Czech s.r.o.</td>
+        <td class="c">3</td>
+        <td class="nw sm">2025</td>
+        <td class="r">1 806</td>
+        <td class="sm nw">Pavel Veselý</td>
+        <td><span class="chip ok">drží — PM běží</span></td>
+        <td class="sm">4× PM obsazení běží; 6× jiná kompetence běží (OUT_OTHER, OUT_PM); výhra 2026: OUT_OTHER; 3× nová poptávka (OUT_OTHER)</td>
+        <td class="sm nw">Pavel Veselý</td>
+      </tr>
+      <tr>
+        <td class="org">AGEL SSC a.s.</td>
+        <td class="c">1</td>
+        <td class="nw sm">2025</td>
+        <td class="r">340</td>
+        <td class="sm nw">Lubomir Slocik</td>
+        <td><span class="chip ok">drží — PM běží</span></td>
+        <td class="sm">2× PM obsazení běží; výhra 2026: OUT_PM; 2× nová poptávka (OUT_PM, CONS_AI); 2× prohra</td>
+        <td class="sm nw">Lubomir Slocik</td>
+      </tr>
+      <tr>
+        <td class="org">Škoda Transportation a.s.</td>
+        <td class="c">1</td>
+        <td class="nw sm">2024</td>
+        <td class="r">140</td>
+        <td class="sm nw">Jiří Zázvorka</td>
+        <td><span class="chip ok">drží — PM běží</span></td>
+        <td class="sm">2× PM obsazení běží; 1× prohra</td>
+        <td class="sm nw">Jiří Zázvorka</td>
+      </tr>
+      <tr>
+        <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+        <td class="c">2</td>
+        <td class="nw sm">2024</td>
+        <td class="r"><span class="na" title="marže v CRM nevyplněna">neuvedeno</span></td>
+        <td class="sm nw">Pavel Veselý</td>
+        <td><span class="chip ok">drží — PM běží</span></td>
+        <td class="sm">2× PM obsazení běží; 10× jiná kompetence běží (OUT_AI, OUT_UX, OUT_AGILE, OUT_OTHER, OUT_DATA, OUT_PM); výhra 2026: CONS_AGILE, OUT_AGILE, OUT_AI, OUT_OTHER; 5× nová poptávka (OUT_OTHER, CONS_AGILE, OUT_AGILE, OUT_AI); 1× prohra</td>
+        <td class="sm nw">Pavel Veselý</td>
+      </tr>
+      <tr>
+        <td class="org">VIG RE zajišťovna, a.s.</td>
+        <td class="c">1</td>
+        <td class="nw sm">2025</td>
+        <td class="r">1 540</td>
+        <td class="sm nw">Jiří Tonar</td>
+        <td><span class="chip ok">drží — PM běží</span></td>
+        <td class="sm">1× PM obsazení běží; výhra 2026: CONS_PM; 4× nová poptávka (OUT_OTHER, CONS_PM); 3× prohra</td>
+        <td class="sm nw">Jiří Tonar</td>
+      </tr>
+      <tr>
+        <td class="org">WOOD &amp; Company Financial Services, a.s.</td>
+        <td class="c">1</td>
+        <td class="nw sm">2025</td>
+        <td class="r">1 000</td>
+        <td class="sm nw">Jan Klimíček</td>
+        <td><span class="chip ok">drží — PM běží</span></td>
+        <td class="sm">1× PM obsazení běží; výhra 2026: CONS_PM; 1× nová poptávka (CONS_PM); 1× prohra</td>
+        <td class="sm nw">Jan Klimíček</td>
+      </tr>
+      <tr>
+        <td class="org">ČSOB Leasing, a.s.</td>
+        <td class="c">1</td>
+        <td class="nw sm">2025</td>
+        <td class="r">938</td>
+        <td class="sm nw">Jiří Zázvorka</td>
+        <td><span class="chip ok">drží — PM běží</span></td>
+        <td class="sm">1× PM obsazení běží; 2× nová poptávka (OUT_PM); 2× prohra</td>
+        <td class="sm nw">Jiří Zázvorka</td>
+      </tr>
+      <tr>
+        <td class="org">accompani consulting GmbH</td>
+        <td class="c">2</td>
+        <td class="nw sm">2024</td>
+        <td class="r">800</td>
+        <td class="sm nw">Petr Janiš, Radim</td>
+        <td><span class="chip ok">drží — PM běží</span></td>
+        <td class="sm">1× PM obsazení běží</td>
+        <td class="sm nw">Petr Janiš</td>
+      </tr>
+      <tr>
+        <td class="org">ČD - Telematika a.s.</td>
+        <td class="c">1</td>
+        <td class="nw sm">2025</td>
+        <td class="r">709</td>
+        <td class="sm nw">Pavel Veselý</td>
+        <td><span class="chip ok">drží — PM běží</span></td>
+        <td class="sm">1× PM obsazení běží; 1× jiná kompetence běží (OUT_OTHER, OUT_PM); 1× prohra</td>
+        <td class="sm nw">Pavel Veselý</td>
+      </tr>
+      <tr>
+        <td class="org">ESSITY SLOVAKIA S.R.O.</td>
+        <td class="c">1</td>
+        <td class="nw sm">2025</td>
+        <td class="r">631</td>
+        <td class="sm nw">Lubomir Slocik</td>
+        <td><span class="chip ok">drží — PM běží</span></td>
+        <td class="sm">1× PM obsazení běží</td>
+        <td class="sm nw">Lubomir Slocik</td>
+      </tr>
+      <tr>
+        <td class="org">CME MEDIA ENTERPRISES B.V.</td>
+        <td class="c">1</td>
+        <td class="nw sm">2025</td>
+        <td class="r">580</td>
+        <td class="sm nw">Petr Vesely</td>
+        <td><span class="chip warn">jen kontakt</span></td>
+        <td class="sm">7× kontakt, posl. 29. 5. 2026</td>
+        <td class="sm nw">Pavel Veselý</td>
+      </tr>
+      <tr>
+        <td class="org">European Housing Services s.r.o.</td>
+        <td class="c">1</td>
+        <td class="nw sm">2024</td>
+        <td class="r">552</td>
+        <td class="sm nw">Pavel Veselý</td>
+        <td><span class="chip bad">vyhaslo</span></td>
+        <td class="sm">nic — žádná zakázka, žádný kontakt</td>
+        <td class="sm nw">—</td>
+      </tr>
+      <tr>
+        <td class="org">Heureka Group a.s.</td>
+        <td class="c">1</td>
+        <td class="nw sm">2025</td>
+        <td class="r">462</td>
+        <td class="sm nw">Jan Klimíček</td>
+        <td><span class="chip bad">jen prohra</span></td>
+        <td class="sm">1× prohra</td>
+        <td class="sm nw">Jan Klimíček</td>
+      </tr>
+      <tr>
+        <td class="org">Československá obchodní banka, a. s.</td>
+        <td class="c">1</td>
+        <td class="nw sm">2024</td>
+        <td class="r">456</td>
+        <td class="sm nw">Petr Janiš</td>
+        <td><span class="chip warn">jen pipeline</span></td>
+        <td class="sm">3× nová poptávka (OUT_BA, OUT_PM); 4× prohra</td>
+        <td class="sm nw">Jiří Zázvorka</td>
+      </tr>
+      <tr>
+        <td class="org">AGEL a.s.</td>
+        <td class="c">1</td>
+        <td class="nw sm">2025</td>
+        <td class="r">372</td>
+        <td class="sm nw">Lubomir Slocik</td>
+        <td><span class="chip ok">drží — jiná kompetence běží</span></td>
+        <td class="sm">1× jiná kompetence běží (OUT_BA); 1× nová poptávka (CONS_AI)</td>
+        <td class="sm nw">Lubomir Slocik</td>
+      </tr>
+      <tr>
+        <td class="org">Suntel s.r.o.</td>
+        <td class="c">1</td>
+        <td class="nw sm">2025</td>
+        <td class="r">271</td>
+        <td class="sm nw">Jiří Tonar</td>
+        <td><span class="chip warn">jen kontakt</span></td>
+        <td class="sm">2× kontakt, posl. 4. 3. 2026</td>
+        <td class="sm nw">Jiří Tonar</td>
+      </tr>
+      <tr>
+        <td class="org">CTP Invest, spol. s r.o.</td>
+        <td class="c">1</td>
+        <td class="nw sm">2024</td>
+        <td class="r">68</td>
+        <td class="sm nw">Jiří Zázvorka</td>
+        <td><span class="chip warn">jen kontakt</span></td>
+        <td class="sm">1× kontakt, posl. 13. 2. 2026</td>
+        <td class="sm nw">Pavel Veselý</td>
+      </tr></tbody></table></div>
+    <div class="caveat"><b>Hranice tohoto zjištění — čtěte před citací.</b>
+      <ul>
+        <li>Soutěžnost je ručně kódovaná ze zápisů a existuje <b>jen pro OUT_PM knihu</b>
+          (131 zakázek). O CONS a EDU tato stránka netvrdí nic.</li>
+        <li>Z 37 výher OUT_PM v 2024+2025 je <b>21
+          doložených nesoutěžních</b>, 4 soutěžní a <b>12 neurčených</b> (zápis nedal dost
+          detailu). Podíl nesoutěžních výher je proto „aspoň 57 %".</li>
+        <li>Kódování výher je mezi pololetími <b>nesymetricky pokryté</b> — zápisy se v čase
+          zlepšovaly. Absolutní počty jsou solidní, <b>trend podílu nesoutěžních výher ne</b>.</li>
+        <li>U Edwards mají obě nesoutěžní výhry z 2024 v CRM nulovou marži, proto „neuvedeno".
+          Jedna z nich se jmenuje „náhrada za…" — učebnicová nesoutěžní výhra z pozice
+          uvnitř.</li>
+        <li><b>Rok 2026 je neúplný</b> (data k 16. 8. 2026), takže „dnes něco běží"
+          je stav k datu extraktu, ne celoroční výsledek.</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+<footer>
+  <div class="foot-in">
+    <div>Projectman.cz, s.r.o | <a href="https://www.projectman.cz">www.projectman.cz</a></div>
+    <div class="v">interní · data k 16. 8. 2026</div>
+  </div>
+</footer>
+
+</body>
+</html>

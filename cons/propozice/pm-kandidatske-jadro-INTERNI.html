@@ -1,0 +1,452 @@
+<!doctype html><html lang="cs"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kandidátské jádro PM — vývoj, odtok a doplňování</title>
+<style>
+@font-face{font-family:Poppins;font-weight:400;font-display:swap;
+  src:url("https://www.projectman.cz/themes/custom/projectman/fonts/Poppins/Poppins-Regular.woff2") format("woff2")}
+@font-face{font-family:Poppins;font-weight:600;font-display:swap;
+  src:url("https://www.projectman.cz/themes/custom/projectman/fonts/Poppins/Poppins-SemiBold.woff2") format("woff2")}
+:root{
+  --pjm-dark:#20272F; --pjm-coral:#FF525F; --pjm-blue:#A9C5DF; --pjm-blue-dark:#5C7894;
+  --pjm-grey:#878787; --pjm-bg:#F7F7F7; --pjm-bg-alt:#F0F2F5; --pjm-line:#DADADA;
+  --surface:#FFFFFF; --ink:#20272F; --ink-2:#3F4A57; --ink-muted:#878787; --grid:#E8E8E8;
+  --c-in:#2B72B8; --c-out:#DC2F3C; --c-soft:#C4CAD1;
+}
+@media (prefers-color-scheme:dark){
+  :root{--surface:#20272F; --ink:#FFFFFF; --ink-2:#C9D2DB; --ink-muted:#8C97A3;
+    --pjm-bg:#171D23; --pjm-bg-alt:#1C242C; --pjm-line:#333D48; --grid:#333D48;
+    --c-in:#4E97DC; --c-out:#F0555F; --c-soft:#4A5561;}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--pjm-bg);color:var(--ink);
+  font:400 15px/1.62 Poppins,Helvetica,Calibri,Arial,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px 80px}
+h1{font-weight:400;font-size:38px;line-height:1.16;margin:0;color:var(--pjm-coral);max-width:24ch}
+h1 span{display:block;border-bottom:1.5px solid var(--pjm-coral);padding-bottom:7px;margin-bottom:7px}
+h2{font-weight:600;font-size:20px;margin:0 0 4px;letter-spacing:-.01em}
+h3{font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--pjm-coral);
+  margin:30px 0 8px;padding-top:16px;border-top:1px solid var(--grid)}
+section > h3:first-of-type{border-top:0;margin-top:14px;padding-top:0}
+p{max-width:90ch}
+.hero{position:relative;background:var(--pjm-dark);color:#fff;overflow:hidden;margin-bottom:34px}
+.hero-in{max-width:1180px;margin:0 auto;padding:50px 24px 44px;position:relative;z-index:2}
+.hero::after{content:"";position:absolute;right:-70px;top:-60px;width:330px;height:330px;
+  border:2px solid var(--pjm-coral);border-radius:50%;opacity:.42;z-index:1}
+.hero::before{content:"";position:absolute;right:60px;top:90px;width:210px;height:210px;
+  border:2px solid var(--pjm-blue);border-radius:34px;opacity:.34;z-index:1}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:34px}
+.logo-grid{display:grid;grid-template-columns:repeat(6,3px);gap:2.5px}
+.logo-grid i{width:3px;height:3px;background:var(--pjm-grey);border-radius:50%}
+.logo-wm{font-weight:600;font-size:19px;letter-spacing:-.01em}
+.logo-claim{font-size:9px;color:var(--pjm-grey);letter-spacing:.06em;margin-top:-2px}
+.hero-sub{color:#C9D2DB;font-size:14.5px;max-width:74ch;margin-top:18px}
+.pill{display:inline-block;font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;
+  padding:4px 9px;border:1px solid var(--pjm-coral);color:var(--pjm-coral);border-radius:11px;margin-bottom:18px}
+.warn{background:var(--pjm-coral);color:#fff;font-size:12.5px;font-weight:600;padding:11px 24px}
+.warn div{max-width:1180px;margin:0 auto}
+section{background:var(--surface);border:1px solid var(--pjm-line);padding:26px 28px 30px;margin-bottom:20px}
+.lede{color:var(--ink-2);font-size:14px;margin:0 0 18px;max-width:90ch}
+.note{color:var(--ink-muted);font-size:12.5px;margin:8px 0 0;max-width:88ch}
+.snum{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;
+  background:var(--pjm-coral);color:#fff;font-size:11px;font-weight:600;margin-right:9px;vertical-align:2px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:2px;margin:0 0 6px}
+.kpi{background:var(--pjm-bg-alt);padding:15px 17px 14px}
+.kpi .k{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted)}
+.kpi .v{font-size:26px;font-weight:600;line-height:1.05;letter-spacing:-.02em;margin-top:6px;
+  font-variant-numeric:tabular-nums}
+.kpi .v.alert{color:var(--pjm-coral)}
+.kpi .n{font-size:11px;color:var(--ink-muted);line-height:1.42;margin-top:5px}
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{padding:8px 10px;text-align:right;border-bottom:1px solid var(--grid);
+  font-variant-numeric:tabular-nums}
+th{font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-muted);font-weight:600;
+  white-space:nowrap}
+td.h,th.h{text-align:left;font-weight:600;font-variant-numeric:normal}
+td.h .n{display:block;font-size:10.5px;font-weight:400;color:var(--ink-muted)}
+td.l,th.l{text-align:left;font-variant-numeric:normal}
+tr.tot td{border-top:2px solid var(--pjm-line);border-bottom:0;font-weight:600}
+td.hi{color:var(--pjm-coral);font-weight:600}
+.tag{display:inline-block;font-size:9.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+  padding:2px 6px;border-radius:3px;background:var(--pjm-bg-alt);color:var(--ink-2)}
+.tag.kon{background:var(--pjm-coral);color:#fff}
+.tag.kli{background:var(--pjm-blue);color:#20272F}
+.bar-cell{min-width:130px}
+.bar{height:9px;background:var(--grid);border-radius:2px;overflow:hidden;display:flex}
+.bar i{height:100%;display:block}
+.bar i.in{background:var(--c-in)} .bar i.out{background:var(--c-out)}
+.bar i.soft{background:var(--pjm-blue-dark)}
+.legend{display:flex;gap:18px;font-size:11.5px;color:var(--ink-muted);margin:0 0 14px;flex-wrap:wrap}
+.legend .sw{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px}
+.sw.in{background:var(--c-in)} .sw.out{background:var(--c-out)} .sw.soft{background:var(--c-soft)}
+.chart{width:100%;height:auto;display:block;margin:4px 0 6px}
+.chart text{font:400 10.5px Poppins,Helvetica,Arial,sans-serif;fill:var(--ink-muted)}
+.chart text.lbl{font-weight:600;fill:var(--ink)}
+.blocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px;margin:14px 0 4px}
+.block{padding:16px 18px;font-size:13px;line-height:1.5}
+.block b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.block.c1{background:rgba(255,82,95,.14)} .block.c2{background:rgba(169,197,223,.30)}
+.block.c3{background:var(--pjm-bg-alt)}
+.foot{font-size:11px;color:var(--ink-muted);margin-top:26px;border-top:1px solid var(--grid);padding-top:14px}
+.foot code{font-size:10.5px}
+/* manažerské shrnutí */
+.sum{border-left:3px solid var(--pjm-coral)}
+.sum-h{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;
+  color:var(--pjm-coral);margin:0 0 12px}
+.sum-lead{font-size:18px;line-height:1.5;font-weight:400;margin:0 0 22px;max-width:78ch;
+  letter-spacing:-.005em}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2px;
+  margin-bottom:2px}
+.sum-card{background:var(--pjm-bg-alt);padding:18px 20px 19px}
+.sum-n{font-size:29px;font-weight:600;line-height:1.02;letter-spacing:-.025em;
+  color:var(--pjm-coral);font-variant-numeric:tabular-nums}
+.sum-t{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--ink-muted);margin:7px 0 8px}
+.sum-d{font-size:12.5px;line-height:1.5;color:var(--ink-2)}
+.sum-so{background:rgba(255,82,95,.12);padding:18px 20px;font-size:13.5px;line-height:1.58;
+  max-width:none}
+</style></head><body>
+<div class="hero"><div class="hero-in">
+<div class="logo"><div class="logo-grid"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div><div class="logo-wm">projectman</div><div class="logo-claim">connecting experts</div></div></div>
+<span class="pill">PM Kompetence · úkol Konverze · interní</span>
+<h1><span>Kandidátské jádro PM</span>neztrácíme ho rychleji — přestali jsme ho doplňovat</h1>
+<p class="hero-sub">Prověřenou kapacitu máme a klienti si ji opakovaně kupují. Odtok se přitom nezrychlil. Co se zlomilo, je <b>přítok nových PM míst</b> — a co nefunguje vůbec, je <b>druhé použití lidí, kteří místo dokončí</b>. Rozsah: <b>pouze OUT_PM</b>, 69 obsazení z 150 celé OUT knihy. Zdroj: warehouse Propositions (Pipedrive + changelog prodloužení) a Tracker, stav k 16. 8. 2026.</p>
+</div></div>
+<div class="warn"><div>Interní materiál — obsahuje jména kontraktorů. Provozní podklad pro bench a win-back, ne materiál pro vedení ani pro klienta.</div></div>
+<div class="wrap">
+<section class="sum">
+<h2 class="sum-h">Hlavní zjištění</h2>
+<p class="sum-lead">Kandidátské jádro PM funguje: 35 lidí, u kterých klient doložitelně zaplatil znovu, 83 prodloužení a 412 přidaných měsíců kapacity od 10/2024. <b>Problém není v tom, že bychom o jádro přicházeli rychleji.</b> Problém je, že jsme ho přestali doplňovat — a že člověka, kterému místo skončí, už nikdy nikomu nenabídneme.</p>
+<div class="sum-grid">
+<div class="sum-card"><div class="sum-n">5,75 → 1,7</div><div class="sum-t">Nová PM místa za kvartál</div><div class="sum-d">Průměr 2025 proti 2026, s <b>nulou v 2026Q2</b>. Odchody z jádra přitom drží plochou linku 4 · 2 · 4 · 4 · 2 — <b>odtok se nezrychlil, propadl přítok</b>. Míří to na chybějící PM poptávku, ne na retenci.</div></div>
+<div class="sum-card"><div class="sum-n">0 z 12</div><div class="sum-t">Odešlých znovu nabídnuto</div><div class="sum-d">Ani jeden člověk z odešlého jádra nebyl po skončení místa nabídnut na jinou zakázku; <b>9 z 12 nejsou v náboru vůbec</b>. Nejsou odmítnutí — jsou nenabídnutí. 435 odpracovaných měsíců mimo hru.</div></div>
+<div class="sum-card"><div class="sum-n">20 z 23</div><div class="sum-t">Končí do 31. 12. 2026</div><div class="sum-d">Celé dnešní jádro je nasmlouvané jen do konce roku a prakticky ve třech dnech: <b>13 na Silvestra</b>, 4 už 30. 9. Za celý rok přitom přibyli <b>dva</b> skuteční nováčci.</div></div>
+</div>
+<div class="sum-so"><b>Co z toho plyne.</b> Obě poloviny problému jsou tatáž díra: <b>člověk u nás nemá vlastníka</b>. Když místo skončí, není kdo by ho nabídl dál (proto 0 z 12); když má vzniknout nové, není pro koho ho hledat (proto nula v 2026Q2). Nejlevnější opatření proto míří na obojí najednou — <b>vlastník člověka, ne jen účtu</b>, s automatickým úkolem 60 dní před koncem obsazení a s jedním novým polem <i>„je dál k dispozici?"</i>. Tím vznikne bench jako vedlejší produkt konce místa, a s ním i měřitelný indikátor: <i>kolik lidí z jádra se objevilo na shortlistu do 90 dnů od konce místa</i>. Dnes nula. <b>Naopak nemá smysl</b> investovat do retence ani do zlepšování screeningu: odtok je stabilní a jen 1 z 12 odchodů byl o výkonu člověka.</div>
+</section>
+<section>
+<h3 style="border-top:0;margin-top:0;padding-top:0">Čísla, na kterých to stojí</h3>
+<div class="kpis">
+<div class="kpi"><div class="k">Jádro PM</div><div class="v">35</div><div class="n">z 60 lidí, které jsme kdy obsadili na PM — 24+ měsíců u klienta nebo 2+ doložená prodloužení</div></div>
+<div class="kpi"><div class="k">Sedí dnes</div><div class="v">23</div><div class="n">rozptýlených u 16 klientů, nikde víc než 3</div></div>
+<div class="kpi"><div class="k">Odešlo</div><div class="v alert">12</div><div class="n">579 odpracovaných měsíců a 4,6 M Kč historické marže — všechno za posledních 15 měsíců</div></div>
+<div class="kpi"><div class="k">Znovu umístěno</div><div class="v alert">0 z 12</div><div class="n">a ani jeden z nich dnes nesedí na jiné kompetenci — odešli z firmy, ne z PM</div></div>
+<div class="kpi"><div class="k">2026H1: nová místa vs. konce</div><div class="v alert">4 : 12</div><div class="n">třikrát víc konců než nových PM obsazení</div></div>
+<div class="kpi"><div class="k">Smluvní konec do 12/2026</div><div class="v alert">20 z 23</div><div class="n">celé dnešní PM jádro je nasmlouvané jen do konce roku</div></div>
+</div>
+<p class="note"><b>Rozsah:</b> počítá se jen PM historie člověka. Kdo u nás odpracoval 30 měsíců na BA a 6 na PM, má tady 6. Alumni jsou proto lidé, kteří skončili PM místo — ověřeno ale je, že <b>0 z 12</b> z nich dnes sedí na jiné kompetenci, takže o přesun uvnitř firmy nejde ani v jednom případě.</p>
+<h3>Ze dvou dokladů, stačí jeden</h3>
+<div class="tbl-wrap"><table><thead><tr><th class="h">Doklad opakovaného nákupu</th><th>Lidí</th><th>Sedí dnes</th><th>Ø měsíců</th><th class="l">Proč sám nestačí</th></tr></thead><tbody>
+<tr><td class="h">obojí</td><td>15</td><td>12</td><td>50,0</td><td class="l">—</td></tr>
+<tr><td class="h">dlouhá doba (24+ m)</td><td>12</td><td>5</td><td>58,5</td><td class="l">Vyřadí čerstvě prodlužované lidi z 2025</td></tr>
+<tr><td class="h">opakovaná prodloužení (2+)</td><td>8</td><td>6</td><td>13,9</td><td class="l">Changelog začíná 30. 10. 2024 — vyřadil by nejdéle sedící</td></tr>
+<tr class="tot"><td class="h">Jádro celkem</td><td>35</td><td>23</td><td></td><td class="l"></td></tr>
+</tbody></table></div>
+<p class="note">Kritérium „umísťuje se opakovaně" použít nelze: víc než jedno PM místo mají <b>4 lidé z 60</b> a u části z nich běžela místa paralelně. Opakovaný nákup se v datech projevuje prodloužením u téhož klienta, ne přesunem člověka. <b>Jádro není posudek na člověka</b> — mimo něj je 25 lidí a 24 z nich nastoupilo v roce 2024 nebo později, takže práh jen nestihli překročit.</p>
+<h3>Táž kniha v pásmech odpracované doby (H-85 přepočtená na PM)</h3>
+<p class="lede">Souběžná řezová definice z dřívější analýzy, tady přepočtená tak, že se počítají jen PM měsíce. Ukazuje totéž jinou optikou a hlavně to, kolik prověřené kapacity už nesedí.</p>
+<div class="tbl-wrap"><table><thead><tr><th class="h">Pásmo</th><th>Lidí</th><th>Sedí</th><th>Alumni</th><th>Prodloužení</th><th>Ø měsíců</th><th>Marže (M Kč)</th><th>Z toho u alumni</th></tr></thead><tbody>
+<tr><td class="h">A — doložené jádro (24+ m)</td><td>27</td><td>17</td><td class="hi">10</td><td>50</td><td>53,8</td><td>13,8</td><td>3,8</td></tr>
+<tr><td class="h">B — rozpracované</td><td>21</td><td>11</td><td class="hi">10</td><td>27</td><td>15,4</td><td>13,3</td><td>4,9</td></tr>
+<tr><td class="h">C — neprověřené</td><td>9</td><td>5</td><td>4</td><td>4</td><td>6,8</td><td>6,0</td><td>1,6</td></tr>
+<tr><td class="h">D — nedoběhlo</td><td>3</td><td>0</td><td>3</td><td>2</td><td>4,8</td><td>1,0</td><td>1,0</td></tr>
+</tbody></table></div>
+<p class="note"><b>20 z 48 lidí pásem A+B už nesedí</b> a ani jeden nebyl přeobsazen — 8,7 M Kč historické marže. Pásma A = 27 a B = 21 sedí přesně na restrikci uvedenou v původní celoknižní H-85 („lidé s aspoň jedním OUT_PM obsazením: A 27 · B 21 · C 12"), takže rozdělení je vůči zúžení na PM robustní. <b>Tři různá čísla pro „jádro" ale nesmí splynout:</b> 57 = pásmo A celé knihy · 35 = PM definice výše (24 m nebo 2+ prodloužení) · 27 = pásmo A jen v PM.</p>
+</section>
+<section>
+<h2><span class="snum">1</span>Jak umisťujeme a jak prodlužujeme</h2>
+<p class="lede">Od roku 2024 jsou v PM datech čtyři různé události, které se nesmí sečíst do jednoho čísla: nové obsazení začne, člověk u nás usedne poprvé, klient posune konec u běžícího obsazení, obsazení skončí. Teprve jejich poměr ukazuje, čím kniha roste.</p>
+<h3>Tok PM obsazení po pololetích</h3>
+<div class="tbl-wrap"><table><thead><tr><th class="h">Pololetí</th><th>Nová místa</th><th>Klientů</th><th>Nasmlouvané měsíce</th><th>Noví lidé</th><th>Prodloužení</th><th>Prodloužených míst</th><th>Přidané měsíce</th><th>Medián prodl. (m)</th><th>Konce</th></tr></thead><tbody>
+<tr><td class="h">2024H1<span class="n">changelog ještě neběžel</span></td><td>12</td><td>8</td><td>216</td><td>10</td><td>—</td><td>—</td><td>—</td><td>—</td><td>0</td></tr>
+<tr><td class="h">2024H2<span class="n">changelog ještě neběžel</span></td><td>4</td><td>4</td><td>46</td><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>4</td></tr>
+<tr><td class="h">2025H1</td><td>10</td><td>10</td><td>152</td><td>8</td><td>13</td><td>9</td><td>52</td><td>2,0</td><td>8</td></tr>
+<tr><td class="h">2025H2</td><td>13</td><td>11</td><td>159</td><td>9</td><td>38</td><td>30</td><td>195</td><td>3,5</td><td>11</td></tr>
+<tr><td class="h">2026H1</td><td>4</td><td>4</td><td>51</td><td>4</td><td>30</td><td>23</td><td>155</td><td>5,9</td><td class="hi">12</td></tr>
+<tr><td class="h">2026H2</td><td>1</td><td>1</td><td>23</td><td>1</td><td>2</td><td>2</td><td>10</td><td>5,0</td><td>0</td></tr>
+</tbody></table></div>
+<div class="blocks"><div class="block c1"><b>2026H1 je zlomové pololetí</b><b>4 nová PM místa proti 12 koncům.</b> Ještě v 2025H2 to bylo 13 : 11. Ne že by kniha rostla pomaleji — poprvé se vyprazdňuje třikrát rychleji, než se plní.</div><div class="block c2"><b>Prodlužování drží knihu, nábor ne</b>Od 10/2024 přidalo 83 prodloužení <b>412 měsíců</b> kapacity. Nová PM obsazení za stejné období nasmlouvala 385. A prodloužení jsou stále delší: medián 2,0 → 3,5 → <b>5,9 měsíce</b>.</div><div class="block c3"><b>Nová místa jsou i u méně klientů</b>Klientů, u kterých v pololetí začalo nové PM místo: 8 → 4 → 10 → 11 → <b>4</b>. Zúžení není jen v počtu míst, ale i v šířce základny, na které vznikají.</div></div>
+<h3>Jak vypadá prodlužování podle kohorty startu</h3>
+<p class="lede">Podíl prodloužených míst není mírou kvality kohorty, ale toho, kolik měla času. Kohorta 2024 vypadá slabě hlavně proto, že velká část jejích prodloužení padla před 30. 10. 2024, kdy changelog ještě neběžel; kohorta 2026 na prodloužení zatím neměla čas.</p>
+<div class="tbl-wrap"><table><thead><tr><th class="h">Kohorta</th><th>Míst</th><th>S prodloužením</th><th>2+ prodloužení</th><th>% prodloužených</th><th class="l bar-cell">Podíl</th><th>Ø prodloužení</th><th>Přidané měsíce</th><th>Sedí dnes</th></tr></thead><tbody>
+<tr><td class="h">start &lt;= 2023</td><td>25</td><td>20</td><td>12</td><td class="hi">80 %</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:80.0%"></i></div></td><td>1,64</td><td>217</td><td>14</td></tr>
+<tr><td class="h">start 2024</td><td>16</td><td>5</td><td>3</td><td class="hi">31 %</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:31.0%"></i></div></td><td>0,56</td><td>43</td><td>2</td></tr>
+<tr><td class="h">start 2025</td><td>23</td><td>18</td><td>7</td><td class="hi">78 %</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:78.0%"></i></div></td><td>1,35</td><td>146</td><td>14</td></tr>
+<tr><td class="h">start 2026</td><td>5</td><td>1</td><td>1</td><td class="hi">20 %</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:20.0%"></i></div></td><td>0,40</td><td>7</td><td>4</td></tr>
+</tbody></table></div>
+</section>
+<section>
+<h2><span class="snum">2</span>Jak se PM jádro vyvíjí v čase</h2>
+<p class="lede">Snapshot k pololetím: kolik lidí mělo k danému dni odpracováno 24+ měsíců na PM a jestli k tomu dni ještě seděli. Řada stojí jen na kritériu odpracované doby — prodloužení jsou vidět až od 10/2024 a udělala by v ní umělý skok. Proto je poslední sloupec „sedí" nižší než 23 z předchozí sekce.</p>
+<div class="block c1" style="margin:0 0 16px"><b>Řada před rokem 2025 není historie</b>Z <b>53 obsazení zahájených do konce 2023 neskončilo před rokem 2025 ani jedno</b> (28 běží dál, 19 skončilo 2025, 6 skončilo 2026). V celé OUT knize je před 1. 1. 2025 jen <b>6 konců</b>, z toho 1 se jménem kontraktora. CRM navíc eviduje 2 vyhrané OUT zakázky v roce 2017, 3 v 2018 a 2 v 2019. <b>Starší historie je tenká a dopočtená</b> — obsahuje hlavně to, co bylo v době zavedení evidence ještě živé. „Nula odchodů do konce 2024" proto měří stáří evidence, ne stabilitu jádra; sloupce nalevo od 2025 čtěte jako neúplné.</div>
+<div class="legend"><span><span class="sw in"></span>jádro sedící</span><span><span class="sw out"></span>jádro, které už nesedí</span><span><span class="sw soft"></span>celá PM kniha</span></div>
+<svg class="chart" viewBox="0 0 1080 300" role="img" aria-label="Vývoj PM jádra v čase">
+<line x1="44" x2="1064" y1="248.0" y2="248.0" stroke="currentColor" stroke-opacity=".13"/>
+<text x="36" y="251.5" text-anchor="end">0</text>
+<line x1="44" x2="1064" y1="190.5" y2="190.5" stroke="currentColor" stroke-opacity=".13"/>
+<text x="36" y="194.0" text-anchor="end">10</text>
+<line x1="44" x2="1064" y1="133.0" y2="133.0" stroke="currentColor" stroke-opacity=".13"/>
+<text x="36" y="136.5" text-anchor="end">20</text>
+<line x1="44" x2="1064" y1="75.5" y2="75.5" stroke="currentColor" stroke-opacity=".13"/>
+<text x="36" y="79.0" text-anchor="end">30</text>
+<line x1="44" x2="1064" y1="18.0" y2="18.0" stroke="currentColor" stroke-opacity=".13"/>
+<text x="36" y="21.5" text-anchor="end">40</text>
+<rect x="66.5" y="179.0" width="56.9" height="69.0" fill="currentColor" fill-opacity=".07"/>
+<rect x="71.5" y="219.2" width="46.9" height="28.8" fill="var(--c-in)"/>
+<text class="lbl" x="95.0" y="213.2" text-anchor="middle">5</text>
+<text x="95.0" y="268" text-anchor="middle">2021H2</text>
+<text x="95.0" y="283" text-anchor="middle" fill-opacity=".7">12</text>
+<rect x="168.5" y="173.2" width="56.9" height="74.8" fill="currentColor" fill-opacity=".07"/>
+<rect x="173.5" y="207.8" width="46.9" height="40.2" fill="var(--c-in)"/>
+<text class="lbl" x="197.0" y="201.8" text-anchor="middle">7</text>
+<text x="197.0" y="268" text-anchor="middle">2022H1</text>
+<text x="197.0" y="283" text-anchor="middle" fill-opacity=".7">13</text>
+<rect x="270.5" y="161.8" width="56.9" height="86.2" fill="currentColor" fill-opacity=".07"/>
+<rect x="275.5" y="202.0" width="46.9" height="46.0" fill="var(--c-in)"/>
+<text class="lbl" x="299.0" y="196.0" text-anchor="middle">8</text>
+<text x="299.0" y="268" text-anchor="middle">2022H2</text>
+<text x="299.0" y="283" text-anchor="middle" fill-opacity=".7">15</text>
+<rect x="372.5" y="138.8" width="56.9" height="109.2" fill="currentColor" fill-opacity=".07"/>
+<rect x="377.5" y="184.8" width="46.9" height="63.2" fill="var(--c-in)"/>
+<text class="lbl" x="401.0" y="178.8" text-anchor="middle">11</text>
+<text x="401.0" y="268" text-anchor="middle">2023H1</text>
+<text x="401.0" y="283" text-anchor="middle" fill-opacity=".7">19</text>
+<rect x="474.5" y="104.2" width="56.9" height="143.8" fill="currentColor" fill-opacity=".07"/>
+<rect x="479.5" y="179.0" width="46.9" height="69.0" fill="var(--c-in)"/>
+<text class="lbl" x="503.0" y="173.0" text-anchor="middle">12</text>
+<text x="503.0" y="268" text-anchor="middle">2023H2</text>
+<text x="503.0" y="283" text-anchor="middle" fill-opacity=".7">25</text>
+<rect x="576.5" y="46.8" width="56.9" height="201.2" fill="currentColor" fill-opacity=".07"/>
+<rect x="581.5" y="167.5" width="46.9" height="80.5" fill="var(--c-in)"/>
+<text class="lbl" x="605.0" y="161.5" text-anchor="middle">14</text>
+<text x="605.0" y="268" text-anchor="middle">2024H1</text>
+<text x="605.0" y="283" text-anchor="middle" fill-opacity=".7">35</text>
+<rect x="678.5" y="35.2" width="56.9" height="212.8" fill="currentColor" fill-opacity=".07"/>
+<rect x="683.5" y="156.0" width="46.9" height="92.0" fill="var(--c-in)"/>
+<text class="lbl" x="707.0" y="150.0" text-anchor="middle">16</text>
+<text x="707.0" y="268" text-anchor="middle">2024H2</text>
+<text x="707.0" y="283" text-anchor="middle" fill-opacity=".7">37</text>
+<rect x="780.5" y="35.2" width="56.9" height="212.8" fill="currentColor" fill-opacity=".07"/>
+<rect x="785.5" y="156.0" width="46.9" height="92.0" fill="var(--c-in)"/>
+<rect x="785.5" y="138.8" width="46.9" height="17.2" fill="var(--c-out)"/>
+<text class="lbl" x="809.0" y="132.8" text-anchor="middle">16</text>
+<text x="809.0" y="268" text-anchor="middle">2025H1</text>
+<text x="809.0" y="283" text-anchor="middle" fill-opacity=".7">37</text>
+<rect x="882.5" y="23.8" width="56.9" height="224.2" fill="currentColor" fill-opacity=".07"/>
+<rect x="887.5" y="133.0" width="46.9" height="115.0" fill="var(--c-in)"/>
+<rect x="887.5" y="98.5" width="46.9" height="34.5" fill="var(--c-out)"/>
+<text class="lbl" x="911.0" y="92.5" text-anchor="middle">20</text>
+<text x="911.0" y="268" text-anchor="middle">2025H2</text>
+<text x="911.0" y="283" text-anchor="middle" fill-opacity=".7">39</text>
+<rect x="984.5" y="58.2" width="56.9" height="189.8" fill="currentColor" fill-opacity=".07"/>
+<rect x="989.5" y="150.2" width="46.9" height="97.8" fill="var(--c-in)"/>
+<rect x="989.5" y="92.8" width="46.9" height="57.5" fill="var(--c-out)"/>
+<text class="lbl" x="1013.0" y="86.8" text-anchor="middle">17</text>
+<text x="1013.0" y="268" text-anchor="middle">2026H2</text>
+<text x="1013.0" y="283" text-anchor="middle" fill-opacity=".7">33</text>
+<text x="44" y="297" fill-opacity=".7">horní řádek = jádro sedící · spodní řádek = celá PM kniha</text>
+</svg>
+<div class="tbl-wrap"><table><thead><tr><th class="h">K datu</th><th>Jádro celkem</th><th>Sedí</th><th>Nesedí</th><th>Celá PM kniha</th><th>Podíl jádra na knize</th><th>Vstoupilo do jádra</th><th>Přestalo sedět</th></tr></thead><tbody>
+<tr><td class="h">2021H2<span class="n">31. 12. 2021</span></td><td>5</td><td>5</td><td>—</td><td>12</td><td>42 %</td><td>5</td><td>—</td></tr>
+<tr><td class="h">2022H1<span class="n">30. 6. 2022</span></td><td>7</td><td>7</td><td>—</td><td>13</td><td>54 %</td><td>2</td><td>—</td></tr>
+<tr><td class="h">2022H2<span class="n">31. 12. 2022</span></td><td>8</td><td>8</td><td>—</td><td>15</td><td>53 %</td><td>1</td><td>—</td></tr>
+<tr><td class="h">2023H1<span class="n">30. 6. 2023</span></td><td>11</td><td>11</td><td>—</td><td>19</td><td>58 %</td><td>3</td><td>—</td></tr>
+<tr><td class="h">2023H2<span class="n">31. 12. 2023</span></td><td>12</td><td>12</td><td>—</td><td>25</td><td>48 %</td><td>1</td><td>—</td></tr>
+<tr><td class="h">2024H1<span class="n">30. 6. 2024</span></td><td>14</td><td>14</td><td>—</td><td>35</td><td>40 %</td><td>2</td><td>—</td></tr>
+<tr><td class="h">2024H2<span class="n">31. 12. 2024</span></td><td>16</td><td>16</td><td>—</td><td>37</td><td>43 %</td><td>2</td><td>—</td></tr>
+<tr><td class="h">2025H1<span class="n">30. 6. 2025</span></td><td>19</td><td>16</td><td class="hi">3</td><td>37</td><td>43 %</td><td>3</td><td class="hi">3</td></tr>
+<tr><td class="h">2025H2<span class="n">31. 12. 2025</span></td><td>26</td><td>20</td><td class="hi">6</td><td>39</td><td>51 %</td><td>7</td><td class="hi">3</td></tr>
+<tr><td class="h">2026H2<span class="n">16. 8. 2026</span></td><td>27</td><td>17</td><td class="hi">10</td><td>33</td><td>52 %</td><td>1</td><td class="hi">4</td></tr>
+</tbody></table></div>
+<h3>Co platí ve spolehlivém okně: odtok stojí, propadl přítok</h3>
+<p class="lede">Konce i starty jsou úplné od 1. 1. 2025. Teprve tady se dá číst trend — a vypadá jinak, než jak se jeví z neúplné řady výše.</p>
+<div class="tbl-wrap"><table><thead><tr><th class="h">Kvartál</th><th>Nová PM místa</th><th>Konce</th><th>Z toho z jádra</th><th>Saldo</th></tr></thead><tbody>
+<tr><td class="h">2025Q1</td><td>5</td><td>0</td><td>0</td><td>+5</td></tr>
+<tr><td class="h">2025Q2</td><td>5</td><td>8</td><td>4</td><td class="hi">-3</td></tr>
+<tr><td class="h">2025Q3</td><td>8</td><td>6</td><td>2</td><td>+2</td></tr>
+<tr><td class="h">2025Q4</td><td>5</td><td>5</td><td>4</td><td>0</td></tr>
+<tr><td class="h">2026Q1</td><td>4</td><td>8</td><td>4</td><td class="hi">-4</td></tr>
+<tr><td class="h">2026Q2</td><td class="hi">0</td><td>4</td><td>2</td><td class="hi">-4</td></tr>
+<tr><td class="h">2026Q3</td><td>1</td><td>0</td><td>0</td><td>+1</td></tr>
+</tbody></table></div>
+<div class="blocks"><div class="block c1"><b>Přítok se zastavil</b>Nová PM místa: průměr <b>5,75 za kvartál v roce 2025</b> proti <b>1,7 v roce 2026</b> — a v <b>2026Q2 nula</b>. To je jediná veličina v celém řezu, která se skutečně zlomila.</div><div class="block c2"><b>Odtok se nezrychlil</b>Odchody z jádra po kvartálech: 4 · 2 · 4 · 4 · 2. Plochý průběh po celé okno. Opatření na udržení lidí by tedy řešila veličinu, která se nemění.</div><div class="block c3"><b>Diagnóza se tím obrací</b>Neztrácíme jádro rychleji — <b>přestali jsme ho nahrazovat</b>. Míří to na chybějící PM poptávku (H-40, H-67), ne na retenci. Zároveň platí, že podíl jádra na knize stoupl na 52 %: mizí hlavně krátkodobá kapacita.</div></div>
+</section>
+<section>
+<h2><span class="snum">3</span>Jak je PM jádro umístěné dnes</h2>
+<p class="lede">23 lidí PM jádra sedí k 16. 8. 2026. Na rozdíl od celé OUT knihy (kde 19 z 51 lidí jádra drží dva účty) je <b>PM jádro rozptýlené</b>: 23 lidí u 16 klientů, nikde víc než 3. To mění povahu rizika — nehrozí jeden pád, hrozí drobení.</p>
+<h3>Kde PM jádro sedí</h3>
+<div class="tbl-wrap"><table><thead><tr><th class="h">Klient</th><th>Lidí z jádra</th><th class="l bar-cell">Podíl</th><th>Ø měsíců</th><th>Prodloužení</th><th>Marže (M Kč)</th><th>Končí do 12/2026</th><th>Nejbližší konec</th></tr></thead><tbody>
+<tr><td class="h">ORLEN Unipetrol</td><td>3</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:100.0%"></i></div></td><td>75,1</td><td>4</td><td>2,0</td><td>2</td><td>30. 9. 2026</td></tr>
+<tr><td class="h">Škoda Transportation</td><td>2</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:66.7%"></i></div></td><td>41,0</td><td>5</td><td>2,0</td><td class="hi">2</td><td>30. 9. 2026</td></tr>
+<tr><td class="h">MAKRO</td><td>2</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:66.7%"></i></div></td><td>23,2</td><td>3</td><td>1,2</td><td class="hi">2</td><td>30. 9. 2026</td></tr>
+<tr><td class="h">Raiffeisenbank</td><td>2</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:66.7%"></i></div></td><td>47,0</td><td>5</td><td>1,1</td><td class="hi">2</td><td>31. 12. 2026</td></tr>
+<tr><td class="h">Model Obaly</td><td>2</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:66.7%"></i></div></td><td>39,1</td><td>8</td><td>0,9</td><td class="hi">2</td><td>31. 12. 2026</td></tr>
+<tr><td class="h">Edwards Lifesciences</td><td>2</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:66.7%"></i></div></td><td>39,1</td><td>4</td><td>0,0</td><td class="hi">2</td><td>31. 12. 2026</td></tr>
+<tr><td class="h">Kongresové centrum Praha,</td><td>1</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:33.3%"></i></div></td><td>39,7</td><td>3</td><td>1,5</td><td class="hi">1</td><td>30. 9. 2026</td></tr>
+<tr><td class="h">Novo Nordisk</td><td>1</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:33.3%"></i></div></td><td>17,9</td><td>3</td><td>1,1</td><td class="hi">1</td><td>31. 12. 2026</td></tr>
+<tr><td class="h">WOOD &amp; Company</td><td>1</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:33.3%"></i></div></td><td>7,3</td><td>2</td><td>1,0</td><td class="hi">1</td><td>23. 12. 2026</td></tr>
+<tr><td class="h">Kooperativa pojišťovna</td><td>1</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:33.3%"></i></div></td><td>27,5</td><td>3</td><td>0,8</td><td class="hi">1</td><td>31. 12. 2026</td></tr>
+<tr><td class="h">accompani</td><td>1</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:33.3%"></i></div></td><td>31,5</td><td>2</td><td>0,7</td><td class="hi">1</td><td>30. 11. 2026</td></tr>
+<tr><td class="h">ČD - Telematika</td><td>1</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:33.3%"></i></div></td><td>12,5</td><td>3</td><td>0,7</td><td class="hi">1</td><td>31. 12. 2026</td></tr>
+<tr><td class="h">ESSITY SLOVAKIA</td><td>1</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:33.3%"></i></div></td><td>10,5</td><td>2</td><td>0,6</td><td>0</td><td>30. 9. 2027</td></tr>
+<tr><td class="h">Škoda Auto</td><td>1</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:33.3%"></i></div></td><td>63,5</td><td>4</td><td>0,3</td><td class="hi">1</td><td>30. 11. 2026</td></tr>
+<tr><td class="h">intoit,</td><td>1</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:33.3%"></i></div></td><td>120,8</td><td>1</td><td>0,2</td><td>0</td><td>otevřeno</td></tr>
+<tr><td class="h">W.A.G.</td><td>1</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:33.3%"></i></div></td><td>49,6</td><td>2</td><td>0,1</td><td class="hi">1</td><td>31. 12. 2026</td></tr>
+</tbody></table></div>
+<h3>Runway</h3>
+<div class="tbl-wrap"><table><thead><tr><th class="h">Okno smluvního konce</th><th>Lidí</th><th class="l bar-cell">Podíl</th><th>Marže (M Kč)</th></tr></thead><tbody>
+<tr><td class="h">do konce 2026</td><td class="hi">20</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:87.0%"></i></div></td><td>13,0</td></tr>
+<tr><td class="h">2027H2 a dál</td><td>2</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:8.7%"></i></div></td><td>1,0</td></tr>
+<tr><td class="h">otevřeno</td><td>1</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:4.3%"></i></div></td><td>0,2</td></tr>
+</tbody></table></div>
+<p class="note"><b>20 z 23</b> lidí PM jádra má smluvní konec do 31. 12. 2026. Není to prognóza odchodů — loni se na téhle hranici prodloužilo 54 % míst — ale je to celé jádro v jednom rozhodovacím okně, a navíc ve třech dnech: 13 lidí končí přesně 31. 12., 4 už 30. 9. a 2 30. 11.</p>
+<h3>Jmenný seznam — PM jádro sedící dnes</h3>
+<div class="tbl-wrap"><table><thead><tr><th class="h">Člověk</th><th class="l">Klient</th><th>Měsíců</th><th>Prodloužení</th><th class="l">Doklad jádra</th><th class="l">Smluvní konec</th></tr></thead><tbody>
+<tr><td class="h">Martin Handl</td><td class="l">intoit,</td><td>120,8</td><td>1</td><td class="l">dlouhá doba (24+ m)</td><td class="l">otevřeno</td></tr>
+<tr><td class="h">Szymon Glabinski</td><td class="l">ORLEN Unipetrol</td><td>91,6</td><td>1</td><td class="l">dlouhá doba (24+ m)</td><td class="l">31. 12. 2026</td></tr>
+<tr><td class="h">Tomáš Pittner</td><td class="l">ORLEN Unipetrol</td><td>87,2</td><td>2</td><td class="l">obojí</td><td class="l">31. 12. 2027</td></tr>
+<tr><td class="h">Martin Vavroušek</td><td class="l">Škoda Auto</td><td>63,5</td><td>4</td><td class="l">obojí</td><td class="l">30. 11. 2026</td></tr>
+<tr><td class="h">Aleš Němeček</td><td class="l">Model Obaly</td><td>61,6</td><td>3</td><td class="l">obojí</td><td class="l">31. 12. 2026</td></tr>
+<tr><td class="h">Martin Müller</td><td class="l">Raiffeisenbank</td><td>60,5</td><td>3</td><td class="l">obojí</td><td class="l">31. 12. 2026</td></tr>
+<tr><td class="h">Tomáš Střída</td><td class="l">W.A.G.</td><td>49,6</td><td>2</td><td class="l">obojí</td><td class="l">31. 12. 2026</td></tr>
+<tr><td class="h">Jakub Gregora</td><td class="l">ORLEN Unipetrol</td><td>46,5</td><td>1</td><td class="l">dlouhá doba (24+ m)</td><td class="l">30. 9. 2026</td></tr>
+<tr><td class="h">Žaneta Alvarez</td><td class="l">Edwards Lifesciences</td><td>43,5</td><td>2</td><td class="l">obojí</td><td class="l">31. 12. 2026</td></tr>
+<tr><td class="h">Jaroslava Dvořáková</td><td class="l">Škoda Transportation</td><td>41,4</td><td>4</td><td class="l">obojí</td><td class="l">30. 9. 2026</td></tr>
+<tr><td class="h">Tomáš Nevídal</td><td class="l">Škoda Transportation</td><td>40,6</td><td>1</td><td class="l">dlouhá doba (24+ m)</td><td class="l">31. 12. 2026</td></tr>
+<tr><td class="h">Petr Piacsek</td><td class="l">Kongresové centrum Praha,</td><td>39,7</td><td>3</td><td class="l">obojí</td><td class="l">30. 9. 2026</td></tr>
+<tr><td class="h">Martin Matějovský</td><td class="l">Edwards Lifesciences</td><td>34,6</td><td>2</td><td class="l">obojí</td><td class="l">31. 12. 2026</td></tr>
+<tr><td class="h">Lukáš Veselý</td><td class="l">Raiffeisenbank</td><td>33,5</td><td>2</td><td class="l">obojí</td><td class="l">31. 12. 2026</td></tr>
+<tr><td class="h">Markéta Macháčková</td><td class="l">MAKRO</td><td>32,4</td><td>1</td><td class="l">dlouhá doba (24+ m)</td><td class="l">30. 9. 2026</td></tr>
+<tr><td class="h">Tomáš Oupický</td><td class="l">accompani</td><td>31,5</td><td>2</td><td class="l">obojí</td><td class="l">30. 11. 2026</td></tr>
+<tr><td class="h">Jiří Blažek</td><td class="l">Kooperativa pojišťovna</td><td>27,5</td><td>3</td><td class="l">obojí</td><td class="l">31. 12. 2026</td></tr>
+<tr><td class="h">Tomáš Kotrla</td><td class="l">Novo Nordisk</td><td>17,9</td><td>3</td><td class="l">opakovaná prodloužení (2+)</td><td class="l">31. 12. 2026</td></tr>
+<tr><td class="h">Miroslava Slamená</td><td class="l">Model Obaly</td><td>16,6</td><td>5</td><td class="l">opakovaná prodloužení (2+)</td><td class="l">31. 12. 2026</td></tr>
+<tr><td class="h">Ondřej Konečný</td><td class="l">MAKRO</td><td>14,0</td><td>2</td><td class="l">opakovaná prodloužení (2+)</td><td class="l">31. 12. 2026</td></tr>
+<tr><td class="h">Linda Milová</td><td class="l">ČD - Telematika</td><td>12,5</td><td>3</td><td class="l">opakovaná prodloužení (2+)</td><td class="l">31. 12. 2026</td></tr>
+<tr><td class="h">Robert Bikar</td><td class="l">ESSITY SLOVAKIA</td><td>10,5</td><td>2</td><td class="l">opakovaná prodloužení (2+)</td><td class="l">30. 9. 2027</td></tr>
+<tr><td class="h">Láďa Jakubička</td><td class="l">WOOD &amp; Company</td><td>7,3</td><td>2</td><td class="l">opakovaná prodloužení (2+)</td><td class="l">23. 12. 2026</td></tr>
+</tbody></table></div>
+</section>
+<section>
+<h2><span class="snum">4</span>Kdo z PM jádra odešel — a proč</h2>
+<p class="lede">12 lidí PM jádra už nesedí. Všichni odešli v posledních 15 měsících; do konce roku 2024 PM jádro neztratilo nikoho. Odnesli si <b>579 odpracovaných měsíců</b> prověřené kapacity a stojí za nimi 4,6 M Kč historické marže. Census důvodů konce (Ú-1) je pro PM úplný — <b>doložený důvod má 12 z 12</b>.</p>
+<h3>Kdy odešli</h3>
+<div class="tbl-wrap"><table><thead><tr><th class="h">Pololetí</th><th>Lidí z jádra</th><th class="l bar-cell">Podíl</th><th>Odpracovaných měsíců</th><th>Marže (M Kč)</th></tr></thead><tbody>
+<tr><td class="h">2025H1</td><td>3</td><td class="l bar-cell"><div class="bar"><i class="out" style="width:60.0%"></i></div></td><td>200</td><td>0,5</td></tr>
+<tr><td class="h">2025H2</td><td>4</td><td class="l bar-cell"><div class="bar"><i class="out" style="width:80.0%"></i></div></td><td>176</td><td>2,3</td></tr>
+<tr><td class="h">2026H1</td><td>5</td><td class="l bar-cell"><div class="bar"><i class="out" style="width:100.0%"></i></div></td><td>204</td><td>1,8</td></tr>
+<tr class="tot"><td class="h">Celkem</td><td>12</td><td></td><td>579</td><td>4,6</td></tr>
+</tbody></table></div>
+<h3>Doložený důvod konce</h3>
+<div class="tbl-wrap"><table><thead><tr><th class="h">Strana, která rozhodla</th><th class="l">Kód</th><th>Lidí</th><th class="l bar-cell">Podíl</th><th>Měsíců</th><th>Marže (M Kč)</th><th>Znovu umístěn</th></tr></thead><tbody>
+<tr><td class="h" class="hi">konkurence</td><td class="l">prevzeti_kontraktora</td><td>3</td><td class="l bar-cell"><div class="bar"><i class="out" style="width:100.0%"></i></div></td><td>146</td><td>0,7</td><td>0</td></tr>
+<tr><td class="h" class="hi">konkurence</td><td class="l">konkurence_ramcovka</td><td>2</td><td class="l bar-cell"><div class="bar"><i class="out" style="width:66.7%"></i></div></td><td>149</td><td>0,9</td><td>0</td></tr>
+<tr><td class="h">neurceno</td><td class="l">bez_evidence</td><td>2</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:66.7%"></i></div></td><td>93</td><td>0,7</td><td>0</td></tr>
+<tr><td class="h">klient</td><td class="l">zmena_vedeni_klienta</td><td>2</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:66.7%"></i></div></td><td>54</td><td>1,4</td><td>0</td></tr>
+<tr><td class="h">projectman</td><td class="l">nas_kandidat</td><td>1</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:33.3%"></i></div></td><td>65</td><td>—</td><td>0</td></tr>
+<tr><td class="h">klient</td><td class="l">konec_projektu</td><td>1</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:33.3%"></i></div></td><td>51</td><td>0,4</td><td>0</td></tr>
+<tr><td class="h">projectman</td><td class="l">kontraktor_odesel</td><td>1</td><td class="l bar-cell"><div class="bar"><i class="soft" style="width:33.3%"></i></div></td><td>21</td><td>0,6</td><td>0</td></tr>
+</tbody></table></div>
+<div class="blocks"><div class="block c1"><b>Konkurence bere ty nejprověřenější</b><b>5 z 12</b> odchodů je konkurenčních — převzetí kontraktora (3) a prohraná rámcová smlouva (2). Průměrná odpracovaná doba těch pěti je <b>59 měsíců</b>. Není to odchod slabých, je to odliv nejprověřenější části knihy. Potvrzuje H-80 na osobní ose.</div><div class="block c2"><b>Kvalita člověka jako důvod prakticky chybí</b>Na naší straně stojí <b>2 z 12</b>: jednou výkon kandidáta, jednou odchod kontraktora. Zbytek rozhodl klient (3), konkurence (5) nebo se nedohledalo (2). Hypotéza „jádro odchází, protože nebylo dost dobré" nemá v datech oporu.</div><div class="block c3"><b>Odešli z firmy, ne z PM</b>Ani jeden z 12 dnes nesedí na jiné kompetenci a ani jeden nedostal další PM místo. Nejde tedy o přesun uvnitř firmy ani o dočasnou pauzu — je to čistá ztráta kapacity.</div></div>
+<h3>Jmenný seznam — kdo z PM jádra odešel a co je k tomu doloženo</h3>
+<p class="lede">Citace jsou ze zápisků v CRM, kódované v censu Ú-1. Sloupec <b>jistota</b>: <b>A</b> = doslovný doklad k tomuto místu · <b>B</b> = doklad ke kontextu s rizikem přiřazení · <b>C</b> = doklad chybí.</p>
+<div class="tbl-wrap"><table><thead><tr><th class="h">Člověk</th><th class="l">Klient</th><th>Měsíců</th><th class="l">Konec</th><th class="l">Kód</th><th>Jist.</th><th class="l">Doložení</th></tr></thead><tbody>
+<tr><td class="h">Tomáš Skácel</td><td class="l">Infinite Solution</td><td>53,6</td><td class="l">31. 5. 2025</td><td class="l"><span class="tag kon">prevzeti_kontraktora</span></td><td>A</td><td class="l" style="max-width:44ch">tentýž zápis jako 301 — dvě místa u téhož klienta končí stejný den</td></tr>
+<tr><td class="h">Barbora Heřmanská</td><td class="l">VEOLIA,</td><td>81,0</td><td class="l">31. 5. 2025</td><td class="l"><span class="tag kon">prevzeti_kontraktora</span></td><td>B</td><td class="l" style="max-width:44ch">tentýž mechanismus, konec ke stejnému dni jako 301/358 (Aleš Dlask působil přes Infinite ve Veolii)<span class="n">Přiřazení odvozené, ne explicitní</span></td></tr>
+<tr><td class="h">Jiří Folprecht</td><td class="l">ORLEN Unipetrol</td><td>64,9</td><td class="l">30. 6. 2025</td><td class="l"><span class="tag ">nas_kandidat</span></td><td>A</td><td class="l" style="max-width:44ch">„Folprecht ji nicméně hrozně sere, zase vyplnil zadání nového projektu blbě. Rozhodne se, zda to s ním ukončí ke konci března, nebo ho bude chtít až do června&quot; (24. 1. 2025)<span class="n">Konec 30. 6. odpovídá druhé variantě; PJM dodával garance nápravy</span></td></tr>
+<tr><td class="h">Jiří Drbohlav</td><td class="l">Československá obchodní banka, a. s.</td><td>60,4</td><td class="l">31. 7. 2025</td><td class="l"><span class="tag ">bez_evidence</span></td><td>C</td><td class="l" style="max-width:44ch"><span style="opacity:.55">bez doloženého zápisu</span><span class="n">„Ještě interně nerozhodli&quot; (31. 3. 2025) — k důvodu konce nic</span></td></tr>
+<tr><td class="h">Peter Struckel</td><td class="l">Edwards Lifesciences</td><td>64,9</td><td class="l">31. 7. 2025</td><td class="l"><span class="tag kon">konkurence_ramcovka</span></td><td>B</td><td class="l" style="max-width:44ch">„Enehano má uzavřenou smlouvu s EDW… Vzhledem k faktu, že spolupracuje napřímo s Enehanem nebude už SF role poptávat přes nás&quot; (14. 3. 2025)<span class="n">Riziko přiřazení: citace je o SF roli, ne jistě o tomto místě</span></td></tr>
+<tr><td class="h">Petr Smutný</td><td class="l">Allwyn Česko</td><td>21,3</td><td class="l">10. 10. 2025</td><td class="l"><span class="tag ">kontraktor_odesel</span></td><td>B</td><td class="l" style="max-width:44ch">„Jak jsou na tom s hledáním náhrady za Pavla Humpolce?&quot; (4. 12. 2025)<span class="n">Místo dál existovalo, klient hledal náhradu</span></td></tr>
+<tr><td class="h">Radek Honeš</td><td class="l">accompani</td><td>29,0</td><td class="l">31. 12. 2025</td><td class="l"><span class="tag kli">zmena_vedeni_klienta</span></td><td>B</td><td class="l" style="max-width:44ch">„problémy ve spolupráci s klientem Sandoz, které pramení především z jednání nového CIO&quot; (10. 10. 2025); přitom 24. 10. „intent to extend him as well&quot;<span class="n">Prodloužení bylo v plánu a nestalo se</span></td></tr>
+<tr><td class="h">Lenka Füzy</td><td class="l">accompani</td><td>25,0</td><td class="l">31. 1. 2026</td><td class="l"><span class="tag kli">zmena_vedeni_klienta</span></td><td>B</td><td class="l" style="max-width:44ch">Tentýž kontext Sandoz / nový CIO + „zapojení firmy Accenture&quot; (1. 10. 2025)</td></tr>
+<tr><td class="h">Matouš Vamberský</td><td class="l">Raiffeisenbank</td><td>11,3</td><td class="l">28. 2. 2026</td><td class="l"><span class="tag kon">prevzeti_kontraktora</span></td><td>A</td><td class="l" style="max-width:44ch">„Matouš stále chce svoji firmu - má ji založenou a nyní ji chce prověřit pro EU, aby mohl být dodavatelem projektu… posouvám ukončení naší spolupráce na listopad&quot; (29. 7. 2025)</td></tr>
+<tr><td class="h">Tomáš Rossi</td><td class="l">Raiffeisenbank</td><td>33,0</td><td class="l">28. 2. 2026</td><td class="l"><span class="tag ">bez_evidence</span></td><td>C</td><td class="l" style="max-width:44ch">„fakturu za rossi do 10. ledna, předplacenka na leden a únor&quot; (3. 12. 2025) — konec proběhl podle plánu, důvod nikde<span class="n">Na účtu zvlášť doloženo obcházení: „Každopádně nás vynechali, dohodli si to napřímo, čemuž jsem neuměl zabránit&quot; (1. 12. 2025, jiná osoba)</span></td></tr>
+<tr><td class="h">Jiří Nahodil</td><td class="l">Škoda Auto</td><td>84,1</td><td class="l">28. 2. 2026</td><td class="l"><span class="tag kon">konkurence_ramcovka</span></td><td>B</td><td class="l" style="max-width:44ch">„je to výběrko přes ŠA portál na rámcovku&quot; (22. 9. 2025); „místo přes EEH se ukázalo, že je jenom jedno a… si vybrali jeho&quot; (31. 10. 2025); „cenová hladina je někde na 9k… nákup, kde se soutěží na cenu, přetlačit neumíme&quot; (15. 10. 2025)</td></tr>
+<tr><td class="h">Kateřina Kocourová</td><td class="l">Algotech,</td><td>50,5</td><td class="l">15. 5. 2026</td><td class="l"><span class="tag kli">konec_projektu</span></td><td>A</td><td class="l" style="max-width:44ch">„Katka spouští projekt 1.4., pak bude hypercare a pak přejde do servisu&quot; (17. 2. 2026)<span class="n">Sekundárně: „chce někoho energetičtějšího a soběstačnějšího než je Katka&quot; (8. 12. 2025)</span></td></tr>
+</tbody></table></div>
+<div class="blocks"><div class="block c2"><b>Struckel není ztracený — je z něj zákazník</b>Jeho záznam osoby je v CRM veden <b>u Edwards Lifesciences</b> a po skončení místa má <b>25 aktivit, ve kterých mu prodáváme</b>: nábor Scrum Mastera, školení za 330 tis., PO, „Pracovní oběd EDW/PJM", „Doplň BANT". Odešel do klienta a stal se nákupčím. Ze zbylých 11 nemá dotek po konci <b>nikdo</b>.</div><div class="block c3"><b>Dva odešli podnikat, ne ke konkurenci</b>Kód <code>prevzeti_kontraktora</code> slévá dva různé mechanismy. Vamberský si zakládal vlastní firmu, aby mohl dodávat přímo — to je jiná situace než převzetí jiným dodavatelem a chce jinou obranu.</div><div class="block c1"><b>Honeš měl být prodloužen</b>24. 10. je v zápisu <i>„intent to extend him as well"</i>, konec přišel 31. 12. Jediný případ s doloženým úmyslem pokračovat, který se nenaplnil — nejlepší kandidát na otázku „co se mezitím stalo".</div></div>
+<p class="note"><b>Exit rozhovory neexistují — ani jeden z dvanácti.</b> V Trackeru 9 z 12 vůbec nefiguruje a aktivit typu Interview či Reference je k nim <b>nula</b>; v CRM má osobu 8 z 12, poznámek je 8, ale 3 jsou prázdné zmínky, 3 klientské (Struckel) a věcné jsou <b>dvě</b> — ani jedna o odchodu. Všechno „proč" v tabulce je proto <b>ze zápisků o klientovi, ne od člověka</b>: známe názor obchodníka, ne kontraktora. Nálada, důvod vlastními slovy ani ochota vrátit se v datech nejsou u nikoho. Náprava je varianta Ú-5 — exit rozhovor jako povinný krok se dvěma poli: <i>důvod vlastními slovy</i> a <i>je dál k dispozici</i>.</p>
+<p class="note">Přeobsazení se v celé OUT knize vyskytuje u tří lidí (Petr Piacsek, Vlastimil Rejšek, Dean da Lanca) a všichni tři skončili předchozí místo <b>před</b> 24. měsícem, tedy dřív, než se stali jádrem. U míst delších než 24 měsíců je přeobsazení <b>0 z 22</b>. Proč to tak je, ukazuje následující sekce — Tracker to poprvé měří.</p>
+</section>
+<section>
+<h2><span class="snum">5</span>Nabízíme odešlé jádro dál? Odpověď z Trackeru</h2>
+<p class="lede">CRM na otázku „koho jsme nabízeli a jak to dopadlo" odpovědět neumí — <code>Contractor name</code> je vyplněné jen u 8 z 223 prohraných OUT dealů. <b>Tracker to ale zaznamenává.</b> V okně 25. 3. 2025 – 28. 8. 2026 vede <b>946 kandidátů</b> na 98 zakázkách, u každého fázi, ve které vypadl, a stranu, která o tom rozhodla. Most na CRM je přes jméno (<code>config/core_tracker_bridge.csv</code>).</p>
+<h3>Test: byl někdo z odešlého jádra po skončení místa nabídnut?</h3>
+<div class="tbl-wrap"><table><thead><tr><th class="h">Stav</th><th>Lidí</th><th class="l bar-cell">Podíl</th><th>Odpracovaných měsíců</th></tr></thead><tbody>
+<tr><td class="h">v Trackeru vůbec není</td><td class="hi">9</td><td class="l bar-cell"><div class="bar"><i class="out" style="width:75.0%"></i></div></td><td>435</td></tr>
+<tr><td class="h">v Trackeru je, ale žádná nabídka po skončení</td><td class="hi">3</td><td class="l bar-cell"><div class="bar"><i class="out" style="width:25.0%"></i></div></td><td>144</td></tr>
+</tbody></table></div>
+<div class="blocks"><div class="block c1"><b>Nula z 12</b>Ani jeden člověk z odešlého PM jádra nebyl po skončení svého místa nabídnut na jinou zakázku. <b>9 z 12 nejsou v Trackeru vůbec</b> — 435 odpracovaných měsíců prověřené kapacity, které nikdy nevstoupily do náborového procesu.</div><div class="block c2"><b>Není to trh, je to vstup</b>Dosud se dalo říct „neumísťujeme je znovu". Teď je vidět proč: <b>nejsou odmítnutí, nejsou nabídnutí</b>. Rozdíl je zásadní — odmítnutí by znamenalo problém s profilem nebo cenou, tohle je díra v procesu, kterou lze zavřít bez souhlasu klienta.</div><div class="block c3"><b>Bench neexistuje jako entita</b>Aby člověk mohl být nabídnut, musí být někde veden jako dostupný. Po skončení místa v CRM zaniká (je to textové pole na dealu) a do Trackeru se nedostane. Ú-5 („důvod ukončení" + „je dál k dispozici?") tuhle díru zavírá u zdroje.</div></div>
+<h3>Jmenný seznam — co o alumni jádra ví Tracker</h3>
+<div class="tbl-wrap"><table><thead><tr><th class="h">Člověk</th><th class="l">Klient</th><th class="l">Konec místa</th><th>Měsíců</th><th class="l">V Trackeru</th><th>Nabídek celkem</th><th>Z toho po skončení</th><th class="l">Stavy v Trackeru</th></tr></thead><tbody>
+<tr><td class="h">Barbora Heřmanská</td><td class="l">VEOLIA,</td><td class="l">31. 5. 2025</td><td>81,0</td><td class="l" class="hi">ne</td><td>0</td><td class="hi">0</td><td class="l">—</td></tr>
+<tr><td class="h">Tomáš Skácel</td><td class="l">Infinite Solution</td><td class="l">31. 5. 2025</td><td>53,6</td><td class="l" class="hi">ne</td><td>0</td><td class="hi">0</td><td class="l">—</td></tr>
+<tr><td class="h">Jiří Folprecht</td><td class="l">ORLEN Unipetrol</td><td class="l">30. 6. 2025</td><td>64,9</td><td class="l" class="hi">ne</td><td>0</td><td class="hi">0</td><td class="l">—</td></tr>
+<tr><td class="h">Jiří Drbohlav</td><td class="l">Československá obchodní banka, a. s.</td><td class="l">31. 7. 2025</td><td>60,4</td><td class="l">ano</td><td>2</td><td class="hi">0</td><td class="l">CV Sent To Client, Completed Assignment</td></tr>
+<tr><td class="h">Peter Struckel</td><td class="l">Edwards Lifesciences</td><td class="l">31. 7. 2025</td><td>64,9</td><td class="l" class="hi">ne</td><td>0</td><td class="hi">0</td><td class="l">—</td></tr>
+<tr><td class="h">Petr Smutný</td><td class="l">Allwyn Česko</td><td class="l">10. 10. 2025</td><td>21,3</td><td class="l" class="hi">ne</td><td>0</td><td class="hi">0</td><td class="l">—</td></tr>
+<tr><td class="h">Radek Honeš</td><td class="l">accompani</td><td class="l">31. 12. 2025</td><td>29,0</td><td class="l" class="hi">ne</td><td>0</td><td class="hi">0</td><td class="l">—</td></tr>
+<tr><td class="h">Lenka Füzy</td><td class="l">accompani</td><td class="l">31. 1. 2026</td><td>25,0</td><td class="l" class="hi">ne</td><td>0</td><td class="hi">0</td><td class="l">—</td></tr>
+<tr><td class="h">Jiří Nahodil</td><td class="l">Škoda Auto</td><td class="l">28. 2. 2026</td><td>84,1</td><td class="l" class="hi">ne</td><td>0</td><td class="hi">0</td><td class="l">—</td></tr>
+<tr><td class="h">Matouš Vamberský</td><td class="l">Raiffeisenbank</td><td class="l">28. 2. 2026</td><td>11,3</td><td class="l" class="hi">ne</td><td>0</td><td class="hi">0</td><td class="l">—</td></tr>
+<tr><td class="h">Tomáš Rossi</td><td class="l">Raiffeisenbank</td><td class="l">28. 2. 2026</td><td>33,0</td><td class="l">ano</td><td>1</td><td class="hi">0</td><td class="l">Rejected By Us</td></tr>
+<tr><td class="h">Kateřina Kocourová</td><td class="l">Algotech,</td><td class="l">15. 5. 2026</td><td>50,5</td><td class="l">ano</td><td>1</td><td class="hi">0</td><td class="l">CV Sent To Client</td></tr>
+</tbody></table></div>
+<p class="note">Tři lidé v Trackeru jsou, ale žádná z jejich stop není nabídka po skončení místa: <b>Jiří Drbohlav</b> má jen administrativní uzavření vlastního místa (<code>Completed Assignment</code>, 27. 1. 2026), <b>Kateřina Kocourová</b> a <b>Tomáš Rossi</b> byli nabídnuti ještě <b>za běhu</b> svého obsazení — a Rossi byl u ČSOB Leasing dva dny po zařazení na shortlist vyřazen <b>námi</b>, ne klientem.</p>
+<h3>Co Tracker o náboru měří — a co z toho platí pro jádro</h3>
+<div class="tbl-wrap"><table><thead><tr><th class="h">Kolikrát byl kandidát nabídnut</th><th>Kandidátů</th><th class="l bar-cell">Podíl nastoupivších</th><th>Nastoupilo</th><th>% nastoupilo</th></tr></thead><tbody>
+<tr><td class="h">1 job</td><td>715</td><td class="l bar-cell"><div class="bar"><i class="in" style="width:12.8%"></i></div></td><td>11</td><td class="hi">1,5 %</td></tr>
+<tr><td class="h">2 joby</td><td>157</td><td class="l bar-cell"><div class="bar"><i class="in" style="width:54.7%"></i></div></td><td>10</td><td class="hi">6,4 %</td></tr>
+<tr><td class="h">3–4 joby</td><td>60</td><td class="l bar-cell"><div class="bar"><i class="in" style="width:100.0%"></i></div></td><td>7</td><td class="hi">11,7 %</td></tr>
+<tr><td class="h">5+ jobů</td><td>14</td><td class="l bar-cell"><div class="bar"><i class="in" style="width:0.0%"></i></div></td><td>0</td><td class="hi">0,0 %</td></tr>
+</tbody></table></div>
+<p class="note"><b>Opakované nabízení funguje:</b> kandidát nabídnutý na 3–4 zakázky nastoupí v 11,7 % případů proti 1,5 % u toho, koho nabídneme jednou. Přesně tenhle mechanismus se u odešlého jádra nespouští — a přitom jde o lidi s doloženou historií u klienta, tedy o nejlepší dostupný vstup do trychtýře. (Skupina „5+ jobů" s nulou je 14 lidí, které nabízíme opakovaně a bez úspěchu — jiný problém, ne protiargument.)
+</section>
+<section>
+<h2><span class="snum">6</span>Kdo PM jádro doplnil za poslední rok</h2>
+<p class="lede">Do jádra se dá vstoupit třemi cestami. Dvě z nich jsou „dozrání" lidí, kteří u nás už seděli; jedna je skutečně nový člověk, který si prodloužení vysloužil rychle. Rozdíl je podstatný: dozrávání se nedá naplánovat, nábor ano.</p>
+<div class="tbl-wrap"><table><thead><tr><th class="h">Cesta do jádra</th><th>Lidí</th><th class="l bar-cell">Podíl</th><th>Z toho sedí dnes</th><th>Ø měsíců dnes</th></tr></thead><tbody>
+<tr><td class="h">nováček (1. obsazení)</td><td>2</td><td class="l bar-cell"><div class="bar"><i class="in" style="width:10.5%"></i></div></td><td>2</td><td>8,9</td></tr>
+<tr><td class="h">překročil 24 měsíců</td><td>8</td><td class="l bar-cell"><div class="bar"><i class="in" style="width:42.1%"></i></div></td><td>6</td><td>31,7</td></tr>
+<tr><td class="h">dosáhl 2. prodloužení</td><td>6</td><td class="l bar-cell"><div class="bar"><i class="in" style="width:31.6%"></i></div></td><td>4</td><td>15,6</td></tr>
+<tr><td class="h">v jádře už před rokem</td><td>19</td><td class="l bar-cell"><div class="bar"><i class="in" style="width:100.0%"></i></div></td><td>11</td><td>63,1</td></tr>
+</tbody></table></div>
+<div class="blocks"><div class="block c1"><b>Nováčci jsou dva</b>Za celý rok usedli na PM poprvé a rovnou si vysloužili dvě prodloužení <b>dva lidé</b> — Robert Bikar (ESSITY) a Láďa Jakubička (WOOD &amp; Company). Oba dnes sedí. Že se PM jádro dá doplnit rychle, doloženo je; děje se to ale dvakrát ročně.</div><div class="block c2"><b>Přítok nekryje odtok</b>Za poslední rok vstoupilo do jádra 16 lidí, ale <b>4 z nich už zase nesedí</b>. Čistý přírůstek sedícího jádra je proto záporný: 20 → 17.</div><div class="block c3"><b>Jádro se plní hlavně dozráváním</b>14 z 16 přírůstků jsou lidé, kteří u nás už seděli a jen překročili práh (24 měsíců nebo 2. prodloužení). To je dobrá zpráva o retenci a špatná o náboru — zdroj nových prověřených PM je prakticky vyschlý.</div></div>
+<h3>Jmenný seznam — přírůstky PM jádra za poslední rok</h3>
+<div class="tbl-wrap"><table><thead><tr><th class="h">Člověk</th><th class="l">Cesta</th><th class="l">Klient</th><th class="l">První PM start</th><th>Měsíců dnes</th><th>Před rokem</th><th>Prodloužení</th><th>Sedí</th></tr></thead><tbody>
+<tr><td class="h">Robert Bikar</td><td class="l">nováček (1. obsazení)</td><td class="l">ESSITY SLOVAKIA</td><td class="l">1. 10. 2025</td><td>10,5</td><td>0,0</td><td>2</td><td>ano</td></tr>
+<tr><td class="h">Láďa Jakubička</td><td class="l">nováček (1. obsazení)</td><td class="l">WOOD &amp; Company</td><td class="l">5. 1. 2026</td><td>7,3</td><td>0,0</td><td>2</td><td>ano</td></tr>
+<tr><td class="h">Petr Piacsek</td><td class="l">překročil 24 měsíců</td><td class="l">Kongresové centrum Praha,</td><td class="l">11. 9. 2023</td><td>39,7</td><td>19,9</td><td>3</td><td>ano</td></tr>
+<tr><td class="h">Martin Matějovský</td><td class="l">překročil 24 měsíců</td><td class="l">Edwards Lifesciences</td><td class="l">30. 9. 2023</td><td>34,6</td><td>21,0</td><td>2</td><td>ano</td></tr>
+<tr><td class="h">Lukáš Veselý</td><td class="l">překročil 24 měsíců</td><td class="l">Raiffeisenbank</td><td class="l">1. 11. 2023</td><td>33,5</td><td>20,0</td><td>2</td><td>ano</td></tr>
+<tr><td class="h">Markéta Macháčková</td><td class="l">překročil 24 měsíců</td><td class="l">MAKRO</td><td class="l">5. 12. 2023</td><td>32,4</td><td>18,8</td><td>1</td><td>ano</td></tr>
+<tr><td class="h">Tomáš Oupický</td><td class="l">překročil 24 měsíců</td><td class="l">accompani</td><td class="l">2. 1. 2024</td><td>31,5</td><td>17,9</td><td>2</td><td>ano</td></tr>
+<tr><td class="h">Radek Honeš</td><td class="l">překročil 24 měsíců</td><td class="l">accompani</td><td class="l">1. 8. 2023</td><td>29,0</td><td>23,0</td><td>0</td><td class="hi">ne</td></tr>
+<tr><td class="h">Jiří Blažek</td><td class="l">překročil 24 měsíců</td><td class="l">Kooperativa pojišťovna</td><td class="l">1. 5. 2024</td><td>27,5</td><td>14,0</td><td>3</td><td>ano</td></tr>
+<tr><td class="h">Lenka Füzy</td><td class="l">překročil 24 měsíců</td><td class="l">accompani</td><td class="l">2. 1. 2024</td><td>25,0</td><td>17,9</td><td>0</td><td class="hi">ne</td></tr>
+<tr><td class="h">Petr Smutný</td><td class="l">dosáhl 2. prodloužení</td><td class="l">Allwyn Česko</td><td class="l">2. 1. 2024</td><td>21,3</td><td>17,9</td><td>2</td><td class="hi">ne</td></tr>
+<tr><td class="h">Tomáš Kotrla</td><td class="l">dosáhl 2. prodloužení</td><td class="l">Novo Nordisk</td><td class="l">18. 2. 2025</td><td>17,9</td><td>4,3</td><td>3</td><td>ano</td></tr>
+<tr><td class="h">Miroslava Slamená</td><td class="l">dosáhl 2. prodloužení</td><td class="l">Model Obaly</td><td class="l">28. 3. 2025</td><td>16,6</td><td>3,1</td><td>5</td><td>ano</td></tr>
+<tr><td class="h">Ondřej Konečný</td><td class="l">dosáhl 2. prodloužení</td><td class="l">MAKRO</td><td class="l">16. 6. 2025</td><td>14,0</td><td>0,5</td><td>2</td><td>ano</td></tr>
+<tr><td class="h">Linda Milová</td><td class="l">dosáhl 2. prodloužení</td><td class="l">ČD - Telematika</td><td class="l">1. 8. 2025</td><td>12,5</td><td>0,0</td><td>3</td><td>ano</td></tr>
+<tr><td class="h">Matouš Vamberský</td><td class="l">dosáhl 2. prodloužení</td><td class="l">Raiffeisenbank</td><td class="l">21. 3. 2025</td><td>11,3</td><td>3,3</td><td>3</td><td class="hi">ne</td></tr>
+</tbody></table></div>
+</section>
+<section>
+<h2><span class="snum">7</span>Co tato data neumí</h2>
+<div class="tbl-wrap"><table><thead><tr><th class="h">Omezení</th><th class="l">Co z toho plyne</th></tr></thead><tbody>
+<tr><td class="h">Rozsah je jen PM historie člověka</td><td class="l">Kdo u nás odpracoval 30 měsíců na BA a 6 na PM, má tady 6 měsíců a do jádra se nedostane. Celoknižní obrázek napříč kompetencemi je jiný — tam je jádro 79 lidí a odchodů 28, koncentrovaných u Škody a Edwards. Nemíchat obě čísla v jedné větě.</td></tr>
+<tr><td class="h">V CRM databáze kandidátů neexistuje — v Trackeru ano</td><td class="l"><code>Contractor name</code> je vyplněné u 144 ze 150 vyhraných OUT dealů, ale jen u 8 z 223 prohraných, takže samotné CRM neví, koho jsme nabízeli a neprošel. <b>Tracker to ale vede</b> — 946 kandidátů na 98 zakázkách i s fází odchodu a stranou, která rozhodla (viz sekce 5). Neplatí tedy, že by šlo o neměřitelnou otázku.</td></tr>
+<tr><td class="h">Okno Trackeru je kratší než historie jádra</td><td class="l">Tracker běží od 25. 3. 2025. Lidé z PM jádra nastoupili většinou 2017–2024, takže <b>jejich vlastní výběr v datech není</b> — 21 z 35 nemá v Trackeru záznam žádný. Otázka „jak se jádro vybíralo a kdo tehdy neprošel" proto zodpověditelná není; otázka „nabízíme je dál" ano, a odpověď je nula.</td></tr>
+<tr><td class="h">Vyloučené testovací zakázky</td><td class="l">„TEST PHU" v názvech exportů je jen jméno uloženého reportu v Trackeru — <b>řádky jsou ostrá produkční data</b>. Vyloučeny jsou jen 4 zakázky, které někdo v Trackeru reálně založil na zkoušku (název „TEST JOB…", firma „TEST") a poznají se podle obsahu, ne podle názvu exportu.</td></tr>
+<tr><td class="h">Proč jsme kandidáta odmítli se neměří</td><td class="l"><code>rejection_reason</code> je vyplněný u 99 z 1 572 řádků shortlistu. Typy důvodů jsou ilustrace, ne veličina, ze které se dají počítat podíly.</td></tr>
+<tr><td class="h">Most CRM × Tracker stojí na jméně</td><td class="l">Tracker nenese Pipedrive deal_id a CRM nenese Tracker candidate_id (<code>Contractor ATS ID</code> je na 21 ze 177 OUT dealů). Párování je proto na jméno a musí obcházet ztracenou diakritiku (í/á/é/ý jsou v exportu U+FFFD). Napárováno 28 z 60 PM lidí, 1 nejednoznačná shoda vyřazena. Nenapárování ale neznamená „nebyl nabídnut" — u 9 alumni je to ověřené tím, že v Trackeru není ani jejich jméno v žádné podobě.</td></tr>
+<tr><td class="h">Prodloužení jsou vidět až od 30. 10. 2024</td><td class="l">Changelog dřív neexistoval. Počty prodloužení u obsazení z let 2017–2023 jsou dolní hranice, ne skutečnost, a snapshoty jádra před 2025 stojí jen na odpracované době.</td></tr>
+<tr><td class="h"><code>finish_date</code> je smluvní konec, ne odchod</td><td class="l">„20 lidí končí do konce 2026" není 20 odchodů — loni se na téhle hranici prodloužilo 54 % míst. Číslo je rozhodovací okno, ne prognóza.</td></tr>
+<tr><td class="h">Malá čísla</td><td class="l">12 odchodů a 2 nováčci jsou vzorky, na kterých se nedá dělat statistika. Rozpad důvodů konce čti jako výčet konkrétních případů, ne jako podíly, které lze extrapolovat.</td></tr>
+<tr><td class="h">Marže se při prolongaci neaktualizuje</td><td class="l">Hodnoty „marže na osobu" jsou použitelné na řazení a řádový odhad, ne jako hodnota kontraktu. Prodloužené obsazení má v datech marži z původní výhry. U dvou alumni (Heřmanská, Folprecht) je marže v CRM prázdná, takže součet je spodní hranice.</td></tr>
+<tr><td class="h">Jméno není identita</td><td class="l">Párování osob jde přes textové pole na dealu. Dvě různá zapsání téhož člověka jsou dva lidé, shodné jméno dvou lidí je jeden. Ruční kontrola duplicitu nenašla, u budoucích pullů to nikdo negarantuje.</td></tr>
+</tbody></table></div>
+<p class="foot">Rozsah: <b>pouze OUT_PM</b> (69 obsazení, 60 lidí). Zdroj: <code>data/warehouse.duckdb</code> — views <code>ce_*</code> (<code>analysis/core_evolution_views.sql</code>) nad <code>cc_*</code> (<code>analysis/contractor_core_views.sql</code>) a <code>dcf_*</code>; most na Tracker <code>config/core_tracker_bridge.csv</code> (<code>analysis/core_tracker_bridge.py</code>). Stav dat k 16. 8. 2026, report generovaný <code>analysis/core_report_export.py</code>. Projectman.cz, s.r.o · www.projectman.cz · interní materiál</p>
+</section>
+</div></body></html>

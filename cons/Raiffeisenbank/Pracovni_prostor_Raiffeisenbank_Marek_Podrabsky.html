@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Projectman &amp; Raiffeisenbank — pracovní prostor pro Marek Podrabský</title>
+<!-- ==================================================================
+     PROJECTMAN TRACKING BLOCK
+     Klientská stránka je prezentovaná / hostovaná → VŽDY aplikuj skill
+     `projectman-web-tracking` a vlož jeho aktuální GA4 blok SEM (co nejvýše
+     do <head>). Blok níže je placeholder — nahraď ho blokem ze skillu.
+     ================================================================== -->
+<!-- ==================================================================
+     PROJECTMAN TRACKING BLOCK  (vkládat co nejvýše do <head>)
+     Přímý GA4 tag: G-LVKJZF9C9C — NEPOUŽÍVAT GTM kontejner.
+     ================================================================== -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LVKJZF9C9C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    ad_storage: 'granted',
+    ad_user_data: 'granted',
+    ad_personalization: 'granted',
+    analytics_storage: 'granted'
+  });
+  gtag('js', new Date());
+  gtag('config', 'G-LVKJZF9C9C');
+</script>
+<!-- ================== KONEC TRACKING BLOKU ================== -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--red:#FF525F;--blue:#A9C5DF;--white:#fff;--surf:#f4f7fa;--body:#626567;--muted:#9aa3b0;--dark:#1a1a1a;--font:'Poppins',sans-serif;--line:#e7ecf2;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);color:var(--body);background:var(--surf);line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+/* full-width header band — SAME colour as the original hero (#1a1a1a) with blue #A9C5DF accent */
+.topband{width:100%;background:var(--dark);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.tb-inner{max-width:960px;margin:0 auto;padding:18px 20px 32px}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:4px 0 22px}
+.nav img{height:40px;width:auto}
+.nav .meta{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9aa3b0;font-weight:500}
+.hero{position:relative}
+.hero .accent{width:54px;height:4px;background:var(--red);border-radius:2px;margin:0 0 18px}
+.hero h1{font-weight:600;font-size:32px;letter-spacing:-.01em;color:#fff}
+.hero h1 span{color:var(--red)}
+.hero .sub{color:var(--blue);font-weight:500;margin-top:8px;font-size:15px}
+.hero .tagline{color:#c9ced6;margin-top:14px;font-size:14px;max-width:640px}
+.cred{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
+.cred .c{background:#fff;border-radius:9px;padding:15px 16px;border-top:3px solid var(--red);box-shadow:0 2px 12px rgba(0,0,0,.18)}
+.cred .c .n{font-weight:600;font-size:18px;color:var(--dark);line-height:1.15}
+.cred .c .l{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4}
+.wrap{max-width:960px;margin:0 auto;padding:24px 20px 90px}
+/* accordion */
+.acc{background:#fff;border:1px solid var(--line);border-radius:10px;margin-top:16px;overflow:hidden}
+.acc-head{display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none;transition:background .15s}
+.acc-head:hover{background:var(--surf)}
+.acc-head.main{padding:22px 26px}
+.acc-head.sub{padding:15px 18px;background:#fff}
+.acc-head.sub:hover{background:var(--surf)}
+.s-num{font-weight:600;color:var(--red);font-size:13px;letter-spacing:.1em;min-width:26px}
+.s-title{font-weight:600;color:var(--dark);font-size:19px;flex:1}
+.s-sub{display:block;font-size:12px;color:var(--muted);font-weight:400;margin-top:2px}
+.acc-head.sub .dot{width:9px;height:9px;border-radius:50%;background:var(--red);flex-shrink:0}
+.acc-head.sub .nt{font-weight:600;color:var(--dark);font-size:15px;flex:1}
+.chev{width:20px;height:20px;flex-shrink:0;color:var(--muted);transition:transform .3s ease}
+.acc.open>.acc-head .chev{transform:rotate(180deg)}
+.collapse{display:grid;grid-template-rows:0fr;overflow:hidden;transition:grid-template-rows .35s cubic-bezier(.4,0,.2,1)}
+.acc.open>.collapse{grid-template-rows:1fr}
+.collapse>.inner{overflow:hidden;min-height:0;padding:0}
+.sect-inner{padding:6px 26px 24px}
+.comp-inner{padding:4px 18px 22px}
+.acc .acc{margin-top:10px;border-radius:9px}
+.lead{font-size:14px;margin:8px 0 6px}
+.lead .hint{color:var(--red);font-weight:500}
+.lbl{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px}
+.roles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.role{background:var(--surf);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.role .rn{font-weight:600;color:var(--dark);font-size:13px}
+.role .rd{font-size:12px;color:var(--muted);margin-top:3px}
+.role.best{background:#fff;border-color:var(--red);box-shadow:0 0 0 1px var(--red) inset}
+.role .badge{display:inline-block;background:var(--red);color:#fff;font-size:9px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:10px;margin-top:8px;font-weight:600}
+ul.clean{list-style:none;margin:4px 0}
+ul.clean li{position:relative;padding:5px 0 5px 18px;font-size:13px;border-bottom:1px solid var(--line)}
+ul.clean li:last-child{border-bottom:none}
+ul.clean li:before{content:"";position:absolute;left:2px;top:12px;width:6px;height:6px;border-radius:50%;background:var(--blue)}
+.val{font-size:13.5px;color:var(--body);margin:2px 0 4px}
+.sector{background:var(--surf);border-left:3px solid var(--blue);border-radius:6px;padding:11px 14px;margin-top:14px;font-size:13px;color:var(--dark)}
+.sector .stag{display:block;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;font-weight:600}
+.note{background:#fff5f6;border-left:3px solid var(--red);border-radius:6px;padding:12px 15px;margin-top:12px;font-size:13px;color:#5f5257}
+.note .nlabel{display:block;font-weight:600;color:var(--red);font-size:11px;letter-spacing:.02em;margin-bottom:3px}
+.accentbox{background:var(--dark);color:#fff;border-radius:8px;padding:16px 18px;font-size:14px;margin:6px 0 4px;line-height:1.5}
+.accentbox b{color:var(--red)}
+/* hidden consequence + value statement-question */
+.provoke{margin-top:14px}
+.prov-trigger{display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px dashed var(--red);color:var(--red);font-family:var(--font);font-weight:600;font-size:12.5px;padding:8px 14px;border-radius:20px;cursor:pointer;transition:background .15s}
+.prov-trigger:hover{background:#fff5f6}
+.prov-trigger .pq{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;background:var(--red);color:#fff;font-size:11px;font-weight:700}
+.prov-trigger .pchev{width:15px;height:15px;color:var(--red);transition:transform .3s ease}
+.provoke.shown .prov-trigger .pchev{transform:rotate(180deg)}
+.prov-body{display:none;margin-top:10px;background:var(--dark);color:#fff;border-left:3px solid var(--red);border-radius:8px;padding:14px 16px;font-size:14px;line-height:1.55;font-style:italic}
+.provoke.shown .prov-body{display:block;animation:fade .3s ease}
+@keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+/* people */
+ol.people{list-style:none;counter-reset:pp;margin-top:6px}
+ol.people li{counter-increment:pp;position:relative;padding:14px 0 14px 46px;border-bottom:1px solid var(--line)}
+ol.people li:last-child{border-bottom:none}
+ol.people li:before{content:counter(pp);position:absolute;left:0;top:13px;width:30px;height:30px;background:var(--dark);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600}
+ol.people .pn{font-weight:600;color:var(--dark);font-size:15px;display:block}
+ol.people .pr{font-size:12.5px;color:var(--red);font-weight:500;display:block;margin-top:1px}
+ol.people .pw{font-size:13px;color:var(--muted);display:block;margin-top:3px}
+.foot{text-align:center;font-size:11px;color:var(--muted);margin-top:30px;line-height:1.7}
+/* meeting notes */
+.mtg-acc{margin-top:12px;border:1px solid var(--line);border-radius:10px}
+.acc-head.mtg{padding:16px 20px;gap:14px;background:#fbfcfe}
+.acc-head.mtg:hover{background:var(--surf)}
+.mdate{background:var(--red);color:#fff;font-weight:600;font-size:12px;padding:5px 11px;border-radius:7px;white-space:nowrap;flex-shrink:0}
+.person-acc{margin-top:8px}
+.acc-head.sub .prole{display:block;font-size:11.5px;color:var(--muted);font-weight:400;margin-top:1px}
+.topic{border-left:2px solid var(--blue);padding:2px 0 2px 14px;margin:14px 0}
+.topic:first-child{margin-top:6px}
+.topic .ttl{font-weight:600;color:var(--dark);font-size:13.5px;margin-bottom:5px}
+ul.tpts li:before{background:var(--muted)}
+.exp{background:var(--surf);border-radius:7px;padding:9px 13px;margin-top:8px}
+.exp .etag{display:block;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--red);font-weight:600;margin-bottom:2px}
+.exp ul.clean li{font-size:12.5px;border-bottom:none;padding:3px 0 3px 18px}
+.exp ul.clean li:before{background:var(--red)}
+/* connection briefs */
+.brief-acc{margin-top:8px}
+.brief{padding:2px 0}
+.brow{display:grid;grid-template-columns:190px 1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}
+.brow:last-of-type{border-bottom:none}
+.blbl{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;padding-top:1px}
+.forward{margin-top:12px;background:var(--dark);color:#eef1f4;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.55;font-style:italic}
+.forward .flbl{display:block;width:fit-content;font-style:normal;background:var(--red);color:#fff;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;padding:3px 9px;border-radius:10px;margin-bottom:9px}
+@media(max-width:640px){.brow{grid-template-columns:1fr;gap:2px}}
+.printbtn{position:fixed;bottom:22px;right:22px;background:var(--red);color:#fff;border:none;border-radius:24px;padding:12px 20px;font-family:var(--font);font-weight:600;font-size:13px;cursor:pointer;box-shadow:0 6px 20px rgba(255,82,95,.35);z-index:50}
+@media(max-width:640px){.cred{grid-template-columns:repeat(2,1fr)}.roles{grid-template-columns:1fr}.tb-inner{padding:16px 16px 26px}.hero h1{font-size:25px}.sect-inner{padding-left:18px;padding-right:18px}}
+@media print{.printbtn{display:none}.collapse{grid-template-rows:1fr!important}.acc{break-inside:avoid}.prov-body{display:block!important}.prov-trigger .pchev{display:none}}
+</style>
+<body>
+<header class="topband">
+  <div class="tb-inner">
+    <div class="nav">
+      <img src="data:image/png;base64,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" alt="Projectman">
+      <span class="meta">Připraveno pro Raiffeisenbank · Důvěrné</span>
+    </div>
+    <div class="hero">
+      <div class="accent"></div>
+      <h1>Projectman <span>&amp;</span> Raiffeisenbank</h1>
+      <div class="sub">Připraveno pro Marek Podrabský — Tribe Lead of Investment Tribe &amp; Group Product Owner (investiční mobilní app)</div>
+      <div class="tagline">Náš outsourcing a consulting cílený na vaši Investment tribe a investiční mobilní aplikaci. Na dalších stranách najdete celý náš záběr — kompetence, které bychom vám dodali jako experty do týmů, i témata, kde umíme pomoct poradensky. Červeně jsou vypíchnuté ty, které podle naší přípravy nejvíc sedí na váš produkt a roli.</div>
+    </div>
+    <div class="cred">
+      <div class="c"><div class="n">4&nbsp;000+</div><div class="l">expertů v naší komunitě</div></div>
+      <div class="c"><div class="n">#1 v ČR &amp; SR</div><div class="l">v outsourcingu projektového řízení</div></div>
+      <div class="c"><div class="n">Finanční sektor</div><div class="l">reální klienti z oboru finanční služby (VIG Re, Kooperativa, W.A.G.)</div></div>
+      <div class="c"><div class="n">2 pilíře</div><div class="l">Outsourcing + Consulting, ruku v ruce</div></div>
+    </div>
+  </div>
+</header>
+<div class="wrap">
+
+<div class="acc section open" id="s-out" data-ga="Sekce 01: Outsourcing">
+  <div class="acc-head main" onclick="toggle(this.parentElement)">
+    <span class="s-num">01</span>
+    <span class="s-title">Outsourcing — expertní role do vašich týmů<span class="s-sub">Všech 6 kompetencí · předpokládané pozice · tématiky · zkušenosti z oboru</span></span>
+    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="collapse"><div class="inner"><div class="sect-inner">
+    <p class="lead">Dodáváme prověřené experty jako externisty přímo do vašich squadů — interim i part-time, s tahem na doménu a agilní realitu vaší tribe. <span class="hint">Uvádíme celý náš záběr; červeně označené kompetence se dle naší analýzy nejvíce hodí pro Marek Podrabský a Raiffeisenbank.</span></p>
+    <div class="acc" data-ga="OUT · Agile &amp; Product management">
+<div class="acc-head sub" onclick="toggle(this.parentElement)"><span class="dot"></span><span class="nt">Agile &amp; Product management <span style="display:inline-block;background:var(--red);color:#fff;font-size:9px;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:10px;margin-left:8px;font-weight:600;vertical-align:middle">Ideální pro Raiffeisenbank</span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+<div class="collapse"><div class="inner"><div class="comp-inner">
+<div class="lbl">Předpokládané pozice pro Raiffeisenbank</div>
+<div class="roles"><div class="role best"><div class="rn">Product Owner / Group PO</div><div class="rd">Do investičních squadů — odlehčení vaší PO kapacity nebo posílení na peaky.</div><span class="badge">Ideální pro Raiffeisenbank</span></div><div class="role"><div class="rn">Scrum Master / Agile coach</div><div class="rd">Rozjezd nebo stabilizace ceremoniálů a flow v squadech tribe.</div></div><div class="role"><div class="rn">Area / Feature Product Owner</div><div class="rd">Vlastnictví konkrétní oblasti produktu (přesně profil, který jste loni hledali).</div></div></div>
+<div class="lbl">Tématiky, které bychom řešili</div>
+<ul class="clean"><li>Škálování produktového vlastnictví napříč squady investiční app</li><li>Doménově sedící PO/BA lidé pro fintech a investiční produkt</li><li>Interim pokrytí PO/SM na rozjezdu feature nebo při výpadku</li></ul>
+<div class="lbl">Zkušenosti z produktových a agilních rolí</div>
+<ul class="clean"><li>Interim Product Owner dodán do produktového týmu (3,3 mil. Kč) — <b>Edwards Lifesciences</b></li><li>2× UX Product Owner dodáni do týmů klienta — <b>Škoda Auto</b></li><li>Professional Scrum Product Owner — rozvoj PO týmu ve fintechu — <b>W.A.G. / Eurowag</b></li></ul>
+<div class="lbl">Hodnota, kterou přinášíme</div>
+<p class="val">Dodáme prověřeného PO/SM/BA, který sedne na doménu i na agilní realitu vaší tribe — a když potřeba poleví, škálujeme zpět. Ne agentura, komunita 4 000+ expertů.</p>
+<div class="sector"><span class="stag">Podobná organizace — finanční služby</span>Ve W.A.G./Eurowag (platby, fintech) i u výrobních a med-tech klientů jsme dodávali přesně produktové a PO/SM role do agilních týmů.</div>
+<div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>jste Group PO investiční mobilní app a Tribe Lead — přesně ta role, kolem které stavíme své PO/Agile lidi; a loni jsme spolu řešili Area PO do vaší oblasti.</div>
+<div class="provoke"><button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="prov-body">Když seniorní PO role zůstane 3–4 měsíce neobsazená, co všechno na roadmapě appky se posune — a kdo tu práci mezitím nese?</div></div>
+</div></div></div></div>
+<div class="acc" data-ga="OUT · CX/UX">
+<div class="acc-head sub" onclick="toggle(this.parentElement)"><span class="dot"></span><span class="nt">CX/UX <span style="display:inline-block;background:var(--red);color:#fff;font-size:9px;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:10px;margin-left:8px;font-weight:600;vertical-align:middle">Ideální pro Raiffeisenbank</span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+<div class="collapse"><div class="inner"><div class="comp-inner">
+<div class="lbl">Předpokládané pozice pro Raiffeisenbank</div>
+<div class="roles"><div class="role best"><div class="rn">UX Designer / Product Designer</div><div class="rd">Do produktu investiční app — od výzkumu po UI, ruku v ruce s PO.</div><span class="badge">Ideální pro Raiffeisenbank</span></div><div class="role"><div class="rn">UX Researcher</div><div class="rd">Uživatelský výzkum a testování konverzních a onboardingových toků.</div></div></div>
+<div class="lbl">Tématiky, které bychom řešili</div>
+<ul class="clean"><li>Zákaznická zkušenost a použitelnost investiční mobilní aplikace</li><li>Uživatelský výzkum, prototypování a testování nových funkcí</li><li>Konzistence UI a design systému napříč produktem</li></ul>
+<div class="lbl">Zkušenosti z produktových UX rolí</div>
+<ul class="clean"><li>2× UX Product Owner dodáni do produktových týmů — <b>Škoda Auto</b></li></ul>
+<div class="lbl">Hodnota, kterou přinášíme</div>
+<p class="val">Doplníme UX/produktové designéry a researchery do vašich squadů — jako interim experty, kteří táhnou zákaznickou zkušenost appky, ne jen „kreslí obrazovky“.</p>
+<div class="sector"><span class="stag">Podobná organizace — finanční služby</span>Produktové role s UX přesahem jsme dodávali do velkých produktových organizací (Škoda Auto) — designéry i product ownery s UX odpovědností.</div>
+<div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>vlastníte zákaznickou investiční aplikaci — produkt, který stojí a padá na UX, onboardingu a důvěře uživatele při práci s penězi.</div>
+<div class="provoke"><button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="prov-body">O kolik nižší je aktivace a retence, když nová funkce vyjde bez pořádného UX výzkumu — a jak to poznáte včas?</div></div>
+</div></div></div></div>
+<div class="acc" data-ga="OUT · Data">
+<div class="acc-head sub" onclick="toggle(this.parentElement)"><span class="dot"></span><span class="nt">Data <span style="display:inline-block;background:var(--red);color:#fff;font-size:9px;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:10px;margin-left:8px;font-weight:600;vertical-align:middle">Ideální pro Raiffeisenbank</span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+<div class="collapse"><div class="inner"><div class="comp-inner">
+<div class="lbl">Předpokládané pozice pro Raiffeisenbank</div>
+<div class="roles"><div class="role best"><div class="rn">Data Analyst / Product Data Analyst</div><div class="rd">Metriky produktu, chování uživatelů, funnel a personalizace v investiční app.</div><span class="badge">Ideální pro Raiffeisenbank</span></div><div class="role"><div class="rn">Data Engineer / Data Scientist</div><div class="rd">Datové pipeliny a modely pro personalizaci a rozhodování v produktu.</div></div></div>
+<div class="lbl">Tématiky, které bychom řešili</div>
+<ul class="clean"><li>Produktová analytika investiční app — metriky, funnel, retence</li><li>Personalizace a datově řízené rozhodování o roadmapě</li><li>Napojení tribe na centrální datovou platformu banky</li></ul>
+<div class="lbl">Zkušenosti s daty ve financích</div>
+<ul class="clean"><li>PM Data Core — datové jádro pro řízení, finanční sektor — <b>Kooperativa</b></li></ul>
+<div class="lbl">Hodnota, kterou přinášíme</div>
+<p class="val">Dodáme datové lidi, kteří z produktu udělají zdroj rozhodnutí, ne jen dashboardů — od produktových metrik po personalizaci.</p>
+<div class="sector"><span class="stag">Podobná organizace — finanční služby</span>Ve finančním sektoru (Kooperativa, VIG) jsme stavěli datové jádro pro řízení a napojení dat na rozhodování.</div>
+<div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>investiční aplikace je datově náročný produkt a v účtu RB už dřív bylo živé datové téma — data jsou pro vaši tribe páka, ne jen reporting.</div>
+<div class="provoke"><button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="prov-body">Kolik roadmapových rozhodnutí dnes padá spíš od stolu než z dat — a co vás to stojí na promarněných featurech?</div></div>
+</div></div></div></div>
+<div class="acc" data-ga="OUT · AI a automatizace">
+<div class="acc-head sub" onclick="toggle(this.parentElement)"><span class="dot"></span><span class="nt">AI a automatizace</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+<div class="collapse"><div class="inner"><div class="comp-inner">
+<div class="lbl">Předpokládané pozice pro Raiffeisenbank</div>
+<div class="roles"><div class="role"><div class="rn">Interim AI Ambassador / AI Team Lead</div><div class="rd">Zavedení AI use-cases a governance do práce tribe i do produktu.</div></div><div class="role"><div class="rn">AI-savvy PO / produktový lídr</div><div class="rd">Produktové AI funkce (personalizace, asistent) s jasnou návratností.</div></div></div>
+<div class="lbl">Tématiky, které bychom řešili</div>
+<ul class="clean"><li>AI funkce v investiční app — personalizace, asistence, automatizace</li><li>AI produktivita a governance uvnitř tribe (bez shadow AI)</li><li>Identifikace a validace AI use-cases s ROI</li></ul>
+<div class="lbl">Zkušenosti s AI adopcí</div>
+<ul class="clean"><li>AI CoE governance flow, AI ambasadoři, LMS — finanční sektor — <b>Kooperativa</b></li><li>AI adopce workshop s měřitelnými quick wins — <b>Globus</b></li></ul>
+<div class="lbl">Hodnota, kterou přinášíme</div>
+<p class="val">Nasadíme člověka, který vaší tribe pomůže dostat AI do produktu i do práce — s governance, ROI a bez chaosu shadow AI.</p>
+<div class="sector"><span class="stag">Podobná organizace — finanční služby</span>AI adopci a governance jsme reálně vedli ve financích (Kooperativa) i v retailu (Globus) — od ambasadorů po měřitelné use-cases.</div>
+<div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>RB už dřív řešila AI produktivitu pro PM (tehdy interně) — zájem tu je a v bankovnictví AI + governance rychle roste.</div>
+<div class="provoke"><button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="prov-body">Kolik vašich lidí už dnes používá AI potají bez pravidel — a jaké riziko to nese u banky pracující s klientskými penězi?</div></div>
+</div></div></div></div>
+<div class="acc" data-ga="OUT · Business analýza">
+<div class="acc-head sub" onclick="toggle(this.parentElement)"><span class="dot"></span><span class="nt">Business analýza</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+<div class="collapse"><div class="inner"><div class="comp-inner">
+<div class="lbl">Předpokládané pozice pro Raiffeisenbank</div>
+<div class="roles"><div class="role"><div class="rn">Business Analyst do squadu</div><div class="rd">Podpora PO při psaní a zmenšování zadání, definice scope (co a proč).</div></div><div class="role"><div class="rn">Senior BA / Analytik-architekt</div><div class="rd">Investiční doména — přesně profil, který jste loni poptávali.</div></div></div>
+<div class="lbl">Tématiky, které bychom řešili</div>
+<ul class="clean"><li>Kvalitní zadání a scope pro squady investiční app</li><li>Zmenšování a prioritizace zadání ruku v ruce s PO</li><li>Analytická podpora integrací a nových funkcí produktu</li></ul>
+<div class="lbl">Zkušenosti z analytických rolí v agilních týmech</div>
+<ul class="clean"><li>BA dodán do agilního delivery týmu (rozbití monolitu, selfcare) — <b>PREdistribuce / Lundegaard</b></li></ul>
+<div class="lbl">Hodnota, kterou přinášíme</div>
+<p class="val">Dodáme BA, který PO odlehčí od psaní a krájení zadání a drží kvalitu scope — přesně tam, kde agilní squad nejčastěji drhne.</p>
+<div class="sector"><span class="stag">Podobná organizace — finanční služby</span>BA jsme dodávali do agilních delivery týmů, kde analytik pomáhá byznysovému PO tvořit a zmenšovat zadání — stejný vzorec jako u vašich squadů.</div>
+<div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>loni jsme spolu řešili roli Investment analytik/architekt — potřeba analytické kapacity ve vaší oblasti reálně byla.</div>
+<div class="provoke"><button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="prov-body">Kolik sprintů se rozjede na nejasném zadání — a co to udělá s tempem a náladou squadu?</div></div>
+</div></div></div></div>
+<div class="acc" data-ga="OUT · Project management">
+<div class="acc-head sub" onclick="toggle(this.parentElement)"><span class="dot"></span><span class="nt">Project management</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+<div class="collapse"><div class="inner"><div class="comp-inner">
+<div class="lbl">Předpokládané pozice pro Raiffeisenbank</div>
+<div class="roles"><div class="role"><div class="rn">Project / Program Manager</div><div class="rd">Koordinace větších iniciativ a závislostí napříč squady a bankou.</div></div><div class="role"><div class="rn">Delivery Manager</div><div class="rd">Doručení konkrétního programu v rámci tribe s tahem na výsledek.</div></div></div>
+<div class="lbl">Tématiky, které bychom řešili</div>
+<ul class="clean"><li>Řízení větších iniciativ a závislostí kolem investiční app</li><li>Koordinace s centrálními útvary banky a dodavateli</li><li>Hybridní řízení tam, kde agilní tribe potká waterfall banky</li></ul>
+<div class="lbl">Zkušenosti z řízení — vč. vašeho účtu</div>
+<ul class="clean"><li>Interim expert dodaný přímo do Raiffeisenbank (Lukáš Frouz) — <b>Raiffeisenbank</b></li><li>North Star transformační program + governance — <b>VIG Re</b></li><li>QBR proces a PM Data Core, finanční sektor — <b>Kooperativa</b></li></ul>
+<div class="lbl">Hodnota, kterou přinášíme</div>
+<p class="val">Dodáme PM/PgM, který utáhne velké iniciativy a závislosti — a v RB už jednoho našeho člověka máte, takže víte, že umíme dodat.</p>
+<div class="sector"><span class="stag">Podobná organizace — finanční služby</span>Ve financích (VIG Re, Kooperativa) jsme vedli transformační a governance programy; a v RB samotné máme běžící dodávku.</div>
+<div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>v Raiffeisenbank už jeden náš expert působí a proběhla i školení hybridního PM — spolupráce reálně běží.</div>
+<div class="provoke"><button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="prov-body">Když velká iniciativa nemá jasného majitele delivery, o kolik se protáhne — a kdo to nakonec odnese?</div></div>
+</div></div></div></div>
+  </div></div></div>
+</div>
+
+<div class="acc section" id="s-cons" data-ga="Sekce 02: Consulting">
+  <div class="acc-head main" onclick="toggle(this.parentElement)">
+    <span class="s-num">02</span>
+    <span class="s-title">Consulting — akcelerace, transformace, procesy<span class="s-sub">Všech 6 kompetencí · zaměření engagementu · tématiky · zkušenosti z oboru</span></span>
+    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="collapse"><div class="inner"><div class="sect-inner">
+    <p class="lead">Vedle dodávky lidí umíme pomoct i poradensky — jak tribe škáluje produktové vlastnictví, jak měří hodnotu a jak dostat data a AI do řízení. <span class="hint">Stejný kompletní výčet kompetencí, jen v roli poradenských engagementů.</span></p>
+    <div class="acc" data-ga="CONS · Agile &amp; Product management">
+<div class="acc-head sub" onclick="toggle(this.parentElement)"><span class="dot"></span><span class="nt">Agile &amp; Product management <span style="display:inline-block;background:var(--red);color:#fff;font-size:9px;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:10px;margin-left:8px;font-weight:600;vertical-align:middle">Ideální pro Raiffeisenbank</span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+<div class="collapse"><div class="inner"><div class="comp-inner">
+<div class="lbl">Zaměření engagementu pro Raiffeisenbank</div>
+<div class="roles"><div class="role best"><div class="rn">Škálování produktového vlastnictví</div><div class="rd">Jak nastavit PO/BA kapacitu a role v rostoucí tribe.</div><span class="badge">Ideální pro Raiffeisenbank</span></div><div class="role"><div class="rn">Agile health check &amp; coaching</div><div class="rd">Diagnostika flow v squadech + praktická agilita bez dogmatu.</div></div></div>
+<div class="lbl">Tématiky, které bychom řešili</div>
+<ul class="clean"><li>Jak škálovat produktové vlastnictví, aniž se z toho stane chaos</li><li>Hybridní model tam, kde agilní tribe naráží na procesy banky</li><li>Praktická agilita a měření hodnoty produktu, ne jen velocity</li></ul>
+<div class="lbl">Zkušenosti z transformací</div>
+<ul class="clean"><li>North Star transformační program + governance — <b>VIG Re</b></li><li>QBR proces a modulární PM rozvoj, finanční sektor — <b>Kooperativa</b></li></ul>
+<div class="lbl">Hodnota, kterou přinášíme</div>
+<p class="val">Projdeme s vámi, jak tribe roste, kde se PO kapacita láme a jak nastavit role a rituály tak, aby produkt držel tempo.</p>
+<div class="sector"><span class="stag">Podobná organizace — finanční služby</span>Agilní a produktové transformace jsme vedli ve financích (VIG Re, Kooperativa) — od North Star po QBR a rozvoj lidí.</div>
+<div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>vaše tribe evidentně škáluje produkt — a právě u růstu se nejčastěji láme produktové vlastnictví a flow.</div>
+<div class="provoke"><button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="prov-body">Co se stane s kvalitou produktu, když počet squadů poroste rychleji než zralost vašeho PO/agile modelu?</div></div>
+</div></div></div></div>
+<div class="acc" data-ga="CONS · CX/UX">
+<div class="acc-head sub" onclick="toggle(this.parentElement)"><span class="dot"></span><span class="nt">CX/UX <span style="display:inline-block;background:var(--red);color:#fff;font-size:9px;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:10px;margin-left:8px;font-weight:600;vertical-align:middle">Ideální pro Raiffeisenbank</span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+<div class="collapse"><div class="inner"><div class="comp-inner">
+<div class="lbl">Zaměření engagementu pro Raiffeisenbank</div>
+<div class="roles"><div class="role best"><div class="rn">Design thinking &amp; UX v organizaci</div><div class="rd">Jak zavést uživatelský výzkum a design do produktového cyklu.</div><span class="badge">Ideální pro Raiffeisenbank</span></div><div class="role"><div class="rn">CX audit zákaznické cesty</div><div class="rd">Zmapování a zlepšení klíčových toků investiční app.</div></div></div>
+<div class="lbl">Tématiky, které bychom řešili</div>
+<ul class="clean"><li>Zavedení UX výzkumu a design thinkingu do práce tribe</li><li>Zlepšení zákaznické cesty a konverzních toků investiční app</li><li>Sladění produktu, designu a byznysu kolem zkušenosti uživatele</li></ul>
+<div class="lbl">Hodnota, kterou přinášíme</div>
+<p class="val">Pomůžeme z UX udělat standardní součást produktového cyklu — od výzkumu po rozhodování, ne až kosmetiku na konci.</p>
+<div class="sector"><span class="stag">Podobná organizace — finanční služby</span>Design thinking a UX/CX v organizaci patří mezi naše konzultační témata; nasazujeme je tam, kde produkt stojí na zkušenosti uživatele.</div>
+<div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>investiční aplikace je zákaznický produkt, kde UX rozhoduje o důvěře i konverzi — a to je přesně půda pro CX/UX poradenství.</div>
+<div class="provoke"><button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="prov-body">Kolik rozhodnutí o produktu dnes vzniká bez hlasu uživatele — a co vás to stojí na aktivaci a retenci?</div></div>
+</div></div></div></div>
+<div class="acc" data-ga="CONS · Data">
+<div class="acc-head sub" onclick="toggle(this.parentElement)"><span class="dot"></span><span class="nt">Data <span style="display:inline-block;background:var(--red);color:#fff;font-size:9px;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:10px;margin-left:8px;font-weight:600;vertical-align:middle">Ideální pro Raiffeisenbank</span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+<div class="collapse"><div class="inner"><div class="comp-inner">
+<div class="lbl">Zaměření engagementu pro Raiffeisenbank</div>
+<div class="roles"><div class="role best"><div class="rn">Data governance &amp; využití dat</div><div class="rd">Jak z produktových dat udělat řízené rozhodování.</div><span class="badge">Ideální pro Raiffeisenbank</span></div><div class="role"><div class="rn">Data-driven PM setup</div><div class="rd">Od reportingu k prediktivnímu řízení roadmapy.</div></div></div>
+<div class="lbl">Tématiky, které bychom řešili</div>
+<ul class="clean"><li>Governance a maximalizace využití produktových dat tribe</li><li>Data-driven řízení roadmapy — od reportingu k predikci</li><li>Napojení dat na rozhodování, ne jen na dashboardy</li></ul>
+<div class="lbl">Zkušenosti s daty ve financích</div>
+<ul class="clean"><li>PM Data Core — datové jádro pro řízení, finanční sektor — <b>Kooperativa</b></li></ul>
+<div class="lbl">Hodnota, kterou přinášíme</div>
+<p class="val">Nastavíme, jak tribe s daty pracuje a rozhoduje — governance i praktické datové jádro pro řízení produktu.</p>
+<div class="sector"><span class="stag">Podobná organizace — finanční služby</span>Datové jádro pro řízení (PM Data Core) jsme stavěli ve finančním sektoru (Kooperativa).</div>
+<div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>investiční produkt generuje bohatá data a v RB už datové téma dřív bylo živé — chybí většinou governance a napojení na rozhodnutí.</div>
+<div class="provoke"><button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="prov-body">Kolik hodnoty z dat vaší app dnes leží ladem jen proto, že chybí governance a jasné napojení na rozhodování?</div></div>
+</div></div></div></div>
+<div class="acc" data-ga="CONS · AI a automatizace">
+<div class="acc-head sub" onclick="toggle(this.parentElement)"><span class="dot"></span><span class="nt">AI a automatizace</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+<div class="collapse"><div class="inner"><div class="comp-inner">
+<div class="lbl">Zaměření engagementu pro Raiffeisenbank</div>
+<div class="roles"><div class="role"><div class="rn">AI adopce &amp; governance</div><div class="rd">Scénáře, piloty, pravidla, ambasadoři — s jasnou návratností.</div></div><div class="role"><div class="rn">AI use-case discovery s ROI</div><div class="rd">Kde v produktu i v práci tribe dává AI reálný smysl.</div></div></div>
+<div class="lbl">Tématiky, které bychom řešili</div>
+<ul class="clean"><li>Governance AI v produktu i v práci tribe (bez shadow AI)</li><li>Identifikace a validace AI use-cases s návratností</li><li>AI-augmented řízení produktu a roadmapy</li></ul>
+<div class="lbl">Zkušenosti s AI adopcí</div>
+<ul class="clean"><li>AI CoE governance flow, ambasadoři, LMS — finanční sektor — <b>Kooperativa</b></li><li>AI adopce workshop s měřitelnými quick wins — <b>Globus</b></li></ul>
+<div class="lbl">Hodnota, kterou přinášíme</div>
+<p class="val">Provedeme vás od nápadů k řízené AI adopci — governance, piloty a use-cases s ROI, aby AI byla páka, ne riziko.</p>
+<div class="sector"><span class="stag">Podobná organizace — finanční služby</span>AI adopci a governance jsme reálně vedli ve financích (Kooperativa) i v retailu (Globus).</div>
+<div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>RB o AI produktivitu už dřív projevila zájem a v bankovnictví jsou nároky na AI governance vysoké.</div>
+<div class="provoke"><button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="prov-body">Když AI adopci necháte růst bez governance, jaké riziko to u banky s klientskými penězi časem přinese?</div></div>
+</div></div></div></div>
+<div class="acc" data-ga="CONS · Business analýza">
+<div class="acc-head sub" onclick="toggle(this.parentElement)"><span class="dot"></span><span class="nt">Business analýza</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+<div class="collapse"><div class="inner"><div class="comp-inner">
+<div class="lbl">Zaměření engagementu pro Raiffeisenbank</div>
+<div class="roles"><div class="role"><div class="rn">Zlepšení procesů a scope</div><div class="rd">Jak nastavit tvorbu a krájení zadání napříč squady.</div></div><div class="role"><div class="rn">Návrh řešení dle potřeb</div><div class="rd">Definice scope (co a proč) s ohledem na proveditelnost.</div></div></div>
+<div class="lbl">Tématiky, které bychom řešili</div>
+<ul class="clean"><li>Jak systematicky tvořit a zmenšovat zadání napříč tribe</li><li>Zlepšení procesů kolem analýzy a definice scope</li><li>Sladění byznysových potřeb a proveditelnosti v produktu</li></ul>
+<div class="lbl">Hodnota, kterou přinášíme</div>
+<p class="val">Pomůžeme nastavit, jak v tribe vzniká kvalitní zadání a scope — aby squady neběžely na nejasnostech.</p>
+<div class="sector"><span class="stag">Podobná organizace — finanční služby</span>Zlepšování procesů a definice scope patří mezi naše konzultační témata napříč obory.</div>
+<div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>u rostoucí tribe se kvalita zadání často stává úzkým hrdlem dřív, než si toho někdo všimne.</div>
+<div class="provoke"><button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="prov-body">Kolik kapacity squadů se dnes protočí kvůli nejasnému nebo příliš velkému zadání?</div></div>
+</div></div></div></div>
+<div class="acc" data-ga="CONS · Project management">
+<div class="acc-head sub" onclick="toggle(this.parentElement)"><span class="dot"></span><span class="nt">Project management</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+<div class="collapse"><div class="inner"><div class="comp-inner">
+<div class="lbl">Zaměření engagementu pro Raiffeisenbank</div>
+<div class="roles"><div class="role"><div class="rn">PMO / portfolio governance</div><div class="rd">Jak řídit portfolio iniciativ a prioritizaci bez politiky.</div></div><div class="role"><div class="rn">PM procesy, metodiky, hybridní PM</div><div class="rd">Sladění agilní tribe s řízením programů banky.</div></div></div>
+<div class="lbl">Tématiky, které bychom řešili</div>
+<ul class="clean"><li>Governance a prioritizace portfolia iniciativ kolem produktu</li><li>Hybridní PM tam, kde agilní tribe potkává procesy banky</li><li>Měření hodnoty doručení, ne jen stavu (outcome, ne watermelon)</li></ul>
+<div class="lbl">Zkušenosti z governance a portfolia</div>
+<ul class="clean"><li>North Star transformační program + governance — <b>VIG Re</b></li><li>Portfolio priority committee, multi-stream reporting, interim PMO — <b>NOTINO</b></li><li>QBR proces a PM Data Core, finanční sektor — <b>Kooperativa</b></li></ul>
+<div class="lbl">Hodnota, kterou přinášíme</div>
+<p class="val">Nastavíme, jak se rozhoduje o prioritách a jak se měří hodnota doručení — aby tribe táhla za výsledkem, ne za statusem.</p>
+<div class="sector"><span class="stag">Podobná organizace — finanční služby</span>Portfolio governance a PMO jsme stavěli ve financích (VIG Re, Kooperativa) i u velkých e-commerce (NOTINO).</div>
+<div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>agilní tribe uvnitř velké banky vždy naráží na governance a prioritizaci — a to je klasické konzultační téma.</div>
+<div class="provoke"><button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="prov-body">Kolik iniciativ běží „zeleně“ v reportu, ale bez reálného dopadu na produkt — a jak to dnes poznáte?</div></div>
+</div></div></div></div>
+  </div></div></div>
+</div>
+
+<div class="acc section" id="s-analyza" data-ga="Sekce 03: Analýza Raiffeisenbank">
+  <div class="acc-head main" onclick="toggle(this.parentElement)">
+    <span class="s-num">03</span>
+    <span class="s-title">Analýza Raiffeisenbank<span class="s-sub">Kde vidíme příležitost · jak firma funguje</span></span>
+    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="collapse"><div class="inner"><div class="sect-inner">
+    <p class="lead">Krátce a na rovinu, kde vidíme prostor pro spolupráci s vaší tribe — postavené na tom, co reálně víme z historie spolupráce Projectman &amp; Raiffeisenbank.</p>
+
+    <div class="acc person-acc open" data-ga="Analýza · Kde vidíme příležitost">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">Kde vidíme příležitost pro spolupráci<span class="prole">Investment tribe &amp; investiční mobilní app</span></span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <div class="accentbox">Vaše <b>Investment tribe</b> škáluje zákaznický produkt a naráží na <b>kapacitu seniorních produktových, analytických a datových rolí</b>. Přesně tam, kde máme nejsilnější lavičku expertů — a kde s vámi chceme být dřív, než potřebu vyřeší dlouhé výběrko.</div>
+        <ul class="clean">
+          <li><b>Rychlé a doménově sedící obsazování rolí</b> — PO, BA, analytici, UX a data lidé do investičních squadů, prověření na fintech i agilní fit.</li>
+          <li><b>Interim a part-time kapacita</b> — na rozjezdy features, peaky a přechodná období, kdy nemá smysl nabírat na HPP.</li>
+          <li><b>Consulting na škálování produktu</b> — jak tribe roste, jak měří hodnotu produktu a jak dostat data a AI do rozhodování.</li>
+        </ul>
+      </div></div></div>
+    </div>
+
+    <div class="acc person-acc" data-ga="Analýza · Model a technologie">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">Jak firma funguje — model &amp; kontext<span class="prole">Banka · agilní tribe/squad model · zákaznický produkt</span></span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <div class="topic"><div class="ttl">Univerzální banka řízená přes tribe &amp; squady</div><ul class="clean tpts"><li>Investment tribe pod vaším vedením; vy zároveň Group PO zákaznické investiční mobilní aplikace.</li><li>Produkt náročný na UX, data a stále víc na AI funkce a personalizaci.</li></ul></div>
+        <div class="topic"><div class="ttl">Zavedený vztah, běžící stopa</div><ul class="clean tpts"><li>Projectman je u Raiffeisenbank partnerem — v bance působí náš expert a proběhla i školení projektového řízení.</li><li>Spolupráce tedy nezačíná od nuly; navazujeme na reálnou důvěru.</li></ul></div>
+        <div class="sector"><span class="stag">Co to znamená pro spolupráci</span>Umíme dodávat i přes náročný nákupní a výběrový proces banky (máme za sebou dodávky přes formální DNS a minitendery) a kombinovat interim experty s poradenstvím tak, aby vaše tribe držela tempo produktu.</div>
+      </div></div></div>
+    </div>
+
+  </div></div></div>
+</div>
+
+  <div class="foot">
+    Sestaveno z reálných vyhraných zakázek Projectman (Pipedrive) a z veřejných zdrojů o Raiffeisenbank.<br>
+    Projectman.cz — connecting experts
+  </div>
+</div>
+<button class="printbtn" onclick="dl()">⤓ Uložit jako PDF</button>
+<script>
+function toggle(el){
+  el.classList.toggle('open');
+  if(el.classList.contains('open') && window.gtag){
+    var t=el.getAttribute('data-ga')||'';
+    var ev=el.classList.contains('section')?'section_open':'competency_open';
+    gtag('event',ev,{event_category:'workspace',event_label:t,page_hostname:location.hostname});
+  }
+}
+function rev(btn){
+  var p=btn.parentElement; p.classList.toggle('shown');
+  if(p.classList.contains('shown') && window.gtag){
+    var comp=btn.closest('.acc'); var lbl=comp?comp.getAttribute('data-ga'):'';
+    gtag('event','consequence_reveal',{event_category:'workspace',event_label:lbl,page_hostname:location.hostname});
+  }
+}
+function dl(){ if(window.gtag){gtag('event','download_click',{event_category:'workspace',event_label:'save_pdf',page_hostname:location.hostname});} window.print(); }
+</script>
+</body>
+</html>

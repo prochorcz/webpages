@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Projectman &amp; CREDITAS Group — pracovní prostor pro Matouše Tlapáka</title>
+<!-- ==================================================================
+     PROJECTMAN TRACKING BLOCK  (vkládat co nejvýše do <head>)
+     Přímý GA4 tag: G-LVKJZF9C9C — NEPOUŽÍVAT GTM kontejner GTM-5BWSWGR
+     (jeho CMP vynutí consent denied na doménách bez cookie lišty).
+     Blok nemodifikovat. Spravuje skill: projectman-web-tracking
+     ================================================================== -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LVKJZF9C9C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    ad_storage: 'granted',
+    ad_user_data: 'granted',
+    ad_personalization: 'granted',
+    analytics_storage: 'granted'
+  });
+  gtag('js', new Date());
+  gtag('config', 'G-LVKJZF9C9C');
+</script>
+<!-- ================== KONEC TRACKING BLOCKU ================== -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--red:#FF525F;--blue:#A9C5DF;--white:#fff;--surf:#f4f7fa;--body:#626567;--muted:#9aa3b0;--dark:#1a1a1a;--font:'Poppins',sans-serif;--line:#e7ecf2;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);color:var(--body);background:var(--surf);line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.topband{width:100%;background:var(--dark);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.tb-inner{max-width:960px;margin:0 auto;padding:18px 20px 32px}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:4px 0 22px}
+.nav img{height:40px;width:auto}
+.nav .meta{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9aa3b0;font-weight:500}
+.hero{position:relative}
+.hero .accent{width:54px;height:4px;background:var(--red);border-radius:2px;margin:0 0 18px}
+.hero h1{font-weight:600;font-size:32px;letter-spacing:-.01em;color:#fff}
+.hero h1 span{color:var(--red)}
+.hero .sub{color:var(--blue);font-weight:500;margin-top:8px;font-size:15px}
+.hero .tagline{color:#c9ced6;margin-top:14px;font-size:14px;max-width:640px}
+.cred{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
+.cred .c{background:#fff;border-radius:9px;padding:15px 16px;border-top:3px solid var(--red);box-shadow:0 2px 12px rgba(0,0,0,.18)}
+.cred .c .n{font-weight:600;font-size:18px;color:var(--dark);line-height:1.15}
+.cred .c .l{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4}
+.wrap{max-width:960px;margin:0 auto;padding:24px 20px 90px}
+.acc{background:#fff;border:1px solid var(--line);border-radius:10px;margin-top:16px;overflow:hidden}
+.acc-head{display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none;transition:background .15s}
+.acc-head:hover{background:var(--surf)}
+.acc-head.main{padding:22px 26px}
+.acc-head.sub{padding:15px 18px;background:#fff}
+.acc-head.sub:hover{background:var(--surf)}
+.s-num{font-weight:600;color:var(--red);font-size:13px;letter-spacing:.1em;min-width:26px}
+.s-title{font-weight:600;color:var(--dark);font-size:19px;flex:1}
+.s-sub{display:block;font-size:12px;color:var(--muted);font-weight:400;margin-top:2px}
+.acc-head.sub .dot{width:9px;height:9px;border-radius:50%;background:var(--red);flex-shrink:0}
+.acc-head.sub .nt{font-weight:600;color:var(--dark);font-size:15px;flex:1}
+.chev{width:20px;height:20px;flex-shrink:0;color:var(--muted);transition:transform .3s ease}
+.acc.open>.acc-head .chev{transform:rotate(180deg)}
+.collapse{display:grid;grid-template-rows:0fr;overflow:hidden;transition:grid-template-rows .35s cubic-bezier(.4,0,.2,1)}
+.acc.open>.collapse{grid-template-rows:1fr}
+.collapse>.inner{overflow:hidden;min-height:0;padding:0}
+.sect-inner{padding:6px 26px 24px}
+.comp-inner{padding:4px 18px 22px}
+.acc .acc{margin-top:10px;border-radius:9px}
+.lead{font-size:14px;margin:8px 0 6px}
+.lead .hint{color:var(--red);font-weight:500}
+.lbl{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px}
+.roles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.role{background:var(--surf);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.role .rn{font-weight:600;color:var(--dark);font-size:13px}
+.role .rd{font-size:12px;color:var(--muted);margin-top:3px}
+.role.best{background:#fff;border-color:var(--red);box-shadow:0 0 0 1px var(--red) inset}
+.role .badge{display:inline-block;background:var(--red);color:#fff;font-size:9px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:10px;margin-top:8px;font-weight:600}
+.role .vt{display:inline-block;background:var(--blue);color:var(--dark);font-size:9px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:10px;font-weight:600;margin-bottom:7px}
+.zdate{font-size:12px;color:var(--muted);margin:2px 0 10px}
+ul.clean{list-style:none;margin:4px 0}
+ul.clean li{position:relative;padding:5px 0 5px 18px;font-size:13px;border-bottom:1px solid var(--line)}
+ul.clean li:last-child{border-bottom:none}
+ul.clean li:before{content:"";position:absolute;left:2px;top:12px;width:6px;height:6px;border-radius:50%;background:var(--blue)}
+.val{font-size:13.5px;color:var(--body);margin:2px 0 4px}
+.sector{background:var(--surf);border-left:3px solid var(--blue);border-radius:6px;padding:11px 14px;margin-top:14px;font-size:13px;color:var(--dark)}
+.sector .stag{display:block;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;font-weight:600}
+.note{background:#fff5f6;border-left:3px solid var(--red);border-radius:6px;padding:12px 15px;margin-top:12px;font-size:13px;color:#5f5257}
+.note .nlabel{display:block;font-weight:600;color:var(--red);font-size:11px;letter-spacing:.02em;margin-bottom:3px}
+.accentbox{background:var(--dark);color:#fff;border-radius:8px;padding:16px 18px;font-size:14px;margin:6px 0 4px;line-height:1.5}
+.accentbox b{color:var(--red)}
+.provoke{margin-top:14px}
+.prov-trigger{display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px dashed var(--red);color:var(--red);font-family:var(--font);font-weight:600;font-size:12.5px;padding:8px 14px;border-radius:20px;cursor:pointer;transition:background .15s}
+.prov-trigger:hover{background:#fff5f6}
+.prov-trigger .pq{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;background:var(--red);color:#fff;font-size:11px;font-weight:700}
+.prov-trigger .pchev{width:15px;height:15px;color:var(--red);transition:transform .3s ease}
+.provoke.shown .prov-trigger .pchev{transform:rotate(180deg)}
+.prov-body{display:none;margin-top:10px;background:var(--dark);color:#fff;border-left:3px solid var(--red);border-radius:8px;padding:14px 16px;font-size:14px;line-height:1.55;font-style:italic}
+.provoke.shown .prov-body{display:block;animation:fade .3s ease}
+@keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.foot{text-align:center;font-size:11px;color:var(--muted);margin-top:30px;line-height:1.7}
+.person-acc{margin-top:8px}
+.acc-head.sub .prole{display:block;font-size:11.5px;color:var(--muted);font-weight:400;margin-top:1px}
+.topic{border-left:2px solid var(--blue);padding:2px 0 2px 14px;margin:14px 0}
+.topic:first-child{margin-top:6px}
+.topic .ttl{font-weight:600;color:var(--dark);font-size:13.5px;margin-bottom:5px}
+.topic .roles{margin-top:10px}
+.acc-head.sub.l3{padding:13px 16px}
+.acc-head.sub.l3 .nt{font-size:14px}
+.acc-head.sub.l3 .dot{width:7px;height:7px;background:var(--blue)}
+.acc.lvl3{border-color:var(--line);background:var(--surf)}
+.acc.lvl3>.collapse .comp-inner{background:#fff;border-radius:0 0 9px 9px}
+.topic+.topic{margin-top:22px;padding-top:20px;border-top:1px solid var(--line);border-left:2px solid var(--blue)}
+ul.tpts li:before{background:var(--muted)}
+.printbtn{position:fixed;bottom:22px;right:22px;background:var(--red);color:#fff;border:none;border-radius:24px;padding:12px 20px;font-family:var(--font);font-weight:600;font-size:13px;cursor:pointer;box-shadow:0 6px 20px rgba(255,82,95,.35);z-index:50}
+@media(max-width:640px){.cred{grid-template-columns:repeat(2,1fr)}.roles{grid-template-columns:1fr}.tb-inner{padding:16px 16px 26px}.hero h1{font-size:25px}.sect-inner{padding-left:18px;padding-right:18px}}
+@media print{.printbtn{display:none}.collapse{grid-template-rows:1fr!important}.acc.section{break-inside:auto}.acc.section>.collapse,.acc.section .inner,.acc.section .sect-inner{break-inside:auto}.acc .acc{break-inside:avoid}.role,.ref,.sector,.note,.accentbox,.topic,ul.clean li{break-inside:avoid}.acc-head,.lbl{break-after:avoid}.prov-body{display:block!important}.prov-trigger .pchev{display:none}}
+</style>
+</head>
+<body>
+
+<header class="topband">
+  <div class="tb-inner">
+    <div class="nav">
+      <img src="data:image/png;base64,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" alt="Projectman">
+      <span class="meta">Připraveno pro CREDITAS Group · Důvěrné</span>
+    </div>
+    <div class="hero">
+      <div class="accent"></div>
+      <h1>Projectman <span>&amp;</span> CREDITAS Group</h1>
+      <div class="sub">Připraveno pro Matouše Tlapáka — CEO, Lifeliqe</div>
+      <div class="tagline">Jsme největší specializovaná firma v outsourcingu projektového řízení v ČR a SR. Do týmů dodáváme seniorní experty a vedle toho pomáháme nastavit, jak se má řídit — v šesti odbornostech, které fungují propojeně. Na této stránce najdete zápisy z našich schůzek a celý náš záběr, zarámovaný do situace skupiny, která za poslední dva roky integrovala Max banku, převzala MeDirect a staví novou generaci systémů.</div>
+    </div>
+    <div class="cred">
+      <div class="c"><div class="n">4&nbsp;000+</div><div class="l">expertů v naší komunitě</div></div>
+      <div class="c"><div class="n">#1 v ČR &amp; SR</div><div class="l">v outsourcingu projektového řízení</div></div>
+      <div class="c"><div class="n">Banky, pojišťovny, energetika</div><div class="l">reální klienti z regulovaných oborů</div></div>
+      <div class="c"><div class="n">2 pilíře</div><div class="l">Outsourcing + Consulting, ruku v ruce</div></div>
+    </div>
+  </div>
+</header>
+<div class="wrap">
+
+<!-- ===== SEKCE 01 — ZÁPIS 4. 9. 2026 ===== -->
+<div class="acc section open" id="s-zapis-2026-09-04" data-ga="Sekce 01: Zápis 4. 9. 2026">
+  <div class="acc-head main" onclick="toggle(this.parentElement)">
+    <span class="s-num">01</span>
+    <span class="s-title">Zápis ze schůzky — 4. 9. 2026<span class="s-sub">Matouš Tlapák &amp; Jan Klimíček · Pivovarský klub Benedict, Praha 8-Karlín · 60 min</span></span>
+    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="collapse"><div class="inner"><div class="sect-inner">
+    <p class="lead">První společná schůzka — poznat se, porozumět skupině a najít průnik. <span class="hint">Hlavní část je skupinová AI platforma; u okrajových témat navrhujeme, koho potkat.</span></p>
+
+    <div class="accentbox">Vaše věta, podle které jsme zápis strukturovali: <b>„zadefinovat byznysový kejsy, pak z toho postavit ten produkt, pak projektový management a implementace, pak change management."</b> U každé části navrhujeme dvě varianty zapojení.</div>
+
+    <!-- 1. Kontext -->
+    <div class="acc" data-ga="Zápis · Jak je skupina organizovaná">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">Kontext: jak je skupina organizovaná<span class="prole">Dvě části, tři velké organizace, dobrovolné přijímání skupinových kompetencí</span></span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <div class="lbl">Co jsme si zapsali</div>
+        <ul class="clean">
+          <li>Zvenčí jeden celek, uvnitř tři velké organizace. Shora dvě části: <b>financial services</b> (banka a dcery) a <b>nebankovní</b> — UCED (energetika, České Budějovice) a Real Estate Development (Jinonice).</li>
+          <li>Banka si jede sama, kvůli regulaci má rozsáhlý core outsourcing. Na Real Estate má HQ silný vliv. UCED je silně autonomní.</li>
+          <li>HQ má cca 150 lidí: strategické řízení, rozhodování o akvizicích a sdílené služby dcerám — účetnictví, konsolidace, HR. Byznys si firmy řeší samy.</li>
+          <li><b>Skupinovou kompetenci může firma přijmout i nepřijmout.</b> Vždycky se najde jednatel, který si to udělá sám.</li>
+          <li>Vy berete od skupiny všechno, co jde — jistota, že když se něco pokazí, jde to za skupinou. Ne všichni tak.</li>
+          <li>Tech stack je roztříštěný napříč mnoha různými místy.</li>
+          <li>Vaše role: od června inovace na úrovni HQ, bez pevné agendy, KPI = <b>produktivita práce</b>. Zároveň jednatel Lifeliqe.</li>
+        </ul>
+        <div class="note"><span class="nlabel">Co si z toho bereme</span>Není tu jedno rozhodovací centrum. Skupinová platforma musí být pro firmy <b>dobrovolně atraktivní</b> — proto se u ní vyplatí řešit produktový model a adopci dřív než technologii.</div>
+      </div></div></div>
+    </div>
+
+    <!-- 2. Co je namyšlené -->
+    <div class="acc" data-ga="Zápis · AI platforma: co je namyšlené">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">Skupinová AI platforma — co máte namyšlené<span class="prole">Landing zóna → aplikace → datový sklad → architektura → agentická platforma</span></span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <div class="lbl">Sekvence</div>
+        <ul class="clean">
+          <li><b>1 — Vlastní landing zóna skupiny.</b> Dnes Lifeliqe sedí v landing zóně banky a naráží na bankovní regulaci: k nástrojům pro budgety se nedostanete, máte Mac a pravidla jsou pro Windows.</li>
+          <li><b>2 — Aplikace</b> nad landing zónou skupiny.</li>
+          <li><b>3 — Datový sklad</b> a single source of truth, on-demand reporty místo cesty přes Power BI.</li>
+          <li><b>4 — Architektura:</b> Azure Foundry v landing zóně, v prostředí Microsoftu (M365, GDPR, compliance, kontrola průtoku dat).</li>
+          <li><b>5 — Příští rok agentická platforma</b> a routing modelů podle typu vstupu i náročnosti. Otevřený Anthropicu na reasoning, OpenAI nezavrhujete.</li>
+        </ul>
+        <div class="lbl">Timeline</div>
+        <ul class="clean">
+          <li><b>Do konce 2026:</b> Foundry, architektura, datový sklad.</li>
+          <li><b>Od 1/2027:</b> change management a napojování firem.</li>
+          <li><b>Mezikrok:</b> Microsoft kredit a školení Copilot Premium pro top management; workflow se později překlopí do silnějšího modelu.</li>
+        </ul>
+        <div class="lbl">Cíl a první use casy</div>
+        <ul class="clean">
+          <li><b>Platforma jako podvozek:</b> co je jednou postavené, se nestaví znovu. První kandidát na napojení je CREDITAS Real Estate.</li>
+          <li><b>Životní cyklus nájemníka:</b> 7 touch pointů, 100 → 400 bytů, pořád 1–2 lidé, úspora cca 40 % času. Popsané v diagramech, zatím bez nástroje.</li>
+          <li><b>Účetnictví:</b> uvolnit cca 30 % času, aby jedna účetní zvládla místo pěti firem deset.</li>
+          <li><b>Power user:</b> nejšikovnější účetní z departmentu CAO s 50% alokací času.</li>
+          <li><b>Ekonomika:</b> první use case zaplatí celou investici. Za dva miliony ušetřit tři.</li>
+        </ul>
+        <div class="lbl">Co chybí</div>
+        <ul class="clean">
+          <li>Žádní core odborníci na AI ani inženýři na konektory. Banka je powerhouse, ale je vytížená migrací.</li>
+          <li>Zvažovaná agentická platforma (Nizozemsko, vznik v Izraeli, top 5 světa) uměla vše, ale byla drahá a znamenala plnou závislost.</li>
+          <li>Architekturu držíte sám, protože člověk na skupině byl přesunut. Chcete zpátky na byznys.</li>
+        </ul>
+        <div class="sector"><span class="stag">Kde se s tím potkáváme</span>Nedodáváme konektory ani inženýring. Naše linka je <b>business case → produkt → řízení a implementace → change management</b>. Následujících pět bloků je její rozpad.</div>
+      </div></div></div>
+    </div>
+
+    <!-- 3. S čím umíme pomoct (sloučené propozice) -->
+    <div class="acc" data-ga="Zápis · S čím umíme pomoct">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">S čím umíme pomoct<span class="prole">Proces dělíme do pěti témat — u každého naše zkušenost a dvě varianty zapojení</span></span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <p class="lead">Držíme se rozdělení, které jste sám pojmenoval. U každého tématu shrnujeme, co je podle nás potřeba vyřešit, kde máme obdobnou zkušenost, a nabízíme dvě varianty zapojení — konzultační a outsourcingovou. <span class="hint">Nedodáváme konektory ani inženýring; naše linka končí tam, kde začíná technologie.</span></p>
+
+        <div class="acc lvl3" data-ga="Pomoc · 1 Use casy">
+          <div class="acc-head sub l3" onclick="toggle(this.parentElement)">
+            <span class="dot"></span><span class="nt">1 — Hledání a definice business use casů<span class="prole">Aby první případ zaplatil investici — a šlo to pak opakovat</span></span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="collapse"><div class="inner"><div class="comp-inner">
+            <p class="val">Řekl jste, že první use case má zaplatit celou investici — za dva miliony ušetřit tři. To je zdravé zadání, ale znamená, že výběr prvního případu je nejrizikovější rozhodnutí celého programu. A že hledání nesmí skončit u něj.</p>
+            <div class="lbl">Co je potřeba vyřešit</div>
+            <ul class="clean">
+              <li>Opakovatelný způsob, jak use casy hledat, ocenit a prioritizovat napříč skupinou — ne jednorázový brainstorming.</li>
+              <li>Business case s čísly, který obhájíte směrem k Jiřímu i k jednatelům portfoliových firem.</li>
+              <li>Power useři rozumí procesu, ale neumí si představit, co technologie umí. Ten překlad musí někdo udělat.</li>
+              <li>Odlišit, co vyřeší AI, co stačí workflow a co je vlastně optimalizace procesu — u účetnictví jste to rozlišoval sám.</li>
+              <li>Rozhodnout, jestli se první případ vybere podle velikosti úspory, nebo podle viditelnosti ve skupině. U nájemního bydlení máte obojí.</li>
+            </ul>
+            <div class="lbl">Naše zkušenost</div>
+            <ul class="clean">
+              <li><b>Kooperativa</b> — začalo to jedním use casem ze vzdělávání. Postupně vznikl governance flow pro AI Centre of Excellence, síť ambasadorů po departmentech, LMS s 10+ kurzy a interní newsletter. Vedli jsme ambasadorský i PMO tým 3–5 měsíců.</li>
+              <li><b>NOTINO</b> — prioritizační výbor pro portfolio a reporting napříč několika streamy. Řeší přesně to, co vás čeká ve chvíli, kdy use casů bude víc než jeden: jak vybrat ty s dopadem a jak výběr obhájit.</li>
+            </ul>
+            <div class="lbl">Dvě varianty zapojení</div>
+            <div class="roles">
+              <div class="role best"><span class="vt">A · consulting</span><div class="rn">Use case hunt jako placený sprint</div><div class="rd">Workshop s vašimi power usery — začali bychom u účetní z departmentu CAO a u lidí z CREDITAS Real Estate. Use Case Canvas a evaluační matice: přínos, náročnost, dostupnost dat, rizika. Výstupem je prioritizovaný seznam s vyčísleným přínosem a <b>jeden případ dotažený do stavu, kdy se dá obhájit jako ten, který zaplatí investici</b>. Navazuje průběžný funnel, jak se firmy napojují.</div></div>
+              <div class="role"><span class="vt">B · outsourcing</span><div class="rn">Interim business analytik / use case owner</div><div class="rd">Seniorní analytik 2–3 dny v týdnu vedle vás. Drží funnel průběžně, mapuje procesy s power usery, píše business casy a hlídá, aby se sliby z business case daly po nasazení skutečně změřit. Dává smysl, pokud to má být disciplína na celý rok 2027, ne jednorázová akce.</div></div>
+            </div>
+            <div class="lbl">Koho navrhujeme potkat</div>
+            <ul class="clean">
+              <li><b>Jednatele a obchodního ředitele CREDITAS Real Estate</b> — vlastníky procesu, na kterém stojí váš vlajkový use case.</li>
+              <li><b>Chief Accounting Officera a jeho power userku</b> — druhý use case a zároveň už fungující model práce s power userem.</li>
+            </ul>
+            <div class="sector"><span class="stag">Cíl setkání</span>Ověřit obě čísla — 40 % času u nájemního bydlení a 30 % u účetnictví — přímo u lidí, kteří ten proces dělají. Business case, který takhle vznikne, obhájíte snáz než ten, co vznikl u stolu.</div>
+          </div></div></div>
+        </div>
+
+        <div class="acc lvl3" data-ga="Pomoc · 2 Produktový management">
+          <div class="acc-head sub l3" onclick="toggle(this.parentElement)">
+            <span class="dot"></span><span class="nt">2 — Produktový management a podvozek pro skupinu<span class="prole">„To ani není tak projektový, ale produktový“ — vaše slova</span></span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="collapse"><div class="inner"><div class="comp-inner">
+            <p class="val">Popsal jste platformu jako podvozek: co je jednou postavené, se nestaví znovu, firma se jen napojí. Zároveň platí, že skupinovou kompetenci firma přijmout může i nemusí. Z toho plyne, že se platforma musí chovat jako produkt, který si někdo dobrovolně objedná — ne jako standard vydaný z headquarters.</p>
+            <div class="lbl">Co je potřeba vyřešit</div>
+            <ul class="clean">
+              <li>Platforma potřebuje vlastníka backlogu, roadmapy a návratnosti.</li>
+              <li>Jak si firma z katalogu „objedná" a co konkrétně znamená „napojit se" — rozsah, cena, kdo co dodá.</li>
+              <li>Aby první use case fungoval jako otvírací projekt, na který se dá naskakovat.</li>
+              <li>Kritéria, kdy je něco hotové natolik, aby se to dalo nabídnout dál.</li>
+              <li>Jak měřit, že se firmy skutečně napojují. Jinak se úspěch bude měřit počtem postavených věcí, ne jejich využitím.</li>
+            </ul>
+            <div class="lbl">Naše zkušenost</div>
+            <ul class="clean">
+              <li><b>NOTINO</b> — nejbližší analogie k tomu, co popisujete: centrálně nabízená kapacita, kterou si jednotlivé části organizace berou. Postavili jsme prioritizační výbor, reporting napříč streamy a dodali interim PMO tým, který to vlastnil až do předání interním lidem.</li>
+              <li><b>Kooperativa</b> — QBR proces a PM Data Core: jeden pohled pro vedení a rytmus rozhodování, který drží i po našem odchodu.</li>
+            </ul>
+            <div class="lbl">Dvě varianty zapojení</div>
+            <div class="roles">
+              <div class="role best"><span class="vt">A · consulting</span><div class="rn">Návrh produktového modelu platformy</div><div class="rd">Katalog služeb, vlastnictví, proces napojení firmy, metriky adopce a rozhodovací fórum. Výstupem je použitelný rámec a předání internímu vlastníkovi, ne prezentace. Navazuje provoz modelu a jeho rozšiřování s každou další napojenou firmou.</div></div>
+              <div class="role"><span class="vt">B · outsourcing</span><div class="rn">Interim Product Owner skupinové platformy</div><div class="rd">Nese roadmapu a backlog, jedná s jednateli portfoliových firem o tom, co pro ně platforma udělá, a drží prioritizaci proti kapacitě dodavatelů. Uvolní vás z technické role zpátky na byznys, kde chcete být.</div></div>
+            </div>
+            <div class="lbl">Koho navrhujeme potkat</div>
+            <ul class="clean">
+              <li><b>Jiřího Hroudu</b> — skupinovou kompetenci může firma přijmout i nepřijmout, takže platforma potřebuje mandát dřív, než se začnou firmy napojovat.</li>
+              <li><b>Jednatele CREDITAS Real Estate</b> jako první napojované firmy — na něm se pozná, co „napojit se" vlastně znamená.</li>
+              <li><b>Vaše kolegy na headquarters</b>, kteří pracují na skupinové agendě.</li>
+            </ul>
+            <div class="sector"><span class="stag">Cíl setkání</span>Pojmenovat, kdo bude vlastníkem platformy po vás — a na první firmě zjistit, jestli je nabídka atraktivní dobrovolně, nebo jen povinně.</div>
+          </div></div></div>
+        </div>
+
+        <div class="acc lvl3" data-ga="Pomoc · 3 Change management">
+          <div class="acc-head sub l3" onclick="toggle(this.parentElement)">
+            <span class="dot"></span><span class="nt">3 — Change management a adopce napříč firmami<span class="prole">Produkt může být sebehezčí — když se lidem nepodá, nedopadne</span></span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="collapse"><div class="inner"><div class="comp-inner">
+            <p class="val">Shodli jsme se, že technologie je menší část problému. Od ledna 2027 se mají firmy napojovat — a to je okamžik, kdy se rozhodne, jestli platforma bude něco, co lidé používají, nebo něco, co existuje.</p>
+            <div class="lbl">Co je potřeba vyřešit</div>
+            <ul class="clean">
+              <li>Fáze „workshopy o tom, co je prompt" je passé — ale firmy pořád nevědí, kde a jak začít.</li>
+              <li>Podpora jednatelů, kteří mají přímou cestu k majiteli a nejdou přes matrici HQ. Bez ní je to podle vás „z ničeho něco".</li>
+              <li>Ambasadoři s vyhrazeným časem, ne lidé, kteří to dělají „ještě k tomu" — sám jste to označil za riziko.</li>
+              <li>Měřit změnu chování, ne že proběhlo školení.</li>
+              <li>Vyhnout se závislosti na dodavateli — vaše explicitní obava u zvažované agentické platformy.</li>
+              <li>Zvládnout ty, kdo se budou bránit, aniž by z toho byl příběh o propouštění.</li>
+            </ul>
+            <div class="lbl">Naše zkušenost</div>
+            <ul class="clean">
+              <li><b>Kooperativa</b> — train the trainer: dáme vykopnutí a ukážeme cestu, ale automatizační scénáře si ambasadoři staví sami. K tomu LMS s 10+ kurzy a newsletter. Stejně to máme i u sebe — automatizace fakturačního toku v našem back office si píše ambasadorka back office, ne my za ni.</li>
+              <li><b>NOTINO</b> — center of excellence a rozhodnutí vedení jet a nečekat na ty, kdo se nepřipojí. Bez tohoto rozhodnutí adopce nikde nedopadla; je to přesně ta odpovědnost nejvyššího vedení, o které jste mluvil.</li>
+            </ul>
+            <div class="lbl">Dvě varianty zapojení</div>
+            <div class="roles">
+              <div class="role best"><span class="vt">A · consulting + vzdělávání</span><div class="rn">Ambasadorský program train the trainer</div><div class="rd">Kickoff pro danou firmu nebo department, kritéria výběru ambasadorů, pravidelná hodina s každým z nich, knihovna best practice a měření adopce. Navržené tak, aby po nás zůstal soběstačný tým — tedy cílený opak vendor locku. U Kooperativy běželo jádro 3–5 měsíců; napříč skupinou se to opakuje firmu po firmě.</div></div>
+              <div class="role"><span class="vt">B · outsourcing</span><div class="rn">Interim change manager pro skupinu</div><div class="rd">Jeden člověk, který adopci vlastní napříč firmami, buduje síť ambasadorů a řeší odpor tam, kde vzniká. Škáluje s tím, jak se firmy od ledna napojují.</div></div>
+            </div>
+            <div class="lbl">Koho navrhujeme potkat</div>
+            <ul class="clean">
+              <li><b>Jednatele dvou až tří portfoliových firem</b>, které mají jít v první vlně — právě ti mají přímou cestu k majiteli.</li>
+              <li><b>Ředitele divizí na headquarters</b>, kteří budou alokovat power usery.</li>
+              <li><b>Účetní z departmentu CAO</b> — jako první ambasadorku, na které se model ověří.</li>
+            </ul>
+            <div class="sector"><span class="stag">Cíl setkání</span>Zjistit, kolik reálného času jsou ochotni na ambasadory uvolnit. To jediné rozhoduje o tom, jestli má program smysl spouštět.</div>
+          </div></div></div>
+        </div>
+
+        <div class="acc lvl3" data-ga="Pomoc · 4 Implementace">
+          <div class="acc-head sub l3" onclick="toggle(this.parentElement)">
+            <span class="dot"></span><span class="nt">4 — Implementace a řízení dodávky<span class="prole">Dva až tři dodavatelé, jeden plán a vaše cesta zpátky na byznys</span></span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="collapse"><div class="inner"><div class="comp-inner">
+            <p class="val">Do konce roku má být hotové Foundry, architektura a datový sklad; od ledna se mají napojovat firmy. Ty dva termíny na sebe navazují bez rezervy — a architektonickou linku dnes držíte vy sám, protože člověk na skupině byl přesunut jinam.</p>
+            <div class="lbl">Co je potřeba vyřešit</div>
+            <ul class="clean">
+              <li>Koordinace dvou až tří dodavatelů, z nichž každý dodává technologii jinak.</li>
+              <li>Jednobodová závislost na vás — cokoli vás vyřadí, zastaví celý stream.</li>
+              <li>Část lidí v bance to bere jako zásah do svého businessu. To je stakeholder management, ne technika.</li>
+              <li>Kapacita banky je vázaná migrací bankovního systému, takže z ní teď nejde čerpat.</li>
+              <li>Jeden plán a jeden reporting, aby se dalo říct, jestli lednový termín platí — dřív než v lednu.</li>
+            </ul>
+            <div class="lbl">Naše zkušenost</div>
+            <ul class="clean">
+              <li><b>NOTINO</b> — interim PMO tým a reporting napříč streamy ve chvíli, kdy běželo víc iniciativ najednou a soupeřily o stejné lidi.</li>
+              <li><b>Kooperativa</b> — vedli jsme paralelně PMO tým i ambasadorský tým, tedy technickou i lidskou linku pod jednou rukou. To odpovídá vaší situaci nejvíc.</li>
+              <li><b>Škoda Transportation</b> — víceletý interim projektový manažer pro PMO, na kterého navázaly konzultace reportingu s využitím AI. Stejný tvar zapojení jako varianta A.</li>
+            </ul>
+            <div class="lbl">Dvě varianty zapojení</div>
+            <div class="roles">
+              <div class="role best"><span class="vt">A · outsourcing</span><div class="rn">Interim projektový manažer technického streamu</div><div class="rd">Drží dodavatele, milníky a architektonickou linku do konce roku, vede jeden plán a jeden reporting a přebírá komunikaci směrem k bance. Odstraní jednobodovou závislost na vás.</div></div>
+              <div class="role"><span class="vt">B · consulting</span><div class="rn">Health check a governance rámec</div><div class="rd">Nezávislý pohled na to, kde stream reálně je, co ho nejvíc ohrožuje a jak řídit dva až tři dodavatele proti jednomu plánu. Menší a dřív obhajitelný vstup; navazuje governance streamu až do dokončení.</div></div>
+            </div>
+            <div class="lbl">Koho navrhujeme potkat</div>
+            <ul class="clean">
+              <li><b>Vaše dva až tři dodavatele</b> — bez pohledu na to, jak každý z nich dodává, se plán nedá sjednotit.</li>
+              <li><b>Architekty z banky</b>, kteří vám pomáhají, a <b>člověka na skupině, který architekturu držel před vámi</b>.</li>
+              <li><b>Jaroslava Zoubka</b> (Head of Digital Factory) kvůli rozhraní s bankou a jejím kapacitám.</li>
+            </ul>
+            <div class="sector"><span class="stag">Cíl setkání</span>Jeden plán a jeden termín místo tří dodavatelských. A odpověď na otázku, jestli leden 2027 platí — dřív než v lednu.</div>
+          </div></div></div>
+        </div>
+
+        <div class="acc lvl3" data-ga="Pomoc · 5 Governance a náklady">
+          <div class="acc-head sub l3" onclick="toggle(this.parentElement)">
+            <span class="dot"></span><span class="nt">5 — AI governance, security a náklady<span class="prole">Data governance před usage — na tom jsme se shodli</span></span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="collapse"><div class="inner"><div class="comp-inner">
+            <p class="val">Azure Foundry vám vyřeší compliance a evropský rámec pro nakládání s daty. To ale platí pro infrastrukturu, ne pro chování lidí a agentů nad ní. Zbytek governance je organizační, ne technologický — a ten se nedá koupit s licencí.</p>
+            <div class="lbl">Co je potřeba vyřešit</div>
+            <ul class="clean">
+              <li>Kdo za co ručí a co smí do jakého modelu. Lidé mají citlivá finanční data ve sdíleném Excelu, ale bojí se je dát modelu — ten paradox jste popsal sám.</li>
+              <li>Routing modelů podle typu vstupu i náročnosti dotazu, ať se drahý model nepouští na triviální věc. Zatím to nemáte dodefinované.</li>
+              <li>Nákladové zábrany u agentů — vaše obava, že si mezi sebou začnou povídat a vytočí brutální účet.</li>
+              <li>Přenositelnost workflow z Copilota do silnějšího modelu bez přepisování od nuly. Při vaší fázované strategii je to klíčové.</li>
+              <li>Kdo rozhoduje, že use case smí do provozu — a kdo ho umí vypnout.</li>
+            </ul>
+            <div class="lbl">Naše zkušenost</div>
+            <ul class="clean">
+              <li><b>Kooperativa</b> — governance flow pro AI Centre of Excellence v prostředí, kde AI musí obhájit přínos i compliance. Stejná dvojí zkouška, jakou máte kvůli vazbě na banku.</li>
+              <li><b>NOTINO</b> — center of excellence jako místo, kde se rozhoduje, co jde do provozu a co ne. Bez takového místa zůstanou pravidla v dokumentu.</li>
+            </ul>
+            <div class="lbl">Dvě varianty zapojení</div>
+            <div class="roles">
+              <div class="role best"><span class="vt">A · consulting</span><div class="rn">Governance framework a nákladové zábrany</div><div class="rd">Pravidla, role, schvalovací tok, politika routingu modelů a monitoring nákladů na jednotlivý use case. Napojíme to na to, co Foundry umí, ať neplatíte dvakrát za totéž. Pravidla se pak rozšiřují s přibývajícími use casy a firmami.</div></div>
+              <div class="role"><span class="vt">B · outsourcing</span><div class="rn">Interim AI ambasador na úrovni skupiny</div><div class="rd">Drží governance v praxi, ne v dokumentu, sedí u prvních use casů a paralelně buduje interní kapacitu — ambasadory, knihovnu promptů, znalostní bázi — aby to po něm zůstalo.</div></div>
+            </div>
+            <div class="lbl">Koho navrhujeme potkat</div>
+            <ul class="clean">
+              <li><b>Security manažera banky</b> — dnes rozhoduje o tom, co smí a nesmí, a bude to dělat i u skupinové landing zóny.</li>
+              <li><b>Petera Holloviče</b> (Director of Business Operations &amp; ICT) kvůli pohledu na ICT provoz a pravidla.</li>
+              <li><b>Člověka, který ve skupině odpovídá za compliance a risk.</b></li>
+            </ul>
+            <div class="sector"><span class="stag">Cíl setkání</span>Aby pravidla vznikla s nimi, ne proti nim. Zákaz AI ji nezastaví — jen ji odsune mimo dohled.</div>
+          </div></div></div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- 4. Okrajová témata -->
+    <div class="acc" data-ga="Zápis · Okrajová témata">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">Okrajová témata<span class="prole">Sedm témat, kterých jsme se dotkli krátce</span></span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+
+        <div class="topic"><div class="ttl">Projektové a portfolio řízení na skupině</div><ul class="clean tpts">
+          <li><b>Slyšeli jsme:</b> akvizice se řeší mimo vás. Do skupinových IT projektů vidíte — je tam projektový manažer a roadmapa s backlogem. Na dotaz, jestli něco hoří: částečně to trápí.</li>
+          <li><b>Ukázali bychom:</b> interim PM a PMO support (outsourcing), PMO strategii a portfolio governance (consulting).</li>
+        </ul></div>
+
+        <div class="topic"><div class="ttl">Datový sklad, architektura a data governance</div><ul class="clean tpts">
+          <li><b>Slyšeli jsme:</b> architekturu držíte sám, se dvěma až třemi dodavateli a částečně s architekty z banky. Cíl: single source of truth a on-demand reporty.</li>
+          <li><b>Ukázali bychom:</b> Business analýzu a Data — scope na rozhraní byznysu a IT, datové toky a reporting, kterému se dá věřit.</li>
+        </ul></div>
+
+        <div class="topic"><div class="ttl">Nájemní bydlení — CREDITAS Real Estate</div><ul class="clean tpts">
+          <li><b>Slyšeli jsme:</b> 7 touch pointů, 100 → 400 bytů, 1–2 lidé, úspora cca 40 % času, popsané v diagramech.</li>
+          <li><b>Ukázali bychom:</b> Business analýzu a Product management — a k tomu CX/UX: <b>sedm touch pointů není workflow, ale zákaznická cesta.</b> Rozdíl mezi nájemníkem, který smlouvu prodlouží, a tím, který odejde, se odehrává právě tam.</li>
+        </ul></div>
+
+        <div class="topic"><div class="ttl">Účetnictví a sdílené služby headquarters</div><ul class="clean tpts">
+          <li><b>Slyšeli jsme:</b> uvolnit cca 30 % času účetních, z pěti firem na deset. Power user s 50% alokací v departmentu CAO.</li>
+          <li><b>Ukázali bychom:</b> Business analýzu, optimalizaci procesů a vzdělávání — jak z jednoho power usera udělat opakovatelný model pro další departmenty.</li>
+        </ul></div>
+
+        <div class="topic"><div class="ttl">UCED — energetika</div><ul class="clean tpts">
+          <li><b>Slyšeli jsme:</b> silně autonomní jednotka v Českých Budějovicích, nosí hodně peněz, IT částečně outsourcované.</li>
+          <li><b>Ukázali bychom:</b> <b>ČEPS</b> (Scrum Master u provozovatele kritické infrastruktury, plus konzultace adopce AI pro PMO a digitalizaci) a <b>Pražská energetika</b> (kapacitní plánování, program governance, AI podpora PMO).</li>
+        </ul></div>
+
+        <div class="topic"><div class="ttl">Lifeliqe</div><ul class="clean tpts">
+          <li><b>Slyšeli jsme:</b> dva vyhrané granty — TWIST od MPO (čistě AI, první ročník) a OP TAK. Projekt pro děti s motorickým postižením ovládající 3D modely hlasem; druhý na adaptivní vzdělávání s predikcí dalšího obsahu. Adaptivita je podle vás svatý grál. K tomu workforce development v USA.</li>
+          <li><b>Ukázali bychom:</b> Agile &amp; Product management, UX research, BA a Data — adaptivní vzdělávání je datový problém stejně jako obsahový.</li>
+        </ul></div>
+
+        <div class="topic"><div class="ttl">Mandát na úrovni skupiny</div><ul class="clean tpts">
+          <li><b>Slyšeli jsme:</b> kompetenci z HQ firma přijmout může i nemusí; rozhoduje podpora jednatelů s přímou cestou k majiteli. Bez toho je to „z ničeho něco".</li>
+          <li><b>Ukázali bychom:</b> jak jsme roli sponzora řešili u NOTINO a Kooperativy — co po něm reálně potřebujeme a co ne.</li>
+        </ul></div>
+      </div></div></div>
+    </div>
+
+    <!-- 5. Oblouk spolupráce -->
+    <div class="acc" data-ga="Zápis · Jak by spolupráce mohla vypadat v čase">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">Jak by spolupráce mohla vypadat v čase<span class="prole">Náčrt oblouku, ne nabídka — abyste viděl, kam to může vést</span></span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <p class="lead">Bloky výše popisují jednotlivé vstupy. Pro úplnost přidáváme, jak se u podobných klientů skládaly dohromady — abyste mohl říct, kde váš zájem končí.</p>
+
+        <div class="topic"><div class="ttl">Fáze 1 — do konce 2026: ověření</div><ul class="clean tpts">
+          <li>Use case hunt a první business case, případně odlehčení technického streamu interim projektovým manažerem.</li>
+          <li>Malý rozsah, jasný výstup. Oboustranné ověření, jestli si sedneme.</li>
+        </ul></div>
+
+        <div class="topic"><div class="ttl">Fáze 2 — 2027: rozjezd a první vlny</div><ul class="clean tpts">
+          <li>Product owner platformy a change manager jako průběžné role, ambasadorský program firmu po firmě, governance a nákladové zábrany v provozu.</li>
+          <li>Reporting portfolia use casů pro vedení. Tady se to typicky láme z konzultace do provozní spolupráce — horizont 6–12 měsíců.</li>
+        </ul></div>
+
+        <div class="topic"><div class="ttl">Fáze 3 — 2027 a dál: škálování a předání</div><ul class="clean tpts">
+          <li>Skupinové PMO nebo produktová jednotka, kterou postupně přebírají vaši lidé. Víceletý horizont.</li>
+          <li>U <b>NOTINO</b> jsme portfolio governance interim provozovali až do předání; u <b>Pražské energetiky</b> běží spolupráce v navazujících balících a PMO roadmapa je nastavená na víc let.</li>
+        </ul></div>
+
+        <div class="sector"><span class="stag">Jak to počítáme</span>Objem spolupráce roste s tím, <b>kolik firem se napojí</b> — ne s tím, jak dlouho u vás zůstaneme. Cílem fáze 3 je předání, ne prodloužení.</div>
+      </div></div></div>
+    </div>
+
+    <!-- 6. Další kroky -->
+    <div class="acc" data-ga="Zápis · Dohodnuté další kroky">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">Dohodnuté další kroky<span class="prole">Co dodáváme my a co potřebujeme od vás</span></span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <div class="lbl">Na nás</div>
+        <ul class="clean">
+          <li>Poslat zápis a založit v tomto prostoru složku se všemi zápisy a materiály, ať je můžete sdílet s kolegy.</li>
+          <li>Navrhnout cestu u jednotlivých témat a jaké návazné schůzky k tomu budou potřeba — to je obsah bloků výše.</li>
+          <li>Říct otevřeně i to, v čem pomoct neumíme: nejsme technologická firma, konektory ani inženýring nedodáváme.</li>
+        </ul>
+        <div class="lbl">Na vás</div>
+        <ul class="clean">
+          <li>Reakce na varianty výše — kde pokračovat a kde ne.</li>
+          <li>Rozšíření okruhu o kolegy z vašeho týmu a lidi navržené v okrajových tématech.</li>
+        </ul>
+      </div></div></div>
+    </div>
+
+  </div></div></div>
+</div>
+
+<!-- ===== SEKCE 02 — OUTSOURCING ===== -->
+<div class="acc section" id="s-out" data-ga="Sekce 02: Outsourcing">
+  <div class="acc-head main" onclick="toggle(this.parentElement)">
+    <span class="s-num">02</span>
+    <span class="s-title">Outsourcing — expertní role do vašich týmů<span class="s-sub">Všech 6 odborností · předpokládané pozice · tématiky · zkušenosti z oboru</span></span>
+    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="collapse"><div class="inner"><div class="sect-inner">
+    <p class="lead">Dodáváme jednotlivé seniorní odborníky i celé týmy jako externisty do vašich struktur — na dobu, kdy je potřebujete, s garancí profesionality a pravidelnou zpětnou vazbou. Cílem není závislost: know-how předáváme dál. <span class="hint">Uvádíme celý náš záběr; červeně označené kompetence se dle naší analýzy nejvíce hodí pro Matouše Tlapáka a CREDITAS Group.</span></p>
+
+    <!-- 1. Project management -->
+    <div class="acc" data-ga="OUT · Project management">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">Project management</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <div class="lbl">Předpokládané pozice pro CREDITAS Group</div>
+        <div class="roles">
+          <div class="role best"><div class="rn">Interim program manager pro iniciativu napříč firmami skupiny</div><div class="rd">Jeden vlastník pro věc, která se dotýká víc firem než jedné — od zadání po doručení</div><span class="badge">Ideální pro CREDITAS Group</span></div>
+          <div class="role"><div class="rn">Projektový manažer pro integraci po akvizici</div><div class="rd">Sjednocování procesů, produktů a systémů po převzetí — s milníky, které drží</div></div>
+        </div>
+        <div class="lbl">Tématiky, které bychom řešili</div>
+        <ul class="clean">
+          <li>Kdo vlastní velkou iniciativu, když se dotýká víc firem skupiny — a jak se řídí to, co je „mezi“</li>
+          <li>Převzetí rozjeté iniciativy, která potřebuje jasné zadání, milníky a jeden hlas směrem k vedení</li>
+          <li>Příprava a řízení dalších vln většího programu tak, aby každá další byla klidnější než ta předchozí</li>
+        </ul>
+        <div class="lbl">Zkušenosti z oboru finanční skupiny a regulovaná odvětví</div>
+        <ul class="clean">
+          <li>Projektový manažer na 6 měsíců a PMO support role ve firmě, která po přechodu na matrixovou organizaci neměla projektovou strukturu ani PMO — <b>Heureka Group</b></li>
+          <li>Interim projektový manažer pro PMO ve víceleté zakázce, na kterou navázaly konzultace reportingu a AI podpora PMO — <b>Škoda Transportation</b></li>
+        </ul>
+        <div class="lbl">Hodnota, kterou přinášíme</div>
+        <p class="val">Seniorní člověk v týmu během týdnů, ne měsíců — a odchází ve chvíli, kdy to vaši lidé umí sami. Komunita 4 000+ profesionálů znamená, že roli neshánějte, ale vybíráte.</p>
+        <div class="sector"><span class="stag">Podobná organizace — finanční skupiny a regulovaná odvětví</span>Podobně jako u vás jde v našich referencích typicky o prostředí, kde na jednom místě běží několik velkých iniciativ najednou a kde není samozřejmostí, že je někdo drží pohromadě.</div>
+        <div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>skupina za poslední dva roky integrovala Max banku (právní fúze k 1. 10. 2024), na podzim 2025 dokončila akvizici MeDirect na Maltě a v Belgii a paralelně přechází na novou generaci interních i klientských systémů. To je hodně souběžné změny na jedno období.</div>
+        <div class="provoke">
+          <button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="prov-body">Velká iniciativa, kterou nikdo nevlastní na plný úvazek, se zpravidla nezastaví — jen se tiše rozředí a jede dál bez výsledku. Kolik takových u vás právě teď běží?</div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- 2. Agile & Product management -->
+    <div class="acc" data-ga="OUT · Agile a Product management">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">Agile &amp; Product management</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <div class="lbl">Předpokládané pozice pro CREDITAS Group</div>
+        <div class="roles">
+          <div class="role best"><div class="rn">Scrum Master / agilní kouč do produktového týmu</div><div class="rd">Pro tým, který roste a potřebuje udržet tempo bez toho, aby ztratil směr</div><span class="badge">Ideální pro CREDITAS Group</span></div>
+          <div class="role"><div class="rn">Product Owner nebo parťák stávajícího PO</div><div class="rd">Někdo, kdo umí backlog zmenšovat na použitelné kusy a hlídat, co z toho přinese hodnotu</div></div>
+        </div>
+        <div class="lbl">Tématiky, které bychom řešili</div>
+        <ul class="clean">
+          <li>Jak udržet iterativní vývoj produktu ve chvíli, kdy se mění scope i tým</li>
+          <li>Jak sladit sprintový svět s tím, co po vás chce skupina reportovat — aby to nebyly dva různé jazyky</li>
+          <li>Role Business Ownera a Product Ownera: kdo vlastní backlog, a kdo návratnost</li>
+        </ul>
+        <div class="lbl">Zkušenosti z oboru finanční skupiny a regulovaná odvětví</div>
+        <ul class="clean">
+          <li>Scrum Master dodaný do agilního prostředí provozovatele kritické energetické infrastruktury, vysoutěženo přes dynamický nákupní systém a minitendr — <b>ČEPS</b></li>
+          <li>Firemní kurz Scrum Master I pro tým deseti lidí v poradenské firmě — <b>Ernst &amp; Young</b></li>
+        </ul>
+        <div class="lbl">Hodnota, kterou přinášíme</div>
+        <p class="val">Nedodáváme dogma, ale praxi. Kombinujeme Scrum, SAFe i LeSS podle kontextu, ne podle své specializace — takže tým nemusí měnit způsob práce jen proto, že přišel externista.</p>
+        <div class="sector"><span class="stag">Podobná organizace — finanční skupiny a regulovaná odvětví</span>V regulovaném prostředí obvykle nejde o to „být agilní“, ale o to udržet rychlost vývoje a zároveň obhájit, co se děje, směrem k vedení a k dohledu.</div>
+        <div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>Lifeliqe prošlo cestou od 3D obsahu pro školy k platformě pro rekvalifikace dospělých, včetně projektu SANDI ve státě Nevada. To je klasický produktový pivot — a ten se obvykle nejvíc pozná na tom, jak tým pracuje s backlogem a prioritami.</div>
+        <div class="provoke">
+          <button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="prov-body">Když tým sprintuje a vedení čeká pevné termíny, obvykle se nestane, že by jedna strana ustoupila — jen si přestanou věřit navzájem. Jak se to pozná u vás?</div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- 3. AI a automatizace -->
+    <div class="acc" data-ga="OUT · AI a automatizace">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">AI a automatizace</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <div class="lbl">Předpokládané pozice pro CREDITAS Group</div>
+        <div class="roles">
+          <div class="role best"><div class="rn">Interim AI ambasador pro tým nebo pro skupinu</div><div class="rd">Člověk, který AI nepřinese jako téma, ale jako zavedený způsob práce — a pak odejde</div><span class="badge">Ideální pro CREDITAS Group</span></div>
+          <div class="role"><div class="rn">AI team lead pro pilotní use casy</div><div class="rd">Vede piloty tak, aby na konci šlo říct, co přinesly — ne jen že proběhly</div></div>
+        </div>
+        <div class="lbl">Tématiky, které bychom řešili</div>
+        <ul class="clean">
+          <li>Od jednotlivců, kteří AI zkoušejí po svém, k tomu, co má ve skupině pravidla, vlastníka a měřitelný přínos</li>
+          <li>Které use casy dávají návratnost — a které jen vypadají dobře na slidu</li>
+          <li>AI governance v regulovaném prostředí: co je povolené, kdo za to ručí, kde jsou etické hranice</li>
+        </ul>
+        <div class="lbl">Zkušenosti z oboru finanční skupiny a regulovaná odvětví</div>
+        <ul class="clean">
+          <li>Tříměsíční až pětiměsíční program adopce AI — vedení týmu AI ambasadorů a PMO týmu, governance flow pro AI Centre of Excellence, LMS s více než deseti kurzy — <b>Kooperativa</b></li>
+          <li>Konzultace adopce AI pro odbory PMO, inovací a digitalizace: workshop plus mentoring ambasadorského týmu — <b>ČEPS</b></li>
+          <li>Workshop AI promptingu pro projektové, PMO a analytické role v angličtině; z původně deseti účastníků rozšířen na dvacet pět na základě interní poptávky — <b>Barclays Execution Services</b></li>
+        </ul>
+        <div class="lbl">Hodnota, kterou přinášíme</div>
+        <p class="val">AI kompetence u nás nejsou add-on, ale součást každé nabídky. A přístup je vždy stejný: budujeme interní kapacitu — ambasadory, knihovnu promptů, znalostní bázi — aby po nás zůstal soběstačný tým, ne závislost na dodavateli.</p>
+        <div class="sector"><span class="stag">Podobná organizace — finanční skupiny a regulovaná odvětví</span>V bankách, pojišťovnách i u provozovatelů kritické infrastruktury jsme narazili na stejnou věc: zákaz AI ji nezastaví, jen ji odsune mimo dohled. Governance riziko snižuje, zákaz ho zesiluje.</div>
+        <div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>rekvalifikace a nové dovednosti jsou vaše doména — Lifeliqe míří na to stát se přední rekvalifikační platformou. To je pohled, který se s adopcí AI ve firmě potkává skoro jedna ku jedné: obojí je nakonec o tom, jak se lidé naučí pracovat jinak.</div>
+        <div class="provoke">
+          <button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="prov-body">Strategie bez adopčního programu obvykle skončí u zlomku uživatelů — a nástroj se pak hodnotí jako neúspěšný, i když problém byl v zavedení. Jak byste u sebe poznal rozdíl mezi tím dvojím?</div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- 4. Business analýza -->
+    <div class="acc" data-ga="OUT · Business analyza">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">Business analýza</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <div class="lbl">Předpokládané pozice pro CREDITAS Group</div>
+        <div class="roles">
+          <div class="role"><div class="rn">Business analytik do agilního delivery týmu</div><div class="rd">Parťák produktového vlastníka, který zadání zmenšuje na kusy, jež jde reálně dodat</div></div>
+          <div class="role"><div class="rn">Analytik pro definici scope při sjednocování produktů a systémů</div><div class="rd">Co a proč se má postavit — s ohledem na to, co je proveditelné</div></div>
+        </div>
+        <div class="lbl">Tématiky, které bychom řešili</div>
+        <ul class="clean">
+          <li>Mezera mezi byznysovým zadavatelem a IT — kdo věcně sepíše a domyslí, co se má stát</li>
+          <li>Definice scope při slučování produktů dvou původně samostatných domů</li>
+          <li>Vizuální postupy a prototypy tam, kde se o zadání jinak diskutuje třetí měsíc</li>
+        </ul>
+        <div class="lbl">Zkušenosti z oboru finanční skupiny a regulovaná odvětví</div>
+        <ul class="clean">
+          <li>Business analytik do agilního delivery týmu energetické firmy — vývoj selfcare zóny a rozbíjení monolitu do mikroslužeb, v týmu s vývojáři, Scrum Masterem, QA a DevOps — <b>PREdistribuce</b></li>
+          <li>Workshopy „BA minimum“ pro projektový tým, které řešily chybějící roli mezi byznysovým sponzorem a IT analytikem — <b>GasNet</b></li>
+        </ul>
+        <div class="lbl">Hodnota, kterou přinášíme</div>
+        <p class="val">Analytik, který nečeká na zadání, ale pomáhá ho vytvořit — a umí říct „tohle je moc velké“ dřív, než se to začne stavět.</p>
+        <div class="sector"><span class="stag">Podobná organizace — finanční skupiny a regulovaná odvětví</span>Rozbíjení monolitu a stavba klientské zóny je téma, které jsme v regulovaném prostředí dělali zevnitř týmu — včetně situace, kdy produktový vlastník pochází z byznysu a analytickou oporu teprve hledá.</div>
+        <div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>přechod na Creditas ONE není jen nové rozhraní pro klienty, ale nová generace interních i klientských systémů, která má sjednotit prostředí po převzetí Max banky. To bývá především analytická práce, ne jen vývojová.</div>
+        <div class="provoke">
+          <button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="prov-body">Když roli analytika supluje projektový manažer nebo vývojář, obvykle se to nepozná hned — pozná se to až na počtu změn v zadání. Kolik jich u vás projde za kvartál?</div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- 5. Data -->
+    <div class="acc" data-ga="OUT · Data">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">Data</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <div class="lbl">Předpokládané pozice pro CREDITAS Group</div>
+        <div class="roles">
+          <div class="role"><div class="rn">Datový analytik pro reporting portfolia a kapacit</div><div class="rd">Aby se vedení dívalo na čísla, kterým věří, ne na ručně slepený excel</div></div>
+          <div class="role"><div class="rn">Data engineer pro propojení dat z několika systémů</div><div class="rd">Zvlášť tam, kde se po akvizicích sešlo víc prostředí najednou</div></div>
+        </div>
+        <div class="lbl">Tématiky, které bychom řešili</div>
+        <ul class="clean">
+          <li>Jedna verze pravdy o stavu portfolia napříč firmami, ne pět různých pohledů</li>
+          <li>Kapacitní plánování postavené na datech místo na odhadu v hlavě</li>
+          <li>Od historického reportingu k tomu, co pomáhá rozhodovat dopředu</li>
+        </ul>
+        <div class="lbl">Zkušenosti z oboru finanční skupiny a regulovaná odvětví</div>
+        <ul class="clean">
+          <li>Balík konzultací zaměřený na kapacitní plánování, program governance a datovou i AI podporu PMO — v pořadí druhý, tedy opakovaná spolupráce — <b>Pražská energetika</b></li>
+          <li>Kapacitní plánování postavené jako funkční řešení nad tabulkami a automatizací, včetně procesu a návodu, jak s ním pracovat — <b>Sazka</b></li>
+        </ul>
+        <div class="lbl">Hodnota, kterou přinášíme</div>
+        <p class="val">Nejsme datová firma, která postaví dashboard a odejde. Řešíme, aby čísla vznikala sama, dala se jim věřit a někdo podle nich reálně rozhodoval.</p>
+        <div class="sector"><span class="stag">Podobná organizace — finanční skupiny a regulovaná odvětví</span>V regulovaných firmách je typický vzorec stejný: data existují, ale sesbírat je trvá dny a rozhodování stejně nakonec stojí na pocitu.</div>
+        <div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>skupina má přes sto firem napříč financemi, energetikou a developmentem. Čím víc prostředí, tím dražší je odpověď na jednoduchou otázku „kolik nám toho vlastně běží a kdo na tom dělá“.</div>
+        <div class="provoke">
+          <button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="prov-body">Reporting, kterému nikdo úplně nevěří, se obvykle nezruší — jen se vedle něj postaví další. Kolik hodin měsíčně u vás padne na jeho výrobu?</div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- 6. CX/UX -->
+    <div class="acc" data-ga="OUT · CX UX">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">CX / UX</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <div class="lbl">Předpokládané pozice pro CREDITAS Group</div>
+        <div class="roles">
+          <div class="role"><div class="rn">UX designer nebo produktový designer do týmu</div><div class="rd">Od uživatelského výzkumu přes prototyp až po adaptaci do UI</div></div>
+          <div class="role"><div class="rn">UX researcher</div><div class="rd">Aby bylo doloženo, jak s produktem lidé reálně pracují — ne jak si myslíme, že by měli</div></div>
+        </div>
+        <div class="lbl">Tématiky, které bychom řešili</div>
+        <ul class="clean">
+          <li>Uživatelský výzkum u produktu, který má být návykový a ne jen funkční — u vzdělávací platformy je to rozdíl mezi dokončeným a nedokončeným kurzem</li>
+          <li>Prototypování a rychlé ověření dřív, než se něco postaví</li>
+          <li>Zkušenost klienta v okamžicích, kdy se mění prostředí, na které byl zvyklý</li>
+        </ul>
+        <div class="lbl">Hodnota, kterou přinášíme</div>
+        <p class="val">UX a produktový design jsou u nás nová, ale reálně obsazená specializace — dodáváme je stejným způsobem jako projektové role: konkrétním člověkem do vašeho týmu, ne agenturní zakázkou.</p>
+        <div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>Lifeliqe staví na tom, že si mozek nejlépe pamatuje to, co člověk skutečně prožije. To je v podstatě designová teze — a ta se dá výzkumem ověřovat a měřit.</div>
+        <div class="provoke">
+          <button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="prov-body">Produkt, který se nedá odložit, a produkt, který se používá z povinnosti, vypadají ve statistikách chvíli stejně. Podle čeho ten rozdíl poznáte vy?</div>
+        </div>
+      </div></div></div>
+    </div>
+
+  </div></div></div>
+</div>
+
+<!-- ===== SEKCE 03 — CONSULTING ===== -->
+<div class="acc section" id="s-cons" data-ga="Sekce 03: Consulting">
+  <div class="acc-head main" onclick="toggle(this.parentElement)">
+    <span class="s-num">03</span>
+    <span class="s-title">Consulting — akcelerace, transformace, procesy<span class="s-sub">Všech 6 odborností · zaměření engagementu · tématiky · zkušenosti z oboru</span></span>
+    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="collapse"><div class="inner"><div class="sect-inner">
+    <p class="lead">Stejné odbornosti, jiný způsob dodání: místo role v týmu přinášíme rámec, metodiku a ruce, které pomohou zavést změnu do praxe. Začínáme rychle — první hmatatelný výstup místo tříměsíční analýzy před prvním doporučením. <span class="hint">Samotné spolupráce ale běží dlouhodobě: typicky měsíce až roky, v navazujících fázích. U některých klientů PMO nebo portfolio governance rovnou provozujeme, dokud to nepřevezmou jejich lidé.</span></p>
+
+    <!-- 1. Project management -->
+    <div class="acc" data-ga="CONS · Project management">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">Project management</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <div class="lbl">Zaměření engagementu pro CREDITAS Group</div>
+        <div class="roles">
+          <div class="role best"><div class="rn">Skupinové PMO a portfolio governance — návrh, rozjezd a provoz</div><div class="rd">Víceletý engagement: prioritizace, kapacity a kvartální rozhodovací fórum napříč firmami. Nezůstáváme u návrhu — model rozjedeme a provozujeme, dokud ho nepřeberou vaši lidé. Objem roste s tím, kolik firem se zapojí.</div><span class="badge">Ideální pro CREDITAS Group</span></div>
+          <div class="role"><div class="rn">Nezávislý health check rozjeté iniciativy</div><div class="rd">Malý vstupní krok: kde iniciativa reálně je, co ji nejvíc ohrožuje a tři doporučení. Typicky první zakázka, na kterou navazuje to výše.</div></div>
+        </div>
+        <div class="lbl">Tématiky, které bychom řešili</div>
+        <ul class="clean">
+          <li>PMO jako strategický partner vedení, ne administrativa a výroba reportů</li>
+          <li>Prioritizace a řízení poptávky proti reálným kapacitám — jak se legitimně říká „ne“</li>
+          <li>Měření úspěchu podle přínosu, ne jen podle termínu a rozpočtu</li>
+        </ul>
+        <div class="lbl">Zkušenosti z oboru finanční skupiny a regulovaná odvětví</div>
+        <ul class="clean">
+          <li>Portfolio governance a převzetí PMO: prioritizační výbor, reporting napříč několika streamy a interim PMO tým — <b>NOTINO</b></li>
+          <li>Balík konzultací na kapacitní plánování a program governance, navazující na dřívější PMO roadmapu a reporting framework — <b>Pražská energetika</b></li>
+        </ul>
+        <div class="lbl">Hodnota, kterou přinášíme</div>
+        <p class="val">Výstupem není tlustá prezentace, ale použitelný playbook, dashboard nebo rozhodovací rámec — a pak jeho provoz. U <b>NOTINO</b> jsme portfolio governance nejen navrhli, ale interim PMO týmem i provozovali až do předání. Předání interním vlastníkům je součástí každé spolupráce, ne její alternativou.</p>
+        <div class="sector"><span class="stag">Podobná organizace — finanční skupiny a regulovaná odvětví</span>Kde běží víc velkých iniciativ najednou, obvykle nechybí přehled o jednotlivých projektech, ale o tom, jak spolu soupeří o stejné lidi.</div>
+        <div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>banka na jaře 2026 uváděla přes 400 tisíc klientů a bilanční sumu přes 300 miliard korun, a to po akvizici MeDirect. Při takovém tempu růstu bývá největším rizikem to, že se řízení sjednocuje pomaleji než rozvaha.</div>
+        <div class="provoke">
+          <button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="prov-body">Když se priority neřeší systémem, řeší je vždycky někdo — obvykle ten, kdo víc křičí. Kdy jste naposledy záměrně zastavili projekt?</div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- 2. Agile & Product management -->
+    <div class="acc" data-ga="CONS · Agile a Product management">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">Agile &amp; Product management</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <div class="lbl">Zaměření engagementu pro CREDITAS Group</div>
+        <div class="roles">
+          <div class="role best"><div class="rn">Návrh hybridního modelu řízení</div><div class="rd">Jak vedle sebe udržet iterativní vývoj a reporting, který chce skupina — bez toho, aby to byl kompromis nevyhovující nikomu</div><span class="badge">Ideální pro CREDITAS Group</span></div>
+          <div class="role"><div class="rn">Dlouhodobý coaching Scrum Masterů a Product Ownerů</div><div class="rd">Průběžně na reálných projektech, v horizontu měsíců až let — ne jednorázový kurz. Škáluje s počtem týmů, které se zapojí.</div></div>
+        </div>
+        <div class="lbl">Tématiky, které bychom řešili</div>
+        <ul class="clean">
+          <li>Jasná kritéria, kdy se který přístup použije — místo toho, aby to záviselo na preferenci konkrétního manažera</li>
+          <li>Sjednocené metriky výkonnosti napříč agilními i klasicky vedenými projekty</li>
+          <li>Rozvoj rolí Business Ownera a Product Ownera, včetně odpovědnosti za návratnost</li>
+        </ul>
+        <div class="lbl">Zkušenosti z oboru finanční skupiny a regulovaná odvětví</div>
+        <ul class="clean">
+          <li>Hybridní projektové řízení je náš nejfrekventovanější kurz — realizovaný mimo jiné pro <b>Generali</b>, <b>Raiffeisenbank</b> a <b>Zentivu</b></li>
+        </ul>
+        <div class="lbl">Hodnota, kterou přinášíme</div>
+        <p class="val">Hybrid u nás není kompromis, ale vědomý návrh: kde začíná autonomie týmu a kde končí kontrola. Kombinujeme PMBOK, PRINCE2, IPMA, Scrum, SAFe i LeSS podle kontextu.</p>
+        <div class="sector"><span class="stag">Podobná organizace — finanční skupiny a regulovaná odvětví</span>V bankách a pojišťovnách je hybrid spíš pravidlem než výjimkou — část světa musí být plánovatelná kvůli dohledu, část musí být rychlá kvůli klientovi.</div>
+        <div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>ve skupině vedle sebe žijí velmi odlišné typy byznysu — banka, energetika, development i technologický produkt jako Lifeliqe. Jeden způsob řízení pro všechny by nefungoval; smysl dává společný rámec s jasnými výjimkami.</div>
+        <div class="provoke">
+          <button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="prov-body">Bez jasných kritérií si metodiku vybírá každý podle sebe — a výstupy pak nejde porovnat napříč firmami. Jak dnes srovnáte dva projekty ze dvou různých firem skupiny?</div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- 3. AI a automatizace -->
+    <div class="acc" data-ga="CONS · AI a automatizace">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">AI a automatizace</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <div class="lbl">Zaměření engagementu pro CREDITAS Group</div>
+        <div class="roles">
+          <div class="role best"><div class="rn">Program adopce AI napříč skupinou, po vlnách</div><div class="rd">Řízený přechod přes fáze zvědavost → experiment → pilot → rollout → škálování, firma po firmě. U <b>Kooperativy</b> běželo jádro programu 3–5 měsíců; napříč skupinou s postupným napojováním jde o horizont několika let a objem roste s každou další firmou.</div><span class="badge">Ideální pro CREDITAS Group</span></div>
+          <div class="role"><div class="rn">AI maturity scan a governance framework</div><div class="rd">Vstupní krok: kde skupina stojí, kde jsou mezery v pravidlech a co dělat jako první. Obvykle se z něj stane zadání pro program výše.</div></div>
+        </div>
+        <div class="lbl">Tématiky, které bychom řešili</div>
+        <ul class="clean">
+          <li>Identifikace a validace use casů s návratností — a jejich prioritizace</li>
+          <li>Governance: pravidla, odpovědnosti a etické hranice v regulovaném prostředí</li>
+          <li>Budování interní kapacity: ambasadoři, knihovna promptů, znalostní báze</li>
+        </ul>
+        <div class="lbl">Zkušenosti z oboru finanční skupiny a regulovaná odvětví</div>
+        <ul class="clean">
+          <li>Program adopce AI na tři až pět měsíců: vedení ambasadorského týmu a PMO týmu, governance flow pro AI Centre of Excellence, LMS s více než deseti kurzy — <b>Kooperativa</b></li>
+          <li>Konzultace adopce AI pro PMO, inovace a digitalizaci — workshop a mentoring ambasadorů — <b>ČEPS</b></li>
+          <li>Kompletní AI program: dva workshopy, Use Case Canvas, evaluační matice, ambasadoři a adopční roadmapa — <b>Globus</b></li>
+        </ul>
+        <div class="lbl">Hodnota, kterou přinášíme</div>
+        <p class="val">Cílem není naučit lidi, co je ChatGPT. Cílem je, aby po nás zůstala pravidla, use casy s doloženým přínosem a lidé uvnitř, kteří to umí posouvat dál sami.</p>
+        <div class="sector"><span class="stag">Podobná organizace — finanční skupiny a regulovaná odvětví</span>Naše AI reference jsou z pojišťovnictví, bankovnictví, energetiky a retailu — tedy z prostředí, kde se AI musí obhájit nejen přínosem, ale i vůči compliance.</div>
+        <div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>skupina staví technologické firmy sama — Lifeliqe je toho příkladem. Tam, kde už technologické myšlení existuje, bývá největším zrychlovačem ne technologie, ale pravidla a adopce.</div>
+        <div class="provoke">
+          <button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="prov-body">Bez pravidel se AI nepřestane používat — jen se přestane používat viditelně. Víte dnes, kde všude ve skupině už běží?</div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- 4. Business analýza -->
+    <div class="acc" data-ga="CONS · Business analyza">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">Business analýza</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <div class="lbl">Zaměření engagementu pro CREDITAS Group</div>
+        <div class="roles">
+          <div class="role"><div class="rn">Workshop k definici scope — co a proč, než se začne stavět</div><div class="rd">Na míru vaší situaci, ne obecný kurz z trhu</div></div>
+          <div class="role"><div class="rn">Revize procesů na rozhraní byznysu a IT</div><div class="rd">Kdo zadává, kdo rozhoduje a kde se zadání ztrácí</div></div>
+        </div>
+        <div class="lbl">Tématiky, které bychom řešili</div>
+        <ul class="clean">
+          <li>Chybějící role mezi byznysovým sponzorem a IT — kdo věcně sepíše a domyslí zadání</li>
+          <li>Jednostránkové zadání s vyčíslenou byznys hodnotou místo nápadu z chatu</li>
+          <li>Zlepšování procesů tam, kde se stejná věc dělá v každé firmě skupiny jinak</li>
+        </ul>
+        <div class="lbl">Zkušenosti z oboru finanční skupiny a regulovaná odvětví</div>
+        <ul class="clean">
+          <li>Governance redesign, metodika business case a sjednocení reportingu klíčových projektů — <b>GPE</b></li>
+          <li>Workshopy „BA minimum“ pro projektový tým, které řešily mezeru mezi byznysovým sponzorem a IT analytikem — <b>GasNet</b></li>
+        </ul>
+        <div class="lbl">Hodnota, kterou přinášíme</div>
+        <p class="val">Většinu sporů o rozsah nezpůsobí špatný odhad, ale nedomyšlené zadání. Řešíme to na začátku, kde je to nejlevnější.</p>
+        <div class="sector"><span class="stag">Podobná organizace — finanční skupiny a regulovaná odvětví</span>Ve firmách, kde se slučují dvě původně samostatné produktové sady, je definice scope nejčastějším místem, kde se ztrácí čas.</div>
+        <div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>sjednocování systémů po převzetí Max banky probíhá po vlnách a banka sama uvádí, že cílem je snazší nasazování nových produktů a služeb. To je přesně ten okamžik, kdy se vyplatí mít definici rozsahu pod kontrolou.</div>
+        <div class="provoke">
+          <button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="prov-body">Nedomyšlené zadání se nikdy neztratí — jen se objeví později a dráž, obvykle jako změnový požadavek. Kolik jich u vás vzniká po startu?</div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- 5. Data -->
+    <div class="acc" data-ga="CONS · Data">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">Data</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <div class="lbl">Zaměření engagementu pro CREDITAS Group</div>
+        <div class="roles">
+          <div class="role"><div class="rn">Reporting portfolia a kapacit — nastavení a provoz</div><div class="rd">Od auditu datových toků přes model kapacit až po provoz reportingu, který používá vedení. U <b>Pražské energetiky</b> běží spolupráce v navazujících balících a PMO roadmapa je nastavená na víc let.</div></div>
+          <div class="role"><div class="rn">Audit datových toků a reportingu</div><div class="rd">Vstupní krok: čemu se dá věřit, co vzniká ručně a co lze automatizovat.</div></div>
+        </div>
+        <div class="lbl">Tématiky, které bychom řešili</div>
+        <ul class="clean">
+          <li>Governance dat a jedna verze pravdy tam, kde se sešlo víc prostředí najednou</li>
+          <li>Kapacitní model: poptávka versus dostupnost, kolize napříč roadmapami</li>
+          <li>Data a AI v řízení projektů — od viditelnosti k predikci rizik a termínů</li>
+        </ul>
+        <div class="lbl">Zkušenosti z oboru finanční skupiny a regulovaná odvětví</div>
+        <ul class="clean">
+          <li>Kapacitní plánování a datová i AI podpora PMO, dodané jako druhý balík konzultací — <b>Pražská energetika</b></li>
+          <li>Kapacitní plánování postavené nad tabulkami a automatizací, včetně procesu a návodu k používání — <b>Sazka</b></li>
+        </ul>
+        <div class="lbl">Hodnota, kterou přinášíme</div>
+        <p class="val">Nesnažíme se tlačit skupinu na nejvyšší úroveň zralosti. Cílem je stav, kdy čísla vznikají sama, dá se jim věřit a vedení podle nich rozhoduje — víc obvykle není potřeba.</p>
+        <div class="sector"><span class="stag">Podobná organizace — finanční skupiny a regulovaná odvětví</span>Typický vzorec, na který narážíme: reporty jsou v nástrojích, ale data jsou neaktuální — a tak se vedle nich stejně vyrábí prezentace ručně.</div>
+        <div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>skupina působí ve financích, energetice i developmentu. Sjednotit pohled na kapacity a portfolio napříč tak odlišnými byznysy je náročnější než uvnitř jedné firmy — a o to cennější.</div>
+        <div class="provoke">
+          <button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="prov-body">Když se kapacity plánují odhadem, přetížení se neobjeví v plánu, ale až ve zpoždění. Kolik z vašich skluzů má nakonec původ tady?</div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- 6. CX/UX -->
+    <div class="acc" data-ga="CONS · CX UX">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">CX / UX</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <div class="lbl">Zaměření engagementu pro CREDITAS Group</div>
+        <div class="roles">
+          <div class="role"><div class="rn">Design thinking a UX/CX v organizaci</div><div class="rd">Jak zavést uživatelský pohled do rozhodování, ne jen do vzhledu obrazovek</div></div>
+          <div class="role"><div class="rn">Empathy mapping klíčových stakeholderů</div><div class="rd">Facilitovaný workshop k pochopení perspektivy uživatele i zadavatele</div></div>
+        </div>
+        <div class="lbl">Tématiky, které bychom řešili</div>
+        <ul class="clean">
+          <li>Zákaznická zkušenost v momentech změny — když se mění prostředí, na které byl uživatel zvyklý</li>
+          <li>Uživatelský výzkum jako vstup do prioritizace, ne jako kontrola na konci</li>
+          <li>Prototypování jako nejlevnější způsob, jak zjistit, že se stavělo špatné zadání</li>
+        </ul>
+        <div class="lbl">Hodnota, kterou přinášíme</div>
+        <p class="val">CX a UX bereme jako součást řízení, ne jako grafiku na konci procesu. V praxi to znamená vstup do toho, co se vůbec bude stavět.</p>
+        <div class="sector"><span class="stag">Podobná organizace — finanční skupiny a regulovaná odvětví</span>UX a business analýzu jsme do týmu přidali jako nové specializace v roce 2025 — dodáváme je zatím spíš rolí do týmu než velkými poradenskými zakázkami, a tak to i otevřeně říkáme.</div>
+        <div class="note"><span class="nlabel">Při přípravě jsme zjistili, že…</span>vaším produktovým jádrem je zážitek z učení. To je oblast, kde se UX výzkum a měření chování překrývá s tím, co dělá vzdělávací obsah účinným.</div>
+        <div class="provoke">
+          <button class="prov-trigger" onclick="rev(this)"><span class="pq">?</span> A co když se to <u>neřeší</u><svg class="chev pchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="prov-body">Když se uživatelský pohled přidá až na konec, obvykle se nezmění produkt — jen se zjemní obrazovky. Kdy naposledy výzkum u vás změnil prioritu?</div>
+        </div>
+      </div></div></div>
+    </div>
+
+  </div></div></div>
+</div>
+
+<!-- ===== SEKCE 04 — ANALÝZA KLIENTA ===== -->
+<div class="acc section" id="s-analyza" data-ga="Sekce 04: Analýza CREDITAS Group">
+  <div class="acc-head main" onclick="toggle(this.parentElement)">
+    <span class="s-num">04</span>
+    <span class="s-title">Analýza CREDITAS Group<span class="s-sub">Kde vidíme příležitost · jak firma funguje</span></span>
+    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="collapse"><div class="inner"><div class="sect-inner">
+    <p class="lead">Než jsme se sešli, prošli jsme si veřejně dostupné informace o skupině a o bance. Není to hodnocení — je to náš výchozí obrázek, který si na schůzce rádi necháme opravit.</p>
+
+    <div class="acc person-acc" data-ga="Analýza · Kde vidíme příležitost">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">Kde vidíme příležitost pro spolupráci<span class="prole">Tři místa, kde se náš záběr potkává s vaší situací</span></span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <div class="accentbox">Skupina rostla v posledních letech <b>rychleji akvizicemi než sjednocováním řízení</b> — a to je normální. Otázka, která nás zajímá, je, <b>kdo ve skupině vlastní to, jak se velké změny řídí</b>, když se dotýkají víc firem než jedné.</div>
+        <ul class="clean">
+          <li><b>Souběh velkých změn</b> — integrace Max banky, převzetí MeDirect ve dvou zemích a přechod na novou generaci systémů se odehrály v jednom období. Umíme do takového souběhu dodat seniorní kapacitu i nezávislý pohled na to, jak je řízený.</li>
+          <li><b>Řízení napříč firmami skupiny</b> — u holdingu se stovkou firem bývá nejtěžší ne jednotlivý projekt, ale prioritizace a kapacity napříč. To je naše doména číslo jedna.</li>
+          <li><b>Rozvoj lidí a adopce AI</b> — vaše doména jsou rekvalifikace, naše je projektové a produktové řízení a jeho adopce v praxi. Vidíme tu možný průnik oběma směry: my jako obsah a metodika, vy jako platforma a dosah.</li>
+        </ul>
+      </div></div></div>
+    </div>
+
+    <div class="acc person-acc" data-ga="Analýza · Model a kontext">
+      <div class="acc-head sub" onclick="toggle(this.parentElement)">
+        <span class="dot"></span><span class="nt">Jak firma funguje — model &amp; kontext<span class="prole">Z veřejných zdrojů, k opravení na schůzce</span></span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="collapse"><div class="inner"><div class="comp-inner">
+        <div class="topic"><div class="ttl">Skupina</div><ul class="clean tpts">
+          <li>Investiční skupina se stovkou firem napříč financemi, energetikou a developmentem; zakladatelem a majoritním vlastníkem je Pavel Hubáček</li>
+          <li>Banka CREDITAS působí na trhu od roku 1996, bankou je od 1. ledna 2017</li>
+        </ul></div>
+        <div class="topic"><div class="ttl">Růst a akvizice</div><ul class="clean tpts">
+          <li>Max banka (dříve Expobank CZ) koupena v roce 2022, právní fúze dokončena k 1. říjnu 2024</li>
+          <li>Na podzim 2025 dokončena akvizice bank MeDirect na Maltě a v Belgii — 155 tisíc klientů a bilanční suma šest miliard eur</li>
+          <li>Na jaře 2026 banka uváděla přes 400 tisíc klientů a bilanční sumu přes 300 miliard korun</li>
+        </ul></div>
+        <div class="topic"><div class="ttl">Technologie</div><ul class="clean tpts">
+          <li>Přechod na platformu Creditas ONE — novou generaci interních i klientských systémů, která nahradila dosavadní internetové a mobilní bankovnictví</li>
+          <li>Klienti Max banky převedeni na podzim 2025, zbývající klienti migrují od července 2026 postupně ve vlnách</li>
+          <li>Deklarovaným cílem je modernizace infrastruktury, rychlejší zavádění nových funkcí a sjednocení systémů po převzetí Max banky</li>
+        </ul></div>
+        <div class="sector"><span class="stag">Co to znamená pro spolupráci</span>Nepřicházíme s hotovým názorem na to, co potřebujete. Přicházíme s tím, že v podobných situacích bývá nejcennější dvojice: <b>seniorní ruce, které jsou k dispozici rychle</b>, a <b>nezávislý pohled na to, jak je věc řízená</b>. Obojí umíme dodat samostatně i dohromady — a v obou případech tak, aby to po nás vaši lidé uměli převzít.</div>
+      </div></div></div>
+    </div>
+
+  </div></div></div>
+</div>
+
+  <div class="foot">
+    Sestaveno z reálných vyhraných zakázek Projectman a z veřejných zdrojů o skupině CREDITAS.<br>
+    Projectman.cz — connecting experts
+  </div>
+</div>
+<button class="printbtn" onclick="dl()">⤓ Uložit jako PDF</button>
+<script>
+function toggle(el){
+  el.classList.toggle('open');
+  if(el.classList.contains('open') && window.gtag){
+    var t=el.getAttribute('data-ga')||'';
+    var ev=el.classList.contains('section')?'section_open':'competency_open';
+    gtag('event',ev,{event_category:'workspace',event_label:t,page_hostname:location.hostname});
+  }
+}
+function rev(btn){
+  var p=btn.parentElement; p.classList.toggle('shown');
+  if(p.classList.contains('shown') && window.gtag){
+    var comp=btn.closest('.acc'); var lbl=comp?comp.getAttribute('data-ga'):'';
+    gtag('event','consequence_reveal',{event_category:'workspace',event_label:lbl,page_hostname:location.hostname});
+  }
+}
+function dl(){ if(window.gtag){gtag('event','download_click',{event_category:'workspace',event_label:'save_pdf',page_hostname:location.hostname});} window.print(); }
+</script>
+</body>
+</html>

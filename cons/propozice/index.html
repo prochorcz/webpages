@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rozcestník výstupů — PM Comp konverze</title>
+<style>
+@font-face{font-family:Poppins;font-weight:400;font-display:swap;
+  src:url("https://www.projectman.cz/themes/custom/projectman/fonts/Poppins/Poppins-Regular.woff2") format("woff2")}
+@font-face{font-family:Poppins;font-weight:600;font-display:swap;
+  src:url("https://www.projectman.cz/themes/custom/projectman/fonts/Poppins/Poppins-SemiBold.woff2") format("woff2")}
+:root{
+  --pjm-dark:#20272F; --pjm-dark-soft:#3F4A57; --pjm-coral:#FF525F; --pjm-coral-light:#FF7580;
+  --pjm-blue:#A9C5DF; --pjm-blue-dark:#5C7894; --pjm-blue-light:#BAD1E5;
+  --pjm-grey:#878787; --pjm-bg:#F7F7F7; --pjm-bg-alt:#F0F2F5; --pjm-line:#DADADA;
+  --surface:#FFFFFF; --ink:#20272F; --ink-2:#3F4A57; --ink-muted:#878787;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --surface:#20272F; --ink:#FFFFFF; --ink-2:#C9D2DB; --ink-muted:#8C97A3;
+    --pjm-bg:#171D23; --pjm-bg-alt:#1C242C; --pjm-line:#333D48;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--pjm-bg);color:var(--ink);
+  font:400 15px/1.6 Poppins,Helvetica,Calibri,Arial,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px 80px}
+a{color:inherit}
+/* ---- hero ---- */
+.hero{position:relative;background:var(--pjm-dark);color:#fff;overflow:hidden;margin-bottom:36px}
+.hero-in{max-width:1000px;margin:0 auto;padding:52px 24px 44px;position:relative;z-index:2}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:44px}
+.logo-grid{display:grid;grid-template-columns:repeat(6,3px);gap:2.5px}
+.logo-grid i{width:3px;height:3px;background:var(--pjm-grey);border-radius:50%}
+.logo-wm{font-weight:600;font-size:19px;letter-spacing:-.01em}
+.logo-claim{font-size:9px;color:var(--pjm-grey);letter-spacing:.06em;margin-top:-2px}
+h1{font-weight:400;font-size:40px;line-height:1.16;margin:0 0 2px;color:var(--pjm-coral);max-width:22ch}
+.hero h1 span{display:block;border-bottom:1.5px solid var(--pjm-coral);padding-bottom:7px;margin-bottom:7px}
+.hero-sub{color:#C9D2DB;font-size:14px;max-width:70ch;margin-top:22px}
+.orn{position:absolute;right:-70px;top:-40px;z-index:1;opacity:.85}
+.pill{display:inline-block;font-size:9.5px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.09em;padding:4px 9px;border:1px solid var(--pjm-coral);color:var(--pjm-coral);
+  border-radius:11px;margin-bottom:20px}
+/* ---- sections ---- */
+section{background:var(--surface);border:1px solid var(--pjm-line);padding:28px 30px 8px;margin-bottom:20px}
+h2{font-weight:600;font-size:20px;margin:0 0 4px;letter-spacing:-.01em}
+h2 em{font-style:normal;color:var(--pjm-coral)}
+.lede{color:var(--ink-2);font-size:13.5px;margin:0 0 18px;max-width:82ch}
+.snum{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;
+  border-radius:50%;background:var(--pjm-coral);color:#fff;font-size:11px;font-weight:600;
+  margin-right:9px;vertical-align:2px}
+/* ---- doc list ---- */
+.doclist{display:flex;flex-direction:column}
+.doc{padding:18px 0 20px;border-bottom:1px solid var(--pjm-line);display:flex;flex-wrap:wrap;
+  align-items:baseline;justify-content:space-between;gap:6px 18px}
+.doc:last-child{border-bottom:none}
+.doc-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;flex:1 1 100%}
+.doc a.t{font-size:15.5px;font-weight:600;color:var(--ink);text-decoration:none;letter-spacing:-.005em}
+.doc a.t:hover{color:var(--pjm-coral)}
+.doc a.t:after{content:" →";color:var(--pjm-coral);font-weight:600}
+.doc .date{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-muted);
+  white-space:nowrap}
+.doc .tag{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--pjm-coral);
+  border:1px solid var(--pjm-coral);border-radius:9px;padding:1px 7px}
+.doc-body{flex:1 1 100%;display:grid;grid-template-columns:1fr 1fr;gap:4px 28px;margin-top:2px}
+.doc-body p{margin:0;font-size:13px;line-height:1.55;color:var(--ink-2);max-width:56ch}
+.doc-body p b{color:var(--ink);font-weight:600}
+@media (max-width:640px){.doc-body{grid-template-columns:1fr}}
+/* ---- note ---- */
+.note{font-size:12.5px;color:var(--ink-muted);line-height:1.6;max-width:78ch;padding:18px 0 22px}
+.note b{color:var(--ink-2)}
+/* ---- glossary ---- */
+.gloss{display:flex;flex-direction:column}
+.gterm{padding:14px 0;border-bottom:1px solid var(--pjm-line);display:flex;flex-wrap:wrap;gap:4px 22px}
+.gterm:last-child{border-bottom:none}
+.gterm dt{flex:0 0 160px;font-size:13.5px;font-weight:600;color:var(--ink)}
+.gterm dd{flex:1 1 400px;margin:0;font-size:13px;line-height:1.55;color:var(--ink-2);max-width:60ch}
+/* ---- footer ---- */
+footer{background:var(--pjm-dark);color:#fff;margin-top:34px}
+.foot-in{max-width:1000px;margin:0 auto;padding:26px 24px;display:flex;
+  justify-content:space-between;align-items:center;font-size:12px;flex-wrap:wrap;gap:8px}
+.foot-in a{color:#fff;text-decoration:none}
+.foot-in .v{color:var(--pjm-coral);font-weight:600}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="orn" width="330" height="290" viewBox="0 0 330 290" aria-hidden="true">
+    <rect x="150" y="52" width="176" height="176" rx="40" fill="none" stroke="#A9C5DF" stroke-width="2"/>
+    <path d="M212 60 a86 86 0 1 1 -60 146" fill="none" stroke="#FF525F" stroke-width="2"/>
+  </svg>
+  <div class="hero-in">
+    <div class="logo">
+      <div class="logo-grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div><div class="logo-wm">projectman</div><div class="logo-claim">connecting experts</div></div>
+    </div>
+    <span class="pill">PM Comp · úkol Konverze · interní</span>
+    <h1><span>Rozcestník</span>HTML výstupů — propad konverze PM OUT</h1>
+    <p class="hero-sub">Klíčové HTML výstupy z úkolu Konverze — tunel rozpadu OUT_PM dealů,
+      databáze hypotéz a kontaktní nástroj nad vztahovou sítí. Odkazy míří na
+      soubory ve stejné složce <code>Outputs/</code>.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <h2><span class="snum">1</span>Diagnostika</h2>
+    <p class="lede">Kde přesně se v OUT_PM tunelu ztrácí konverze.</p>
+    <div class="doclist">
+
+      <div class="doc">
+        <div class="doc-head">
+          <a class="t" href="pm-out-nesoutezni-vyhry-rozpad.html">PM OUT — kam se poděly nesoutěžní výhry</a>
+          <span class="date">21. 8. 2026</span>
+        </div>
+        <div class="doc-body">
+          <p><b>Co je uvnitř:</b> rozpad poklesu nesoutěžních výher (12 → 6 → 3) na čtyři kanály
+            originace, základnu incumbency, výtlak obchodníků a prolongace. 8 spojnicových grafů,
+            9 skládaných pruhů, 4 tabulky, přepínače pololetí a metriky; každé číslo je klikatelné
+            do tabulky 144 zakázek.</p>
+          <p><b>Klíčové zjištění:</b> výher v soutěži je za celé okno <b>5</b> — celá konverze
+            stála na nesoutěžním kanálu. U incumbent účtů drží úspěšnost (25 → 29 %), ale
+            příležitostí na účet ubylo z 0,70 na 0,27. Nákupní procesy klientů se uzavřely na
+            rámcové smlouvy a část incumbency teče <b>prolongací</b> (155 FTE-měsíců v 2026H1),
+            kterou win count nevidí. 21 hypotéz H-39 – H-59.</p>
+        </div>
+      </div>
+
+      <div class="doc">
+        <div class="doc-head">
+          <a class="t" href="pm-out-tunel-rozpadu-deals.html">PM OUT — tunel rozpadu deals</a>
+          <span class="date">20. 8. 2026</span>
+        </div>
+        <div class="doc-body">
+          <p><b>Co je uvnitř:</b> rozpad všech vytvořených OUT_PM zakázek na šest koncových
+            kategorií po pololetích, klikací propojení do tabulky všech dealů, ruční čtení
+            zápisů u 140 rozhodnutých dealů.</p>
+          <p><b>Klíčové zjištění:</b> z 99 prohraných dealů jich <b>48 (48 %) nešlo ovlivnit
+            vůbec</b> — klient zrušil poptávku nebo obsadil interně, rozhodla rámcová smlouva
+            konkurence, nebo měl konkurent insidera. Ze zbylých 45 ovlivnitelných proher jde
+            skoro polovina (22) na to, že náš kandidát prohrál přímé srovnání s konkurencí.
+            Mizí nám hlavně <b>výhry bez soutěže</b> (nesoutěžní výhry 12 → 6 → 3 v posledních
+            třech pololetích) — v soutěži jsme nevyhrávali skoro nikdy, jen <b>5 z 44</b>
+            rozhodnutých soutěžních dealů za celé okno.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="snum">2</span>Tracker (ATS) — náborová perspektiva</h2>
+    <p class="lede">Samostatná datová osa vedle CRM knihy — Tracker je jediný zdroj, který vidí
+      candidate-level recruiting proces (sourcing, screening, submission).</p>
+    <div class="doclist">
+
+      <div class="doc">
+        <div class="doc-head">
+          <a class="t" href="pm-out-soutez-tracker-funnel.html">Soutěž vs. nábor — kde v tunelu ztrácíme kandidáty</a>
+          <span class="date">28. 8. 2026</span>
+          <span class="tag">Pipedrive × Tracker</span>
+        </div>
+        <div class="doc-body">
+          <p><b>Co je uvnitř:</b> poprvé propojený Pipedrive s Trackerem. OUT_PM zakázky po
+            pololetích rozříznuté podle toho, jestli proti nám vůbec někdo stál, a za soutěžními
+            zakázkami rozbalený náborový tunel po kandidátech — kdo je zastavil, v jaké fázi
+            a co k tomu bylo napsáno. Klikací detail 34 zakázek.</p>
+          <p><b>Klíčové zjištění:</b> interní část tunelu se v soutěži nechová jinak (screening
+            68,5 vs. 76,5 %, interní pohovor 27,3 vs. 26,9 %). Láme se to až u klienta:
+            <b>pohovor → nabídka 12,0 % v soutěži vs. 58,5 % mimo ni</b>. Ze 44 soutěžních
+            zakázek za celé okno jsme vyhráli 5.</p>
+        </div>
+      </div>
+
+      <div class="doc">
+        <div class="doc-head">
+          <a class="t" href="pm-kandidatske-jadro-INTERNI.html">Kandidátské jádro PM v čase — odtok, koncentrace a doplňování</a>
+          <span class="date">29. 8. 2026</span>
+          <span class="tag">interní</span>
+        </div>
+        <div class="doc-body">
+          <p><b>Co je uvnitř:</b> PM jádro (35 lidí z 60 s PM obsazením 24+ měsíců nebo 2+
+            prodloužením), zúžené na OUT_PM a sledované v čase — kdo odešel, kdo zůstal, kdo
+            přibyl, census důvodů odchodu 12 z 12.</p>
+          <p><b>Klíčové zjištění:</b> odtok je stabilní (~3 lidé/kvartál), propadl přítok — nová
+            PM místa z 5,75 na <b>1,7 za kvartál, nula v 2026Q2</b>. Ani jeden z 12 odešlých
+            nebyl znovu nabídnut, 9 z 12 není v náboru vůbec.</p>
+        </div>
+      </div>
+
+      <div class="doc">
+        <div class="doc-head">
+          <a class="t" href="pm-tracker-recruitment-funnel.html">Recruitment funnel × win/loss — první průchod Tracker exportem</a>
+          <span class="date">29. 8. 2026</span>
+          <span class="tag">7 exportů</span>
+        </div>
+        <div class="doc-body">
+          <p><b>Co je uvnitř:</b> prvních 7 exportů z Trackeru rozvedených do 10 bariér
+            náborového procesu (sourcing → uzavření) vedle win/loss zakázek, s přepínáním
+            celkově/rok/pololetí.</p>
+          <p><b>Klíčové zjištění:</b> pokrytí Trackerem roste z 35 % (2024) na 100 % (2026) —
+            bez tohoto řezu vypadá chybějící sourcing jako největší příčina proher. V obdobích
+            s pokrytím ≥ 80 % padá <b>75 % proher na dvou klientských bariérách</b> (CV → pohovor,
+            pohovor → nabídka nedána).</p>
+        </div>
+      </div>
+
+      <div class="doc">
+        <div class="doc-head">
+          <a class="t" href="pm-out-k2-hypoteza.html">K2 hypotéza — prověřený kandidát rychleji a úspěšněji?</a>
+          <span class="date">7. 9. 2026</span>
+          <span class="tag">Tracker API — živě</span>
+        </div>
+        <div class="doc-body">
+          <p><b>Co je uvnitř:</b> celá kniha z Tracker API (864 reálných zakázek, 15 588 dvojic
+            kandidát × zakázka, 19 584 kandidátů) proti otázce, jestli tag K2 znamená vyšší úspěšnost.
+            Šest záložek: konverze v čase, po kompetencích, trychtýř, kontrolní testy,
+            <b>náklad a cena</b> a metodika. Přepínání granularity (celkem / rok / pololetí),
+            kompetencí a zobrazení (konverze v % vs. absolutní počty). Manažerské shrnutí na začátku.</p>
+          <p><b>Klíčové zjištění:</b> <b>hypotéza se nepotvrdila.</b> Hrubý rozdíl 22,4 vs. 19,6 %
+            (z = 1,16) zmizí po stratifikaci podle období (MH OR = 0,99) a na stejné zakázce se
+            obrací (OR = 0,65; K2 26,9 % vs. ostatní 35,3 %). Náskok existuje jen v kohortách
+            2021–2022 a od 2024 je záporný. Zdánlivá výhoda na úrovni osoby je efekt počtu pokusů
+            (2,28 vs. 1,41 nabídky). Tag navíc <b>od března 2026 nikdo nepřidělil</b>.
+            Záložka Náklad a cena ukazuje, kde K2 efekt reálně má: ke klientovi se dostane
+            <b>25,1 % dvojic proti 5,6 %</b> — rozdíl je v našem výběru, ne v úspěšnosti u klienta.
+            Uzavírá i třetí část propozice: marže na člověkoden <b>26,4 vs. 26,3 %</b>.</p>
+        </div>
+      </div>
+
+      <div class="doc">
+        <div class="doc-head">
+          <a class="t" href="pm-out-prezivsi-mista.html">Pozice pokračuje, my ne — přeživší místa</a>
+          <span class="date">31. 8. 2026</span>
+          <span class="tag">interní</span>
+        </div>
+        <div class="doc-body">
+          <p><b>Co je uvnitř:</b> všech 65 skončených obsazení celé OUT knihy (ne jen OUT_PM)
+            zakódovaných na otázku „co se stalo s místem potom" — pokračuje bez nás / s námi /
+            zaniklo / nejasné, s citací ze zápisku u každého řádku.</p>
+          <p><b>Klíčové zjištění:</b> <b>33 z 65 (51 %) je místo, které u klienta žije dál bez
+            nás</b> — to je 39 % dnešní knihy. Skutečně zaniklo jen 11. Podíl roste
+            17 → 67 → 42 → 61 % a mechanismus se posunul z převzetí kontraktora na rámcovku
+            a jiného dodavatele.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="snum">3</span>Databáze hypotéz</h2>
+    <p class="lede">Jedno místo pravdy pro všechny hypotézy vzniklé v úkolu Konverze — napříč
+      tunelem rozpadu, vztahovými knihami i obchodníky — a samostatný podklad k pěti
+      workshopovým hypotézám.</p>
+    <div class="doclist">
+
+      <div class="doc">
+        <div class="doc-head">
+          <a class="t" href="pm-out-5-hypotez-co-prodavame.html">Pět hypotéz z podkladu CO prodáváme</a>
+          <span class="date">1. 9. 2026</span>
+          <span class="tag">workshop MNG</span>
+        </div>
+        <div class="doc-body">
+          <p><b>Co je uvnitř:</b> ověření pěti workshopových hypotéz H1 – H5 (seniorita a scope,
+            rozptyl marže, cross-sell CONS × OUT, rolová taxonomie × AI, původ položek CO).
+            Přehled s tabulkou verdiktů, třemi průřezovými nálezy a konsolidovaným seznamem
+            dvanácti opatření; každá hypotéza se rozklikne do detailu se zadáním, evidencí,
+            verdiktem po částech a limity ověření. Dílčí hypotézy H-105 – H-143.</p>
+          <p><b>Klíčové zjištění:</b> ani jedna z pěti neplatí tak, jak je napsaná — u čtyř je
+            premisa pravdivá a padá závěr. Prodejní sazbu odvozujeme od nákupní (<b>r = +0,90</b>,
+            cost-plus), cross-sell neblokuje chybějící propozice, ale <b>18 účtů, kde se nikdo
+            nezeptal</b>, a AI se do pipeline dostala (68 dealů, 22 výher). Portfolio dnes vzniká
+            v bucketu <code>OUT_OTHER</code> — 36 % letošních OUT výher.</p>
+        </div>
+      </div>
+
+      <div class="doc">
+        <div class="doc-head">
+          <a class="t" href="pm-out-databaze-hypotez.html">Databáze hypotéz — PM Comp konverze</a>
+          <span class="date">1. 9. 2026</span>
+          <span class="tag">149 hypotéz</span>
+        </div>
+        <div class="doc-body">
+          <p><b>Co je uvnitř:</b> sdružující přehled všech 149 hypotéz (143 z registru H-01 – H-143
+            plus 6 původních) vzniklých v úkolu Konverze — napříč tunelem rozpadu, vztahovými
+            knihami i obchodníky. Filtrování podle statusu a zdroje, odkazy zpět na report, kde
+            hypotéza vznikla.</p>
+          <p><b>Účel:</b> jedno místo pravdy, kam se hypotéza dostane hned po vzniku a odkud
+            se sleduje její další ověřování — nerozpadá se do jednotlivých reportů.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="snum">4</span>Podpůrný nástroj — <em>vztahová síť</em></h2>
+    <p class="lede">Interaktivní nástroj nad celou kontaktní historií, mimo hlavní OUT_PM
+      diagnostiku — širší záběr, jiný účel než tunel v sekci 1.</p>
+    <div class="doclist">
+
+      <div class="doc">
+        <div class="doc-head">
+          <a class="t" href="kontakty.html">Kontakty — kdo nám reálně pomáhá k dealům</a>
+          <span class="date">18. 8. 2026</span>
+          <span class="tag">1482 kontaktů</span>
+        </div>
+        <div class="doc-body">
+          <p><b>Co je uvnitř:</b> interaktivní tabulka 1 482 kontaktů, 10 kategorií vztahu
+            (Dealmaker, Rozhodovací moc, Konektor, Ambasador…), filtrování a řazení podle skóre,
+            moci i vztahu, per-kontakt karta s příběhem a historií účtu, export CSV.</p>
+          <p><b>Účel:</b> najít, kde rozhodovací moc a vztah k nám nejsou u téže osoby — zdroj
+            H-30. Kdo nám reálně pomáhá k dealům a koho jsme dosud nevyužili.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="snum">5</span>Pojmy</h2>
+    <p class="lede">Žargon, který se v reportech opakuje bez vysvětlení.</p>
+    <dl class="gloss">
+
+      <div class="gterm">
+        <dt>Incumbent</dt>
+        <dd>Dodavatel, který u klienta už něco obsazuje/dodává — má „domácí výhodu" oproti
+          challengerovi, který se snaží dostat dovnitř poprvé. „Incumbent účet" = klient, kde
+          už běží naše obsazení a další příležitost u něj jde přes prodloužení nebo rozšíření,
+          ne přes novou soutěž.</dd>
+      </div>
+
+      <div class="gterm">
+        <dt>At-bat</dt>
+        <dd>Bejsbolová metafora pro jeden pokus/příležitost o konverzi — počet at-batů je, kolik
+          šancí obchodník nebo tým vůbec dostal, bez ohledu na to, kolik jich proměnil. Míň
+          at-batů při stejném win rate = stejně zdravý proces, ale méně vyhraných zakázek.</dd>
+      </div>
+
+      <div class="gterm">
+        <dt>OUT_PM</dt>
+        <dd>Tunel/kategorie zakázek v CRM pro PM outsourcing (obsazení projektového manažera
+          u klienta) — hlavní produkt, kolem kterého stojí celá diagnostika propadu konverze.</dd>
+      </div>
+
+      <div class="gterm">
+        <dt>Nesoutěžní výhra (NC)</dt>
+        <dd>Zakázka získaná bez formální soutěže/výběrového řízení — klient osloví přímo na
+          základě existujícího vztahu. V datech je to historicky nejsilnější kanál konverze,
+          proto se propad soustředí právě na něj, ne na soutěže.</dd>
+      </div>
+
+      <div class="gterm">
+        <dt>Prolongace</dt>
+        <dd>Prodloužení stávajícího obsazení u klienta bez nové výhry v CRM — z pohledu vztahu
+          jde o kontinuitu byznysu, ale win count ji nezachytí, takže část reálné incumbency
+          v reportech „mizí".</dd>
+      </div>
+
+      <div class="gterm">
+        <dt>Warehouse</dt>
+        <dd>Datový sklad, do kterého se extrahují a spojují data z Pipedrive (CRM, přes API)
+          a Trackeru (ATS) — společný zdroj dat pro všechny výstupy v této složce.</dd>
+      </div>
+
+    </dl>
+  </section>
+
+  <p class="note"><b>Ostatní výstupy:</b> třídílná vztahová kniha (kohorta 2025, nesoutěžní
+    výhry, obchodníci s propadem), další reporty a oba LLM council audity zůstávají ve
+    složce <code>Outputs/</code>, ale odsud už nejsou přímo linkované. Zdroj dat pro všechny
+    výstupy: warehouse (Pipedrive přes API + Tracker), extrakt 16. 8. 2026.</p>
+
+</div>
+
+<footer>
+  <div class="foot-in">
+    <div>Projectman.cz, s.r.o | <a href="https://www.projectman.cz">www.projectman.cz</a></div>
+    <div class="v">interní · 23. 8. 2026</div>
+  </div>
+</footer>
+
+</body>
+</html>

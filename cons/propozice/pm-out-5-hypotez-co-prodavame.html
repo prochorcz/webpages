@@ -1,0 +1,1793 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pět hypotéz — CO prodáváme</title>
+<style>
+@font-face{font-family:Poppins;font-weight:400;font-display:swap;
+  src:url("fonts/Poppins-Regular.woff2") format("woff2")}
+@font-face{font-family:Poppins;font-weight:500;font-display:swap;
+  src:url("fonts/Poppins-Medium.woff2") format("woff2")}
+@font-face{font-family:Poppins;font-weight:600;font-display:swap;
+  src:url("fonts/Poppins-SemiBold.woff2") format("woff2")}
+:root{
+  --pjm-dark:#20272F; --pjm-dark-soft:#3F4A57; --pjm-coral:#FF525F; --pjm-coral-light:#FF7580;
+  --pjm-blue:#A9C5DF; --pjm-blue-dark:#5C7894; --pjm-blue-light:#BAD1E5;
+  --pjm-grey:#878787; --pjm-bg:#F7F7F7; --pjm-bg-alt:#F0F2F5; --pjm-line:#DADADA;
+  --surface:#FFFFFF; --ink:#20272F; --ink-2:#3F4A57; --ink-muted:#878787;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --surface:#20272F; --ink:#FFFFFF; --ink-2:#C9D2DB; --ink-muted:#8C97A3;
+    --pjm-bg:#171D23; --pjm-bg-alt:#1C242C; --pjm-line:#333D48; --pjm-blue-dark:#8FB0CE;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;overflow-x:hidden}
+html.drawer-lock,html.drawer-lock body{overflow:hidden}
+body{margin:0;background:var(--pjm-bg);color:var(--ink);
+  font:400 15px/1.62 Poppins,Helvetica,Calibri,Arial,sans-serif}
+.wrap{max-width:1060px;margin:0 auto;padding:0 24px 70px}
+a{color:inherit}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em;
+  background:var(--pjm-bg-alt);padding:1px 5px;border-radius:3px}
+/* ---- hero ---- */
+.hero{position:relative;background:var(--pjm-dark);color:#fff;overflow:hidden;margin-bottom:32px}
+.hero-in{max-width:1060px;margin:0 auto;padding:48px 24px 42px;position:relative;z-index:2}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:40px}
+.logo-grid{display:grid;grid-template-columns:repeat(6,3px);gap:2.5px}
+.logo-grid i{width:3px;height:3px;background:var(--pjm-grey);border-radius:50%}
+.logo-wm{font-weight:600;font-size:19px;letter-spacing:-.01em}
+.logo-claim{font-size:9px;color:var(--pjm-grey);letter-spacing:.06em;margin-top:-2px}
+h1{font-weight:400;font-size:38px;line-height:1.17;margin:0;color:var(--pjm-coral);max-width:24ch}
+.hero h1 span{display:block;border-bottom:1.5px solid var(--pjm-coral);padding-bottom:7px;margin-bottom:7px}
+.hero-sub{color:#C9D2DB;font-size:13.5px;max-width:76ch;margin-top:20px}
+.hero-sub b{color:#fff;font-weight:500}
+.orn{position:absolute;right:-70px;top:-40px;z-index:1;opacity:.85}
+.pill{display:inline-block;font-size:9.5px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.09em;padding:4px 9px;border:1px solid var(--pjm-coral);color:var(--pjm-coral);
+  border-radius:11px;margin-bottom:18px}
+/* ---- sections ---- */
+section{background:var(--surface);border:1px solid var(--pjm-line);padding:26px 30px 28px;margin-bottom:18px}
+h2{font-weight:600;font-size:20px;margin:0 0 4px;letter-spacing:-.012em}
+h2 em{font-style:normal;color:var(--pjm-coral)}
+h3{font-weight:600;font-size:15px;margin:26px 0 8px;letter-spacing:-.005em}
+h3:first-child{margin-top:0}
+.lede{color:var(--ink-2);font-size:13.5px;margin:0 0 20px;max-width:84ch}
+.snum{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;
+  border-radius:50%;background:var(--pjm-coral);color:#fff;font-size:11px;font-weight:600;
+  margin-right:9px;vertical-align:2px}
+p{margin:0 0 12px;max-width:88ch}
+ul{margin:0 0 12px;padding-left:19px;max-width:88ch}
+li{margin-bottom:7px;line-height:1.58}
+li::marker{color:var(--pjm-coral)}
+.tight li{margin-bottom:4px}
+b,strong{font-weight:600}
+/* ---- kpi row ---- */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));
+  gap:1px;background:var(--pjm-line);border:1px solid var(--pjm-line);margin:0 0 22px}
+.kpi{background:var(--surface);padding:13px 15px 15px}
+.kpi .v{font-size:25px;font-weight:600;letter-spacing:-.025em;line-height:1.05;
+  font-variant-numeric:tabular-nums}
+.kpi .v small{font-size:14px;font-weight:500;letter-spacing:0}
+.kpi .l{font-size:11px;color:var(--ink-2);margin-top:7px;line-height:1.42}
+/* ---- tables ---- */
+.tw{overflow-x:auto;margin:0 0 16px}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:520px}
+th{text-align:left;font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--ink-muted);border-bottom:1px solid var(--pjm-line);padding:0 12px 7px 0;vertical-align:bottom}
+td{padding:10px 12px 10px 0;border-bottom:1px solid var(--pjm-line);vertical-align:top;
+  line-height:1.5;color:var(--ink-2)}
+td b{color:var(--ink)}
+tr:last-child td{border-bottom:none}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;padding-right:0}
+/* ---- badges ---- */
+.b{display:inline-block;font-size:9.5px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.06em;padding:2px 8px;border-radius:10px;border:1px solid;white-space:nowrap}
+.b-no{color:var(--pjm-coral);border-color:var(--pjm-coral)}
+.b-part{color:var(--pjm-blue-dark);border-color:var(--pjm-blue-dark)}
+.b-yes{color:var(--ink-2);border-color:var(--ink-2)}
+.b-open{color:var(--ink-muted);border-color:var(--ink-muted)}
+/* ---- verdict list (overview) ---- */
+.vrow{display:grid;grid-template-columns:34px 1fr 150px;gap:0 16px;padding:20px 0;
+  border-bottom:1px solid var(--pjm-line);align-items:start}
+.vrow:last-of-type{border-bottom:none}
+.vh{font-size:22px;font-weight:600;color:var(--pjm-coral);letter-spacing:-.02em;line-height:1.1}
+.vrow a.t{font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;letter-spacing:-.008em;
+  display:inline-block;margin-bottom:5px}
+.vrow a.t:hover{color:var(--pjm-coral)}
+.vrow a.t:after{content:" →";color:var(--pjm-coral)}
+.vq{font-size:12.5px;color:var(--ink-muted);font-style:italic;margin:0 0 8px;max-width:74ch}
+.vw{font-size:13px;color:var(--ink-2);margin:0;max-width:74ch}
+.vmeta{text-align:right;font-size:10.5px;color:var(--ink-muted);line-height:1.9}
+@media (max-width:720px){
+  .vrow{grid-template-columns:30px 1fr;gap:0 12px}
+  .vmeta{grid-column:2;text-align:left;margin-top:8px}
+}
+/* ---- callout ---- */
+.cal{border-left:2px solid var(--pjm-coral);background:var(--pjm-bg-alt);
+  padding:14px 18px;margin:0 0 16px;font-size:13px;color:var(--ink-2)}
+.cal b{color:var(--ink)}
+.cal p:last-child{margin-bottom:0}
+.grp{font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--pjm-coral);padding-top:18px}
+/* ---- detail chrome ---- */
+.bar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:14px 0 16px;font-size:12.5px}
+.bar a{color:var(--ink-2);text-decoration:none;font-weight:500}
+.bar a:hover{color:var(--pjm-coral)}
+.dhead{background:var(--pjm-dark);color:#fff;padding:26px 30px 28px;margin-bottom:18px;position:relative;overflow:hidden}
+.dhead .k{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;
+  color:var(--pjm-grey);margin-bottom:10px}
+.dhead h2{font-size:27px;font-weight:400;color:#fff;letter-spacing:-.015em;max-width:26ch;line-height:1.2}
+.dhead .vb{margin-top:14px}
+.dhead .vb .b{font-size:10px;padding:3px 10px}
+.dhead .b-no{color:var(--pjm-coral-light);border-color:var(--pjm-coral-light)}
+.dhead .b-part{color:var(--pjm-blue);border-color:var(--pjm-blue)}
+.dhead .b-yes{color:#fff;border-color:#fff}
+.quote{border-left:2px solid var(--pjm-blue-dark);padding:2px 0 2px 18px;margin:0 0 14px;
+  font-size:14px;color:var(--ink);max-width:80ch}
+.quote .src{display:block;font-size:11.5px;color:var(--ink-muted);margin-top:8px;font-style:normal}
+.sub{font-size:12.5px;color:var(--ink-muted);margin:-4px 0 16px}
+.sub2{font-size:11px;color:var(--ink-muted);font-weight:400}
+h4{font:600 14px/1.3 var(--ff);color:var(--ink);margin:26px 0 10px}
+.nav{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:4px 0 0;font-size:13px}
+.nav a{text-decoration:none;font-weight:600;color:var(--ink)}
+.nav a:hover{color:var(--pjm-coral)}
+.ref{color:var(--ink-2);text-decoration:none;border-bottom:1px dotted var(--pjm-blue-dark)}
+.ref:hover{color:var(--pjm-coral);border-bottom-color:var(--pjm-coral)}
+/* ---- detail drawer ---- */
+.backdrop{position:fixed;inset:0;background:rgba(15,20,24,.5);z-index:70;
+  opacity:0;visibility:hidden;transition:opacity .3s ease,visibility 0s linear .3s}
+.backdrop.open{opacity:1;visibility:visible;transition:opacity .3s ease}
+.drawer-close{position:fixed;top:16px;right:16px;z-index:90;width:36px;height:36px;
+  border-radius:50%;border:1px solid var(--pjm-line);background:var(--surface);
+  color:var(--ink-2);font-size:15px;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;transform:translateX(6px);
+  transition:opacity .2s ease,transform .2s ease,visibility 0s linear .2s}
+.drawer-close.open{opacity:1;visibility:visible;transform:translateX(0);
+  transition:opacity .25s ease .1s,transform .25s ease .1s}
+.drawer-close:hover{color:var(--pjm-coral);border-color:var(--pjm-coral)}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(940px,92vw);
+  background:var(--pjm-bg);z-index:80;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  box-shadow:-18px 0 44px rgba(0,0,0,.28);transform:translateX(100%);
+  visibility:hidden;transition:transform .34s cubic-bezier(.32,.72,0,1),visibility 0s linear .34s}
+.drawer.open{transform:translateX(0);visibility:visible;transition:transform .34s cubic-bezier(.32,.72,0,1)}
+.drawer-inner{padding:56px 30px 70px;max-width:1060px;margin:0 auto}
+@media (max-width:720px){
+  .drawer{width:100vw}
+  .drawer-inner{padding:56px 20px 60px}
+}
+@media (prefers-reduced-motion:reduce){
+  .drawer,.backdrop,.drawer-close{transition:none}
+}
+/* ---- footer ---- */
+footer{background:var(--pjm-dark);color:#fff;margin-top:30px}
+.foot-in{max-width:1060px;margin:0 auto;padding:24px;display:flex;
+  justify-content:space-between;align-items:center;font-size:12px;flex-wrap:wrap;gap:8px}
+.foot-in a{color:#fff;text-decoration:none}
+.foot-in .v{color:var(--pjm-coral);font-weight:600}
+.note{font-size:12.5px;color:var(--ink-muted);line-height:1.6;max-width:86ch}
+.note a{color:var(--ink-2)}
+@media print{
+  .view[hidden]{display:block!important}
+  .bar,.nav,.orn,.backdrop,.drawer-close{display:none}
+  .drawer{position:static;transform:none;width:auto;max-width:none;
+    overflow:visible;box-shadow:none;background:transparent}
+  .drawer-inner{padding:0;max-width:none;margin:0}
+  body{background:#fff}
+  section{break-inside:avoid;border-color:#ccc}
+  .dhead{break-before:page}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="orn" width="330" height="290" viewBox="0 0 330 290" aria-hidden="true">
+    <rect x="150" y="52" width="176" height="176" rx="40" fill="none" stroke="#A9C5DF" stroke-width="2"/>
+    <path d="M212 60 a86 86 0 1 1 -60 146" fill="none" stroke="#FF525F" stroke-width="2"/>
+  </svg>
+  <div class="hero-in">
+    <div class="logo">
+      <div class="logo-grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div><div class="logo-wm">projectman</div><div class="logo-claim">connecting experts</div></div>
+    </div>
+    <span class="pill">PM Comp · úkol Konverze · podklad pro workshop MNG</span>
+    <h1><span>Pět hypotéz</span>z podkladu CO prodáváme — co z nich po ověření zbylo</h1>
+    <p class="hero-sub">Ověření pěti workshopových hypotéz nad warehouse daty
+      (Pipedrive přes API, Tracker, Confluence), <b>1. 9. 2026</b>. Každá hypotéza má vlastní
+      detail se zadáním, evidencí, verdiktem po částech a doporučenými opatřeními.
+      Dohromady <b>39 dílčích hypotéz</b> (H-105 – H-143).</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ============================ PŘEHLED ============================ -->
+<div class="view" id="v-prehled">
+
+  <section>
+    <h2>Manažerské <em>shrnutí</em></h2>
+    <p class="lede">Co z ověření plyne pro rozhodnutí na workshopu.</p>
+
+    <div class="kpis">
+      <div class="kpi"><div class="v">5</div><div class="l">workshopových hypotéz<br>H1 – H5 ověřeno nad daty</div></div>
+      <div class="kpi"><div class="v">0</div><div class="l">z nich platí tak,<br>jak je v podkladu napsaná</div></div>
+      <div class="kpi"><div class="v">39</div><div class="l">dílčích hypotéz<br>22 validovaných · 10 vyvrácených · 7 otevřených</div></div>
+      <div class="kpi"><div class="v">7</div><div class="l">nálezů jsou artefakty měření,<br>ne zjištění o byznysu</div></div>
+      <div class="kpi"><div class="v">3<small> z 5</small></div><div class="l">hypotéz nešlo ověřit ve zdroji,<br>který zadání jmenuje</div></div>
+    </div>
+
+    <ul>
+      <li><b>Ani jedna z pěti hypotéz neplatí tak, jak je napsaná; u čtyř z nich je premisa pravdivá
+        a padá až závěr.</b> Závěry z podkladu proto míří na jiná opatření, než jaká z dat plynou —
+        u H1 a H4 na opačná.</li>
+      <li><b>Zdroj, který zadání jmenuje, se ve třech případech nepoužívá.</b> Account plány, stránka CO
+        i prostor <i>Revize propozice 2025-27</i> jsou zmrazené; důkaz musel přijít z CRM zápisků.</li>
+      <li><b>Nejdražší nález není obchodní, ale cenový:</b> prodejní sazbu odvozujeme od nákupní
+        (r = +0,90). Dokud kalkulace běží jako <i>nákup × přirážka</i>, každou prémii za kvalitu,
+        kterou bychom si vyjednali, si rozpustí zpět do nákupní sazby kontraktora.</li>
+      <li><b>Nejlevnější páka je jedna otázka u osmnácti účtů</b> — tam, kde dnes sedíme
+        s obsazením a nikdy jsme nenabídli konzultaci. Když nabídka vznikne, vyhrává ve dvou
+        ze tří případů (9 ze 14). Nejde o prohrané nabídky, jde o nevzniklé.</li>
+      <li><b>Portfolio dnes vzniká mimo seznam CO.</b> <code>OUT_OTHER</code> je 36 % letošních OUT výher
+        a 40 % hodnoty — role, které v seznamu nemáme, a jediná linka nad plánem 2026.</li>
+      <li><b>Iniciativa položky vyrábí, peníze dělá poptávka.</b> Za tři roky přibylo do nabídky
+        sedm položek: tři z naší iniciativy za <b>14,2 M Kč</b> (a 13,8 M z toho je jediná — DATA),
+        tři z klientské poptávky za <b>32,3 M Kč</b>, které nikdo nepojmenoval, a jedna smíšená (AI).
+        To není argument proti iniciativě — je to argument pro <b>zpětný kanál z prodeje do
+        portfolia</b>, který dnes neexistuje.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="snum">1</span>Verdikt v jedné <em>tabulce</em></h2>
+    <p class="lede">Kliknutím na název se otevře detail: zadání, manažerské shrnutí, klíčová
+      čísla, evidence, verdikt po částech, opatření a limity ověření.</p>
+
+    <div class="vrow">
+      <div class="vh">H1</div>
+      <div>
+        <a class="t" href="#h1">Seniorita a scope poptávky</a>
+        <p class="vq">„Propad není o PM jako kompetenci, ale o pásmu seniority a scopu. Pokud AI
+          ubírá juniorní a koordinační práci, odpověď není prodávej méně PM, ale prodávej PM jinak."</p>
+        <p class="vw"><b>Neplatí.</b> Pásmo junior/medior/koordinace jde 3 · 2 · 12 · 4 · 3 — rok 2026
+          je na úrovni 2024, jen se poměřuje proti výjimečnému pololetí. Mix seniority i velikosti
+          se posunul <b>příznivě</b> (+1,1 a +1,0 výhry), celý propad je rate a padá ve všech pásmech.
+          A žádná ze tří dimenzí, které by hypotézu unesly, není v datech pole.</p>
+      </div>
+      <div class="vmeta"><span class="b b-no">Neplatí</span><br>H-105 – H-110<br>6 dílčích</div>
+    </div>
+
+    <div class="vrow">
+      <div class="vh">H2</div>
+      <div>
+        <a class="t" href="#h2">Rozptyl marže mezi účty</a>
+        <p class="vq">„Kvalitu už nám někteří klienti platí, jen o tom nevíme. Rozptyl marže je velký
+          a dlouhodobý — pokud ho nevysvětlí velikost a síla klienta, je v něm propoziční prémie."</p>
+        <p class="vw"><b>Premisa platí, závěr ne.</b> Rozptyl je reálný a stabilní šest let, velikost
+          klienta ho nevysvětluje (r = −0,17). Jenže hlavní proměnná je <b>nákupní sazba</b> (r = −0,58)
+          a prodejní jde s ní (r = +0,90) — prodáváme cost-plus. Zbytkový účtový efekt existuje
+          a drží v čase, ale je to pásmo ±8 p.b. v hodnotě ~5,9 M Kč.</p>
+      </div>
+      <div class="vmeta"><span class="b b-part">Premisa ano, závěr ne</span><br>H-111 – H-117<br>7 dílčích</div>
+    </div>
+
+    <div class="vrow">
+      <div class="vh">H3</div>
+      <div>
+        <a class="t" href="#h3">Cross-sell CONS × OUT</a>
+        <p class="vq">„Cross-sell dnes nevzniká z nabídky, ale z osobního vztahu a náhody. ICP 2026
+          na společný prodej kvalifikuje, ale CO k tomu společný popis nemá."</p>
+        <p class="vw"><b>Platí, ale příčina je jinde.</b> Cross-sell je 12 účtů ze 68 a v 9 z 12 ho
+          drží týž obchodník na obou stranách. Klíčová oprava: <b>nejde o prohrané nabídky, jde
+          o nevzniklé</b> — u 18 z 34 živých OUT účtů nevznikl jediný CONS pokus, a když pokus vznikne,
+          vyhrává 64 % proti 31 % na studeném účtu. Rubrika pro společný popis existuje; chybí slovník.</p>
+      </div>
+      <div class="vmeta"><span class="b b-part">Platí, příčina jinde</span><br>H-118 – H-126<br>9 dílčích</div>
+    </div>
+
+    <div class="vrow">
+      <div class="vh">H4</div>
+      <div>
+        <a class="t" href="#h4">Rolová taxonomie × AI</a>
+        <p class="vq">„Rolová taxonomie brzdí prodej nových věcí. AI je kompetence bez role, takže se
+          nemá jak dostat do job openingu a do pipeline."</p>
+        <p class="vw"><b>Premisa platí a je datovatelná, závěr neplatí.</b> AI je 68 dealů, 22 výher
+          a <b>21,6 M Kč</b> objemu (z toho 6,9 M na výhrách, marže 2,34 M); <b>CONS_AI je druhá
+          nejzakládanější linka roku 2026</b> a job opening má stejně často jako PM. Pozor na srovnání:
+          41 % konverze u CONS_AI je proti 22 % u OUT_PM, ale <b>uvnitř konzultací konvertuje PM lépe
+          (68 %)</b> — AI je nejrychleji rostoucí linka, ne nejúspěšnější. Taxonomie prodej nebrzdí — ničí
+          měřitelnost: pětina AI zakázek visí pod rolovým labelem a do 26. 8. 2025 byla veškerá AI
+          vedená jako DATA.</p>
+      </div>
+      <div class="vmeta"><span class="b b-no">Závěr neplatí</span><br>H-127 – H-134<br>8 dílčích</div>
+    </div>
+
+    <div class="vrow">
+      <div class="vh">H5</div>
+      <div>
+        <a class="t" href="#h5">Původ položek CO</a>
+        <p class="vq">„Nové položky v CO vznikají výhradně reaktivně z klientské poptávky, nikdy z naší
+          iniciativy. Co už jsme prokazatelně prodali pak není nedbalost v textu, ale přesný popis metody."</p>
+        <p class="vw"><b>Neplatí doslova.</b> CO je osa nabídky — produktový mix firmy; stejnojmenná
+          stránka je jejím zápisem. Za tři roky přibylo do nabídky <b>sedm položek: tři z naší iniciativy, tři z klientské
+          poptávky, jedna smíšená</b> — slova „výhradně" a „nikdy" padají. Platí ale ostřejší verze:
+          <b>iniciativa položky vyrábí, peníze dělá poptávka</b> (naše tři 14,2 M Kč, klientské tři
+          32,3 M Kč). Zapsaná je z těch sedmi jedna.</p>
+      </div>
+      <div class="vmeta"><span class="b b-no">Neplatí doslova</span><br>H-135 – H-143<br>9 dílčích</div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="snum">2</span>Tři průřezové <em>nálezy</em></h2>
+    <p class="lede">Objevily se ve všech pěti vláknech nezávisle na sobě.</p>
+
+    <h3>1 · Zdroj, který hypotéza jmenuje, se nepoužívá</h3>
+    <p>Tři z pěti hypotéz jmenují v zadání zdroj nebo okno, které neobstojí.
+      <b>Account plány</b> (H3): 43 stránek, 30 z nich (70 %) beze změny od 2024, obě přehledové sekce
+      rodičovské stránky prázdné; ze 12 cross-sell účtů má plán 6 a jen jeden byl aktualizován
+      <i>po</i> cross-sellu. <b>Stránka CO prodáváme a Revize propozice 2025-27</b> (H5): verze 38
+      beze změny od 11. 9. 2024, poslední úprava v prostoru revize 29. 1. 2025.
+      <b>„Marže po klientech od 2018"</b> (H2): sazby jsou použitelné až od 2021, peněžní cesta od
+      2025 — rok 2018 má jediný datový bod. Důkaz musel pokaždé přijít z CRM.</p>
+    <p>Je to táž třída problému jako u <a class="ref" href="pm-out-databaze-hypotez.html">H-37</a>
+      (mezera není ve zkreslení zápisku, ale v jeho absenci) a
+      <a class="ref" href="pm-out-databaze-hypotez.html">H-82</a>: nástroj existuje, ale nikdo do
+      něj nepíše. <b>Pokud má být account plán nástrojem řízení cross-sellu, dnes jím prokazatelně
+      není</b> — a to je vstup do workshopu, ne poznámka pod čarou.</p>
+
+    <h3>2 · Sedm z 39 nálezů není o byznysu, ale o tom, že se to nedá měřit</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Kód</th><th>Co se nedá měřit</th><th>Čím to je</th></tr></thead>
+      <tbody>
+        <tr><td><b>H-108</b></td><td>seniorita, scope, role</td><td>nejsou pole; dopočítávají se z názvu dealu, marker má 40 % zakázek</td></tr>
+        <tr><td><b>H-116</b></td><td>cena, se kterou jsme prohráli</td><td>obě MD sazby má 95,7 % výher, ale 13,9 % proher — plní se až při obsazení</td></tr>
+        <tr><td><b>H-112</b></td><td>marže po klientech od 2018</td><td>použitelné až od 2021 (sazby), peněžní cesta od 2025; rok 2018 má jeden bod</td></tr>
+        <tr><td><b>H-129</b></td><td>časová řada AI × DATA</td><td>hodnota <code>AI</code> vznikla 26. 8. 2025 a 27 dealů bylo přeznačeno zpětně</td></tr>
+        <tr><td><b>H-142</b></td><td>win rate před 2024</td><td>migrace ze ZOHO přinesla z let 2017–2023 jen výhry — 57 dealů, ani jedna prohra</td></tr>
+        <tr><td><b>H-124</b></td><td>cross-sell z account plánů</td><td>zdroj se nepoužívá; 70 % plánů beze změny od 2024</td></tr>
+        <tr><td><b>H-135</b></td><td>kdo přidal položku do seznamu CO</td><td>stránka 24 měsíců beze změny; Confluence API nedává historii verzí</td></tr>
+      </tbody>
+    </table></div>
+    <p>Společný jmenovatel: <b>mění se pokrytí pole, ne měřená veličina</b>. Každý slide s trendem,
+      který přes jeden z těch bodů přechází, je nesrovnatelný v čase. Všech sedm ústí do jednoho
+      opatření — povinná pole (Ú-5) v tabulce níž.</p>
+
+    <h3>3 · Nová věc končí v bucketu bez jména — a je to největší položka</h3>
+    <p>Kvalifikační gate v BANT se ptá doslova <i>„Je poptávka mimo naše core kompetence
+      (PM, AGILE, BA, UX, DATA)?"</i> Na konverzi to nemá vliv (25 % vs. 29 %), ale
+      <b>27 z 29 takto označených zakázek skončí jako <code>OUT_OTHER</code></b>. Číselník
+      <code>Competency</code> má sedm hodnot a jedna z nich je OTHER; na seznamu CO nová položka
+      není. A přitom: OUT_OTHER je <b>jediná OUT linka nad plánem 2026</b> (8 výher proti plánu 4),
+      za historii 27 výher a 38,9 M Kč, letos 36 % výher a 40 % hodnoty OUT knihy. Uvnitř nejsou
+      náhody, ale soudržné rodiny — OT a výrobní role 7 výher / 17,6 M Kč, Salesforce 5 / 10,8 M.</p>
+    <p><b>Taxonomie prodej nebrzdí, jen novou věc zaparkuje do OTHER, kde ji žádný produktový
+      report neuvidí.</b> A rodiny uvnitř drží jeden obchodník a jeden účet — táž závislost jako
+      u cross-sellu (9 z 12 účtů na jednom člověku) a u lednové propozice, které chyběl vlastník.</p>
+  </section>
+
+  <section>
+    <h2><span class="snum">3</span>Co s tím — konsolidovaná <em>opatření</em></h2>
+    <p class="lede">Dvanáct opatření z pěti vláken. Uvnitř skupin řazeno podle poměru výsledek / náklad.</p>
+    <div class="tw"><table>
+      <thead><tr><th style="width:31%">Opatření</th><th>Z čeho plyne</th><th style="width:14%">Náklad</th></tr></thead>
+      <tbody>
+        <tr><td colspan="3" class="grp">Hned, mimo workshop</td></tr>
+        <tr>
+          <td><b>Spouštěč, ne kampaň:</b> u každého účtu s běžícím obsazením založit do konce kvartálu jeden CONS deal</td>
+          <td>18 živých OUT účtů bez jediného CONS pokusu; historická konverze pokusu 64 % (9 ze 14). Váže se na existující refill alarm z <a class="ref" href="pm-out-databaze-hypotez.html">H-59</a></td>
+          <td>18 rozhovorů</td>
+        </tr>
+        <tr>
+          <td><b>Pilot rozpojení ceníku od nákladu</b> na 5 zakázkách: cena z ceníku role místo <i>nákup × přirážka</i>, sledovat win rate proti kontrolní skupině</td>
+          <td>prodejní × nákupní sazba r = +0,90. Dokud platí cost-plus, propoziční prémie nemá kde vzniknout (H-114, H-117)</td>
+          <td>5 zakázek</td>
+        </tr>
+        <tr>
+          <td><b>Uzavřít leden 2025</b> — u devíti nominovaných položek napsat jedno slovo: běží / zabito / neověřeno</td>
+          <td>nominace visí 19 měsíců bez rozhodnutí, dva úkoly nezaškrtnuté; z devíti položek se v trhu projevila jedna, a ta se prodávala už rok předtím (H-138, H-139)</td>
+          <td>1 h</td>
+        </tr>
+        <tr><td colspan="3" class="grp">Q1 — jednotka portfolia</td></tr>
+        <tr>
+          <td><b>Nestavět rozhodnutí na AI jako na brzděné kompetenci</b> — obrátit větu na slidu: AI je v CONS druhý největší zdroj nových zakázek. Konverzi přes dva dodací modely neporovnávat proti OUT_PM</td>
+          <td>68 dealů, 22 výher, 21,6 M Kč objemu (6,9 M na výhrách); CONS_AI 24 zakázek 2026 proti 35 u OUT_PM; konverze 41 % vs. 22 % u OUT_PM — ale 68 % u CONS_PM (H-127)</td>
+          <td>rozhodnutí</td>
+        </tr>
+        <tr>
+          <td><b>Na slide dát plán vs. skutečnost celé OUT taxonomie:</b> PM 28/5 · BA 13/4 · DATA 8/0 · AI 5/1 · AGILE 2/2 · <b>OTHER 4/8</b></td>
+          <td>jediná linka nad plánem je ta, která nemá jméno — silnější argument pro dvouvrstvý model než cokoli o AI (H-128, H-140)</td>
+          <td>slide</td>
+        </tr>
+        <tr>
+          <td><b>Nezakládat společnou propozici CONS+OUT</b>, dokud neběží spouštěč a slovník; pokud pak vznikne, psát ji pro dvojici „AI/agilní konzultace → PM outsourcing"</td>
+          <td>cross-sell neblokuje chybějící popis, ale to, že se nikdo nezeptal; vstupní CONS zakázkou je v 7 z 11 případů AI nebo agilní téma (H-122, H-123)</td>
+          <td>rozhodnutí</td>
+        </tr>
+        <tr><td colspan="3" class="grp">Q2 — specifikace položky</td></tr>
+        <tr>
+          <td><b>Slovník k whitespace matici</b> — definovat, co znamená každý stav a co kvalifikuje řádek jako příležitost; otestovat na dvou reálných plánech</td>
+          <td>rubrika existuje, ale autor si k ní připsal <i>„nejsem zatím schopen vyhodnotit standardně. Pokud nepoužívám, tak smazat!"</i> (H-125)</td>
+          <td>půl dne</td>
+        </tr>
+        <tr>
+          <td><b>Pojmenovat rodinu OT a výrobních rolí</b> — dát jí vlastníka a stránku</td>
+          <td>7 výher / 17,6 M Kč a dvě otevřené příležitosti za 5,0 M, bez jména a bez kompetence; víc než celá záměrně budovaná DATA kompetence za tři roky (H-140)</td>
+          <td>půl dne</td>
+        </tr>
+        <tr><td colspan="3" class="grp">Q3 — jak se o portfoliu rozhoduje</td></tr>
+        <tr>
+          <td><b>Kvartální čtení bucketu OTHER</b> — projít výhry kódované OTHER a u každé rozhodnout: jednorázovka, nebo vzniká položka? Rodina s ≥ 5 výhrami dostane jméno, vlastníka a stránku</td>
+          <td>jediné místo, kde dnes nová položka reálně vzniká. První běh má hotový vstup (H-143)</td>
+          <td>1 h / kvartál</td>
+        </tr>
+        <tr>
+          <td><b>Nezakládat nový proces revize propozice, dokud nebude vlastník</b></td>
+          <td>proces v lednu 2025 existoval a nedojel právě na tom, že otázka <i>„kdo si to zavlastní?"</i> zůstala v zápisu nezodpovězená (H-138)</td>
+          <td>rozhodnutí</td>
+        </tr>
+        <tr>
+          <td><b>Předání účtu je předání obou streamů</b></td>
+          <td>cross-sell drží čtyři lidé, 9 z 12 účtů má na obou stranách téhož obchodníka; <a class="ref" href="pm-out-databaze-hypotez.html">H-33</a>: z 16 účtů po odchodu obchodníka nepřevzal nikdo ani jeden (H-121)</td>
+          <td>pravidlo</td>
+        </tr>
+        <tr><td colspan="3" class="grp">Ú-5 — povinná pole v CRM a Trackeru (jedna konfigurace, pět vláken ji potřebuje)</td></tr>
+        <tr>
+          <td><b>Pět polí najednou:</b> <code>seniorita</code> (junior/medior/senior/program) · <code>mandát</code> (koordinuje / řídí projekt / řídí program) · <code>AI label ANO/NE</code> vedle <code>Competency</code> · původ druhého dealu na účtu (lead z delivery / nabídka / poptávka klienta) · obě MD sazby povinné už při přechodu do IN PROGRESS</td>
+          <td>bez nich je neměřitelné: „prodávej PM jinak" (H-108), dvouvrstvost AI × role (H-130), čím cross-sell vznikl (H-122 — u 2 z 12 to dnes nejde zjistit) a jakákoli cenová analýza (H-116, dnes 13,9 % pokrytí na prohrách)</td>
+          <td>konfigurace</td>
+        </tr>
+      </tbody>
+    </table></div>
+    <p class="note"><b>Rozsah tohoto reportu.</b> Pět hypotéz odpovídá dílčím hypotézám
+      <b>H-105 – H-143</b>. Zbylých 104 hypotéz úkolu Konverze (H-01 – H-104: lokalizace propadu,
+      nesoutěžní kanál, kandidátské jádro, přeživší místa, hard skill v odmítnutích) sem nepatří
+      a report je nepotřebuje — jsou v databázi hypotéz
+      <a href="pm-out-databaze-hypotez.html">pm-out-databaze-hypotez.html</a> ve stejné složce,
+      kam odkazují i jednotlivé zmínky v textu. Zdroj dat: warehouse (Pipedrive přes API + Tracker),
+      Confluence přes MCP.</p>
+  </section>
+
+
+  <section>
+    <h2><span class="snum">4</span>Jak číst <em>čísla</em> v tomto reportu</h2>
+    <p class="lede">Každý údaj je přepočítaný nezávislým dotazem nad warehousem. Část čísel ale platí
+      jen za určité podmínky nebo se nesmí porovnávat napříč dodacími modely — kde to tak je, je to
+      uvedené u čísla i zde. Tahle stránka je proto to první, na co se má sáhnout, když někdo číslo
+      z reportu zpochybní.</p>
+
+    <div class="tw"><table>
+      <thead><tr><th style="width:30%">Údaj</th><th style="width:22%">Platí za podmínky</th><th>Co z toho plyne pro čtení</th></tr></thead>
+      <tbody>
+        <tr><td>Konverze OUT_PM <b>33,3 % → 15,4 %</b></td><td>vyřešené zakázky podle data založení</td><td>bez dalších podmínek: 39 zakázek / 13 výher proti 26 / 4</td></tr>
+        <tr><td>Rozpad delty na <b>volume / mix / rate</b></td><td>pásmo seniority se dopočítává z názvu zakázky</td><td>absolutní hodnoty mixu a rate se s definicí markeru posouvají (mix +1,1 až +2,1), ale <b>mix vychází kladně při každé variantě</b> — závěr „propad je rate, ne mix" je na definici nezávislý</td></tr>
+        <tr><td>Medián zakázky <b>1 716 → 2 419 → 2 608 tis. Kč</b></td><td><b>jen zakázky s vyplněnou hodnotou</b></td><td>se všemi zakázkami je řada 1 363 → 1 750 → 2 608. Pokrytí pole navíc vyskočilo ze 79 % na 100 %, takže je to <b>kvalitativní pozorování</b> („poptávka se posouvá k větším a formálněji zadaným zakázkám"), ne měřítko</td></tr>
+        <tr><td>Rozptyl marže <b>medián 25,0 %, SD 11,7 p.b.</b></td><td><b>měřeno jen na výhrách</b> — obě MD sazby má 95,7 % výher, ale 13,9 % proher</td><td>účet, který nás na vysoké ceně pravidelně odmítá, vypadá v datech jako prémiový. Rozptyl marže se proto nikdy neuvádí bez věty „měřeno na vyhraných zakázkách"</td></tr>
+        <tr><td><b>+5,9 M Kč</b> zbytkový účtový efekt</td><td>horní odhad statistického zbytku za 2024–2026, jen na výhrách</td><td><b>není to plán ani ušlý zisk.</b> U většiny účtů je rozptyl uvnitř účtu (4–12 p.b.) větší než jeho odchylka od průměru (±8 p.b.) — signál je menší než šum</td></tr>
+        <tr><td>AI: <b>21,6 M Kč</b></td><td>objem <b>všech 68</b> zakázek, ne jen vyhraných</td><td>na výhrách je <b>6,9 M Kč</b> (marže 2,34 M). Většina objemu AI linky leží v prohraných a otevřených zakázkách — číslo 21,6 M je velikost pipeline, ne tržba</td></tr>
+        <tr><td>Konverze <b>CONS_AI 41 %</b></td><td>proti OUT_PM (22 %) — <b>ne uvnitř konzultací</b></td><td>uvnitř konzultací konvertuje <b>CONS_PM 67,7 %</b> proti 41,4 % u AI. Srovnání „41 % vs. 22 %" míchá dva dodací modely. Poctivá věta je „AI je druhý největší zdroj nových konzultačních zakázek", ne „nejúspěšnější linka"</td></tr>
+        <tr><td>Cross-sell: <b>64 % proti 31 %</b></td><td>14 pokusů; účet, kde už sedíme, je teplejší z definice</td><td>měří <b>šanci nabídky u teplého účtu</b>, ne kauzální přínos cross-sellu. Formulovat jako „když se zeptáme, ve dvou ze tří případů prodáme"</td></tr>
+        <tr><td>Rodiny uvnitř <code>OUT_OTHER</code></td><td>počty výher jsou uvnitř tříletého okna</td><td>celý objem 38,9 M Kč spadá do posledních tří let — starší výhry v OTHER nemají v CRM zapsanou hodnotu. Srovnání s DATA (13,8 M za 2024–2026) je proto srovnáním stejně pokrytých období</td></tr>
+        <tr><td><b>Časové řady</b> AI × DATA a win rate před 2024</td><td>—</td><td><b>nesrovnatelné přes dva body:</b> hodnota <code>AI</code> vznikla 26. 8. 2025 a 27 zakázek bylo přeznačeno zpětně z DATA; a migrace ze ZOHO přinesla z let 2017–2023 <b>jen výhry</b>, takže win rate před 2024 je z definice 100 %</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="cal"><p><b>Tři věty, které v tomto reportu nikde nenajdete — schválně.</b>
+      „Marže po klientech máme od 2018" (použitelná řada začíná 2021). „AI je naše nejúspěšnější
+      linka" (uvnitř konzultací konvertuje PM lépe). „V rozptylu marže leží 5,9 milionu k vybrání"
+      (je to statistický zbytek měřený jen na výhrách). Každá z nich by ze správného čísla udělala
+      špatné rozhodnutí.</p></div>
+  </section>
+</div>
+
+</div><!-- /wrap -->
+
+<div class="backdrop" id="backdrop"></div>
+<button class="drawer-close" id="drawerClose" type="button" aria-label="Zavřít detail hypotézy">✕</button>
+<div class="drawer" id="drawer">
+<div class="drawer-inner">
+
+<!-- ============================ H1 ============================ -->
+<div class="view" id="v-h1" hidden>
+  <div class="bar"><a href="#prehled">← Přehled pěti hypotéz</a><span>H1 z 5 · sekce N registru · ověřeno 1. 9. 2026</span></div>
+  <div class="dhead">
+    <div class="k">Hypotéza H1 · podklad CO prodáváme</div>
+    <h2>Seniorita a scope poptávky</h2>
+    <div class="vb"><span class="b b-no">Neplatí</span> <span class="b b-part">premisa o velikosti zakázek platí</span></div>
+  </div>
+
+  <section>
+    <h2>Zadání</h2>
+    <div class="quote">Propad poptávky není o „PM" jako kompetenci, ale o konkrétním <b>pásmu seniority
+      a scopu</b> v ní. Pokud AI ubírá nejdřív juniorní a středovou koordinační práci, mění se
+      odpověď z <i>„prodávej méně PM"</i> na <i>„prodávej PM jinak"</i>.
+      <span class="src"><b>Jak ověřit:</b> rozpad prohraných a vyhraných dealů po roli × senioritě
+      × scopu, doplněno analýzou zadání (JD).</span></div>
+    <p class="sub"><b>Metoda:</b> pásmo seniority kódováno jen z explicitního markeru v názvu dealu
+      (junior / medior / senior / program / admin-support-koordinátor-PMO) — nulová interpretace, ale
+      i nízké pokrytí. Druhá, nezávislá osa je hodnota zakázky v CZK ekvivalentu. Rozpad delty výher
+      na volume / mix / rate stejnou metodou jako u
+      <a class="ref" href="pm-out-databaze-hypotez.html">H-01</a>.</p>
+  </section>
+
+  <section>
+    <h2>Manažerské <em>shrnutí</em></h2>
+    <div class="kpis">
+      <div class="kpi"><div class="v">3·2·12·4·3</div><div class="l">zakázky v pásmu junior / medior / koordinace, pět pololetí</div></div>
+      <div class="kpi"><div class="v">+1,1</div><div class="l">výhry — příspěvek mixu seniority (příznivý, ne nepříznivý)</div></div>
+      <div class="kpi"><div class="v">−5,8</div><div class="l">výhry — rate efekt z celkové delty −9,0</div></div>
+      <div class="kpi"><div class="v">25 → 17 %</div><div class="l">konverze v <b>seniorním</b> pásmu, tedy tam, kam se má prodej přesunout</div></div>
+      <div class="kpi"><div class="v">40 %</div><div class="l">zakázek má v názvu marker seniority — zbytek nese většinu objemu</div></div>
+      <div class="kpi"><div class="v">4 ze 149</div><div class="l">zápisků zmiňuje AI nebo automatizaci, a dva z nich falešně</div></div>
+    </div>
+    <ul>
+      <li><b>Dvoubodové srovnání hypotézu potvrzuje, pětibodová řada ji vyvrací.</b> Pásmo A jde
+        3 · 2 · 12 · 4 · 3 — rok 2026H1 je na úrovni 2024H1, ne pod ní. <b>2025H1 je výjimečné
+        pololetí</b>, ne baseline: ze 12 zakázek jsou 4 jeden účet (Škoda Auto), tedy přesně ten,
+        o kterém <a class="ref" href="pm-out-databaze-hypotez.html">H-04</a> říká, že vysvětluje
+        44 % propadu objemu.</li>
+      <li><b>Falzifikátor hned za oknem měření.</b> V červenci a srpnu 2026 vzniklo
+        5 OUT_PM zakázek a <b>3 z nich jsou juniorní nebo mediorní</b> (MAKRO, Jihomoravská
+        zdravotní, ČEPS), zatímco seniorních a programových je nula. Kdyby AI to pásmo strukturálně
+        odebírala, dva měsíce za oknem by takhle nevypadaly.</li>
+      <li><b>Mix nevysvětluje nic — už na páté nezávislé dimenzi.</b> Posun složení po senioritě
+        i po velikosti byl <b>příznivý</b> (+1,14 a +0,98 výhry); při loňských sazbách měl přidat
+        výhru. Celá delta −9,0 výhry je rate, a rate padá v každém pásmu včetně seniorního.</li>
+      <li><b>Jediné, co z premisy platí, je velikost.</b> Medián založené OUT_PM zakázky
+        1 716 → 2 419 → 2 608 tis. Kč, podíl zakázek nad 2,5 M vzrostl 23 % → 53 %, a u kontrolních
+        produktů se to neděje. Drží to ale tři výhrady, které to nepustí na slide jako číslo.</li>
+      <li><b>Hypotéza není měřitelná, protože žádná ze tří dimenzí není v datech pole.</b> Seniorita,
+        scope ani role se nikde neevidují — všechny tři se dopočítávají z názvu dealu, což je zkratka
+        obchodníka, ne klientovo zadání.</li>
+      <li><b>Mechanismus s AI nemá v CRM jedinou stopu.</b> To ale neznamená, že neplatí — znamená to,
+        že pro něj v našich datech <b>neexistuje opora</b>, a ten rozdíl musí na workshopu zaznít.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Co jsme <em>zjistili</em></h2>
+
+    <h3>1 · Pásmo A neklesá, jen se poměřuje proti výjimečnému pololetí</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Pásmo (marker v názvu dealu)</th><th class="n">2024H1</th><th class="n">2024H2</th><th class="n">2025H1</th><th class="n">2025H2</th><th class="n">2026H1</th><th class="n">2026H2*</th></tr></thead>
+      <tbody>
+        <tr><td>A junior / medior / koordinace</td><td class="n">3</td><td class="n">2</td><td class="n"><b>12</b></td><td class="n">4</td><td class="n">3</td><td class="n"><b>3</b></td></tr>
+        <tr><td>A tatáž řada <b>ex-Škoda Auto</b></td><td class="n">3</td><td class="n">1</td><td class="n">8</td><td class="n">2</td><td class="n">3</td><td class="n">3</td></tr>
+        <tr><td>C senior / program</td><td class="n">2</td><td class="n">6</td><td class="n">9</td><td class="n">4</td><td class="n">8</td><td class="n">0</td></tr>
+        <tr><td>Bez markeru</td><td class="n">17</td><td class="n">17</td><td class="n">18</td><td class="n">20</td><td class="n">19</td><td class="n">2</td></tr>
+        <tr><td><b>Celkem založených OUT_PM</b></td><td class="n"><b>22</b></td><td class="n"><b>25</b></td><td class="n"><b>39</b></td><td class="n"><b>28</b></td><td class="n"><b>30</b></td><td class="n"><b>5</b></td></tr>
+      </tbody>
+    </table></div>
+    <p class="sub">* 2026H2 = jen červenec a srpen. Kdo chce mluvit o senioritě, musí uvést všech
+      pět bodů, ne dva — je to táž past jako u <a class="ref" href="pm-out-databaze-hypotez.html">H-60</a>.</p>
+
+    <h3>2 · Rozpad delty: mix přispěl kladně, propadla úspěšnost</h3>
+    <p>Základ: vyřešené zakázky 2025H1 (n = 39, 13 výher) → 2026H1 (n = 26, 4 výhry), delta <b>−9,0 výhry</b>.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Osa</th><th class="n">volume</th><th class="n">mix</th><th class="n">rate</th><th class="n">součet</th></tr></thead>
+      <tbody>
+        <tr><td>Seniorita (marker v názvu)</td><td class="n">−4,33</td><td class="n"><b>+1,14</b></td><td class="n">−5,81</td><td class="n">−9,00</td></tr>
+        <tr><td>Velikost zakázky (CZK ekv.)</td><td class="n">−4,33</td><td class="n"><b>+0,98</b></td><td class="n">−5,65</td><td class="n">−9,00</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tw"><table>
+      <thead><tr><th>Pásmo</th><th class="n">2025H1 n / výher</th><th class="n">2026H1 n / výher</th></tr></thead>
+      <tbody>
+        <tr><td>junior / koordinace</td><td class="n">8 / 2 (25 %)</td><td class="n">2 / 0 (0 %)</td></tr>
+        <tr><td>medior</td><td class="n">4 / 1 (25 %)</td><td class="n">1 / 0 (0 %)</td></tr>
+        <tr><td>senior</td><td class="n">8 / 2 (25 %)</td><td class="n">6 / 1 (17 %)</td></tr>
+        <tr><td>bez markeru</td><td class="n">18 / 8 (44 %)</td><td class="n">17 / 3 (18 %)</td></tr>
+        <tr><td>&lt; 1,5 M</td><td class="n">13 / 7 (54 %)</td><td class="n">2 / 0 (0 %)</td></tr>
+        <tr><td>1,5 – 2,5 M</td><td class="n">11 / 3 (27 %)</td><td class="n">11 / 1 (9 %)</td></tr>
+        <tr><td>≥ 2,5 M</td><td class="n">7 / 3 (43 %)</td><td class="n">13 / 3 (23 %)</td></tr>
+      </tbody>
+    </table></div>
+    <p>V roce 2025 měla pásma senior a junior/koordinace shodně 25 % — <b>mezi pásmy nebyl rozdíl
+      už loni</b>. Rozdíl byl jen mezi „označeno" a „neoznačeno" (25 % vs. 44 %), což není seniorita,
+      ale nejspíš to, kdo zadání psal.</p>
+
+    <h3>3 · Velikost roste — jediná platná část premisy, se třemi výhradami</h3>
+    <p>Medián založené OUT_PM zakázky <b>1 716 → 2 419 → 2 608 tis. Kč</b> (2025H1 / 2025H2 / 2026H1),
+      podíl pod 1,2 M spadl 26 % → 7 %, podíl nad 2,5 M vzrostl 23 % → 53 %. Kontrolní produkty se tak
+      nechovají (OUT_BA 2 288 → 1 805, OUT_DATA 2 640 → 2 000, OUT_OTHER 2 000 → 2 040) a posun je
+      vidět i uvnitř skupiny bez markeru, takže to není artefakt značení.</p>
+    <div class="cal">
+      <p><b>Tři výhrady, které to drží mimo slide jako číslo:</b> (1) podíl EUR dealů vzrostl
+        19 % → 40 % a všechny se přepočítávají jedním fixním kurzem; (2) šest zakázek má hodnotu
+        přesně 2 419 000 Kč = 100 000 EUR a šest přesně 1 000 000 Kč — kulaté zástupné hodnoty,
+        ne ocenění; (3) pokrytí pole vyskočilo 79 % → 100 %.</p>
+      <p>Použitelné jako <b>kvalitativní pozorování</b>: poptávka se posouvá k větším a formálněji
+        zadaným zakázkám.</p>
+    </div>
+
+    <h3>4 · Čtyři kandidáti na proxy, čtyři slepé uličky</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Kandidát na proxy</th><th>Stav</th><th>Proč nejde použít</th></tr></thead>
+      <tbody>
+        <tr><td><code>MD Selling Rate</code></td><td>100 % u výher, ~15 % u proher (2025: 21/21 vs. 5/46)</td><td>plní se až při obsazení — srovnání výher a proher na sazbě je z definice nemožné</td></tr>
+        <tr><td><code>contract_value_czk_equiv</code></td><td>všech 12 zakázek bez hodnoty je prohraných</td><td>hodnota se doplňuje, až když deal postoupí — je zčásti důsledkem výsledku</td></tr>
+        <tr><td><code>FTE</code></td><td>1,0 u 176 ze 177 zakázek</td><td>nediskriminuje</td></tr>
+        <tr><td><code>Profession</code> (Tracker)</td><td>jediná hodnota <i>„Project management"</i>, 54 vyplněných ze 138</td><td>role ani seniorita v ATS neexistují</td></tr>
+      </tbody>
+    </table></div>
+    <p>Zbývá název dealu. Marker má 40 % zakázek; <b>zbylých 60 % nese většinu objemu i většinu propadu.</b></p>
+
+    <h3>5 · AI mechanismus: stopa není žádná, a jediný přímý signál jde opačným směrem</h3>
+    <ul class="tight">
+      <li>Ze 149 OUT_PM zakázek 2024–2026 zmiňují AI nebo automatizaci v zápiscích <b>4</b>, a dvě
+        z nich falešně (<i>„Automatizace výroby"</i> jako doména projektu).</li>
+      <li>Napříč celým CRM je každá zmínka AI o <b>prodeji AI školení a konzultací klientovi</b>
+        (Copilot adopce, hackathony, AI ambasadoři) — ani jedna o AI jako náhradě PM role.</li>
+      <li>Žádný <code>lost_reason</code> nemá tvar AI ani automatizace: <i>Cancelled by client</i> 31 ·
+        <i>Quality</i> 30 · <i>Silent client</i> 5 · <i>Cancelled by PJM</i> 5 · <i>Price</i> 4.</li>
+      <li>Jediný přímý AI signál na poptávkové straně jde opačným směrem — u prohrané zakázky stojí
+        <i>„potřebují člověka, co se nebojí AI a využívá ho v práci"</i>. AI je tam <b>požadavek na
+        kandidáta, ne jeho substitut</b>.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Verdikt po <em>částech</em></h2>
+    <div class="tw"><table>
+      <thead><tr><th style="width:34%">Část hypotézy</th><th>Verdikt</th></tr></thead>
+      <tbody>
+        <tr><td>„Propad je koncentrovaný do juniorního a středového koordinačního pásma"</td>
+          <td><b>Neplatí.</b> Pětibodová řada 3 · 2 · 12 · 4 · 3, kontrola ex-Škoda, a v červenci–srpnu 2026 jsou 3 z 5 nových zakázek právě v tomto pásmu</td></tr>
+        <tr><td>„Mix seniority a velikosti vysvětluje propad konverze"</td>
+          <td><b>Neplatí.</b> Mix přispěl +1,1 a +1,0 výhry; propad je rate a padá ve všech pásmech, i v seniorním (25 % → 17 %)</td></tr>
+        <tr><td>„Poptávka se posouvá k větším zakázkám a je to specifické pro PM"</td>
+          <td><b>Platí s výhradou.</b> Medián 1 716 → 2 608 tis. Kč a kontrolní produkty se tak nechovají — ale drží to tři měřicí artefakty</td></tr>
+        <tr><td>„AI ubírá juniorní a koordinační práci"</td>
+          <td><b>Netestovatelné v tomto datasetu.</b> Chybí pole i kvalitativní stopa. Vyvráceno je, že pro tvrzení existuje opora — ne samo tvrzení</td></tr>
+        <tr><td>Implicitní předpoklad „seniorita a scope jsou v datech"</td>
+          <td><b>Neplatí.</b> Ani jedno není pole; všechny dostupné proxy jsou kontaminované výsledkem</td></tr>
+      </tbody>
+    </table></div>
+    <div class="cal"><p><b>Co z toho plyne pro workshop.</b> Věta „prodávej PM jinak" se
+      z konverzních dat odvodit nedá — v seniorním pásmu, kam by se prodej měl přesunout, spadla
+      konverze taky. Pokud má být součástí propozice, musí opora přijít <b>zvenčí</b> (trh, benchmark,
+      rozhovory s klienty) a být takto označená.</p></div>
+  </section>
+
+  <section>
+    <h2>Dílčí <em>hypotézy</em></h2>
+    <div class="tw"><table>
+      <thead><tr><th style="width:9%">Kód</th><th>Tvrzení</th><th style="width:22%">Status</th></tr></thead>
+      <tbody>
+        <tr><td><b>H-105</b></td><td>Propad poptávky je koncentrovaný do juniorního a středového koordinačního pásma</td><td><span class="b b-no">Vyvrácena</span></td></tr>
+        <tr><td><b>H-106</b></td><td>Mix seniority a velikosti zakázek vysvětluje propad konverze</td><td><span class="b b-no">Vyvrácena</span></td></tr>
+        <tr><td><b>H-107</b></td><td>Velikost poptávané zakázky roste a je to specifické pro PM</td><td><span class="b b-yes">Validována s výhradou</span></td></tr>
+        <tr><td><b>H-108</b></td><td>Seniorita ani scope nejsou v datech pole; dostupné proxy jsou kontaminované výsledkem</td><td><span class="b b-yes">Validována</span> <span class="b b-open">artefakt měření</span></td></tr>
+        <tr><td><b>H-109</b></td><td>Mechanismus „AI ubírá koordinační práci" je v datech doložitelný</td><td><span class="b b-no">Vyvrácena</span> <span class="b b-open">jako testovatelné tvrzení</span></td></tr>
+        <tr><td><b>H-110</b></td><td>„Prodávej PM jinak" platí, ale ta jinakost není seniorita — je to způsob zadání a rychlost obsazení</td><td><span class="b b-open">Otevřená</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Doporučená <em>opatření</em></h2>
+    <div class="tw"><table>
+      <thead><tr><th style="width:6%">#</th><th style="width:32%">Opatření</th><th>Proč právě tohle</th><th style="width:13%">Náklad</th></tr></thead>
+      <tbody>
+        <tr><td><b>1</b></td><td><b>Dvě povinná pole na zakázce</b> — <code>seniorita</code> z číselníku a <code>mandát</code> (koordinuje / řídí projekt / řídí program)</td><td>bez nich je jakákoli úvaha o „prodávej PM jinak" neměřitelná; patří do Ú-5 k ostatním polím</td><td>konfigurace</td></tr>
+        <tr><td><b>2</b></td><td><b>Levný test skutečné dělící osy:</b> u 30 zakázek 2026H1 zaznamenat dvě binární pole — přišlo písemné zadání od klienta ANO/NE, a počet dní od založení k prvnímu odeslanému CV; porovnat proti 2025H1</td><td>v pásmu do 1,5 M je 11 výher z 25 a všechny do jedné jsou nesoutěžní — rozdíl mezi pásmy nedělá velikost, ale způsob, jakým poptávka přišla</td><td>půl dne</td></tr>
+        <tr><td><b>3</b></td><td><b>Neprezentovat pásmo A jako trend</b> bez všech pěti pololetí a bez kontroly ex-Škoda</td><td>dvoubodové srovnání ukazuje pravý opak pětibodové řady</td><td>pravidlo</td></tr>
+        <tr><td><b>4</b></td><td><b>Tvrzení o AI opřít o vnější zdroj</b> a takto ho na slidu označit</td><td>v CRM pro něj není opora ani v jednu stranu; prezentovat ho jako datový nález by bylo nepodložené</td><td>rozhodnutí</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Co tohle ověření <em>neumí</em></h2>
+    <ul class="tight">
+      <li><b>60 % zakázek nemá marker seniority.</b> Kódování má nulovou interpretaci, ale i nízké
+        pokrytí — a neoznačená skupina nese většinu objemu i většinu propadu.</li>
+      <li><b>Analýzu zadání (JD) dnes udělat nejde.</b> Text s reálnými požadavky je u 14 z 39 zakázek
+        2025H1 (36 %) a 7 z 30 v 2026H1 (23 %), explicitní věta o senioritě u 10 % a 17 %. Pokrytí se
+        mezi pololetími mění víc než měřená veličina.</li>
+      <li><b>Malá n na pololetí.</b> 39 → 26 vyřešených zakázek; po rozdělení na pásma jsou to jednotky
+        případů a každé procento je indikace.</li>
+      <li><b>Nevyvráceno je samo tvrzení o AI</b> — jen to, že pro něj v tomto datasetu existuje opora.</li>
+    </ul>
+    <p class="note">Dílčí hypotézy H-105 – H-110 včetně plné evidence jsou v
+      <a href="pm-out-databaze-hypotez.html">databázi hypotéz</a> (sekce N).</p>
+  </section>
+
+  <div class="nav"><a href="#prehled">← Přehled</a><a href="#h2">H2 · Rozptyl marže mezi účty →</a></div>
+</div>
+
+<!-- ============================ H2 ============================ -->
+<div class="view" id="v-h2" hidden>
+  <div class="bar"><a href="#prehled">← Přehled pěti hypotéz</a><span>H2 z 5 · sekce O registru · ověřeno 1. 9. 2026</span></div>
+  <div class="dhead">
+    <div class="k">Hypotéza H2 · podklad CO prodáváme</div>
+    <h2>Rozptyl marže mezi účty</h2>
+    <div class="vb"><span class="b b-part">Premisa platí, závěr ne</span> <span class="b b-no">propoziční prémie nedoložena</span></div>
+  </div>
+
+  <section>
+    <h2>Zadání</h2>
+    <div class="quote">Ověřit tezi <i>„kvalitu už nám někteří klienti platí, jen o tom nevíme"</i> —
+      rozptyl relativní marže mezi účty je velký a dlouhodobý, a pokud se nevysvětlí velikostí
+      a vyjednávací silou klienta, je v něm skrytá <b>propoziční prémie</b>.
+      <span class="src"><b>Jak ověřit:</b> marže po klientech od 2018, hledat vysvětlující proměnné.</span></div>
+    <p class="sub"><b>Metoda:</b> relativní marže počítaná jako <i>(prodejní − nákupní MD sazba) /
+      prodejní sazba</i>, ne jako marže dělená hodnotou zakázky. Sazbová cesta má pokrytí od 2021
+      (134 výher OUT) proti peněžní od 2025 (80 dealů), je nezávislá na délce kontraktu i FTE a obě
+      cesty dávají totéž — na 89 dealech, kde jsou obě, r = +0,969 a 88 % se liší o méně než 1 p.b.
+      Rozklad rozptylu: podíl mezisumy čtverců, ICC(1) a nested F-test na podvzorku účtů s n ≥ 4.
+      Kurz EUR jednotný 24,19.</p>
+  </section>
+
+  <section>
+    <h2>Manažerské <em>shrnutí</em></h2>
+    <div class="kpis">
+      <div class="kpi"><div class="v">25,0 %</div><div class="l">medián relativní marže, 134 výher OUT 2021–2026</div></div>
+      <div class="kpi"><div class="v">11,7</div><div class="l">p.b. směrodatná odchylka — stabilní ve všech šesti letech</div></div>
+      <div class="kpi"><div class="v">−0,58</div><div class="l">korelace marže s <b>nákupní</b> sazbou (s prodejní jen −0,16)</div></div>
+      <div class="kpi"><div class="v">+0,90</div><div class="l">korelace prodejní × nákupní sazby — definice cost-plus</div></div>
+      <div class="kpi"><div class="v">3 – 43 %</div><div class="l">rozsah marže uvnitř <b>jednoho</b> účtu (n = 25, týž rámec)</div></div>
+      <div class="kpi"><div class="v">5,9 M</div><div class="l">Kč — adresovatelný zbytkový účtový efekt za 2024–2026</div></div>
+      <div class="kpi"><div class="v">13,9 %</div><div class="l">proher má vyplněné obě sazby (u výher 95,7 %)</div></div>
+    </div>
+    <ul>
+      <li><b>Rozptyl je reálný a stabilní šest let.</b> SD 9–14 p.b. při plochém mediánu 23–27 %
+        a korelaci s časem r = 0,00. Premisa hypotézy tedy sedí a je legitimním vstupem.</li>
+      <li><b>Velikost ani vyjednávací síla klienta ho nevysvětlují</b> (r = −0,17). Nulová hypotéza
+        padá — ale s ní padá i účet jako úroveň: <b>rozptyl uvnitř jednoho účtu je stejně velký
+        jako mezi účty.</b> U Edwards Lifesciences jde marže od 3,0 % po 42,9 % při 25 obsazeních,
+        témže nákupčím a témže rámci. Rozdíl nedělá klient, dělá ho role.</li>
+      <li><b>Nejsilnější jediná proměnná je nákupní sazba</b> (r = −0,58) a <b>prodejní sazbu od ní
+        odvozujeme</b> (r = +0,90). Cenu stavíme jako <i>nákup × přirážka</i>, což je věcný opak režimu, ve kterém by propoziční prémie mohla
+        vzniknout. Jedna proměnná vysvětlí víc než 43 dummy proměnných za všechny účty.</li>
+      <li><b>Zbytkový účtový efekt existuje, je robustní a persistentní</b> — F(7, 71) = 5,98, a účet,
+        který platil nadprůměrně, platí nadprůměrně i později (r = +0,75). Ale je to pásmo <b>±8 p.b.</b> a u většiny účtů je vnitroúčtový šum větší
+        než jejich odchylka od nuly.</li>
+      <li><b>Osmiletá řada, kterou zadání předpokládá, neexistuje.</b> Použitelné okno je od 2021
+        (přes MD sazby), peněžní cesta až od 2025. Rok 2018 má jediný bod.</li>
+      <li><b>A všechno se měří jen na výhrách.</b> Účet, který nás na vysoké ceně pravidelně odmítá,
+        se v datech jeví jako prémiový — prohry, které by to vyvážily, v číslech nejsou.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Co jsme <em>zjistili</em></h2>
+
+    <h3>1 · Rozptyl je trvalý rys knihy, medián se nehýbe</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Rok</th><th class="n">n výher</th><th class="n">medián</th><th class="n">SD</th><th class="n">rozsah</th></tr></thead>
+      <tbody>
+        <tr><td>2021</td><td class="n">11</td><td class="n">26,3 %</td><td class="n">8,6</td><td class="n">7,9 – 42,1</td></tr>
+        <tr><td>2022</td><td class="n">10</td><td class="n">17,1 %</td><td class="n">8,9</td><td class="n">4,2 – 33,7</td></tr>
+        <tr><td>2023</td><td class="n">20</td><td class="n">22,6 %</td><td class="n">11,3</td><td class="n">5,0 – 55,4</td></tr>
+        <tr><td>2024</td><td class="n">21</td><td class="n">26,1 %</td><td class="n">14,0</td><td class="n">3,0 – 55,6</td></tr>
+        <tr><td>2025</td><td class="n">49</td><td class="n">26,7 %</td><td class="n">11,1</td><td class="n">4,0 – 52,0</td></tr>
+        <tr><td>2026</td><td class="n">22</td><td class="n">24,8 %</td><td class="n">12,0</td><td class="n">4,8 – 47,0</td></tr>
+        <tr><td><b>Celkem</b></td><td class="n"><b>134</b></td><td class="n"><b>25,0 %</b></td><td class="n"><b>11,7</b></td><td class="n"><b>3,0 – 55,6</b></td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>2 · Osmiletá řada neexistuje ani jednou cestou</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Rok</th><th class="n">výher OUT</th><th class="n">se sazbami</th><th class="n">s penězi</th><th class="n">účtů</th></tr></thead>
+      <tbody>
+        <tr><td>2017</td><td class="n">2</td><td class="n">0</td><td class="n">1</td><td class="n">2</td></tr>
+        <tr><td>2018</td><td class="n">3</td><td class="n"><b>1</b></td><td class="n"><b>1</b></td><td class="n">3</td></tr>
+        <tr><td>2019</td><td class="n">2</td><td class="n">0</td><td class="n">0</td><td class="n">2</td></tr>
+        <tr><td>2020</td><td class="n">5</td><td class="n">1</td><td class="n">1</td><td class="n">4</td></tr>
+        <tr><td>2021</td><td class="n">11</td><td class="n"><b>11</b></td><td class="n">1</td><td class="n">5</td></tr>
+        <tr><td>2022</td><td class="n">11</td><td class="n">10</td><td class="n">4</td><td class="n">6</td></tr>
+        <tr><td>2023</td><td class="n">20</td><td class="n">20</td><td class="n">3</td><td class="n">11</td></tr>
+        <tr><td>2024</td><td class="n">25</td><td class="n">21</td><td class="n">9</td><td class="n">12</td></tr>
+        <tr><td>2025</td><td class="n">49</td><td class="n">49</td><td class="n"><b>49</b></td><td class="n">24</td></tr>
+        <tr><td>2026</td><td class="n">22</td><td class="n">22</td><td class="n">22</td><td class="n">15</td></tr>
+      </tbody>
+    </table></div>
+    <p class="sub">Správná formulace je <b>„od 2021, přes MD sazby"</b>. Roky 2017–2020 mají dohromady tři body.</p>
+
+    <h3>3 · Rozptyl uvnitř účtu je stejně velký jako mezi účty</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Účet</th><th class="n">n</th><th class="n">medián</th><th class="n">SD</th><th class="n">rozsah</th><th class="n">medián nákupní sazby</th></tr></thead>
+      <tbody>
+        <tr><td>Edwards Lifesciences</td><td class="n">25</td><td class="n">8,3 %</td><td class="n">12,5</td><td class="n"><b>3,0 – 42,9 %</b></td><td class="n">9 900</td></tr>
+        <tr><td>Škoda Auto</td><td class="n">21</td><td class="n">31,8 %</td><td class="n">9,9</td><td class="n">7,9 – 55,4 %</td><td class="n">7 000</td></tr>
+        <tr><td>Raiffeisenbank</td><td class="n">10</td><td class="n">16,0 %</td><td class="n">6,3</td><td class="n">5,9 – 23,6 %</td><td class="n">10 250</td></tr>
+        <tr><td>Novo Nordisk</td><td class="n">10</td><td class="n">26,3 %</td><td class="n">7,8</td><td class="n">7,9 – 33,3 %</td><td class="n">9 000</td></tr>
+        <tr><td>Česká spořitelna</td><td class="n">6</td><td class="n">17,1 %</td><td class="n">9,8</td><td class="n">5,9 – 33,3 %</td><td class="n">9 550</td></tr>
+        <tr><td>accompani consulting</td><td class="n">6</td><td class="n">25,0 %</td><td class="n">11,5</td><td class="n">15,0 – 50,0 %</td><td class="n">8 250</td></tr>
+      </tbody>
+    </table></div>
+    <p>Proxy vyjednávací síly korelují s marží slabě a všechny stejně: log objemu účtu −0,17,
+      počet výher na účtu −0,17, log velikosti zakázky −0,29, log délky kontraktu +0,09. Znaménko
+      je podle očekávání záporné, ale vysvětluje pár procent rozptylu.</p>
+    <div class="cal"><p><b>Past, do které je snadné spadnout:</b> 25 ze 43 účtů má jedinou vyhranou
+      zakázku. Naivní „účet vysvětluje 50 % rozptylu" je z většiny přepasování — po korekci na počet
+      parametrů spadne na 0,265, tedy <b>pod jedinou proměnnou</b> níž.</p></div>
+
+    <h3>4 · Cost-plus: jedna proměnná porazí 43 účtových dummies</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Model (134 výher)</th><th class="n">parametrů</th><th class="n">R²</th><th class="n">adj R²</th></tr></thead>
+      <tbody>
+        <tr><td>jen nákupní sazba</td><td class="n">2</td><td class="n">0,332</td><td class="n"><b>0,327</b></td></tr>
+        <tr><td>jen kompetence (produkt)</td><td class="n">7</td><td class="n">0,161</td><td class="n">0,121</td></tr>
+        <tr><td>jen účet (43 dummies)</td><td class="n">43</td><td class="n">0,497</td><td class="n"><b>0,265</b></td></tr>
+        <tr><td>sazba + kompetence</td><td class="n">8</td><td class="n">0,425</td><td class="n">0,393</td></tr>
+        <tr><td>sazba + kompetence + účet</td><td class="n">49</td><td class="n">0,747</td><td class="n">0,604</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>Pokud by propoziční prémie v knize byla, musela by se projevit jako vyšší prodejní sazba
+      při stejné nákupní.</b> Místo toho se prodejní sazba hýbe s nákupní. Než se dá mluvit o „platí
+      nám za kvalitu", musí se rozpojit ceník od nákladu — jinak každou prémii, kterou bychom si
+      vyjednali, dnešní kalkulace automaticky rozpustí zpět do nákupní sazby kontraktora.</p>
+
+    <h3>5 · Co zbude po očištění: úzké pásmo, které drží v čase</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Účet (podvzorek n ≥ 4)</th><th class="n">n</th><th class="n">reziduum po nákupní sazbě</th><th class="n">SD uvnitř účtu</th></tr></thead>
+      <tbody>
+        <tr><td>Kooperativa</td><td class="n">4</td><td class="n"><b>+8,8 p.b.</b></td><td class="n">8,3</td></tr>
+        <tr><td>Škoda Auto</td><td class="n">21</td><td class="n">+4,0 p.b.</td><td class="n">8,2</td></tr>
+        <tr><td>accompani consulting</td><td class="n">6</td><td class="n">+2,9 p.b.</td><td class="n">6,1</td></tr>
+        <tr><td>Novo Nordisk</td><td class="n">10</td><td class="n">−0,7 p.b.</td><td class="n">4,1</td></tr>
+        <tr><td>Česká spořitelna</td><td class="n">6</td><td class="n">−2,2 p.b.</td><td class="n">7,4</td></tr>
+        <tr><td>W.A.G.</td><td class="n">4</td><td class="n">−3,5 p.b.</td><td class="n">9,0</td></tr>
+        <tr><td>Raiffeisenbank</td><td class="n">10</td><td class="n">−3,9 p.b.</td><td class="n">5,1</td></tr>
+        <tr><td>Edwards Lifesciences</td><td class="n">25</td><td class="n"><b>−7,3 p.b.</b></td><td class="n">12,2</td></tr>
+      </tbody>
+    </table></div>
+    <p>Nejbližší přirozený experiment v datech — týž kontraktor u dvou klientů za <b>identickou
+      nákupní sazbu</b>: kontraktor A prodán za 16 000 vs. 14 900 (marže 37,5 % vs. 32,9 %),
+      kontraktor B za 9 700 vs. 10 000 (17,5 % vs. 20,0 %). Rozdíl 2,5–4,6 p.b. je zatím jediný přímý
+      důkaz, že klient je ochoten platit různě za totéž. Jenže ze 124 kontraktorů byli u dvou a více
+      klientů jen <b>4</b> — experiment prakticky neexistuje, protože lidi mezi klienty nepřesouváme.</p>
+    <p><b>Co to je za peníze:</b> na OUT knize 2024–2026 (79 výher, 175,5 M Kč objemu, 40,6 M Kč marže)
+      by srovnání všech podmediánových dealů na medián dalo +10,5 M Kč. Po očištění o nákupní sazbu
+      z toho zbývá adresovatelných <b>+5,9 M Kč</b>.</p>
+    <div class="cal"><p><b>Jak to číslo nečíst.</b> Není to plán ani ušlý zisk — je to
+      <b>horní odhad statistického zbytku</b> za tři roky zpětně, spočtený jen na vyhraných
+      zakázkách. U většiny účtů je rozptyl marže <i>uvnitř</i> účtu (4–12 p.b.) větší než jeho
+      odchylka od průměru (±8 p.b.), takže signál je menší než šum. Na slide patří jen s touto větou,
+      jinak si ho někdo odnese jako cíl.</p></div>
+
+    <h3>6 · Měřeno jen na výhrách — silná verze tvrzení tím padá</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Výsledek OUT zakázky (od 2024)</th><th class="n">zakázek</th><th class="n">s oběma sazbami</th><th class="n">pokrytí</th></tr></thead>
+      <tbody>
+        <tr><td>won</td><td class="n">93</td><td class="n">89</td><td class="n"><b>95,7 %</b></td></tr>
+        <tr><td>open</td><td class="n">19</td><td class="n">5</td><td class="n">26,3 %</td></tr>
+        <tr><td>lost</td><td class="n">223</td><td class="n">31</td><td class="n"><b>13,9 %</b></td></tr>
+      </tbody>
+    </table></div>
+    <p>„Klient X nám platí prémii" měřené jen na výhrách je podmíněné tím, že klient cenu
+      <b>přijal</b>. Přesně tenhle vzorec je u účtu s nejvyšším reziduem (n = 4).</p>
+  </section>
+
+  <section>
+    <h2>Verdikt po <em>částech</em></h2>
+    <div class="tw"><table>
+      <thead><tr><th style="width:34%">Část hypotézy</th><th>Verdikt</th></tr></thead>
+      <tbody>
+        <tr><td>„Rozptyl marže mezi účty je velký a dlouhodobý"</td>
+          <td><b>Platí.</b> SD 9–14 p.b. v každém roce 2021–2026 při plochém mediánu, korelace s časem r = 0,00</td></tr>
+        <tr><td>„Marže po klientech máme od 2018"</td>
+          <td><b>Neplatí.</b> Sazbová cesta je použitelná od 2021, peněžní od 2025; rok 2018 má jeden bod</td></tr>
+        <tr><td>„Vysvětlí ho velikost a vyjednávací síla klienta"</td>
+          <td><b>Neplatí</b> (r = −0,17) — ale ne ve prospěch propozice: padá i účet jako úroveň, protože uvnitř účtu je rozptyl stejný jako mezi účty</td></tr>
+        <tr><td>„V nevysvětleném zbytku je propoziční prémie"</td>
+          <td><b>Nedoloženo.</b> Hlavní proměnná je nákupní sazba a prodejní od ní odvozujeme (r = +0,90) — prodáváme cost-plus</td></tr>
+        <tr><td>„U části účtů dostáváme za stejný náklad víc"</td>
+          <td><b>Platí úzce.</b> Pásmo ±8 p.b., persistentní (r = +0,75), statisticky robustní — ale nevyloučená jsou tři levnější vysvětlení</td></tr>
+      </tbody>
+    </table></div>
+    <div class="cal"><p><b>Formulace, která obstojí:</b> <i>„u části účtů dostáváme za stejný náklad
+      víc a drží to v čase; nevíme proč."</i> Než z toho bude propoziční tvrzení, musí se vyloučit
+      tři levnější vysvětlení — ceník rámcové smlouvy klienta
+      (<a class="ref" href="pm-out-databaze-hypotez.html">H-55</a>), cenový strop nákupčího
+      (<a class="ref" href="pm-out-databaze-hypotez.html">H-73</a>) a to, kdo je nákupní persona
+      (<a class="ref" href="pm-out-databaze-hypotez.html">H-30</a>).</p></div>
+  </section>
+
+  <section>
+    <h2>Dílčí <em>hypotézy</em></h2>
+    <div class="tw"><table>
+      <thead><tr><th style="width:9%">Kód</th><th>Tvrzení</th><th style="width:22%">Status</th></tr></thead>
+      <tbody>
+        <tr><td><b>H-111</b></td><td>Rozptyl relativní marže mezi účty je reálný a dlouhodobý</td><td><span class="b b-yes">Validována</span></td></tr>
+        <tr><td><b>H-112</b></td><td>Marže po klientech máme od 2018</td><td><span class="b b-no">Vyvrácena</span> <span class="b b-open">artefakt měření</span></td></tr>
+        <tr><td><b>H-113</b></td><td>Rozptyl vysvětluje velikost a vyjednávací síla klienta</td><td><span class="b b-no">Vyvrácena</span></td></tr>
+        <tr><td><b>H-114</b></td><td>Hlavní vysvětlující proměnná je nákupní sazba, ne klient; prodáváme cost-plus</td><td><span class="b b-yes">Validována</span></td></tr>
+        <tr><td><b>H-115</b></td><td>Po očištění o nákupní sazbu a kompetenci zbývá reálný účtový efekt</td><td><span class="b b-yes">Validována s výhradou</span></td></tr>
+        <tr><td><b>H-116</b></td><td>Rozptyl marže je měřitelný jen na výhrách</td><td><span class="b b-yes">Validována</span> <span class="b b-open">artefakt měření</span></td></tr>
+        <tr><td><b>H-117</b></td><td>Rozpojení ceníku od nákladu zvýší marži, aniž sníží konverzi</td><td><span class="b b-open">Otevřená</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Doporučená <em>opatření</em></h2>
+    <div class="tw"><table>
+      <thead><tr><th style="width:6%">#</th><th style="width:32%">Opatření</th><th>Proč právě tohle</th><th style="width:13%">Náklad</th></tr></thead>
+      <tbody>
+        <tr><td><b>1</b></td><td><b>Pilot rozpojení ceníku od nákladu</b> na 5 zakázkách: cena z ceníku role místo <i>nákup × přirážka</i>, s kontrolní skupinou na win rate</td><td>r = +0,90 mezi prodejní a nákupní sazbou je jediné číslo, které o cenotvorbě rozhoduje; bez rozpojení se prémie nemá kde projevit</td><td>5 zakázek</td></tr>
+        <tr><td><b>2</b></td><td><b>Obě MD sazby povinné při přechodu do IN PROGRESS</b>, ne až při obsazení</td><td>dnes 95,7 % pokrytí na výhrách proti 13,9 % na prohrách — každá cenová analýza je strukturálně jednostranná; patří do Ú-5</td><td>konfigurace</td></tr>
+        <tr><td><b>3</b></td><td><b>Formulovat úzce a s výhradou:</b> „u části účtů dostáváme za stejný náklad víc a drží to v čase; nevíme proč" — a vždy dodat, že je to měřeno jen na vyhraných zakázkách</td><td>silná verze („platí nám za kvalitu") je při dnešních datech neobhajitelná a na workshopu se rozpadne při první otázce</td><td>rozhodnutí</td></tr>
+        <tr><td><b>4</b></td><td><b>Vyřadit větu „marže po klientech máme od 2018"</b>; správně „od 2021, přes MD sazby"</td><td>rok 2018 má jediný datový bod; osmiletá řada v podkladu neexistuje</td><td>oprava</td></tr>
+        <tr><td><b>5</b></td><td><b>Než se z rozptylu udělá propozice, vyloučit tři levnější vysvětlení</b> — ceník rámcové smlouvy, cenový strop nákupčího, nákupní persona</td><td>všechna tři jsou konzistentní s daty a levnější na nápravu než nová propozice</td><td>rozhodnutí</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Co tohle ověření <em>neumí</em></h2>
+    <ul class="tight">
+      <li><b>Ceny, se kterými jsme prohráli, nevidíme</b> (13,9 % pokrytí). Účet, který nás na vysoké
+        ceně pravidelně odmítá, se v datech jeví jako prémiový.</li>
+      <li><b>25 ze 43 účtů má jedinou vyhranou zakázku</b> — každý singleton vysvětlí sám sebe
+        dokonale, takže naivní účtový model je z většiny přepasování.</li>
+      <li><b>Přirozený experiment prakticky neexistuje:</b> ze 124 kontraktorů byli u dvou a více
+        klientů 4. Bez přesunů lidí mezi klienty nejde od sebe oddělit člověka a účet.</li>
+      <li><b>Zbytkový efekt je menší než šum uvnitř účtu</b> u většiny účtů (SD 4–12 p.b. proti
+        odchylce ±8 p.b.).</li>
+      <li><b>Jeden fixní kurz EUR (24,19)</b> pro celé okno; EUR dealy nesou v H1 2026 většinu
+        peněžního narativu.</li>
+    </ul>
+    <p class="note">Dílčí hypotézy H-111 – H-117 včetně plné evidence jsou v
+      <a href="pm-out-databaze-hypotez.html">databázi hypotéz</a> (sekce O).</p>
+  </section>
+
+  <div class="nav"><a href="#h1">← H1 · Seniorita a scope poptávky</a><a href="#h3">H3 · Cross-sell CONS × OUT →</a></div>
+</div>
+
+<!-- ============================ H3 ============================ -->
+<div class="view" id="v-h3" hidden>
+  <div class="bar"><a href="#prehled">← Přehled pěti hypotéz</a><span>H3 z 5 · sekce P registru · ověřeno 1. 9. 2026</span></div>
+  <div class="dhead">
+    <div class="k">Hypotéza H3 · podklad CO prodáváme</div>
+    <h2>Cross-sell CONS × OUT — čím reálně vznikl</h2>
+    <div class="vb"><span class="b b-part">Platí, ale příčina je jinde</span> <span class="b b-no">zdroj důkazu se nepoužívá</span></div>
+  </div>
+
+  <section>
+    <h2>Zadání</h2>
+    <div class="quote">Cross-sell CONS+OUT dnes nevzniká z nabídky, ale z osobního vztahu a náhody.
+      ICP 2026 na společný prodej kvalifikuje, ale <b>CO k tomu společný popis nemá</b>.
+      <span class="src"><b>Jak ověřit:</b> vzít účty, kde cross-sell reálně vznikl, a dohledat, čím
+      vznikl. Malý vzorek stačí. Zdroj: account plány.</span></div>
+    <p class="sub"><b>„CO" v této větě znamená osu nabídky</b> — produktový mix firmy, ne
+      dokument. Tvrzení tedy zní: pro společný prodej CONS + OUT nemáme popsanou společnou nabídku.</p>
+    <p><b>Premisa o ICP sedí doslova.</b> ICP 2026 se definuje jako <i>„kvalifikační rámec určující,
+      u jakých klientů má PJM největší šanci uspět s oběma službami (CONS + OUT)"</i> a rozhodovací
+      tabulka má řádek <i>Potenciál CONS+OUT</i>: ICP = CONS ✓ / OUT ✓, Semi-ICP = CONS ✓ <i>xor</i>
+      OUT ✓. Společný prodej je definiční znak nejvyšší kategorie klienta.</p>
+    <p class="sub"><b>Metoda:</b> 68 účtů s alespoň jednou výhrou v OUT nebo CONS (215 výher). Efekt
+      pozice měřen <b>s časovým pořadím</b> — existovala výhra v druhém streamu už v den <i>založení</i>
+      dealu? Bez toho vyjde look-ahead artefakt (56 % místo 29 %). Cenzura vlevo: CONS výhry jsou
+      v CRM až od 05/2024, OUT od 2017, takže každý odstup „OUT → CONS" delší než dva roky je artefakt
+      evidence, ne obchodu.</p>
+  </section>
+
+  <section>
+    <h2>Manažerské <em>shrnutí</em></h2>
+    <div class="kpis">
+      <div class="kpi"><div class="v">12<small> z 68</small></div><div class="l">účtů má výhru v obou streamech</div></div>
+      <div class="kpi"><div class="v">18<small> z 34</small></div><div class="l">živých OUT účtů nemá jediný CONS deal — ani prohraný</div></div>
+      <div class="kpi"><div class="v">64 %</div><div class="l">win rate CONS nabídky u účtu, kde už držíme OUT (9 ze 14)</div></div>
+      <div class="kpi"><div class="v">31 %</div><div class="l">tatáž nabídka na studeném účtu (26 z 83)</div></div>
+      <div class="kpi"><div class="v">9<small> z 12</small></div><div class="l">účtů má na obou stranách téhož obchodníka</div></div>
+      <div class="kpi"><div class="v">2<small> z 12</small></div><div class="l">má doloženou písemnou nabídku — obě až po leadu zevnitř</div></div>
+      <div class="kpi"><div class="v">70 %</div><div class="l">account plánů je beze změny od roku 2024</div></div>
+    </div>
+    <ul>
+      <li><b>Cross-sell je 12 účtů ze 68.</b> Výhru v OUT má 45 účtů, v CONS 35, obojí 12. Z 45 OUT
+        účtů má <b>26 v CRM nula CONS dealů</b>; po zúžení na účty živé v okně, kdy CONS pipeline
+        vůbec existuje, je to <b>18 z 34</b>. Mezi nimi dva největší OUT účty firmy — Škoda Auto
+        (26 výher, 16,2 M) a Raiffeisenbank (10 výher, 16,2 M) — bez jediného CONS řádku za celou historii.</li>
+      <li><b>Nejde o prohrané nabídky, jde o nevzniklé.</b> Když CONS nabídka u OUT účtu vznikne,
+        vyhrává 9 ze 14 (64 %) proti 26 z 83 (31 %) na účtu bez předchozí výhry. Omezením není
+        win rate, ale počet pokusů. <b>To je oprava implicitního předpokladu celé hypotézy.</b></li>
+      <li><b>Drží to jeden člověk, ne firma.</b> V 9 z 12 účtů je na obou stranách týž obchodník;
+        celý firemní cross-sell drží čtyři lidé (4 + 3 + 2 + 2 účty). Tři výjimky mají odstup 165,
+        1 538 a 2 443 dní.</li>
+      <li><b>Doložený spouštěč je „už jsme uvnitř".</b> Písemná nabídka je doložená u 2 z 12 — a v obou
+        případech až poté, co lead vznikl uvnitř (schůzka konzultanta, workshop). Kódování to říká
+        doslova: <i>„už jsme uvnitř — lead z CONS streamu"</i>.</li>
+      <li><b>Zdroj, který hypotéza jmenuje, se nepoužívá.</b> 43 account plánů, 30 (70 %) beze změny od
+        2024, v roce 2026 se dotklo pět. Ze 12 cross-sell účtů má plán 6 a jen jeden byl aktualizován
+        <i>po</i> cross-sellu. Přehledové sekce na rodičovské stránce jsou prázdné.</li>
+      <li><b>Na úrovni řízení účtu nechybí rubrika, chybí jazyk.</b> Nejnovější šablona plánu whitespace matici CONS × OUT
+        <b>má</b> — a autor si k ní sám připsal: <i>„nejsem zatím schopen vyhodnotit standardně.
+        Pokud nepoužívám, tak smazat!"</i></li>
+      <li><b>Nejlevnější páka není společná propozice, ale spouštěč:</b> 18 aktivních OUT účtů, kde
+        CONS nabídka nikdy nevznikla, při historické konverzi pokusu 64 %.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Co jsme <em>zjistili</em></h2>
+
+    <h3>1 · Kolik cross-sellu vůbec existuje</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Skupina účtů</th><th class="n">účtů</th></tr></thead>
+      <tbody>
+        <tr><td>Výhra v OUT</td><td class="n">45</td></tr>
+        <tr><td>Výhra v CONS</td><td class="n">35</td></tr>
+        <tr><td><b>Výhra v obou (cross-sell)</b></td><td class="n"><b>12</b></td></tr>
+        <tr><td>OUT účty bez jediného CONS dealu (i prohraného)</td><td class="n">26 ze 45</td></tr>
+        <tr><td><b>…po zúžení na účty živé po 05/2024</b></td><td class="n"><b>18 ze 34</b></td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>2 · Nabídka, která vznikne, vyhrává. Skoro nikdy nevznikne</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Deal</th><th>výhra ve stejném streamu</th><th>výhra v druhém streamu</th><th class="n">uzavřeno</th><th class="n">výher</th><th class="n">win rate</th></tr></thead>
+      <tbody>
+        <tr><td>CONS</td><td>ne</td><td><b>ne</b></td><td class="n">83</td><td class="n">26</td><td class="n"><b>31,3 %</b></td></tr>
+        <tr><td>CONS</td><td>ne</td><td><b>ano</b></td><td class="n">14</td><td class="n">9</td><td class="n"><b>64,3 %</b></td></tr>
+        <tr><td>CONS</td><td>ano</td><td>ne</td><td class="n">31</td><td class="n">22</td><td class="n">71,0 %</td></tr>
+        <tr><td>OUT</td><td>ne</td><td><b>ne</b></td><td class="n">153</td><td class="n">48</td><td class="n"><b>31,4 %</b></td></tr>
+        <tr><td>OUT</td><td>ne</td><td><b>ano</b></td><td class="n">7</td><td class="n">2</td><td class="n"><b>28,6 %</b></td></tr>
+        <tr><td>OUT</td><td>ano</td><td>ne</td><td class="n">190</td><td class="n">92</td><td class="n">48,4 %</td></tr>
+      </tbody>
+    </table></div>
+    <div class="cal"><p><b>Past:</b> bez časového pořadí vyjde „OUT deal u CONS účtu 56 %". To je
+      look-ahead — do vzorku se dostanou účty, kde CONS výhra přišla až <i>po</i> OUT výhře.
+      Nepoužívat. A i platné číslo 64 % měří <b>šanci nabídky u teplého účtu</b>, ne kauzální přínos
+      cross-sellu: účet, kde už jsme uvnitř, je teplejší z definice.</p></div>
+
+    <h3>3 · Kdo to drží: čtyři lidé</h3>
+    <p>V 9 z 12 účtů je owner první výhry v obou streamech tentýž člověk. Tři výjimky jsou zároveň
+      tři z pěti nejdelších odstupů (1 538 a 2 443 dní), a jediné rychlé předání (165 dní) je zároveň
+      jediný případ, kdy cross-sell přešel mezi CONS a OUT rolí uvnitř firmy. <b>Cross-sell dnes není
+      firemní schopnost, ale osobní zvyk čtyř lidí</b> — u účtu, jehož owner odejde, nevznikne.
+      Navazuje přímo na <a class="ref" href="pm-out-databaze-hypotez.html">H-33</a> (z 16 účtů po
+      odchodu obchodníka nepřevzal nikdo ani jeden).</p>
+
+    <h3>4 · Čím to vzniklo — zápisky u dvanácti druhých dealů</h3>
+    <ul class="tight">
+      <li><b>ČEPS:</b> <i>„na schůzce k AI adopci … sdělil, že do 29. 8. vyhlásí rozšíření zavedeného
+        DNS"</i> → zařazení do DNS → minitendr → nabídka. Konzultační schůzka byla zdrojem informace
+        o nákupním procesu.</li>
+      <li><b>Škoda Transportation:</b> po AI workshopu — <i>„z workshopu byli fakt nadšeni… protože
+        se jim do baráku rvou další konzultanti z jiných firem a on mě tam chce nechat aby zajistil
+        kontinuitu pro PMO"</i>.</li>
+      <li><b>VIG RE:</b> lead přinesl kolega po schůzce; kódováno jako <b>„už jsme uvnitř — lead
+        z CONS streamu"</b>.</li>
+      <li><b>WOOD:</b> kódováno <b>„už jsme uvnitř — historický klient"</b>; klient vybíral jen mezi
+        našimi dvěma kandidáty.</li>
+      <li><b>Veolia:</b> doslova náhoda — deal z 12/2024 odepsaný (<i>„Již nevěřím, že se vyjádří"</i>),
+        v 04/2025 reopen: <i>„nakonec nastoupí a dají nám zpětně provizi"</i>. Odstup od první OUT
+        výhry 2 443 dní.</li>
+      <li><b>Novo Nordisk a Edwards:</b> druhý deal <b>bez jediného zápisku</b>. Edwards je nejostřejší
+        doklad — 29 OUT výher, 35,5 M Kč, jeden owner devět let, a za celou tu dobu jedna CONS zakázka
+        za 120 tis.</li>
+    </ul>
+
+    <h3>5 · Směr, rychlost a peníze</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Směr</th><th class="n">účtů</th><th>odstup první výhry</th></tr></thead>
+      <tbody>
+        <tr><td>CONS → OUT</td><td class="n">3</td><td>124 · 136 · 165 dní, všechny v posledních 12 měsících</td></tr>
+        <tr><td>OUT → CONS</td><td class="n">9</td><td>medián 406 dní, rozsah 171 – 3 308 (nafouknuto cenzurou)</td></tr>
+      </tbody>
+    </table></div>
+    <p>Peníze na dvanácti účtech: <b>OUT 62 výher / 102,4 M Kč</b> (medián 1 412 tis.) proti
+      <b>CONS 21 výher / 10,6 M Kč</b> (medián 240 tis.). Cross-sell dnes běží převážně směrem
+      k drobným zakázkám — devět z dvanácti účtů šlo z outsourcingu do konzultace o řád menší.
+      U <b>prvního</b> CONS dealu na účtu je poměr AI 4 · Agile 3 · PM 2 · ostatní 2: vstupem je
+      typicky AI nebo agilní téma.</p>
+
+    <h3>6 · Account plán — zdroj, který hypotéza jmenuje</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Průnik s dvanácti cross-sell účty</th><th class="n"></th></tr></thead>
+      <tbody>
+        <tr><td>má account plán</td><td class="n"><b>6 z 12</b></td></tr>
+        <tr><td>plán aktualizován <b>po</b> cross-sellu</td><td class="n"><b>1</b></td></tr>
+        <tr><td>bez plánu</td><td class="n">6</td></tr>
+        <tr><td>z 18 účtů s nulovým pokusem má plán</td><td class="n">3</td></tr>
+      </tbody>
+    </table></div>
+    <p>Poslední úprava napříč 43 plány: 2023 — 4 · 2024 — 26 · 2025 — 8 · 2026 — 5. Rodičovská stránka
+      je z 09/2024 a její dvě přehledové sekce jsou prázdné, přestože deklaruje revizi jednou za
+      kvartál. Plány naopak existují pro účty <b>bez</b> cross-sellu a většinou bez byznysu
+      (ČEZ ×3, E.ON, Kofola, DHL, T-Mobile, Dentons, IONITY, MIBCON).</p>
+
+    <h3>7 · Společná propozice neexistuje — a na úrovni účtu chybí jazyk, ne rubrika</h3>
+    <p>Nejnovější account plán (05/2026) obsahuje <b>Whitespace Analysis</b> — matici CONS × EDU × OUT
+      proti PM, AGILE, DATA&amp;AI, UX/DESIGN, BA, vyplněnou stavy <i>Dodáváme · UMÍME, reactive ·
+      Validovat · NA</i>. Rubrika tedy existuje. Vedle ní je ale poznámka autora: <i>„Variantní
+      whitespace analýza — <b>nejsem zatím schopen vyhodnotit standardně. Pokud nepoužívám, tak
+      smazat!</b>"</i> Sekce <i>Our Goals</i> a <i>Action plan</i> zůstaly nevyplněnými placeholdery —
+      na účtu, kde cross-sell přinesl 3,9 M Kč OUT zakázku.</p>
+  </section>
+
+  <section>
+    <h2>Verdikt po <em>částech</em></h2>
+    <div class="tw"><table>
+      <thead><tr><th style="width:34%">Půlka hypotézy</th><th>Verdikt</th></tr></thead>
+      <tbody>
+        <tr><td>„Cross-sell nevzniká z nabídky, ale z osobního vztahu a náhody"</td>
+          <td><b>Platí.</b> 10 z 12 bez doložené nabídky, 9 z 12 na jednom obchodníkovi, dvě doložené nabídky obě až po leadu zevnitř, jeden případ je doslova náhoda po odepsaném dealu</td></tr>
+        <tr><td>„ICP 2026 na společný prodej kvalifikuje"</td>
+          <td><b>Platí doslova.</b> ICP je definované jako fit pro obě služby, Semi-ICP jako fit pro jednu</td></tr>
+        <tr><td>„CO k tomu společný popis nemá"</td>
+          <td><b>Platí doslova.</b> Společná propozice („STŘECHA / ROOF") je na stránce CO vedená jako <b>TO BE DONE</b> a management ji potvrzuje jako zaparkovanou — bez shody, že je to vůbec správná cesta. Chybějící popis ale <b>není tím, co cross-sell blokuje</b>: nabídka většinou vůbec nevznikne. Whitespace matice v šabloně account plánu je jiná vrstva — místo, <i>kam</i> se cross-sell zapisuje, ne popis toho, <i>co</i> společně prodáváme; a i ta je bez slovníku nepoužitelná</td></tr>
+        <tr><td>Implicitní předpoklad „nabídku děláme a prohráváme ji"</td>
+          <td><b>Neplatí.</b> Nabídka většinou vůbec nevznikne; když vznikne, vyhrává 64 %</td></tr>
+        <tr><td>Předpoklad, že se cross-sell dohledá v account plánech</td>
+          <td><b>Neplatí.</b> Zdroj se nepoužívá — důkaz musel přijít z CRM zápisků</td></tr>
+      </tbody>
+    </table></div>
+    <div class="cal"><p><b>Co z toho plyne pro Q1 (jednotka portfolia).</b> Argument pro klientskou
+      potřebu jako vnější vrstvu tímto ověřením <b>neslábne, ale ani nesílí tak, jak podklad
+      předpokládá.</b> Cross-sell dnes neblokuje chybějící společná propozice — blokuje ho to, že se
+      u 18 z 34 živých OUT účtů nikdo nezeptal. Společný popis je odpověď na otázku <i>„jak přechod
+      odůvodnit"</i>, ne na otázku <i>„proč k přechodu nedošlo"</i>. Pořadí má být: nejdřív spouštěč,
+      pak slovník, a teprve pokud oboje běží a pořád to nefunguje, společná propozice.</p></div>
+  </section>
+
+  <section>
+    <h2>Dílčí <em>hypotézy</em></h2>
+    <div class="tw"><table>
+      <thead><tr><th style="width:9%">Kód</th><th>Tvrzení</th><th style="width:22%">Status</th></tr></thead>
+      <tbody>
+        <tr><td><b>H-118</b></td><td>Cross-sell existuje na 12 účtech ze 68; na většině knihy se o něj nikdo nepokusil</td><td><span class="b b-yes">Validována</span></td></tr>
+        <tr><td><b>H-119</b></td><td>Nabídka, která u OUT účtu vznikne, vyhrává dvakrát častěji než na studeném účtu</td><td><span class="b b-yes">Validována</span> <span class="b b-open">malé n</span></td></tr>
+        <tr><td><b>H-120</b></td><td>Opačný směr (OUT po CONS) funguje stejně</td><td><span class="b b-open">Otevřená</span> <span class="b b-open">n = 7</span></td></tr>
+        <tr><td><b>H-121</b></td><td>Cross-sell drží jeden obchodník, ne firma</td><td><span class="b b-yes">Validována</span></td></tr>
+        <tr><td><b>H-122</b></td><td>Doložený spouštěč je „už jsme uvnitř", ne nabídka</td><td><span class="b b-yes">Validována kvalitativně</span></td></tr>
+        <tr><td><b>H-123</b></td><td>Směr určuje rychlost i velikost</td><td><span class="b b-yes">Validována s výhradou</span></td></tr>
+        <tr><td><b>H-124</b></td><td>Account plán je použitelný zdroj o cross-sellu</td><td><span class="b b-no">Vyvrácena</span> <span class="b b-open">artefakt zdroje</span></td></tr>
+        <tr><td><b>H-125</b></td><td>Společná propozice neexistuje (TO BE DONE); na úrovni účtu chybí jazyk, ne rubrika</td><td><span class="b b-yes">Validována kvalitativně</span></td></tr>
+        <tr><td><b>H-126</b></td><td>18 aktivních OUT účtů s nulovým pokusem o CONS je adresovatelný bazén</td><td><span class="b b-open">Otevřená</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Doporučená <em>opatření</em></h2>
+    <div class="tw"><table>
+      <thead><tr><th style="width:6%">#</th><th style="width:32%">Opatření</th><th>Proč právě tohle</th><th style="width:13%">Náklad</th></tr></thead>
+      <tbody>
+        <tr><td><b>1</b></td><td><b>Spouštěč, ne kampaň:</b> u každého účtu s běžícím obsazením založit do konce kvartálu jeden CONS deal — 18 účtů</td><td>jediné číslo, které v datech drží: nabídka, která vznikne, vyhrává. Váže se na existující refill alarm z <a class="ref" href="pm-out-databaze-hypotez.html">H-59</a></td><td>18 rozhovorů</td></tr>
+        <tr><td><b>2</b></td><td><b>Slovník k whitespace matici</b> — definovat, co znamená každý stav a co kvalifikuje řádek jako příležitost; otestovat na dvou reálných plánech (jeden funkční, jeden rozbitý)</td><td>autor matici má a sám ji navrhuje smazat, protože ji neumí vyhodnotit</td><td>půl dne</td></tr>
+        <tr><td><b>3</b></td><td><b>Cross-sell pole v CRM</b> — u druhého dealu na účtu evidovat, čím vznikl: lead z delivery / nabídka / poptávka klienta</td><td>dnes se to dá zjistit jen čtením zápisků a u 2 z 12 to nejde vůbec; patří do Ú-5</td><td>konfigurace</td></tr>
+        <tr><td><b>4</b></td><td><b>Předání účtu je předání obou streamů</b></td><td>cross-sell drží čtyři lidé, 9 z 12 účtů je na jednom owneru, a při odchodu se nepřenáší</td><td>pravidlo</td></tr>
+        <tr><td><b>5</b></td><td><b>Nezakládat společnou propozici před opatřením 1 a 2</b> — a pokud pak vznikne, psát ji pro dvojici „AI/agilní konzultace + PM outsourcing", ne obecně</td><td>střecha je na stránce CO explicitně zaparkovaná; vstupní CONS zakázkou je v 7 z 11 případů AI nebo agilní téma</td><td>rozhodnutí</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Co tohle ověření <em>neumí</em></h2>
+    <ul class="tight">
+      <li><b>Malá n všude.</b> 12 účtů, 14 pokusů v jednom směru, 7 v druhém. Každé procento je indikace.</li>
+      <li><b>Cenzura CONS pipeline před 05/2024</b> nadhodnocuje odstupy „OUT → CONS" a podhodnocuje
+        počet historických pokusů.</li>
+      <li><b>Nezměřená protistrana.</b> Nevíme, u kolika účtů nabídka padla v rozhovoru dřív, než se
+        z ní stal deal — CRM vidí až založený deal. Levný test je otázka na čtyři obchodníky.</li>
+      <li><b>Nekontrafaktuální.</b> U žádného z 12 účtů nevíme, co by se stalo, kdyby nabídka přišla
+        dřív. Kauzalitu z toho nedělat.</li>
+      <li><b>Selection bias v tabulce win rate:</b> účty, kde už jsme uvnitř, jsou teplejší z definice.
+        Číslo 64 % měří „šanci nabídky u teplého účtu", ne „přínos cross-sellu".</li>
+    </ul>
+    <p class="note">Dílčí hypotézy H-118 – H-126 včetně zápisků u všech dvanácti účtů jsou v
+      <a href="pm-out-databaze-hypotez.html">databázi hypotéz</a> (sekce P).</p>
+  </section>
+
+  <div class="nav"><a href="#h2">← H2 · Rozptyl marže mezi účty</a><a href="#h4">H4 · Rolová taxonomie × AI →</a></div>
+</div>
+
+<!-- ============================ H4 ============================ -->
+<div class="view" id="v-h4" hidden>
+  <div class="bar"><a href="#prehled">← Přehled pěti hypotéz</a><span>H4 z 5 · sekce Q registru · ověřeno 1. 9. 2026</span></div>
+  <div class="dhead">
+    <div class="k">Hypotéza H4 · podklad CO prodáváme</div>
+    <h2>Rolová taxonomie × AI — co se stalo s AI dealy</h2>
+    <div class="vb"><span class="b b-no">Závěr neplatí</span> <span class="b b-part">premisa platí a je datovatelná</span></div>
+  </div>
+
+  <section>
+    <h2>Zadání</h2>
+    <div class="quote">Rolová taxonomie brzdí prodej nových věcí. <b>AI je kompetence bez role</b>,
+      takže se nemá jak dostat do job openingu a do pipeline.
+      <span class="src"><b>Jak ověřit:</b> kolik AI dealů vzniklo, jak byly v Pipedrive zaznamenané
+      a pod jakou rolí. · <b>Proč na tom záleží:</b> pokud platí, je to důkaz, že jednotka portfolia
+      (Q1) není akademická otázka, ale brzda obchodu.</span></div>
+    <p><b>Premisa sedí doslova a je citovatelná z téhož podkladu.</b> Stránka <i>CO prodáváme</i> má
+      v sekci „Sirotci" řádek <i>„AI je kompetence bez odpovídající role"</i> a nad ním řádek
+      <i>„Dvě nesladěné taxonomie"</i> — rolová vrstva se nemapuje 1:1 na kompetenční. Tohle ověření
+      premisu nevyvrací, jen ji <b>datuje</b> a ukazuje, co z ní reálně plyne.</p>
+    <p class="sub"><b>Metoda:</b> AI deal = <code>competence = 'AI'</code> (68). AI obsah pod jinou
+      kompetencí = text názvu (AI jako samostatné slovo, GPT, LLM, Copilot, voicebot, „umělá
+      inteligence") → dalších 22. Vznik volby <code>AI</code> z changelogu pole <code>Competency</code>
+      (option id, čas, actor). Job opening z pole <code>Tracker</code> ověřený proti ATS. Rolový gate
+      ze 179 aktivit se šablonovou BANT otázkou.</p>
+    <div class="cal"><p><b>Tři cenzury, které drží čísla v mezích:</b> changelog začíná
+      30. 10. 2024 · zápisky a aktivity 21. 10. 2024 · Tracker export je filtrovaný na
+      <code>Competency = PM</code> (155 ze 156 řádků), takže ATS stranu ověřit nelze.</p></div>
+  </section>
+
+  <section>
+    <h2>Manažerské <em>shrnutí</em></h2>
+    <div class="kpis">
+      <div class="kpi"><div class="v">68</div><div class="l">AI dealů v CRM — 22 výher, 21,6 M Kč objemu, 6,9 M na výhrách</div></div>
+      <div class="kpi"><div class="v">2.</div><div class="l">nejzakládanější linka roku 2026 je CONS_AI (24 zakázek)</div></div>
+      <div class="kpi"><div class="v">41 %</div><div class="l">win rate CONS_AI od 7/2025 — u OUT_PM je to 22 %</div></div>
+      <div class="kpi"><div class="v">8:15:42</div><div class="l">26. 8. 2025 — 27 dealů přeznačeno z DATA na AI</div></div>
+      <div class="kpi"><div class="v">22<small> z 90</small></div><div class="l">AI zakázek visí pod rolovým labelem, tedy mimo každý AI řez</div></div>
+      <div class="kpi"><div class="v">2<small> ze 4</small></div><div class="l">OUT_AI zakázek má job v ATS — u PM je to 46 %</div></div>
+      <div class="kpi"><div class="v">27<small> z 29</small></div><div class="l">zakázek „mimo core" končí jako OUT_OTHER</div></div>
+    </div>
+    <ul>
+      <li><b>AI se do pipeline dostala.</b> 68 zakázek (CONS_AI 49 · EDU_AI 15 · OUT_AI 4), 22 výher,
+        <b>21,6 M Kč objemu</b> (6,9 M na vyhraných zakázkách, marže 2,34 M). Řada založených
+        zakázek po pololetích: 1 · 2 · 19 · 20 · 20 · 6.
+        V roce 2026 je CONS_AI druhá nejzakládanější linka firmy hned za OUT_PM.</li>
+      <li><b>AI nebyla kompetence do 26. 8. 2025.</b> Volba <code>AI</code> má v číselníku option id
+        135, zatímco ostatní mají 30–35 — je dolepená mnohem později. Toho dne v 8:15:42 bylo
+        hromadně přeznačeno 27 dealů z DATA na AI a <b>historie je dosypaná zpětně</b>, takže dnešní
+        data vypadají, jako by AI existovala od ledna 2024.</li>
+      <li><b>Brzda není v tom, že AI chybí kolonka, ale že kolonka je jedna.</b> <code>Competency</code>
+        je single-select. Firemní definice AI labelu přitom výslovně říká, že <i>„funkční role … je
+        v takovém případě sekundární"</i> — proces chce <b>label nad rolí</b>, pole umožňuje jen jedno
+        z toho. Důsledek: 22 zakázek s AI obsahem visí pod rolovým labelem, a i po srpnu 2025 je to
+        10 z 51.</li>
+      <li><b>Job opening AI nebrání.</b> Ze 4 OUT_AI zakázek mají 2 založený job (50 % proti 46 %
+        u PM a 51 % u BA). Co v OUT chybí, není kolonka, ale <b>poptávka</b>: 4 zakázky za 18 měsíců,
+        1 výhra proti plánu 5, a nula otevřených AI zakázek v OUT dnes.</li>
+      <li><b>Rolový gate v kvalifikaci existuje doslova</b> — a nebrzdí konverzi. Odpověď „mimo core"
+        má win rate 25 % proti 29 % u „v core". Zato 27 z 29 takových zakázek skončí jako
+        <code>OUT_OTHER</code>, což je jediná OUT linka nad plánem 2026.</li>
+      <li><b>Skutečná škoda je měřicí, ne obchodní.</b> AI obsah je rozprostřený přes 8 product codes,
+        pětina je pod rolovým labelem a před srpnem 2025 byla celá pod DATA. Každé tvrzení „AI roste
+        / neroste" opřené o <code>Competency</code> bez uvedení tohoto data je v čase nesrovnatelné.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Co jsme <em>zjistili</em></h2>
+
+    <h3>1 · AI v pipeline: 68 dealů, 22 výher, druhá nejzakládanější linka 2026</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Linka</th><th class="n">založených 2026</th><th class="n">win rate od 1. 7. 2025</th></tr></thead>
+      <tbody>
+        <tr><td>OUT_PM</td><td class="n">35</td><td class="n">22 %</td></tr>
+        <tr><td><b>CONS_AI</b></td><td class="n"><b>24</b></td><td class="n"><b>41 %</b></td></tr>
+        <tr><td>CONS_PM</td><td class="n">22</td><td class="n">68 %</td></tr>
+        <tr><td>OUT_OTHER</td><td class="n">22</td><td class="n">43 %</td></tr>
+      </tbody>
+    </table></div>
+    <p class="sub">Použitelná věta na slide: <i>„AI je dnes v CONS druhý největší zdroj nových zakázek
+      a konverze na ní je dvojnásobná proti OUT_PM."</i> <b>Dál už ta věta nesmí jít:</b> uvnitř konzultací
+      konvertuje CONS_PM 68 % proti 41 % u CONS_AI — srovnání „41 % vs. 22 %" míchá dva dodací modely.
+      Poctivá věta je <i>„AI je druhý největší zdroj nových
+      konzultačních zakázek"</i>, ne <i>„nejúspěšnější linka"</i>. Co se skutečně nedostává do pipeline, je AI
+      <b>v outsourcingu</b> — a to je jiná diagnóza.</p>
+
+    <h3>2 · Datovatelný moment: 26. 8. 2025, 8:15:42</h3>
+    <ul class="tight">
+      <li><code>Competency</code> je enum se sedmi volbami. PM · AGILE · BA · UX · DATA · OTHER mají
+        option id <b>30–35</b>, <b>AI má 135</b>.</li>
+      <li>Mezi 8:15:42 a 8:16:10 bylo <b>27 dealů</b> přeznačeno z hodnoty 34 (DATA) na 135 (AI);
+        25 z 27 řádků nese příznak hromadné úpravy.</li>
+      <li>Přeznačené dealy jsou datované <b>31. 1. 2024 – 21. 7. 2025</b> — retroaktivní backfill.</li>
+      <li>Žádný z 27 nešel z jiné hodnoty než z DATA. Jediný pohyb opačným směrem je jeden deal
+        z AI na PM v květnu 2026.</li>
+    </ul>
+    <div class="cal"><p><b>Přidáno mezi datové pasti:</b> každá časová řada AI × DATA přes
+      26. 8. 2025 je nesrovnatelná — a <b>každý report o DATA kompetenci vytvořený před tím datem
+      obsahuje AI zakázky uvnitř</b>.</p></div>
+
+    <h3>3 · Proč label nestačí: pole je single-select, definice chce dvě vrstvy</h3>
+    <p>Definice AI labelu (Confluence <i>OUT vs. AI</i>, 16. 4. 2026) říká výslovně: <i>„Funkční role
+      (projektový manažer, business analytik, change manager) je v takovém případě sekundární — jde
+      o způsob, jakým kandidát AI znalosti uplatňuje."</i> Rozhodovací otázka zní: <i>„Kdyby klient AI
+      téma ze zadání odstranil, zmizel by hlavní smysl role?"</i></p>
+    <div class="tw"><table>
+      <thead><tr><th>Zakázky s AI obsahem vedené pod rolovým labelem</th><th class="n">zakázek</th><th class="n">z toho výher</th></tr></thead>
+      <tbody>
+        <tr><td>PM</td><td class="n">11</td><td class="n">7 (6,4 M Kč)</td></tr>
+        <tr><td>OTHER</td><td class="n">4</td><td class="n">—</td></tr>
+        <tr><td>BA</td><td class="n">3</td><td class="n">—</td></tr>
+        <tr><td>AGILE</td><td class="n">2</td><td class="n">2 (1,7 M Kč)</td></tr>
+        <tr><td>UX / DATA</td><td class="n">2</td><td class="n">—</td></tr>
+        <tr><td><b>Celkem mimo kompetenci AI</b></td><td class="n"><b>22</b></td><td class="n"></td></tr>
+      </tbody>
+    </table></div>
+    <p>AI-obsahových zakázek je dohromady <b>90</b> (68 + 22), tedy <b>pětina je neviditelná</b>
+      v jakémkoli řezu podle kompetence. Není to jen dědictví: po 26. 8. 2025 vzniklo 51 AI-obsahových
+      zakázek a 10 z nich je pod rolí, z toho 6 výher. Nejostřejší doklady: <i>AI PM pro Veolii</i>
+      (výhra), <i>PM pro Cloud AI Platform implementation</i> (výhra), <i>Delivery manager na AI
+      projekty</i> (výhra), <i>Agile škálování a AI</i> #1–#3 (tři výhry).</p>
+
+    <h3>4 · Job opening: mechanika nebrání, chybí poptávka</h3>
+    <div class="tw"><table>
+      <thead><tr><th>OUT zakázky od 1. 1. 2025</th><th class="n">se založeným jobem</th><th class="n">podíl</th></tr></thead>
+      <tbody>
+        <tr><td>AGILE</td><td class="n">8 / 12</td><td class="n">67 %</td></tr>
+        <tr><td>UX</td><td class="n">3 / 5</td><td class="n">60 %</td></tr>
+        <tr><td>OTHER</td><td class="n">27 / 51</td><td class="n">53 %</td></tr>
+        <tr><td>BA</td><td class="n">20 / 39</td><td class="n">51 %</td></tr>
+        <tr><td><b>AI</b></td><td class="n"><b>2 / 4</b></td><td class="n"><b>50 %</b></td></tr>
+        <tr><td>PM</td><td class="n">47 / 102</td><td class="n">46 %</td></tr>
+        <tr><td>DATA</td><td class="n">3 / 17</td><td class="n">18 %</td></tr>
+      </tbody>
+    </table></div>
+    <p>Pole <code>Tracker</code> je vyplněné u 110 z 662 zakázek a <b>výhradně v OUT</b> — v CONS
+      a EDU je 0 z 270. Job opening není krok pipeline, je to krok outsourcingové linky, a 64 z 68 AI
+      zakázek je v CONS/EDU, kde z definice nevzniká. <b>Odchylka v tabulce je DATA, ne AI.</b>
+      Oba AI joby navíc existují jmenovitě a u jednoho je i aktivita <i>„Úspěšné vytvoření Jobu v ATS"</i>.</p>
+    <div class="cal"><p><b>Na slide patří místo AI plán vs. skutečnost celé OUT taxonomie 2026:</b>
+      PM 28/5 · BA 13/4 · DATA 8/0 · AI 5/1 · AGILE 2/2 · <b>OTHER 4/8</b>. Jediná linka nad plánem
+      je ta, která nemá jméno — a to je argument pro Q1 silnější než cokoli o AI.</p></div>
+
+    <h3>5 · Rolový gate skutečně existuje — a neškodí</h3>
+    <p>BANT šablona obsahuje otázku <b>„Je poptávka mimo naše core kompetence (PM, AGILE, BA, UX,
+      DATA)?"</b> — ve 179 aktivitách, z toho <b>143 bez AI</b> a 36 ve variantě s AI. Šablona byla
+      o AI doplněna teprve <b>13. 4. 2026</b>, tedy sedm a půl měsíce po vzniku volby AI v CRM a tři
+      dny před dopsáním definice labelu na Confluence. Doložený negativní screen na AI zakázce:
+      <i>„ANO, ale je to AI. Delivery v každém případě bude těžké."</i></p>
+    <div class="tw"><table>
+      <thead><tr><th>Odpověď v kvalifikaci</th><th class="n">vyřešených</th><th class="n">výher</th><th class="n">win rate</th></tr></thead>
+      <tbody>
+        <tr><td>„mimo core kompetence"</td><td class="n">24</td><td class="n">6</td><td class="n">25 %</td></tr>
+        <tr><td>„v core"</td><td class="n">111</td><td class="n">32</td><td class="n">29 %</td></tr>
+      </tbody>
+    </table></div>
+    <p>Rozdíl je v šumu. Zato <b>27 z 29</b> zakázek „mimo core" má product code <code>OUT_OTHER</code> —
+      Solution Architect, SAP Developer, Interim CIO, HR Consultant, Release Manager, C/C++ programátor,
+      Senior architect pro radarový systém. Přesná formulace pro vedení: <b>taxonomie prodej nebrzdí,
+      jen novou věc zaparkuje do OTHER, kde ji žádný produktový report neuvidí.</b></p>
+
+    <h3>6 · Co k tomu už firma sama napsala</h3>
+    <p>V poznámce ze 4. 8. 2025 na stránce <i>OUT vs. AI</i> stojí <i>„jdeme spíše do toho AI boost,
+      AI driven, AI téma, než AI technologie"</i> a <i>„AI Product Lead, AI Ambasador = vlastně change
+      manager, který jede na AI"</i>. K náboru vedenému kompetencí je tam věta ještě tvrdší:
+      <i>„Děláme AI kompetenci, pojďte se s námi bavit kandidáti" — nefunguje, vyzkoušeno na DATA.</i>
+      Data to při n = 8 nerozhodnou, ale směr sedí: pod rolí s AI příznakem 3 výhry ze 4, pod
+      kompetencí AI 1 ze 4.</p>
+  </section>
+
+  <section>
+    <h2>Verdikt po <em>částech</em></h2>
+    <div class="tw"><table>
+      <thead><tr><th style="width:34%">Část hypotézy</th><th>Verdikt</th></tr></thead>
+      <tbody>
+        <tr><td>„AI je kompetence bez odpovídající role" (premisa)</td>
+          <td><b>Platí doslova</b> — a nově je i datovatelná: volba AI vznikla 26. 8. 2025 a 27 dealů bylo přeznačeno zpětně</td></tr>
+        <tr><td>„…nemá se jak dostat do pipeline"</td>
+          <td><b>Neplatí.</b> 68 dealů, 22 výher, 21,6 M Kč objemu; CONS_AI je druhá nejzakládanější linka 2026 s win rate 41 % proti 22 % u OUT_PM</td></tr>
+        <tr><td>„…nemá se jak dostat do job openingu"</td>
+          <td><b>Neplatí.</b> 2 ze 4 OUT_AI zakázek job mají (50 % vs. 46 % u PM); job opening navíc vzniká jen v OUT, kde je 4 z 68 AI zakázek</td></tr>
+        <tr><td>„Rolová taxonomie brzdí prodej nových věcí"</td>
+          <td><b>Neplatí v konverzi</b> (25 % vs. 29 %), <b>platí v evidenci</b>: novou věc zaparkuje do OUT_OTHER, kde ji nikdo nečte</td></tr>
+        <tr><td>Implicitní předpoklad „AI chybí kolonka"</td>
+          <td><b>Přesněji: kolonka je jedna.</b> Pole je single-select, zatímco proces chce label nad rolí — pětina AI zakázek je proto neviditelná</td></tr>
+      </tbody>
+    </table></div>
+    <div class="cal"><p><b>Co z toho plyne pro Q1.</b> Jediné místo, kde H4 míří přesně, je datový
+      model — a náprava je <b>jedno pole</b>: <code>AI label ANO/NE</code> vedle <code>Competency</code>,
+      ne osmá volba v ní. Pokud workshop zvolí dvouvrstvý model, tohle je dnes měřitelný důkaz, že
+      dvouvrstvost už v procesu existuje a chybí jen v datech. Brzda je v řízení portfolia, ne
+      v obchodě.</p></div>
+  </section>
+
+  <section>
+    <h2>Dílčí <em>hypotézy</em></h2>
+    <div class="tw"><table>
+      <thead><tr><th style="width:9%">Kód</th><th>Tvrzení</th><th style="width:22%">Status</th></tr></thead>
+      <tbody>
+        <tr><td><b>H-127</b></td><td>AI se nemá jak dostat do pipeline</td><td><span class="b b-no">Vyvrácena</span></td></tr>
+        <tr><td><b>H-128</b></td><td>AI se nemá jak dostat do job openingu</td><td><span class="b b-no">Vyvrácena</span></td></tr>
+        <tr><td><b>H-129</b></td><td>AI nebyla kompetence do 26. 8. 2025; do té doby to byla DATA</td><td><span class="b b-yes">Validována</span> <span class="b b-open">artefakt měření</span></td></tr>
+        <tr><td><b>H-130</b></td><td><code>Competency</code> je single-select, takže AI a role se vylučují</td><td><span class="b b-yes">Validována</span></td></tr>
+        <tr><td><b>H-131</b></td><td>Rolový gate v kvalifikaci existuje doslova a AI v něm chyběla</td><td><span class="b b-yes">Validována</span></td></tr>
+        <tr><td><b>H-132</b></td><td>Zakázky „mimo core kompetence" prohráváme častěji</td><td><span class="b b-no">Vyvrácena</span></td></tr>
+        <tr><td><b>H-133</b></td><td>Pod rolovým labelem se AI prodá, pod labelem AI ne</td><td><span class="b b-open">Otevřená</span> <span class="b b-open">n = 8</span></td></tr>
+        <tr><td><b>H-134</b></td><td>Klasifikace AI job openingu v ATS existuje</td><td><span class="b b-open">Otevřená</span> <span class="b b-open">artefakt zdroje</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Doporučená <em>opatření</em></h2>
+    <div class="tw"><table>
+      <thead><tr><th style="width:6%">#</th><th style="width:32%">Opatření</th><th>Proč právě tohle</th><th style="width:13%">Náklad</th></tr></thead>
+      <tbody>
+        <tr><td><b>1</b></td><td><b>Přidat pole <code>AI label ANO/NE</code></b> vedle <code>Competency</code> — ne osmou volbu do číselníku</td><td>proces už dvouvrstvý je („funkční role je sekundární"), datový model ne; dnes je kvůli tomu pětina AI zakázek neviditelná. Patří do Ú-5</td><td>konfigurace</td></tr>
+        <tr><td><b>2</b></td><td><b>Obrátit větu na slidu:</b> AI je v CONS druhý největší zdroj nových zakázek — bez srovnání konverze proti OUT_PM, protože to míchá dva dodací modely (uvnitř CONS konvertuje PM 67,7 % proti 41,4 % u AI)</td><td>tvrzení „AI se nemá jak dostat do pipeline" je v datech doložitelně opačné; na workshopu by neobstálo</td><td>slide</td></tr>
+        <tr><td><b>3</b></td><td><b>Místo AI dát na slide plán vs. skutečnost celé OUT taxonomie</b> (OTHER 4/8 proti PM 28/5)</td><td>jediná linka nad plánem nemá jméno — silnější argument pro jednotku portfolia než cokoli o AI</td><td>slide</td></tr>
+        <tr><td><b>4</b></td><td><b>Každou časovou řadu AI × DATA uvádět s datem 26. 8. 2025</b>, jinak ji nepoužívat</td><td>historie je dosypaná zpětně; starší reporty o DATA obsahují AI zakázky uvnitř</td><td>pravidlo</td></tr>
+        <tr><td><b>5</b></td><td><b>Jeden export z Trackeru bez filtru na kompetenci</b></td><td>uložený report je filtrovaný na PM, takže ATS strana se dnes ověřit nedá; jeden export odpoví zároveň na H-133 i H-134</td><td>1 export</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Co tohle ověření <em>neumí</em></h2>
+    <ul class="tight">
+      <li><b>Malá n na OUT straně.</b> Čtyři OUT_AI zakázky; rozdíl „pod rolí 3 výhry ze 4, pod AI
+        1 ze 4" je n = 8 — pozorování, ne zjištění.</li>
+      <li><b>ATS se ověřit nedá.</b> Uložený report je filtrovaný na <code>Competency = PM</code>;
+        chybějící joby napovídají, že AI klasifikace v Trackeru existuje, ale nedokazují to.</li>
+      <li><b>Detekce AI obsahu z názvu dealu</b> má stejnou slabinu jako kódování seniority u H1 —
+        název je zkratka obchodníka, ne klientovo zadání. 22 nalezených zakázek je dolní hranice.</li>
+      <li><b>Changelog vidí až od 30. 10. 2024.</b> Kdyby se AI přeznačovala i dřív, nevíme o tom.</li>
+      <li><b>Nekontrafaktuální.</b> Nevíme, kolik AI poptávek nikdy nedošlo do CRM, protože je gate
+        zabil v rozhovoru — to CRM neuvidí; odpověď je otázka na čtyři obchodníky.</li>
+    </ul>
+    <p class="note">Dílčí hypotézy H-127 – H-134 včetně plné evidence jsou v
+      <a href="pm-out-databaze-hypotez.html">databázi hypotéz</a> (sekce Q).</p>
+  </section>
+
+  <div class="nav"><a href="#h3">← H3 · Cross-sell CONS × OUT</a><a href="#h5">H5 · Původ položek CO →</a></div>
+</div>
+
+<!-- ============================ H5 ============================ -->
+<div class="view" id="v-h5" hidden>
+  <div class="bar"><a href="#prehled">← Přehled pěti hypotéz</a><span>H5 z 5 · sekce R registru · ověřeno 1. 9. 2026</span></div>
+  <div class="dhead">
+    <div class="k">Hypotéza H5 · podklad CO prodáváme</div>
+    <h2>Původ položek CO — kdo přidává do portfolia</h2>
+    <div class="vb"><span class="b b-no">„výhradně / nikdy" vyvráceno</span> <span class="b b-part">jádro platí jinak</span></div>
+  </div>
+
+  <section>
+    <h2>Zadání</h2>
+    <div class="quote">Nové položky v CO vznikají <b>výhradně reaktivně</b> z klientské poptávky,
+      nikdy z naší iniciativy. <i>„Co už jsme prokazatelně prodali"</i> pak není nedbalost v textu,
+      ale přesný popis metody.
+      <span class="src"><b>Jak ověřit:</b> u položek přidaných za poslední 3 roky dohledat, kdo je
+      inicioval. Vodítko: <i>Revize propozice 2025-27</i> (prázdná od 01/2025).</span></div>
+    <div class="cal"><p><b>Co znamená „CO" v této hypotéze.</b> <b>CO je obchodní osa</b> — jedna ze
+      čtyř, na kterých je řízený obchod: <i>KOMU prodáváme</i> (ICP, persony), <b>CO prodáváme</b>
+      (produktový mix — role, kompetence, služby), <i>JAK prodáváme</i>, <i>KDO prodává</i>.
+      Stejnojmenná stránka v Business Development je jejím <b>zápisem</b>; podklad ji používá jako
+      měřítko, když píše, že <i>„CO je jediná osa, která zůstala pozadu"</i>. Položka v CO je tedy
+      <b>položka nabídky</b> — věc, kterou nabízíme a prodáváme — a test proto běží nad tím, co
+      reálně přibylo do prodeje, ne nad obsahem stránky. Co je <i>jednotka</i> položky (role ·
+      kompetence · doména · potřeba) je přitom otevřená otázka Q1, takže test jel přes tři proxy
+      současně: rolová nebo kompetenční definice, hodnota <code>Competency</code> v CRM a soudržná
+      rodina prodaných zakázek.</p></div>
+    <p class="sub"><b>Metoda:</b> datace vzniku stránek bracketováním CQL dotazů — Confluence API
+      nedává historii verzí, takže rozlišení je v týdnech, ne dnech, a kdo přidal konkrétní řádek,
+      se zjistit nedá. Datace vzniku položky v trhu z CRM (první deal a první výhra podle product
+      code). Test nominací proti trhu regexem přes názvy zakázek v okně od 28. 1. 2025.</p>
+    <div class="cal"><p><b>Cenzura vlevo:</b> migrace ze ZOHO (30. 10. 2024) přinesla z let 2017–2023
+      jen výhry — 57 dealů, ani jednu prohru. U DATA a AI, tedy u položek celého okna hypotézy, je
+      datace spolehlivá.</p></div>
+  </section>
+
+  <section>
+    <h2>Manažerské <em>shrnutí</em></h2>
+    <div class="kpis">
+      <div class="kpi"><div class="v">7</div><div class="l">položek přibylo za tři roky do nabídky<br>3 naše · 3 klientské · 1 smíšená</div></div>
+      <div class="kpi"><div class="v">32,3<small> M</small></div><div class="l">Kč vydělaly tři klientské položky,<br>které nikdo nepojmenoval</div></div>
+      <div class="kpi"><div class="v">14,2<small> M</small></div><div class="l">Kč vydělaly tři naše —<br>a 13,8 M z toho je jediná (DATA)</div></div>
+      <div class="kpi"><div class="v">1</div><div class="l">z těch sedmi je zapsaná<br>v seznamu CO</div></div>
+      <div class="kpi"><div class="v">19</div><div class="l">měsíců se AI prodávala,<br>než v CRM vznikla její hodnota</div></div>
+      <div class="kpi"><div class="v">36 %</div><div class="l">letošních OUT výher je <code>OUT_OTHER</code>,<br>tedy role bez jména</div></div>
+    </div>
+    <ul>
+      <li><b>Za tři roky přibylo do nabídky sedm položek — tři z naší iniciativy, tři z klientské
+        poptávky, jedna smíšená.</b> Slova „výhradně" a „nikdy" tedy neplatí. Zapsaná je z nich
+        v seznamu CO <b>jedna</b>; stránka je od 11. 9. 2024 beze změny (verze 38), takže inventář
+        se musel rekonstruovat z CRM.</li>
+      <li><b>Iniciativa položky vyrábí, peníze dělá poptávka.</b> Naše tři (datové role, rozšířené
+        agilní role, success-fee model) dohromady <b>14,2 M Kč</b> — a 13,8 M z toho je jediná, tři
+        roky budovaná DATA. Tři klientské, které nikdo nepojmenoval, <b>32,3 M Kč</b>. Dvě nejnovější
+        položky z vlastní iniciativy mají 0,39 M a nulu.</li>
+      <li><b>Reaktivní vznik je doložený a datovatelný — u AI.</b> První deal 31. 1. 2024, hodnota
+        <code>AI</code> v CRM až 26. 8. 2025, definice labelu pro OUT 23. 4. 2026, první OUT_AI výhra
+        8. 6. 2026. Na seznam CO se AI nedostala ani po dvou a půl letech.</li>
+      <li><b>„Nikdy z naší iniciativy" je ale vyvrácené.</b> DATA má čtyři rolové definice
+        z 11–12/2023 a kompetenční cíl <i>„OUT: první kontraktoři — cíl je 10+"</i> <b>před</b> prvním
+        DATA dealem (19. 1. 2024). Druhý protipříklad jsou agilní role z 03/2026 — dosud bez dealu.</li>
+      <li><b>Iniciativa proběhla i jako proces a nedokončila se.</b> <i>Revize propozice 2025-27</i>
+        není prázdná: má tři podstránky z ledna 2025 a devět nominovaných položek. Poslední úprava
+        kdekoli v prostoru je 29. 1. 2025 a dva úkoly zůstaly nezaškrtnuté.</li>
+      <li><b>Odpověď na otázku „nový proces, nebo chybějící sensing?" je ani jedno.</b> Sensing
+        i nominace proběhly a byly kvalitní; chybí <b>rozhodnutí, vlastník a dotažení</b>. Nový proces
+        bez vlastníka dopadne stejně.</li>
+      <li><b>Největší reálně vzniklá položka nemá jméno.</b> <code>OUT_OTHER</code> je v roce 2026
+        36,4 % výher a 40 % hodnoty OUT knihy a uvnitř má soudržné rodiny — OT a výrobní role
+        7 výher / 17,6 M Kč, z toho 6 na jednom účtu za 18 měsíců. <b>To je víc, než vydělala celá
+        záměrně budovaná DATA kompetence za tři roky.</b></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Co jsme <em>zjistili</em></h2>
+
+    <h3>1 · Inventář: co přibylo do nabídky a kdo to inicioval</h3>
+    <p>Tohle je vlastní odpověď na hypotézu. Položka = věc, kterou dnes nabízíme a prodáváme, bez
+      ohledu na to, jestli je někde zapsaná.</p>
+    <div class="tw"><table>
+      <thead><tr><th style="width:24%">Položka nabídky</th><th style="width:13%">Kdo inicioval</th><th>Doklad pořadí</th><th class="n" style="width:16%">Výsledek</th></tr></thead>
+      <tbody>
+        <tr><td><b>Datové role</b> (Analytik · Engineer · BI · Scientista)</td><td><b>my</b><br><span class="sub2">Q4 2023</span></td><td>čtyři rolové definice 24. 11. – 1. 12. 2023 a cíl <i>„OUT: první kontraktoři — cíl je 10+"</i> <b>před</b> prvním dealem (19. 1. 2024)</td><td class="n">8 výher<br><b>13,8 M</b></td></tr>
+        <tr><td><b>AI</b> (konzultace, EDU produkty, label v OUT)</td><td><b>smíšené</b><br><span class="sub2">trh první</span></td><td>první deal 31. 1. 2024 · náš produkt 08/2024 · rozhodnutí <i>„mít vlastní propozici"</i> 16. 1. 2025 · kategorie v CRM 26. 8. 2025</td><td class="n">22 výher<br>6,9 M</td></tr>
+        <tr><td><b>OT / výrobní a procesní role</b></td><td><b>klient</b><br><span class="sub2">Novo Nordisk, ELDIS</span></td><td>první stopa je zakázka; definice, kompetence ani stránka nikdy nevznikly</td><td class="n">7 výher<br><b>17,6 M</b></td></tr>
+        <tr><td><b>Salesforce / CRM platformy</b></td><td><b>klient</b><br><span class="sub2">Edwards, VAFO</span></td><td>tamtéž</td><td class="n">5 výher<br><b>10,8 M</b></td></tr>
+        <tr><td><b>ITSM / service management</b></td><td><b>klient</b><br><span class="sub2">ČS, ČD-T</span></td><td>tamtéž</td><td class="n">2 výhry<br>3,9 M</td></tr>
+        <tr><td><b>Rozšířené agilní role</b> (6× „Heads of…", Product Developer)</td><td><b>my</b><br><span class="sub2">19. 3. 2026</span></td><td>definice existuje, poptávka žádná</td><td class="n"><b>0 dealů</b></td></tr>
+        <tr><td><b>Success-fee / garanční model dodávky</b></td><td><b>my</b><br><span class="sub2">27. 1. 2025</span></td><td>nominace → PoC u Model Obaly 6. 3. 2025</td><td class="n">1 výhra<br>0,39 M</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>Tři z naší iniciativy, tři z klientské poptávky, jedna smíšená.</b> Doslovné znění hypotézy
+      tím padá. Platí ale ostřejší verze: <b>iniciativa vyrábí položky, peníze dělá poptávka</b> —
+      naše tři dohromady 14,2 M Kč (a 13,8 M z toho je jediná), klientské tři 32,3 M Kč.</p>
+    <div class="cal"><p><b>Kde je atribuce slabá.</b> U tří klientských rodin je „kdo inicioval"
+      odvozeno <b>z absence</b> — žádná definice, žádný plán, první stopa je založená zakázka. Zápisky
+      u nich nejsou, takže rozlišení „klient si řekl" × „obchodník nabídl na schůzce" z CRM nevyčteme.
+      Levný test je otázka na dva ownery.</p></div>
+
+    <h4 style="margin-top:26px">A co z toho je zapsané</h4>
+    <div class="tw"><table>
+      <thead><tr><th>Uzel</th><th>Poslední změna</th><th>Stav</th></tr></thead>
+      <tbody>
+        <tr><td><b>CO prodáváme</b> (rámec pro řízení portfolia)</td><td><b>11. 9. 2024</b>, verze 38</td><td>24 měsíců beze změny</td></tr>
+        <tr><td>Landmark deals</td><td>24. 9. 2024</td><td>zmrazená</td></tr>
+        <tr><td>Revize propozice 2025-27</td><td>8. 1. 2025 (prostor 29. 1. 2025)</td><td>nedotažená</td></tr>
+        <tr><td>Agilita (rolová větev)</td><td><b>19. 3. 2026</b></td><td>jediný živý uzel — a žádná z nových rolí nemá v CRM deal</td></tr>
+      </tbody>
+    </table></div>
+    <p>Refresh agilní větve s externím expertem přidal šest rolí „Heads of…", Product Developera
+      a specifika Kanban/SAFe/LeSS. <b>Na seznam CO se nedostala ani jedna z nich.</b> Jediná položka
+      okna jsou <b>Datové role</b>: rolová stránka vznikla ve Q4 2023, takže poslední možný okamžik
+      vložení odkazu na stránku CO je 11. 9. 2024.</p>
+
+    <h3>2 · AI — reaktivní vznik, doložený na osm datumů</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Datum</th><th>Událost</th></tr></thead>
+      <tbody>
+        <tr><td><b>31. 1. 2024</b></td><td>první AI deal v CRM (konzultace AI a chatbot, prohra)</td></tr>
+        <tr><td>08/2024</td><td>první prodaný AI produkt — kódovaný jako <code>EDU_PM</code>, protože AI kategorie neexistuje</td></tr>
+        <tr><td>16. 1. 2025</td><td>interní debata o AI propozici</td></tr>
+        <tr><td>07–08/2025</td><td>vzniká kompetenční stránka</td></tr>
+        <tr><td><b>26. 8. 2025</b></td><td>v CRM vzniká hodnota <code>AI</code> a 27 dealů se přeznačuje zpětně</td></tr>
+        <tr><td>23. 4. 2026</td><td>definice AI labelu pro OUT</td></tr>
+        <tr><td>8. 6. 2026</td><td>první výhra v <code>OUT_AI</code></td></tr>
+        <tr><td>dosud</td><td><b>AI na seznamu CO není</b></td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>3 · DATA — protipříklad, položka vytvořená dopředu</h3>
+    <p>Rodičovská stránka <i>Datové role</i> je z Q4 2023, čtyři rolové definice (Data Analytik,
+      Data Engineer, BI Specialista 24. 11. 2023; Data Scientista 1. 12. 2023) a kompetenční stránka
+      s cílem <i>„OUT: <b>první kontraktoři — cíl je 10+</b>"</i> z 01–02/2024. <b>První DATA deal
+      až 19. 1. 2024, první výhra 4. 6. 2024.</b> Formulace „první kontraktoři" je zároveň interním
+      potvrzením, že žádný ještě neexistoval — dokumentace tedy předběhla poptávku o dva měsíce.</p>
+    <p>Výsledek té iniciativy: DATA celkem <b>37 dealů / 8 výher / 13,8 M Kč</b>, poslední výhra
+      11. 11. 2025. Nepojmenovaný <code>OUT_OTHER</code> udělal jen za 2025–2026 <b>17 výher / 37,4 M</b>.</p>
+
+    <h3>4 · Leden 2025 — iniciativa, která proběhla a nedojela</h3>
+    <p>Prostor <i>Revize propozice 2025-27</i> má tři podstránky, všechny z ledna 2025:
+      <i>AI propozice pro klienty</i> (16. 1.), <i>Streams vs PM</i> (27.–28. 1., nominace devíti
+      položek), <i>PM competency v roce 2025</i> (29. 1.). Metoda je v zápisu popsaná doslova:
+      <i>„Nejprve reaktivně a paralelně vytváříme ucelený proposal, se kterým půjdeme za klienty
+      proaktivně."</i> A v AI propozici: <i>„Mít vlastní propozici, neoutsourcovat vše ven…"</i> —
+      s otevřenou otázkou <b><i>„kdo si to zavlastní?"</i></b>, která nikdy nedostala odpověď.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Nominovaná položka (28. 1. 2025)</th><th class="n">dealů</th><th class="n">výher</th><th>poznámka</th></tr></thead>
+      <tbody>
+        <tr><td>AI augmented v PM/týmu</td><td class="n">66</td><td class="n">26</td><td>jediná s objemem — <b>prodávala se už rok předtím</b></td></tr>
+        <tr><td>Success fee / garance</td><td class="n">1</td><td class="n">1</td><td>0,39 M Kč, nikdy se neopakovalo</td></tr>
+        <tr><td>Produktové řízení</td><td class="n">2</td><td class="n">1</td><td>první až 03/2026</td></tr>
+        <tr><td>HYBRID</td><td class="n">3</td><td class="n">1</td><td>jediná výhra je školení Scrumu, ne hybrid</td></tr>
+        <tr><td>Tooling pro PM agendy</td><td class="n">1</td><td class="n">0</td><td>prohra</td></tr>
+        <tr><td>Audit projektu jako produkt</td><td class="n">2</td><td class="n">0</td><td>obojí prohra</td></tr>
+        <tr><td>DATA DRIVEN PMO</td><td class="n"><b>0</b></td><td class="n">0</td><td>dva pokusy jsou z 2024, tedy před nominací, a obě prohry</td></tr>
+        <tr><td>Segmentová specializace</td><td class="n"><b>0</b></td><td class="n">0</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <p class="sub"><b>Nominace bez vlastníka a bez termínu je v datech k nerozeznání od toho, že
+      neproběhla.</b></p>
+
+    <h3>5 · Kde položky reálně vznikají: v bucketu OTHER</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Rok</th><th class="n">podíl OUT_OTHER na výhrách</th></tr></thead>
+      <tbody>
+        <tr><td>2023</td><td class="n">15 %</td></tr>
+        <tr><td>2024</td><td class="n">12 %</td></tr>
+        <tr><td>2025</td><td class="n">18,4 %</td></tr>
+        <tr><td><b>2026</b></td><td class="n"><b>36,4 % výher a 40 % hodnoty</b> (8 z 22 výher, 21,3 z 53,3 M Kč)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tw"><table>
+      <thead><tr><th>Rodina uvnitř OTHER</th><th class="n">výher</th><th class="n">hodnota</th></tr></thead>
+      <tbody>
+        <tr><td>OT / výrobní a procesní role</td><td class="n">7</td><td class="n">17,6 M Kč</td></tr>
+        <tr><td>Salesforce / CRM platformy</td><td class="n">5</td><td class="n">10,8 M Kč</td></tr>
+        <tr><td>ITSM a service management</td><td class="n">2</td><td class="n">3,9 M Kč</td></tr>
+        <tr><td>procurement / HR / byznys role</td><td class="n">6</td><td class="n">3,7 M Kč</td></tr>
+      </tbody>
+    </table></div>
+    <p>Za celou historii má <code>OUT_OTHER</code> 76 zakázek, 27 výher a 38,9 M Kč — a <b>celý ten
+      objem spadá do posledních tří let</b>: sedm výher před 9/2023 nemá v CRM zapsanou hodnotu
+      vůbec, takže srovnání s DATA (13,8 M za 2024–2026) je srovnáním stejně pokrytých období.
+      Počty výher v tabulce jsou uvnitř tříletého okna. Jeden účet
+      otevřený v 11/2024 PM místy vyprodukoval od 09/2025 do 03/2026 <b>šest výher v technických
+      rolích za 14,4 M Kč</b> a drží dvě otevřené příležitosti téhož typu za 5,0 M. Jeden owner,
+      žádná stránka, žádná kompetence, žádný řádek v seznamu CO. <b>Fakticky nová položka, která za 18 měsíců
+      vydělala víc než celá záměrně budovaná DATA kompetence za tři roky.</b></p>
+
+    <h3>6 · „Co už jsme prokazatelně prodali" neplatí ani jako popis minulosti</h3>
+    <p><b>Na seznamu je role bez doložené OUT výhry</b> — Change Manager; v CRM jsou tři zmínky
+      change managementu (prohraná konzultační zakázka, vyhrané EDU školení, otevřený AI deal), ani
+      jedna není OUT obsazení. Rolová stránka je přitom z 5. 2. 2020 a CO na ni neodkazuje.
+      <b>A prodané role naopak chybí:</b> Business architekt (vlastní stránka z 11/2019, prodáno
+      11/2022) a celé rodiny z bucketu OTHER — dohromady 18 výher a 32,3 M Kč.</p>
+  </section>
+
+  <section>
+    <h2>Verdikt po <em>částech</em></h2>
+    <div class="tw"><table>
+      <thead><tr><th style="width:34%">Část hypotézy</th><th>Verdikt</th></tr></thead>
+      <tbody>
+        <tr><td>„Nové položky v CO vznikají…"</td>
+          <td><b>Vznikají — sedm za tři roky.</b> Ale jen jedna z nich je zapsaná; zbytek existuje pouze jako prodané zakázky. Na stránce CO to testovat nešlo, inventář se rekonstruoval z CRM</td></tr>
+        <tr><td>„…výhradně reaktivně z klientské poptávky"</td>
+          <td><b>Neplatí.</b> Reaktivní jsou tři ze sedmi (OT/výrobní role, Salesforce, ITSM), AI je smíšená. U AI ale platí velmi ostře: kategorie o <b>19 měsíců</b> za prvním prodejem</td></tr>
+        <tr><td>„…nikdy z naší iniciativy"</td>
+          <td><b>Vyvráceno.</b> Tři položky z vlastní iniciativy (DATA, agilní role, success-fee model), navíc doložená iniciativa jako proces (leden 2025, devět nominací)</td></tr>
+        <tr><td>„Co už jsme prokazatelně prodali je přesný popis metody"</td>
+          <td><b>Neplatí ani jako popis obsahu.</b> Seznam obsahuje neprodanou roli (Change Manager) a neobsahuje prodané — Business architekta a tři klientské rodiny za 32,3 M Kč</td></tr>
+        <tr><td>Implicitní předpoklad „chybí vstup (sensing)"</td>
+          <td><b>Neplatí.</b> Vstup proběhl (01/2025) a byl kvalitní. Chybí rozhodnutí, vlastník a zpětný kanál z prodeje</td></tr>
+      </tbody>
+    </table></div>
+    <p class="lede" style="margin-top:18px"><b>Přesnější formulace, kterou data podporují místo
+      hypotézy:</b> <i>„Nové položky vznikají oběma cestami. Ty z poptávky vydělávají a nikdo je
+      nepojmenuje; ty z iniciativy pojmenujeme a většinou nevydělají."</i></p>
+    <div class="cal"><p><b>Co z toho plyne pro Q3 (jak se o portfoliu rozhoduje).</b> Odpověď na
+      otázku <i>„potřebujeme nový proces, nebo jen doplnit sensing?"</i> je <b>ani jedno v té podobě,
+      jak je otázka postavená</b>. Nominace i sensing v lednu 2025 proběhly a nic z nich se nedotáhlo —
+      nový proces dopadne stejně, pokud nebude mít vlastníka a povinný výstup. A druhá, dnes úplně
+      chybějící půlka: <b>položky nevznikají v dokumentu, vznikají v prodeji</b> — a 36 % letošních
+      OUT výher končí v koši OTHER, aniž by se kdokoli zeptal, co to bylo.</p></div>
+  </section>
+
+  <section>
+    <h2>Dílčí <em>hypotézy</em></h2>
+    <div class="tw"><table>
+      <thead><tr><th style="width:9%">Kód</th><th>Tvrzení</th><th style="width:22%">Status</th></tr></thead>
+      <tbody>
+        <tr><td><b>H-135</b></td><td>Zápis osy CO není inventář nabídky — z sedmi nových položek je zapsaná jedna</td><td><span class="b b-yes">Validována</span> <span class="b b-open">artefakt zdroje</span></td></tr>
+        <tr><td><b>H-136</b></td><td>Nová položka se dokumentuje až po prodeji: AI se prodávala 19 měsíců bez kategorie</td><td><span class="b b-yes">Validována</span></td></tr>
+        <tr><td><b>H-137</b></td><td>Nové položky vznikají výhradně reaktivně, nikdy z naší iniciativy</td><td><span class="b b-no">Vyvrácena</span></td></tr>
+        <tr><td><b>H-138</b></td><td>Iniciativa proběhla i jako proces a nedokončila se</td><td><span class="b b-yes">Validována</span></td></tr>
+        <tr><td><b>H-139</b></td><td>Proaktivně nominované položky se v trhu neprojevily</td><td><span class="b b-yes">Validována</span></td></tr>
+        <tr><td><b>H-140</b></td><td>Největší reálně vzniklá položka nemá jméno</td><td><span class="b b-yes">Validována</span></td></tr>
+        <tr><td><b>H-141</b></td><td>Seznam „Co už jsme prokazatelně prodali" není úplný ani zpětně</td><td><span class="b b-yes">Validována</span></td></tr>
+        <tr><td><b>H-142</b></td><td>Pre-2024 CRM obsahuje jen výhry</td><td><span class="b b-yes">Validována</span> <span class="b b-open">artefakt měření</span></td></tr>
+        <tr><td><b>H-143</b></td><td>Kvartální čtení bucketu OTHER je zpětný kanál z prodeje do portfolia</td><td><span class="b b-open">Otevřená</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Doporučená <em>opatření</em></h2>
+    <div class="tw"><table>
+      <thead><tr><th style="width:6%">#</th><th style="width:32%">Opatření</th><th>Proč právě tohle</th><th style="width:13%">Náklad</th></tr></thead>
+      <tbody>
+        <tr><td><b>1</b></td><td><b>Kvartální čtení bucketu OTHER</b> — projít výhry kódované jako OTHER a rozhodnout: jednorázovka, nebo vzniká položka? Rodina s ≥ 5 výhrami dostane jméno, vlastníka a stránku</td><td>jediné místo, kde se dnes nová položka doopravdy rodí: 27 výher / 38,9 M Kč za historii, letos 36 % výher. První běh má hotový vstup</td><td>1 h / kvartál</td></tr>
+        <tr><td><b>2</b></td><td><b>Pojmenovat rodinu OT a výrobních rolí</b> — 7 výher, 17,6 M Kč, dvě otevřené příležitosti, jeden owner</td><td>je to fakticky hotová položka bez jména; riziko je stejné jako u cross-sellu — drží ji jeden člověk</td><td>půl dne</td></tr>
+        <tr><td><b>3</b></td><td><b>Uzavřít leden 2025</b> — projít devět nominovaných položek a u každé napsat jedno slovo: běží / zabito / neověřeno</td><td>levnější než nová revize; dnes to visí devatenáct měsíců bez rozhodnutí a dva úkoly nezaškrtnuté</td><td>1 h</td></tr>
+        <tr><td><b>4</b></td><td><b>Doplnit <code>Competency</code> o hodnoty, které reálně prodáváme</b>, nebo přidat volné pole „jaká role to byla"</td><td>číselník má sedm hodnot a jedna z nich je OTHER; AI se do něj dostala dva roky po prvním prodeji. Patří do Ú-5</td><td>konfigurace</td></tr>
+        <tr><td><b>5</b></td><td><b>Nezakládat nový proces revize propozice, dokud nebude vlastník</b> — role „Propozice Owner" je návrh, ne rozhodnutí</td><td>proces v lednu 2025 existoval a nedojel právě na tom, že otázka „kdo si to zavlastní?" zůstala nezodpovězená</td><td>rozhodnutí</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Co tohle ověření <em>neumí</em></h2>
+    <ul class="tight">
+      <li><b>Historii verzí Confluence API nedává.</b> Kdo konkrétní řádek do seznamu CO přidal a kdy, se
+        zjistit nedá — datace vzniku stránek je v rozlišení týdnů až měsíců. Přesný audit 38 verzí
+        by chtěl přístup do UI historie.</li>
+      <li><b>Pre-2024 CRM obsahuje jen výhry.</b> U starých položek proto nelze určit, kdy přišla
+        první <i>poptávka</i> — jen kdy přišla první migrovaná výhra.</li>
+      <li><b>OTHER není čistý bucket.</b> Ze 27 výher jsou dvě prokazatelně špatně otagované a jedna
+        nejednoznačná; skutečně mimo seznam je <b>24</b>.</li>
+      <li><b>Zápisky u nových položek chybí.</b> Rozlišení „klient si řekl" × „my jsme nabídli" je
+        u části dealů odvozené z názvu, ne z evidence.</li>
+      <li><b>Nekontrafaktuální.</b> Souvislost mezi zmrazeným seznamem a výsledky prodeje je časová,
+        ne prokázaná.</li>
+    </ul>
+    <p class="note">Dílčí hypotézy H-135 – H-143 včetně plné evidence jsou v
+      <a href="pm-out-databaze-hypotez.html">databázi hypotéz</a> (sekce R).</p>
+  </section>
+
+  <div class="nav"><a href="#h4">← H4 · Rolová taxonomie × AI</a><a href="#prehled">Zpět na přehled →</a></div>
+</div>
+
+</div><!-- /drawer-inner -->
+</div><!-- /drawer -->
+
+<footer>
+  <div class="foot-in">
+    <div>Projectman.cz, s.r.o | <a href="https://www.projectman.cz">www.projectman.cz</a></div>
+    <div class="v">podklad pro workshop MNG · 1. 9. 2026</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var drawer = document.getElementById('drawer');
+  var backdrop = document.getElementById('backdrop');
+  var closeBtn = document.getElementById('drawerClose');
+  var views = Array.prototype.slice.call(document.querySelectorAll('#drawer .view'));
+  var baseTitle = document.title;
+  var titles = {
+    h1:'H1 Seniorita a scope — Pět hypotéz',
+    h2:'H2 Rozptyl marže — Pět hypotéz',
+    h3:'H3 Cross-sell CONS × OUT — Pět hypotéz',
+    h4:'H4 Rolová taxonomie × AI — Pět hypotéz',
+    h5:'H5 Původ položek CO — Pět hypotéz'
+  };
+  var isOpen = false;
+
+  function openDrawer(id){
+    var target = document.getElementById('v-' + id);
+    if(!target){ closeDrawer(); return; }
+    views.forEach(function(v){ v.hidden = (v !== target); });
+    drawer.scrollTop = 0;
+    document.title = titles[id] || baseTitle;
+    if(!isOpen){
+      document.documentElement.classList.add('drawer-lock');
+      drawer.classList.add('open');
+      backdrop.classList.add('open');
+      closeBtn.classList.add('open');
+      isOpen = true;
+    }
+  }
+  function closeDrawer(){
+    if(!isOpen) return;
+    drawer.classList.remove('open');
+    backdrop.classList.remove('open');
+    closeBtn.classList.remove('open');
+    document.documentElement.classList.remove('drawer-lock');
+    document.title = baseTitle;
+    isOpen = false;
+  }
+  // Detail views open as a right-hand drawer over the still-visible, still-scrolled overview
+  // instead of swapping the whole page — closing it must not move the underlying scroll position.
+  function go(id, push){
+    if(push){
+      var hash = '#' + (id || 'prehled');
+      if(location.hash !== hash){ history.pushState(null, '', hash); }
+    }
+    if(!id || id === 'prehled'){ closeDrawer(); } else { openDrawer(id); }
+  }
+
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if(!a) return;
+    var id = a.getAttribute('href').slice(1);
+    if(!id) return;
+    e.preventDefault();
+    go(id, true);
+  });
+  closeBtn.addEventListener('click', function(){ go('prehled', true); });
+  backdrop.addEventListener('click', function(){ go('prehled', true); });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && isOpen){ go('prehled', true); }
+  });
+  function syncFromHash(){
+    go((location.hash || '#prehled').replace('#',''), false);
+  }
+  window.addEventListener('popstate', syncFromHash);
+  window.addEventListener('hashchange', syncFromHash);
+
+  var initId = (location.hash || '').replace('#','');
+  if(initId){ go(initId, false); }
+})();
+</script>
+
+</body>
+</html>

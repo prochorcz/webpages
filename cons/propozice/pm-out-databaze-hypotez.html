@@ -1,0 +1,1570 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Databáze hypotéz — PM Comp konverze</title>
+<style>
+@font-face{font-family:Poppins;font-weight:400;font-display:swap;
+  src:url("https://www.projectman.cz/themes/custom/projectman/fonts/Poppins/Poppins-Regular.woff2") format("woff2")}
+@font-face{font-family:Poppins;font-weight:600;font-display:swap;
+  src:url("https://www.projectman.cz/themes/custom/projectman/fonts/Poppins/Poppins-SemiBold.woff2") format("woff2")}
+:root{
+  --pjm-dark:#20272F; --pjm-dark-soft:#3F4A57; --pjm-coral:#FF525F; --pjm-coral-light:#FF7580;
+  --pjm-blue:#A9C5DF; --pjm-blue-dark:#5C7894; --pjm-blue-light:#BAD1E5;
+  --pjm-grey:#878787; --pjm-bg:#F7F7F7; --pjm-bg-alt:#F0F2F5; --pjm-line:#DADADA;
+  --surface:#FFFFFF; --ink:#20272F; --ink-2:#3F4A57; --ink-muted:#878787;
+  --ok:#2E7D5B; --ok-bg:#E7F3ED; --no:#C6323E; --no-bg:#FBE9EA;
+  --amb:#9A6B12; --amb-bg:#FBF1DC; --inf:#3B6C99; --inf-bg:#E7F0F8;
+  --neu:#5A6774; --neu-bg:#ECEFF2;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --surface:#20272F; --ink:#FFFFFF; --ink-2:#C9D2DB; --ink-muted:#8C97A3;
+    --pjm-bg:#171D23; --pjm-bg-alt:#1C242C; --pjm-line:#333D48;
+    --ok:#6FD3A4; --ok-bg:#17332A; --no:#FF8A93; --no-bg:#3A1F23;
+    --amb:#E0B45E; --amb-bg:#33291339; --amb-bg:#332913; --inf:#8FBEE6; --inf-bg:#17293A;
+    --neu:#A9B4C0; --neu-bg:#252E37;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--pjm-bg);color:var(--ink);
+  font:400 15px/1.6 Poppins,Helvetica,Calibri,Arial,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px 90px}
+a{color:inherit}
+button{font-family:inherit}
+
+/* ---------- hero ---------- */
+.hero{position:relative;background:var(--pjm-dark);color:#fff;overflow:hidden}
+.hero-in{max-width:1240px;margin:0 auto;padding:46px 24px 40px;position:relative;z-index:2}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:38px}
+.logo-grid{display:grid;grid-template-columns:repeat(6,3px);gap:2.5px}
+.logo-grid i{width:3px;height:3px;background:var(--pjm-grey);border-radius:50%}
+.logo-wm{font-weight:600;font-size:19px;letter-spacing:-.01em}
+.logo-claim{font-size:9px;color:var(--pjm-grey);letter-spacing:.06em;margin-top:-2px}
+h1{font-weight:400;font-size:40px;line-height:1.16;margin:0;color:var(--pjm-coral);max-width:24ch}
+.hero h1 span{display:block;border-bottom:1.5px solid var(--pjm-coral);padding-bottom:7px;margin-bottom:7px}
+.hero-sub{color:#C9D2DB;font-size:13.5px;max-width:78ch;margin-top:20px;line-height:1.65}
+.hero-sub b{color:#fff;font-weight:600}
+.orn{position:absolute;right:-70px;top:-40px;z-index:1;opacity:.85}
+.pill{display:inline-block;font-size:9.5px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.09em;padding:4px 9px;border:1px solid var(--pjm-coral);color:var(--pjm-coral);
+  border-radius:11px;margin-bottom:18px}
+
+/* ---------- KPI ---------- */
+.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:-26px 0 18px;position:relative;z-index:3}
+.kpi{background:var(--surface);border:1px solid var(--pjm-line);padding:13px 14px 12px}
+.kpi .n{font-size:26px;font-weight:600;line-height:1.05;letter-spacing:-.02em}
+.kpi .l{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--ink-muted);margin-top:5px}
+.kpi.c-ok .n{color:var(--ok)} .kpi.c-no .n{color:var(--no)}
+.kpi.c-inf .n{color:var(--inf)} .kpi.c-amb .n{color:var(--amb)}
+.kpi.c-coral .n{color:var(--pjm-coral)}
+@media(max-width:980px){.kpis{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){.kpis{grid-template-columns:repeat(2,1fr)}}
+
+/* ---------- overview ---------- */
+.panel{background:var(--surface);border:1px solid var(--pjm-line);margin-bottom:16px}
+.panel-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+  padding:16px 20px 0;flex-wrap:wrap}
+h2{font-weight:600;font-size:16px;margin:0;letter-spacing:-.01em}
+h2 em{font-style:normal;color:var(--pjm-coral)}
+.hint{font-size:11.5px;color:var(--ink-muted)}
+.ovw{display:grid;grid-template-columns:1.25fr 1fr;gap:0;padding:14px 20px 18px}
+@media(max-width:900px){.ovw{grid-template-columns:1fr;gap:20px}}
+.ovw-col+.ovw-col{border-left:1px solid var(--pjm-line);padding-left:22px}
+@media(max-width:900px){.ovw-col+.ovw-col{border-left:none;padding-left:0;
+  border-top:1px solid var(--pjm-line);padding-top:18px}}
+.grow{display:grid;grid-template-columns:auto 1fr 34px;gap:7px 10px;align-items:center;
+  font-size:12px;cursor:pointer;padding:3px 0;border:none;background:none;color:inherit;
+  width:100%;text-align:left}
+.grow:hover .gname{color:var(--pjm-coral)}
+.grow.on .gname{color:var(--pjm-coral);font-weight:600}
+.gname{white-space:nowrap;font-size:11.5px}
+.gbar{display:flex;height:9px;background:var(--pjm-bg-alt);overflow:hidden}
+.gbar i{display:block;height:100%}
+.gnum{text-align:right;font-size:11px;font-weight:600;color:var(--ink-muted)}
+.iceli{display:flex;align-items:baseline;gap:9px;padding:5px 0;border-bottom:1px solid var(--pjm-line);
+  font-size:12.5px;cursor:pointer;background:none;border-left:none;border-right:none;border-top:none;
+  width:100%;text-align:left;color:inherit}
+.iceli:last-child{border-bottom:none}
+.iceli:hover .ict{color:var(--pjm-coral)}
+.icv{font-weight:600;font-size:13px;color:var(--pjm-coral);min-width:34px}
+.icid{font-size:10.5px;font-weight:600;color:var(--ink-muted);min-width:36px}
+.ict{flex:1;line-height:1.4}
+
+/* ---------- toolbar ---------- */
+.tools{position:sticky;top:0;z-index:20;background:var(--pjm-bg);
+  padding:10px 0 8px;border-bottom:1px solid var(--pjm-line);margin-bottom:16px}
+.tools-in{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.search{flex:1 1 260px;position:relative}
+.search input{width:100%;padding:9px 12px 9px 32px;border:1px solid var(--pjm-line);
+  background:var(--surface);color:var(--ink);font:400 13.5px/1.4 Poppins,Arial,sans-serif;
+  border-radius:0;outline:none}
+.search input:focus{border-color:var(--pjm-coral)}
+.search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:.5}
+.seg{display:flex;border:1px solid var(--pjm-line);background:var(--surface)}
+.seg button{padding:8px 13px;border:none;background:none;color:var(--ink-2);
+  font-size:11.5px;font-weight:600;cursor:pointer;letter-spacing:.02em}
+.seg button.on{background:var(--pjm-dark);color:#fff}
+.btn{padding:8px 13px;border:1px solid var(--pjm-line);background:var(--surface);
+  color:var(--ink-2);font-size:11.5px;font-weight:600;cursor:pointer}
+.btn:hover{border-color:var(--pjm-coral);color:var(--pjm-coral)}
+select.btn{padding:8px 8px}
+#fpanel{max-height:340px;overflow:hidden;transition:max-height .2s ease}
+#fpanel.hid{max-height:0}
+#fcount{color:var(--pjm-coral)}
+.frow{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap;margin-top:8px}
+.flab{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--ink-muted);min-width:74px;padding-top:3px}
+.chip{font-size:11.5px;padding:3px 10px;border:1px solid var(--pjm-line);background:var(--surface);
+  color:var(--ink-2);cursor:pointer;border-radius:12px;white-space:nowrap}
+.chip:hover{border-color:var(--pjm-coral)}
+.chip.on{background:var(--pjm-dark);border-color:var(--pjm-dark);color:#fff}
+.chip .c{opacity:.55;font-size:10px;margin-left:4px}
+.chip.on .c{opacity:.7}
+.chip.s-val.on{background:var(--ok);border-color:var(--ok);color:#fff}
+.chip.s-vyv.on{background:var(--no);border-color:var(--no);color:#fff}
+.chip.s-art.on{background:var(--amb);border-color:var(--amb);color:#fff}
+.chip.s-ove.on{background:var(--inf);border-color:var(--inf);color:#fff}
+.chip.s-otv.on{background:var(--pjm-coral);border-color:var(--pjm-coral);color:#fff}
+.count{font-size:11.5px;color:var(--ink-muted);margin-left:auto;white-space:nowrap}
+.count b{color:var(--ink);font-weight:600}
+
+/* ---------- table ---------- */
+table{width:100%;border-collapse:collapse;background:var(--surface)}
+thead th{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--ink-muted);text-align:left;padding:10px 12px;border-bottom:1px solid var(--pjm-line);
+  background:var(--surface);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--pjm-line);cursor:pointer}
+tbody tr:hover{background:var(--pjm-bg-alt)}
+tbody td{padding:10px 12px;font-size:13px;vertical-align:top;line-height:1.45}
+td.id{font-weight:600;font-size:12px;white-space:nowrap;color:var(--ink)}
+td.tt{max-width:1px;width:60%}
+td.tt b{font-weight:400}
+tr:hover td.tt b{color:var(--pjm-coral)}
+td.ice{text-align:right;font-weight:600;font-size:12.5px;color:var(--pjm-coral);white-space:nowrap}
+td.grp,td.src{font-size:11px;color:var(--ink-muted);white-space:nowrap}
+.badge{display:inline-block;font-size:9.5px;font-weight:600;letter-spacing:.05em;
+  text-transform:uppercase;padding:2px 7px;border-radius:10px;white-space:nowrap}
+.b-val{background:var(--ok-bg);color:var(--ok)}
+.b-vyv{background:var(--no-bg);color:var(--no)}
+.b-art{background:var(--amb-bg);color:var(--amb)}
+.b-ove{background:var(--inf-bg);color:var(--inf)}
+.b-otv{background:var(--surface);color:var(--pjm-coral);border:1px solid var(--pjm-coral)}
+.b-odl{background:var(--neu-bg);color:var(--neu)}
+.b-leg{background:var(--neu-bg);color:var(--neu)}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--pjm-line)}
+
+/* ---------- klíčové hypotézy ---------- */
+tbody tr.key{background:linear-gradient(90deg,rgba(255,82,95,.09),rgba(255,82,95,.02) 55%,transparent 85%);
+  box-shadow:inset 3px 0 0 var(--pjm-coral)}
+tbody tr.key:hover{background:linear-gradient(90deg,rgba(255,82,95,.14),rgba(255,82,95,.03) 55%,transparent 85%)}
+.card.key{box-shadow:inset 3px 0 0 var(--pjm-coral);border-color:var(--pjm-coral)}
+.k-star{color:var(--pjm-coral);font-size:12px;margin-right:5px}
+.k-pill{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;color:#fff;background:var(--pjm-coral);
+  border-radius:9px;padding:2px 8px;white-space:nowrap}
+#keyToggle.on{background:var(--pjm-coral);border-color:var(--pjm-coral);color:#fff}
+@media(max-width:760px){th.hcol,td.hcol{display:none}}
+
+/* ---------- cards ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--pjm-line);padding:15px 16px 14px;
+  cursor:pointer;display:flex;flex-direction:column;gap:7px}
+.card:hover{border-color:var(--pjm-coral)}
+.card-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.card-id{font-size:11.5px;font-weight:600}
+.card-ice{margin-left:auto;font-size:11px;font-weight:600;color:var(--pjm-coral)}
+.card h3{font-size:14px;font-weight:600;margin:0;line-height:1.35;letter-spacing:-.005em}
+.card p{margin:0;font-size:12px;line-height:1.5;color:var(--ink-2);
+  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.card-foot{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+.tg{font-size:9.5px;color:var(--ink-muted);background:var(--pjm-bg-alt);padding:2px 7px;border-radius:9px}
+
+/* ---------- group headers in list ---------- */
+.ghead{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;
+  color:var(--pjm-coral);padding:22px 0 8px;grid-column:1/-1}
+.ghead:first-child{padding-top:2px}
+.empty{padding:40px 20px;text-align:center;color:var(--ink-muted);font-size:13.5px;
+  background:var(--surface);border:1px solid var(--pjm-line)}
+
+/* ---------- drawer ---------- */
+.scrim{position:fixed;inset:0;background:rgba(32,39,47,.5);opacity:0;pointer-events:none;
+  transition:opacity .18s;z-index:40}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(620px,100%);background:var(--surface);
+  border-left:1px solid var(--pjm-line);transform:translateX(100%);transition:transform .22s ease;
+  z-index:41;display:flex;flex-direction:column}
+.drawer.on{transform:none}
+.dr-top{background:var(--pjm-dark);color:#fff;padding:20px 26px 18px;flex-shrink:0}
+.dr-top .row1{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.dr-id{font-size:12px;font-weight:600;letter-spacing:.04em}
+.dr-x{margin-left:auto;background:none;border:1px solid rgba(255,255,255,.3);color:#fff;
+  width:28px;height:28px;cursor:pointer;font-size:15px;line-height:1;border-radius:50%}
+.dr-x:hover{border-color:var(--pjm-coral);color:var(--pjm-coral)}
+.dr-top h3{margin:0;font-size:20px;font-weight:400;line-height:1.28;color:#fff;letter-spacing:-.01em}
+.dr-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+.dr-meta span{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;
+  padding:3px 8px;border-radius:10px;background:rgba(255,255,255,.1);color:#C9D2DB}
+.dr-body{overflow-y:auto;padding:22px 26px 60px;flex:1}
+.fld{margin-bottom:18px}
+.fld>.k{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--pjm-coral);margin-bottom:5px}
+.fld>.v{font-size:13.5px;line-height:1.62;color:var(--ink-2)}
+.fld>.v b{color:var(--ink);font-weight:600}
+.fld.dec>.v{background:var(--pjm-bg-alt);border-left:2px solid var(--pjm-coral);padding:11px 14px}
+.fld.cav>.v{background:var(--amb-bg);color:var(--amb);padding:11px 14px;font-size:12.5px}
+.fld.cav>.v b{color:var(--amb)}
+.icegrid{display:flex;gap:8px;flex-wrap:wrap}
+.icebox{border:1px solid var(--pjm-line);padding:7px 12px;text-align:center;min-width:56px}
+.icebox .n{font-size:17px;font-weight:600;line-height:1.1}
+.icebox .l{font-size:8.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--ink-muted);margin-top:2px}
+.icebox.tot .n{color:var(--pjm-coral)}
+.rels{display:flex;gap:6px;flex-wrap:wrap}
+.rel{font-size:11px;font-weight:600;padding:3px 9px;border:1px solid var(--pjm-line);
+  background:var(--surface);color:var(--ink-2);cursor:pointer;border-radius:11px}
+.rel:hover{border-color:var(--pjm-coral);color:var(--pjm-coral)}
+.dr-nav{display:flex;gap:8px;padding-top:8px;border-top:1px solid var(--pjm-line);margin-top:6px}
+
+/* ---------- misc ---------- */
+.legend{font-size:11.5px;color:var(--ink-muted);line-height:1.7;padding:14px 20px 18px}
+.legend b{color:var(--ink-2)}
+footer{background:var(--pjm-dark);color:#fff;margin-top:36px}
+.foot-in{max-width:1240px;margin:0 auto;padding:26px 24px;display:flex;
+  justify-content:space-between;align-items:center;font-size:12px;flex-wrap:wrap;gap:8px}
+.foot-in a{color:#fff;text-decoration:none}
+.foot-in .v{color:var(--pjm-coral);font-weight:600}
+@media print{
+  .tools,.scrim,.drawer,.hero .orn,.seg,.btn{display:none!important}
+  body{background:#fff}
+  .cards{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="orn" width="330" height="290" viewBox="0 0 330 290" aria-hidden="true">
+    <rect x="150" y="52" width="176" height="176" rx="40" fill="none" stroke="#A9C5DF" stroke-width="2"/>
+    <path d="M212 60 a86 86 0 1 1 -60 146" fill="none" stroke="#FF525F" stroke-width="2"/>
+  </svg>
+  <div class="hero-in">
+    <div class="logo">
+      <div class="logo-grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div><div class="logo-wm">projectman</div><div class="logo-claim">connecting experts</div></div>
+    </div>
+    <span class="pill">PM Comp · úkol Konverze · interní</span>
+    <h1><span>Databáze hypotéz</span>propad konverze PM OUT</h1>
+    <p class="hero-sub">Všech <b>105 hypotéz</b> z celé datové práce 18.–31. 8. 2026 na jednom místě —
+      99 z registru (H-01 – H-99) plus 6 původních z prvního diagnostického dokumentu.
+      Filtrujte podle statusu, tématu, ovlivnitelnosti nebo vlny; klik na řádek otevře plné znění
+      s oporou, caveaty a rozhodnutím. Zdrojem je
+      <b>registr „Hypotézy — Propositions“</b> ve vaultu a navazující reporty v této složce.</p>
+    <p class="hero-sub"><b>Aktualizace 29. 8.:</b> přidána skupina <b>M · Jádro × Tracker</b>
+      (H-90 – H-94) — poprvé propojuje osobní osu (kdo je jádro) s náborovými daty (koho jsme komu
+      nabídli). Z 12 alumni PM jádra nebyl po skončení místa nabídnut na jinou zakázku <b>nikdo</b>,
+      9 z 12 nejsou v Trackeru vůbec a nemáme jediný exit rozhovor. H-91 vyvrací, že soutěže
+      prohráváme kvůli vytíženému jádru; H-92 obrací diagnózu odtoku knihy z „ztrácíme lidi rychleji“
+      na „přestali jsme doplňovat“. Detail ve
+      <a href="pm-kandidatske-jadro-INTERNI.html">vývoji jádra</a>,
+      <a href="pm-tracker-recruitment-funnel.html">Tracker funnelu</a> a
+      <a href="pm-out-soutez-tracker-funnel.html">soutěž vs. nábor reportu</a>.</p>
+    <p class="hero-sub"><b>Aktualizace 31. 8.:</b> přidány skupiny <b>N · Délka kontraktu</b> (H-95, netestovatelná při n = 5) a <b>O · Přeživší místa</b> (H-96 – H-99). Census odtoku rozšířen z 35 PM konců na celou OUT knihu (65) a překlopen na otázku <b>„co se stalo s místem potom“</b>: <b>33 z 65 (51 %) je pozice, která u klienta žije dál bez nás</b> — 39 % dnešní knihy — zatímco skutečně zaniklo jen 11. Mechanismus se posunul z převzetí kontraktora na rámcovku a jiného dodavatele. Detail v <a href="pm-out-prezivsi-mista.html">přeživších místech</a>.</p>
+    <p class="hero-sub"><b>Aktualizace 23. 8.:</b> přidána skupina <b>K · Kandidátské jádro</b>
+      (H-83 – H-89) — poprvé je jednotkou analýzy člověk, ne zakázka. Ze 60 skončených obsazení bylo
+      znovu umístěno jen <b>4 (6,7 %)</b>, u míst nad 24 měsíců <b>0 z 22</b>. Detail v
+      <a href="pm-out-kandidatske-jadro.html">samostatném reportu</a>.</p>
+    <p class="hero-sub"><b>Aktualizace 22. 8.:</b> přidána skupina <b>J · Odtok knihy</b> (H-79 – H-82)
+      z censu 35 konců obsazení — <b>jen 4 z 35 konců mají doložený důvod na naší straně</b>.
+      Registr byl zároveň <b>protříděn</b>: H-55 a H-59 se slily do H-67, H-58 je teď řídicí metrika,
+      H-27 a H-28 zavřeny bez práce, H-12 a H-30 odloženy jako druhý řád, H-26 povýšena a
+      přeformulována na „je 14měsíční životnost obsazení trh, nebo naše?“. Pořadí prací je v
+      „Plán dalšího postupu — od konverze ke knize“.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="kpis" id="kpis"></div>
+
+  <!-- ============ PŘEHLED ============ -->
+  <div class="panel">
+    <div class="panel-h">
+      <h2>Přehled — <em>kde hypotézy leží</em></h2>
+      <span class="hint">Klik na skupinu nebo hypotézu níže filtruje / otevře detail</span>
+    </div>
+    <div class="ovw">
+      <div class="ovw-col">
+        <div class="hint" style="margin-bottom:10px">Skupiny podle rozpadu master hypotézy</div>
+        <div id="groupbars"></div>
+      </div>
+      <div class="ovw-col">
+        <div class="hint" style="margin-bottom:10px">Otevřené hypotézy podle ICE (I × C / E)</div>
+        <div id="icelist"></div>
+      </div>
+    </div>
+    <div class="legend">
+      <b>Master hypotéza:</b> propad konverze OUT_PM 2025H1 → 2026H1 není důsledkem trhu, ceny ani složení
+      klientů, ale nižší úspěšnosti na nezměněném vstupu ve fázi IN PROGRESS; ovlivnitelná část je
+      v kvalifikaci příležitosti a v profilu / rychlosti dodávaného kandidáta. —
+      <b>Reframing 21. 8.:</b> výher v soutěži je za celé okno 5; konverze nikdy nestála na soutěžích,
+      stála na nesoutěžním kanálu, a ten se rozpadl.
+    </div>
+  </div>
+
+  <!-- ============ TOOLBAR ============ -->
+  <div class="tools">
+    <div class="tools-in">
+      <div class="search">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7">
+          <circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg>
+        <input id="q" type="search" placeholder="Hledat v hypotézách, číslech, klientech, zdrojích…  (klávesa /)" autocomplete="off">
+      </div>
+      <div class="seg">
+        <button id="v-tab" class="on" data-view="table">Tabulka</button>
+        <button id="v-card" data-view="cards">Karty</button>
+      </div>
+      <select id="sort" class="btn" title="Řazení">
+        <option value="id">Řadit: podle ID</option>
+        <option value="ice">Řadit: ICE ↓</option>
+        <option value="status">Řadit: status</option>
+        <option value="group">Řadit: skupina</option>
+        <option value="act">Řadit: ovlivnitelnost</option>
+      </select>
+      <button class="btn" id="ftoggle" aria-expanded="true">Filtry <span id="fcount"></span></button>
+      <button class="btn" id="keyToggle" title="Jen hypotézy klíčové pro propozici">★ Jen klíčové</button>
+      <button class="btn" id="reset">Zrušit</button>
+      <span class="count" id="count"></span>
+    </div>
+    <div id="fpanel">
+      <div class="frow"><span class="flab">Status</span><span id="f-status"></span></div>
+      <div class="frow"><span class="flab">Skupina</span><span id="f-group"></span></div>
+      <div class="frow"><span class="flab">Téma</span><span id="f-tag"></span></div>
+      <div class="frow"><span class="flab">Ovlivnitelnost</span><span id="f-act"></span>
+        <span class="flab" style="min-width:auto;margin-left:14px">Vlna</span><span id="f-wave"></span></div>
+    </div>
+  </div>
+
+  <!-- ============ VÝSLEDKY ============ -->
+  <div id="out"></div>
+
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="dr-top">
+    <div class="row1">
+      <span class="dr-id" id="dr-id"></span>
+      <span class="badge" id="dr-badge"></span>
+      <span id="dr-key"></span>
+      <button class="dr-x" id="dr-x" title="Zavřít (Esc)">✕</button>
+    </div>
+    <h3 id="dr-title"></h3>
+    <div class="dr-meta" id="dr-meta"></div>
+  </div>
+  <div class="dr-body" id="dr-body"></div>
+</aside>
+
+<footer>
+  <div class="foot-in">
+    <span>Projectman · PM Comp — úkol Konverze · interní materiál</span>
+    <span class="v">100 hypotéz · stav k 29. 8. 2026</span>
+    <a href="index.html">← Rozcestník výstupů</a>
+  </div>
+</footer>
+
+<script>
+/* =====================================================================
+   DATA — 94 hypotéz z registru + 6 původních (H1–H6)
+   Zdroj: Notes/2026 ukol Konverze/Hypotézy — Propositions (rozcestník a evidence).md
+          + Nesoutěžní výhry — proč mizí / historie 2017–2026
+          + Census odtoku — proč obsazení končí (H-79 – H-82)
+          + Kandidátské jádro — koho umíme umístit opakovaně (H-83 – H-89)
+          + Kandidátské jádro PM v čase — odtok, koncentrace a doplňování (H-92)
+          + Recruitment funnel × win-loss — první průchod Tracker exportem (H-90, H-93)
+          + Soutěž vs. nábor — kde v tunelu ztrácíme kandidáty (H-91, H-94)
+          + Plán dalšího postupu — od konverze ke knize (protříděno 22. 8.)
+          + Hypotézy k poklesu konverze PM pozic (původní diagnostika)
+   ===================================================================== */
+const GROUPS={
+  A:"A · Lokalizace propadu", B:"B · Vstup a akvizice", C:"C · Rozhodovací moc a kvalifikace",
+  D:"D · Kvalita dodávky", E:"E · Měření a artefakty", F:"F · Rozsah problému",
+  G:"G · Kódování výher (v2)", H:"H · Nesoutěžní kanál", I:"I · Historie a životnost",
+  J:"J · Odtok knihy", K:"K · Kandidátské jádro", M:"M · Jádro × Tracker",
+  N:"N · Délka kontraktu", O:"O · Přeživší místa",
+  X:"X · Backlog a odložené", L:"L · Původní diagnostika"
+};
+const STATUS={
+  val:{l:"Validována",b:"b-val",c:"var(--ok)"}, vyv:{l:"Vyvrácena",b:"b-vyv",c:"var(--no)"},
+  art:{l:"Artefakt měření",b:"b-art",c:"var(--amb)"}, ove:{l:"V ověřování",b:"b-ove",c:"var(--inf)"},
+  otv:{l:"Otevřená",b:"b-otv",c:"var(--pjm-coral)"}, odl:{l:"Odložena",b:"b-odl",c:"var(--neu)"},
+  leg:{l:"Nahrazena",b:"b-leg",c:"var(--neu)"}
+};
+const ACTS={vys:"vysoká",str:"střední",niz:"nízká",met:"metodika"};
+
+const D=[
+/* ---------- A — lokalizace ---------- */
+{id:"H-01",g:"A",st:"val",key:true,conf:"silná",act:"met",w:"18.–19. 8.",src:"pass3 D1",
+ t:"Propad je rate efekt, ne volume ani mix",
+ tags:["lokalizace","objem a mix"],
+ f:"Pokles výher OUT_PM (13 → 4) je z většiny způsoben nižší úspěšností stejných typů zakázek, ne tím, že jich přišlo méně nebo přišly jiné.",
+ m:"Rozpad delty výher na volume / mix / rate.",
+ v:"Dekompozice na dvou dimenzích, obě se sčítají na −9,0 exaktně. Client newness: volume −2,82, mix <b>+2,94 (příznivý!)</b>, rate <b>−9,12</b>. Asking-margin band: volume −2,82, mix −1,97, rate −4,21.",
+ d:"Headline pro vedení. Méně dealů vysvětluje ~třetinu propadu, jejich složení nevysvětluje nic.",
+ c:"Rate je residuál a absorbuje i šum — říká „není to volume ani mix“, neměří „kolik je konverze“.",
+ rel:["H-06","H-10","H-07"]},
+
+{id:"H-02",g:"A",st:"vyv",act:"met",w:"18.–19. 8.",src:"pass1 V2/V3",
+ t:"Propad je artefakt nedozrálého pipeline",
+ tags:["lokalizace","evidence a data"],
+ f:"2026H1 vypadá horší jen proto, že jeho zakázky ještě nedozrály.",
+ m:"Equal-maturity falsifikátor (Def D, censor 61 dní) + míra vyřešenosti kohorty.",
+ v:"Falsifikátor <b>nevystřelil</b>. Def D 36,4 % → 9,1 %; na plně proběhlé podmnožině 36,4 % → 10,5 %. Kohorta 2026H1 je vyřešená na 86,7 % (4 z 30 otevřených). I kdyby všechny 4 otevřené vyhrály, kohorta dá 26,7 % — pod loňskými 33,3 %.",
+ d:"Argument „je moc brzo“ je uzavřený. Propad je reálný pod všemi čtyřmi definicemi (A 33,3→15,4 · B 33,3→13,3 · C 25,6→13,3 · D 36,4→9,1). Na slide patří <b>jedna</b> definice s uvedeným n, ne ta nejdramatičtější.",
+ rel:["H-24"]},
+
+{id:"H-03",g:"A",st:"vyv",act:"met",w:"18.–19. 8.",src:"pass3 V32, qdash §5",
+ t:"Zdražili jsme se",
+ tags:["cena"],
+ f:"Propad konverze je způsoben tím, že jsme dražší než dřív.",
+ v:"Gradient asking margin <b>není monotónní</b> — pásmo „under 20 %“ konvertuje 16,7 %, „20–30 %“ 25,0 %, tj. levnější pásmo vyhrává méně. Nejsilnější pásmo je „not-recorded“ (37,8 %), což není cenová hladina. Medián marže na FTE-měsíc drží 43 → 44 → 46 tis. Kč, marže jako % z ceny 25–27 %.",
+ d:"Cena není mechanismus.",
+ c:"Posun band-mixu je z většiny <b>zlepšení evidence</b> („not-recorded“ 67 % → 33 %), které aritmetika čte jako komerční zhoršení (−1,97 výher v D1). Necitovat jako cenový efekt.",
+ rel:["H-73","H-22"]},
+
+{id:"H-04",g:"A",st:"vyv",conf:"jako hlavní vysvětlení",act:"met",w:"18.–19. 8.",src:"pass1 V14, qdash §0",
+ t:"Propad je Škoda",
+ tags:["lokalizace","objem a mix"],
+ f:"Za propadem stojí odchod jednoho velkého klienta — Škody.",
+ v:"Škoda vysvětluje <b>44 % propadu objemu</b> (4 z 9 dealů), ale jen 1 ze 6 ztracených výher. Ex-Škoda varianta je <b>horší</b>, ne lepší: Def D 42,1 % → 9,1 %. Na penězích je Škoda naopak 33 % poklesu marže při 5,6 % základny.",
+ d:"„Odešla Škoda“ nesmí být použito jako vysvětlení konverze. Na objemu ano, na konverzi ne.",
+ rel:["H-22"]},
+
+{id:"H-05",g:"A",st:"vyv",act:"met",w:"18.–19. 8.",src:"pass3 V34",
+ t:"Klesla kapacita / úsilí na deal",
+ tags:["obchodníci"],
+ f:"Prohráváme, protože na zakázky nemáme čas — klesl počet aktivit na deal.",
+ v:"Aktivity v prvních 14 dnech (jediná míra nezávislá na délce života dealu): prohrané 3,0 → 3,0, vyhrané 3,0 → <b>4,5</b>. Dealy s nulovou aktivitou <b>zmizely úplně</b> (6 z 26 → 0 z 22). Rychle umírající dealy (≤ 30 dní, 5 → 13) mají stejný medián aktivit.",
+ d:"Levné vysvětlení „nemáme kapacitu“ padá. Zakázky se v 2026 pracují spíš víc a loguje se konzistentněji.",
+ rel:["H-54","H-45"]},
+
+{id:"H-06",g:"A",st:"vyv",key:true,act:"met",w:"18.–19. 8.",src:"pass4 headline",
+ t:"Změnil se typ zakázek, které prohráváme",
+ tags:["lokalizace","objem a mix"],
+ f:"Prohráváme jiné zakázky než loni — posun k zahraničním klientům a SAP programům přinesl víc insider proher.",
+ v:"Všech 8 kódovaných dimenzí (insider advantage, hloubka vztahu, rozhodovací moc kontaktu, procurement, „nikdy nedošlo na soutěž“) je mezi pololetími <b>ploché</b>. Insider advantage po zahrnutí suspected 19 % → 23 %.",
+ d:"<b>Nejdůležitější negativní zjištění celé práce:</b> neprohráváme jiné zakázky než loni, prohráváme stejné a vyhráváme jich méně. Nezávisle potvrzuje H-01. Zároveň vyvrací dřívější hypotézu odvozenou jen z názvů dealů.",
+ rel:["H-01","H-15"]},
+
+{id:"H-07",g:"A",st:"val",key:true,conf:"silná",act:"vys",w:"18.–19. 8.",src:"pass3 V35, qdash §8",
+ t:"Umíráme v IN PROGRESS, a dvakrát rychleji",
+ tags:["lokalizace","cyklus"],
+ f:"Prohry se nekoncentrují na vstupu ani v contractingu, ale uprostřed — po investované práci.",
+ v:"Stage mix proher je nezměněný (IN PROGRESS 88,5 % → 90,9 %), early-stage prohry <b>klesly</b> (3 → 1), CONTRACTING prohry téměř neexistují (0 · 1 · 1 za celé okno). Co se změnilo, jsou hodiny: medián dní do prohry v dominantním pásmu <b>54 → 27</b>. V širším okně jeden skutečný zlom — do 2024H1 se prohrávalo ve stage NEW, od 2024Q4 v IN PROGRESS.",
+ d:"Neprocházíme sítem kvalifikace u klienta — dostáváme se stejně daleko a jsme rychleji odstřiženi. Remedy patří do fáze mezi zadáním a shortlistem, ne do vstupní kvalifikace.",
+ c:"„In progress → Contracting 36 % → 16 %“ z původního dokumentu je ATS+CRM cut napříč kompetencemi. Warehouse ekvivalent pro OUT_PM je 33,3 % → 15,4 % (Def A). <b>Nemíchat obě čísla v jedné prezentaci.</b>",
+ rel:["H-78","H-01"]},
+
+/* ---------- B — vstup a akvizice ---------- */
+{id:"H-08",g:"B",st:"val",conf:"silná",act:"str",w:"18.–19. 8.",src:"pass3 V30, pass4 §3",
+ t:"Vstup vysychá u klientů, ne u našeho account managementu",
+ tags:["poptávka klienta","akvizice"],
+ f:"Úbytek nových zakázek je z většiny tím, že klienti, kteří loni kupovali, letos nic nevypsali — ne tím, že jsme s nimi přestali mluvit.",
+ v:"<b>38 organizací</b> kupovalo v 2025 a v H1 2026 nemá jediný OUT_PM deal — víc, než celá kohorta 2026H1 (30 dealů). Ale: <b>s 30 z těch 38 pořád komunikujeme</b>, jen 8 zcela ztichlo; 19 z 38 je vedeno jako „3 Customer“, 4 jako „4 Partner“ (medián 21,5 kontaktů, 163 aktivit). Největší absence je Novo Nordisk (5 dealů, 3 výhry 2025 → nula v H1 2026).",
+ d:"Není to relationship decay, je to poptávková strana. → <b>Call list = těch 38 organizací.</b> U části z nich může „nula poptávek“ znamenat „obsazeno“ (H-19).",
+ rel:["H-19","H-33","H-44"]},
+
+{id:"H-09",g:"B",st:"val",conf:"malé n",act:"vys",w:"18.–19. 8.",src:"pass3 V30",
+ t:"New-logo akvizice se zlomila na konverzi, ne na objemu",
+ tags:["akvizice"],
+ f:"U nových log nespadl objem příležitostí, spadla schopnost je vyhrát.",
+ v:"New-logo objem drží (18 → 15 dealů), ale win rate padl <b>44,4 % → 15,4 %</b>. Ze <b>16 organizací, které se v H1 2026 objevily poprvé, vyhrála přesně jedna</b> — Budějovický Budvar (520 tis. Kč).",
+ test:"Jednodenní case study jediného úspěchu (Budvar) proti 15 neúspěchům — nejlevnější dostupný signál, doporučený nezávisle LLM councilem.",
+ d:"Na malém n (2 z 13 vyřešených) nedělat závěr o schopnosti; udělat case study a teprve pak.",
+ rel:["H-11","H-70"]},
+
+{id:"H-10",g:"B",st:"val",conf:"vysvětluje objem, ne konverzi",act:"str",w:"19. 8.",src:"warehouse",
+ t:"Kdo otevírá zakázky, se mezi pololetími přeskupil",
+ tags:["obchodníci","objem a mix"],
+ f:"Významná část propadu je vysvětlená tím, že část obchodníků přestala otevírat OUT_PM zakázky a nahradili je lidé s jinou konverzí.",
+ v:"<b>Objem ANO:</b> na nulu šli Pavel Veselý (6 → 0), Jan Procházka (5 → 0), Petr Janiš (2 → 0) = −13. Snížili Jiří Tonar (8 → 3) a Petr Veselý (4 → 3) = −6. Nahradili Jan Klimíček (2 → 8), Jiří Zázvorka (4 → 7), Lubomír Slocik (8 → 9) = +10. Netto −9, sedí přesně na 39 → 30.<br><br><b>Konverze NE:</b> po aplikaci sazeb vlastníků z roku 2025 na objem 30 zakázek vychází mix H1 2026 <b>příznivěji</b> (35,9 % vs. 30,0 %, tj. +1,8 výhry). Zakázky se přesunuly k lidem s nominálně vyššími sazbami, a přesto jsme vyhráli méně.",
+ d:"Stejný výsledek jako u složení klientů: mix nevysvětluje nic, propadla úspěšnost. Zbývá jedna otázka na vedení — proč Pavel Veselý a Jan Procházka (11 z 39 zakázek v H1 2025) přestali. Jediný kus, který nejde dopočítat z dat.",
+ c:"Jen tři vlastníci přesahují n = 8 na 2025 datech — mix výpočet je indikativní. <b>Petr Veselý a Pavel Veselý jsou dva různí lidé</b>; nula v H1 2026 patří Pavlovi.",
+ rel:["H-45","H-76","H-77","H-57"]},
+
+{id:"H-11",g:"B",st:"val",conf:"z většiny",act:"str",w:"18.–19. 8.",src:"pass3 V30/V33, warehouse",
+ t:"Koncentrace quality-proher u jednoho ownera je artefakt portfolia",
+ tags:["obchodníci","kvalita dodávky"],
+ f:"70% podíl quality-proher u Lubomíra Slocika je z podstatné části vysvětlen složením jeho portfolia (new-logo), ne rozdílem v přístupu.",
+ v:"Anonymizované kódy z pass3 V33 jdou spárovat na jména: <b>AM-3 = Lubomír Slocik</b> (n = 14, 21,4 %), <b>AM-2 = Jiří Tonar</b> (n = 13, 46,2 %), <b>AM-1 = Pavel Veselý</b> (n = 17, 29,4 %). AM-3 měl v H1 2025 portfolio ze 100 % z nových log, AM-2 z 12,5 %. Nová loga konvertují 44,4 % → 15,4 % (H-09) — rozdíl sazeb je přesně to, co rozdíl v portfoliu předpovídá.",
+ d:"Nepoužívat jako zjištění o člověku. Skutečná otázka pro vedení: <b>má jeden člověk nést celý new-logo risk</b>, když nová loga konvertují třikrát hůř? Slocik je zároveň letos největší originátor (9 z 30 zakázek).",
+ c:"„Opened“ a „lost“ nejsou nutně tatáž kohorta a 70 % je z ATS+CRM cutu napříč kompetencemi, ne z warehouse OUT_PM.",
+ rel:["H-09","H-77"]},
+
+/* ---------- C — rozhodovací moc ---------- */
+{id:"H-12",g:"C",st:"odl",conf:"odložena 22. 8. — druhý řád (ICE bylo 5,0)",act:"vys",w:"18.–19. 8.",src:"pass4 Q2",
+ t:"Rozhoduje rozhodovací moc kontaktu, ne vřelost vztahu",
+ tags:["rozhodovací moc","kvalifikace"],
+ f:"Pravděpodobnost výhry roste s formální rozhodovací mocí našeho kontaktu, a <b>neroste</b> s vřelostí vztahu.",
+ v:"Rozhodovací moc je monotónní: skutečný rozhodovatel 37,5 % (6/16) · influencer a méně 26,1 % · nezaznamenáno 19,2 %. Vztahové pásmo monotónní <b>není</b>: „Supporter/Strong“ 40,0 %, „Sees You Same as Everyone Else“ 25,0 %, ale „Interested in You“ <b>8,3 %</b> (1 z 12) — nejhorší v celé sadě.",
+ m:"Zvětšit vzorek na celé okno 2024–2026 (dnes n = 16 v horním pásmu) a ověřit monotonii.",
+ test:"Rozšířené zadání (plán v2): zjistit reálný rozhodovací vliv kontaktu u výher i proher, soutěžních i nesoutěžních. Otázka: prodáváme správným lidem?",
+ d:"Silná kandidátní hypotéza pro <b>procesní</b> změnu (kvalifikuj na moc, ne na sympatie), ale n je malé. „Interested in You“ se v datech chová jako <b>varovný příznak</b>.",
+ c:"Předpoklad: pole jsou vyplňována konzistentně napříč obchodníky — což zpochybňuje H-30.",
+ rel:["H-30","H-13","H-32"]},
+
+{id:"H-13",g:"C",st:"val",conf:"kvalitativně",act:"vys",w:"18.–19. 8.",src:"pass4 Q3",
+ t:"Kvalifikace autority systematicky selhává",
+ tags:["rozhodovací moc","kvalifikace"],
+ f:"Deal umírá o úroveň výš, než sahá náš kontakt.",
+ v:"V pouhých <b>5 z 22</b> proher 2026H1 (23 %) měl náš kontakt kontrolu nad rozhodnutím; v <b>8 z 22</b> (36 %) mohl jen doporučit. Nejostřejší případ (720 EuroHealth) je vlastní lesson learned ownera: autoritu jsme se explicitně zeptali, odpověď zapsali, a stejně nás přehlasovali seniornější lidé. Stejný vzorec 2025: Česká spořitelna (člen boardu neschválil budget, který sám přislíbil), J&amp;T, Quadient.",
+ d:"Nejde o „lépe se ptát“ — ptání selhalo doloženě. Remedy musí být ověření autority <b>mimo</b> kontakt (druhý kontakt výš, písemné potvrzení mandátu), nebo přiznaná sleva na pravděpodobnost u dealů bez potvrzeného rozhodovatele.",
+ rel:["H-12","H-30","H-14"]},
+
+{id:"H-14",g:"C",st:"val",conf:"silná",act:"vys",w:"18.–19. 8.",src:"pass4 Q4",
+ t:"Třetina proher nikdy nebyla soutěž",
+ tags:["kvalifikace","incumbency"],
+ f:"Významná část proher nejsou prohrané soutěže, ale zaniklé příležitosti.",
+ v:"V <b>7 z 22</b> proher 2026H1 (32 %) a 10 z 26 v 2025H1 (38 %) nás nikdo neporazil: klient odstoupil, budget zmizel, sponzor se přesunul, role byla obsazena interně. Doložený extrém: DÔVERA — sole-sourced, dohodnutý budget, Head of PMO rozhoduje, a přesto prohra, protože PM, kterého se zastupovalo, změnil rozhodnutí.",
+ d:"Toto jsou <b>kvalifikační, ne konverzní</b> selhání a funnel metrika je neumí odlišit. Každá diskuse o zpřísnění kvalifikace tady má svůj cílový objem — třetina proher.",
+ rel:["H-25","H-31","H-39"]},
+
+{id:"H-15",g:"C",st:"val",conf:"minoritní mechanismus",act:"str",w:"18.–19. 8.",src:"pass4 Q1",
+ t:"Klíčový mechanismus není insider, ale incumbency",
+ tags:["incumbency","rámcové smlouvy"],
+ f:"Za prohrami nestojí to, že konkurent zná lidi, ale to, že už je uvnitř — rámec, pool, systém.",
+ v:"Ze 4 explicitních případů 2026H1 jsou <b>3 incumbency, ne známost</b>: rámcová smlouva (ČSOB Leasing vzal Trask pod existující rámec, tendr vůbec neproběhl), interní pool (ČSOB SK z fúze 365 banka), dodavatel už uvnitř cílového systému (Allianz/OPUS, Medical Systems). Celkově ~1 prohra z 5, a stabilně (H-06). Nejbolestivější detail: u ČSOB Leasing jsme <b>drželi CV</b>, zatímco klient roli uzavřel pod existující smlouvou.",
+ d:"Remedy je jiná než u „insidera“: rámcové smlouvy se vyhrávají dávno před vypsáním pozice. Do propozice patří jako <b>strukturální</b> téma, ne jako výzva k lepšímu sourcingu.",
+ rel:["H-43","H-55","H-32","H-69"]},
+
+{id:"H-30",g:"C",st:"odl",conf:"odložena 22. 8. — druhý řád (ICE bylo 8,0)",act:"vys",w:"18. 8.",src:"Kontakty report",
+ t:"Deklarovaná rozhodovací moc v CRM je systematicky nadhodnocená",
+ tags:["rozhodovací moc","evidence a data"],
+ f:"Pole „Decision Power“ u kontaktů je vyplňované podle dojmu, ne podle výsledku, a proto strategie účtu stojí u části klientů na neexistujícím rozhodovateli.",
+ v:"Z 1 482 osob je <b>228 vedeno jako rozhodovatel bez jediné materiální výhry</b>; potvrzených výsledkem je <b>21</b>. Doložený případ: Jan Heřman je v Pipedrive „A Decision Maker“, ale 9 z 10 aktivit nevisí na žádném dealu, jediná výhra je 50 tis. Kč (medián vyhraného dealu je 199,5 tis.). Po zavedení hranice materiality přeskočilo kategorii <b>219 z 1 482 osob (15 %)</b>, z toho 44 sesazených „dealmakerů“ mělo shodně jednu výhru pod hranicí (medián 35 731 Kč — jednorázová školení počítaná jako obchodní důkaz).",
+ m:"Podíl deklarovaných rozhodovatelů, u nichž existuje materiální výhra nebo doložené rozhodnutí.",
+ test:"Revize pole u kontaktů na top 20 účtech — jeden průchod; data z kontakty.html (kategorie „Moc nepotvrzená výsledkem“) jsou předpřipravená.",
+ d:"<b>Stejný typ chyby jako H-21</b> na jiném poli — ručně plněné pole prezentované jako fakt. Přímo podkopává H-12.",
+ c:"Opačný hřích: <b>59 z 254 vyhraných dealů (23 %) nemá zapsanou hodnotu</b>, takže „výhra pod hranicí“ u části lidí znamená jen „nevíme“.",
+ rel:["H-12","H-21","H-13"]},
+
+/* ---------- D — kvalita dodávky ---------- */
+{id:"H-16",g:"D",st:"val",conf:"silná",act:"met",w:"19. 8.",src:"pass5",
+ t:"Kvalita je polovina proher, ale její podíl neroste",
+ tags:["kvalita dodávky","evidence a data"],
+ f:"Kvalita dodávaných kandidátů se zhoršuje a to vysvětluje propad.",
+ v:"Census celé historie OUT_PM (100 proher, 2024-01-26 → 2026-07-29): <b>43 explicitně</b> označených „Quality“ + <b>4 nalezené jen v textu</b> = <b>47 (47 %)</b>. Podíl po pololetích <b>osciluje</b>: 38 % · 56 % · 46 % · 35 % · 55 % — žádný trend, žádné pololetí nad 56 %. Ostatní důvody: Cancelled by client 40, Cancelled by PJM 7, Price 5, Silent client 5.",
+ d:"Vyvrací narativ „kvalita se zhoršuje“. 2026H1 (55 %) je vysoké, ale ne bezprecedentní. CRM tagging drží — korekce z textu je jen +4 na 43 (~9 %).",
+ rel:["H-17","H-21"]},
+
+{id:"H-17",g:"D",st:"val",conf:"coding caveat",act:"vys",w:"19. 8.",src:"pass5, Quality report",
+ t:"Nejovlivnitelnější není „lepší konkurent“, ale profil a rychlost",
+ tags:["kvalita dodávky","sourcing"],
+ f:"Uvnitř quality-proher je většina ovlivnitelná — nejde primárně o silnějšího konkurenta.",
+ v:"Rozpad 47 quality-proher: <b>#3 konkurence měla objektivně silnějšího kandidáta</b> 16 dealů / 34 % / 26,0 M Kč (ovlivnitelnost nízká) · <b>#1 technická / seniorní neshoda profilu</b> 13 / 28 % / 11,0 M (vysoká — Orange: kandidát čten jako IT Delivery Manager, ne Program Manager) · <b>#5 slabý / pomalý sourcing</b> 10 / 21 % / 12,1 M (vysoká) · <b>#2 soft skills</b> 4 / 9 % / 1,2 M · <b>#4 reference / důvěryhodnost</b> 4 / 9 % / 6,9 M (vysoká).",
+ d:"Největší bucket <b>není exekuční selhání</b> — dobrá zpráva k prezentaci. Ovlivnitelný pool je #1 + #5 + #4 = <b>27 z 47 proher (57 %), ~30 M Kč</b>. Tři konkrétní opatření: definice profilu proti reálné roli, SLA na shortlist, nezávislé reference před odesláním.",
+ c:"Kategorizace je LLM čtení volného textu, jeden průchod, bez druhého kodéra. Confidence: 20 high / 12 medium / <b>15 low</b>. Mix je směrově správný, <b>ne po dealech</b>.",
+ rel:["H-16","H-18","H-25"]},
+
+{id:"H-18",g:"D",st:"val",conf:"kvalitativně",act:"vys",w:"18.–19. 8.",src:"pass4 Q4",
+ t:"Opakují se self-inflicted vzorce, ne tržní podmínky",
+ tags:["kvalita dodávky","sourcing"],
+ f:"To, co prohry spojuje, jsou naše vlastní opakované vzorce, ne trh.",
+ v:"Pět vzorců napříč oběma pololetími: držené / jednotlivé CV (622, 634) · nespuštěný sourcing, interně odprioritizováno (415, 392) · kandidát selhal na kontrole, kterou jsme mohli udělat sami (323 zákonná kvalifikace, 677 negativní reference + nabízen i konkurencí) · špatně postavené CV (711, 260) · dlouhá ticha uprostřed dealu (668: šest upomínek za 67 dní; 710: umřel po pozitivním feedbacku bez důvodu). Navíc dva dealy, kde náš vlastní BANT screen označil riziko a pokračovalo se dál (661, 455).",
+ d:"Žádný z těchto vzorců není tržní podmínka. Materiál pro procesní část propozice — a pro věrohodnost je lepší prezentovat s citacemi než s procenty.",
+ rel:["H-17","H-25"]},
+
+/* ---------- E — měření a artefakty ---------- */
+{id:"H-19",g:"E",st:"val",conf:"reálný, ale ne dominantní",act:"met",w:"19. 8.",src:"Win overhang",
+ t:"Win overhang rozpojuje nové výhry a aktivní bázi",
+ tags:["měření","incumbency"],
+ f:"U obsazeného klienta spadne počet nových výher k nule dřív, než skončí kontrakty — takže sales report čte „vyprodáno“ jako „mrtvo“.",
+ v:"Na celé OUT knize (150 vyhraných dealů) <b>2026Q3 vs. 2025Q3: nové výhry −94 % (16 → 1), aktivní prorátovaná marže +6 %</b> (5,93 → 6,26 M Kč/kvartál). Nejčistší případ Novo Nordisk: 7 z 10 výher v pěti kvartálech, pak tři kvartály nula nových výher při rostoucím obsazení 9 → 10 lidí. Nejdelší overhang: ORLEN Unipetrol 21 kvartálů, accompani 11, Škoda Transportation 8.",
+ d:"Efekt je reálný a měřitelný, ale <b>ne dominantní</b> (+6 %, ne desítky procent) — jeden faktor, ne vysvětlení propadu. „Aktivní obsazení per klient“ má být standardní doplňkový řádek k win reportu.",
+ c:"Marže na kvartál je rovnoměrný prorate, ne fakturace. Kvartály od 2026Q4 obsahují budoucnost k datu extraktu. FTE = 1,0 u 148 z 150 dealů → overhang je vždy agregát.",
+ rel:["H-52","H-08","H-49"]},
+
+{id:"H-20",g:"E",st:"val",conf:"silná",act:"met",w:"18. 8.",src:"vlákno 18. 8.",
+ t:"Prolongace nafukují win count v CONS_PM, OUT_PM je čistý",
+ tags:["měření","prolongace"],
+ f:"Konzulting vypadá lépe než PM outstaffing i proto, že se prodloužení evidují jako nové výhry.",
+ v:"Čtyři skutečné zakázky jsou v CRM evidované jako 13 výher — <b>9 výher navíc</b>: Allwyn/Vilím 4 dealy = 1 win + 3 prodloužení, Notino/Ducháčková 5 = 1 + 4, Notino/Marčišák 2 = 1 + 1, Notino/Vejrek 2 = 1 + 1. Notino má vzorec u tří konzultantů zároveň → zavedená praxe. Dopad na CONS_PM win rate: 2025H2 <b>73,7 % → 64,3 %</b>, 2026H1 <b>47,4 % → 37,5 %</b>. <b>OUT_PM je čistý</b> — dvě nezávislé metody, 0 shod.",
+ d:"Částečná odpověď na OB-6 („proč je konverze u PM nízká, když u konzultingu je nadprůměrná“) — část kontrastu je metodická, ne skutečná.",
+ c:"Hraniční případ k ručnímu rozhodnutí: PRE/Jakub Tomas #540 vs. #717.",
+ rel:["H-49","H-34","H-58"]},
+
+{id:"H-21",g:"E",st:"val",conf:"±27 % chybovost",act:"met",w:"18.–19. 8.",src:"pass4 Q4",
+ t:"lost_reason = Quality je materiálně nepřesný",
+ tags:["evidence a data","kvalita dodávky"],
+ f:"Pole „lost_reason“ v CRM lze číst jako fakt.",
+ v:"Z 11 proher 2026H1 označených „Quality“ je 7 skutečně prohra na kandidátovi, <b>2 jsou insider/incumbent prohry</b>, 1 cena/profil, 1 bez zaznamenaného důvodu → chybovost <b>3 z 11 (±27 %)</b>. Zrcadlově: z 8 „Cancelled by client“ je 5 skutečné odstoupení klienta, 2 interní obsazení, 1 incumbent-framework prohra.",
+ d:"Každý semafor a každý graf postavený na tomto poli je <b>orientační odhad, ne fakt</b> — a musí to být napsané na slidu, ne v metodické poznámce. Rekódování celého pole je práce na dny; do prezentace se nestihne a nemá se to předstírat.",
+ rel:["H-30","H-16","H-25"]},
+
+{id:"H-22",g:"E",st:"val",conf:"citlivostní",act:"met",w:"18. 8.",src:"pass1 V1/V14",
+ t:"Peněžní narativ H1 2026 stojí na dvou EUR dealech",
+ tags:["měření","cena"],
+ f:"Peněžní čísla H1 2026 jsou robustní.",
+ v:"Marže vyhraných dealů klesla jen −16,8 % (4,57 → 3,80 M Kč-ekv.) proti −60 % na počtu výher. Ale <b>dva EUR dealy (Quadient 2 209 757 Kč, AGEL 681 868 Kč) tvoří 76,05 % marže celé půlky</b>, přepočtené <b>jedním fixním kurzem 24,19 Kč/EUR</b> od jednoho zdroje napříč 2024–2026. Bez konverze čte tentýž pokles jako <b>−80 %</b>, a podíl Škody se posune ze 7 % na 33 %. Marže jako % z vyhraných dealů přitom <b>stoupla</b> 19,9 % → 38,4 %.",
+ d:"Kdokoli cituje peněžní čísla, <b>musí uvést kurz v téže větě</b>. Objemová a konverzní zjištění na kurzu nezávisí vůbec — to je důležité rozlišení, jinak FX caveat zpochybní i to, co je pevné.",
+ rel:["H-04","H-68"]},
+
+{id:"H-36",g:"E",st:"vyv",conf:"1 z 121",act:"met",w:"20. 8.",src:"pass7",
+ t:"Zápisky obchodníků u proher jsou spíš alibi než doložené důvody",
+ tags:["evidence a data","obchodníci"],
+ f:"Významná část zápisků u closed-lost je obecná výmluva bez dokladu, takže čísla postavená na těchto zápiscích jsou kontaminovaná.",
+ v:"<b>Vyvrácena.</b> Ze 121 zápisků, které vysvětlují prohru nebo hodnotí šanci, je <b>1 obecné alibi (0,8 %)</b>, 0 nadměrně sebekritických, <b>119 (98,3 %) uvádí ověřitelné partikulum</b>. Pásma: doložené 89 · tenké 31 · alibi 1. Jediné alibi — deal 235 Škoda Auto — <b>protiřečí vlastnímu zápisu o dva dny dříve</b>. Oprava mění baseline contest win rate 44,6 % → 44,0 %, tedy proti závěru o propadu.",
+ d:"Obavu z kontaminace výmluvami lze <b>zavřít</b>. Do dalších analýz filtrovat přes evidence_grade. Opravit deal 235 a cert u dealu 495. <b>Nezakládat personální opatření</b> na této metrice.",
+ c:"Hlavní výsledek visí na pravidle, že externalizace sama alibi netvoří — „klient si vybral interního kandidáta“ je věcný mechanismus, ne výmluva. Při opačném hodnocení vyskočí číslo z 0,8 % na ~25 %.",
+ rel:["H-37","H-38"]},
+
+{id:"H-37",g:"E",st:"val",conf:"14 %",act:"vys",w:"20. 8.",src:"pass7",
+ t:"Mezera není ve zkreslení zápisku, ale v jeho absenci",
+ tags:["evidence a data"],
+ f:"Riziko pro analýzy neleží v tom, co obchodníci napsali, ale v tom, kde nenapsali nic.",
+ v:"U <b>14 ze 100 proher není v záznamu nic</b>, co by prohru vysvětlovalo (dealy 73, 74, 88, 93, 105, 114, 117, 119, 125, 192, 259, 502, 576, 710) — deset z 2024 s prázdným „LL:“. Dalších 24 dealů má jen tenké jednořádkové konstatování. <b>Ze samotných zápisků lze rozhodnout „byla soutěž?“ u 79 ze 100 proher</b>; u zbylých 21 se never_contest opírá o CRM lost_reason.",
+ d:"Jediná velká mezera, kterou pass 7 našel. Zvážit povinné pole „důvod prohry“ s minimem jednoho partikula. Do prezentace nepatří jako závěr, ale jako rozsah, na kterém stojí očištěná konverze.",
+ c:"Korekce pass 6: jeho text uvádí „5 z 99 bez vysvětlení“, správně je 14.",
+ rel:["H-36","H-38","H-72"]},
+
+{id:"H-38",g:"E",st:"val",conf:"39 → 77 %",act:"met",w:"20. 8.",src:"pass7",
+ t:"Kvalita evidence u proher roste, takže baseline je slabší než rok srovnání",
+ tags:["evidence a data"],
+ f:"Podíl doložených proher se v čase nemění, takže pololetí jsou v evidenci srovnatelná.",
+ v:"<b>Vyvrácena v předpokladu, validována v důsledku.</b> Podíl A_doloženo roste <b>2024H1 46 % · 2024H2 39 % · 2025H1 73 % · 2025H2 55 % · 2026H1 77 %</b>. Baseline 2024 tedy stojí na výrazně slabší evidenci než 2026H1, se kterým se srovnává.",
+ d:"Metodická poznámka na slidu k sérii contest win rate. Není to nový závěr o konverzi, je to omezení srovnatelnosti.",
+ rel:["H-50","H-61","H-32"]},
+
+/* ---------- F — rozsah ---------- */
+{id:"H-23",g:"F",st:"val",conf:"silná",act:"met",w:"19. 8.",src:"Validace §5",
+ t:"PM klesá dvakrát rychleji než zbytek OUT knihy, která taky měkne",
+ tags:["lokalizace","scope"],
+ f:"Propad je specifický pro PM, ne obecný firemní jev.",
+ v:"Celé OUT: 84 → 67 vytvořených dealů, win rate <b>28,6 % → 20,7 %</b> (−7,9 p.b.). PM: <b>33,3 % → 15,4 %</b> (−17,9 p.b.). BA mírně slabší, DATA propad na malém n, OTHER a AGILE/AI stabilní nebo lepší.",
+ d:"Přeformulovat otázku pro vedení: <b>ne „proč klesá PM“, ale „proč PM klesá dvakrát rychleji než kniha, která taky měkne“</b>. Praktický test: pustit stejnou dekompozici na BA/OTHER — pokud vyjde stejný mechanismus, je příčina firemní/procesní, ne PM-specifická.",
+ rel:["H-01","H-24"]},
+
+{id:"H-24",g:"F",st:"otv",conf:"rozhodnutí, ne analýza",act:"met",ice:12.0,iceb:[3,4,1],w:"18.–19. 8.",src:"pass1 §7",
+ t:"„PM deal volume“ je bez pipeline ambiguózní faktorem ~2",
+ tags:["scope","měření"],
+ f:"Každé tvrzení o „objemu PM zakázek“, které nepojmenuje pipeline, je nepřesné až dvojnásobně.",
+ v:"147 PM dealů v OUT vs. <b>111 PM dealů v CON/EDU</b> za stejné okno.",
+ test:"Rozhodnutí, ne analýza — zamknout jednu definici konverze a jednu definici „PM deal“ a přepočítat oba roky stejně. Nejčastěji opakované doporučení obou councilů.",
+ d:"<b>Rozhodnutí vedení 19. 8.: nezapracovávat</b> — kapacitně nezvládneme. Plán drží jednu definici (kohortní podle data vzniku, strict OUT_PM) a nikde ji nemíchá; sloučený pohled s konzultingem je označený zvlášť (H-34).",
+ rel:["H-34","H-35","H-23"]},
+
+/* ---------- G — kódování výher ---------- */
+{id:"H-25",g:"G",st:"val",conf:"rozpad na 3 skupiny",act:"vys",w:"19. 8.",src:"warehouse",
+ t:"„Cancelled by client“ obsahuje ovlivnitelný podíl",
+ tags:["kvalifikace","sourcing"],
+ f:"Druhý největší lost reason není homogenní — část je naše selhání.",
+ v:"Rozpad 2026H1 na tři skupiny: <b>A · klient zrušil nebo obsadil interně</b> 5 dealů (šanci neměla ani konkurence) · <b>B · nedodali jsme</b> 1 deal — „Nebyli jsme schopni najít vhodného kandidáta“, v CRM Cancelled by PJM, <b>nabídka nikdy nevznikla</b> · <b>C · rozhodnuto mimo tendr</b> 1 deal (rámcová smlouva konkurenta). 2025H1 má stejné skupiny v poměru 8 / 1 / 1.<br><br>Skupina B v celé historii: <b>Cancelled by PJM = 7 zakázek ze 100 proher, 13,3 mil. Kč</b> (ČEPS 4,2 M · Škoda Auto 3,75 M · ČEPS 1,8 M · Novo Nordisk 1,5 M · ČD-Telematika 1,5 M · ARBES 0,5 M · Infinite Solution).",
+ d:"Jediná kategorie, kde je odpovědnost <b>100 % naše</b> a příčinou není kvalita nabídky, nýbrž to, že nabídka nevznikla. Nikdo se na ni dosud nedíval, protože není „Quality“.",
+ rel:["H-14","H-17","H-21"]},
+
+{id:"H-31",g:"G",st:"val",conf:"6,3 % (1 z 16)",act:"met",w:"19. 8.",src:"kódování výher",
+ t:"Konverze očištěná na soutěžené zakázky propad nezmenší",
+ tags:["měření","kvalifikace"],
+ f:"Po vyloučení zakázek, u kterých vůbec neproběhla soutěž, bude propad menší, protože část proher nebyla naše vina.",
+ v:"Opačně. Po zakódování i výher vychází <b>soutěžní win rate 2026H1 = 1 ze 16 = 6,3 %</b>, tedy výrazně <b>horší</b> než headline 15,4 %. Pro 2025H1 leží mezi 11,1 % a 33,3 % podle rozhodnutí o 6 výhrách bez dostatečného zápisu.",
+ d:"Vykazovat tři čísla místo jednoho: kvalifikační poměr (61,5 %), soutěžní win rate (6,3 %), nesoutěžní příjem (3 výhry).",
+ c:"<b>Oprava:</b> první verze plánu uváděla 44,8 % → 21,1 %. To předpokládalo, že všechny výhry byly soutěžní — chyba z toho, že se čistily jen prohry. <b>Číslo 21,1 % nepoužívat.</b>",
+ rel:["H-32","H-39","H-14"]},
+
+{id:"H-32",g:"G",st:"val",conf:"3 ze 4",act:"met",w:"19. 8.",src:"kódování výher",
+ t:"Většina letošních výher je nesoutěžní, ne obchodní úspěch",
+ tags:["incumbency","kvalifikace"],
+ f:"Výhry 2026H1 nejsou důkazem obchodní schopnosti, ale pozice uvnitř klienta.",
+ v:"<b>3 ze 4 výher 2026H1 jsou nesoutěžní</b> — navýšení kapacity u Kooperativy, výměna PM u AGEL SSC, kapacitní potřeba u Quadientu. Soutěž jsme letos vyhráli jednou (Budvar). Za obě pololetí je nesoutěžních výher 8; u <b>7 z 8</b> je zdrojem výhody to, že jsme u klienta už byli, u 1 (Raiffeisenbank) si klienta přinesl sám kandidát a o rok později si ho odvedl.",
+ d:"Zrcadlový obraz H-15 — incumbency bere zakázky u konkurence a přináší je tam, kde jsme incumbent my. <b>Vřelost vztahu výhru nepředpovídá</b>, incumbency ano.",
+ c:"Podíl nesoutěžních výher <b>nejde srovnávat mezi pololetími</b> — zápisy se zlepšily. Solidní je jen absolutní tvrzení o 2026H1.",
+ rel:["H-15","H-39","H-50","H-12"]},
+
+{id:"H-33",g:"G",st:"val",conf:"0 z 16",act:"vys",w:"19. 8.",src:"warehouse",
+ t:"Klienti odešlých obchodníků nejsou přebíráni",
+ tags:["obchodníci","akvizice"],
+ f:"Když obchodník přestane pracovat na PM, jeho účty někdo převezme.",
+ v:"Tři lidé, kteří přestali otevírat OUT_PM zakázky, pracovali v roce 2025 s <b>16 organizacemi</b>. V H1 2026 má <b>nula z nich</b> jedinou novou zakázku. Mezi nimi <b>Škoda Auto, Novo Nordisk, Edwards Lifesciences, ČD-Telematika, Allwyn, Groupon</b>.",
+ d:"Rozděluje H-08 na dvě příčiny: <b>16 účtů (41 % ze 39 „zmizelých“)</b> je interní mezera v pokrytí, řešitelná jedním telefonátem; <b>23 účtů</b> má aktivního vlastníka a přesto nevypsalo poptávku — to je skutečná poptávková strana. <b>Nejrychlejší dostupná páka v celém úkolu.</b>",
+ rel:["H-08","H-47","H-74"]},
+
+{id:"H-34",g:"G",st:"val",conf:"ale sloučení nic nezlepší",act:"met",w:"19. 8.",src:"warehouse",
+ t:"Část „konzultací“ je fakticky body shop",
+ tags:["scope","měření"],
+ f:"Hranice mezi outstaffingem a konzultingem je v datech měkká a sloučený pohled je poctivější.",
+ v:"Vzorec existuje: v konzultační pipeline jsou zakázky na jmenované lidi — „Senior PM konzultant pro Groupon — Lukáš Vítek“ (1 027 tis.) a hned vedle „Navýšení kapacity Lukáše Vítka“ (790 tis.). Hranice 10 MD ze zadání <b>není implementovatelná</b> (Estimated MDs fill 29 %); funkční proxy je <b>hodnota kontraktu ≥ 180 tis. Kč</b> (fill 100 %, shoda 18 z 23).<br><br><b>Ale:</b> sloučení dá 2026H1 <b>27,3 %</b> místo 15,4 % — a celý ten rozdíl dělá <b>pět kvartálních refreshů jednoho klienta</b> (Notino). Po jejich vyloučení je sloučený pohled <b>14,3 %</b>.",
+ d:"Sloučení je metodicky správné, ale samo nic nezlepší. Kdyby číslo šlo k vedení bez očištění o prodloužení, byl by z toho závěr „propad je jen −6 p.b.“ místo skutečných −19.",
+ rel:["H-20","H-24","H-35"]},
+
+{id:"H-35",g:"G",st:"val",conf:"32 → 0",act:"met",w:"19. 8.",src:"warehouse",
+ t:"EDU pipeline se přestala plnit, firemní srovnání je tím zkreslené",
+ tags:["scope","měření"],
+ f:"Firemní čísla přes všechny pipeline jsou srovnatelná mezi roky.",
+ v:"EDU zakázky: 2024H2 34 · 2025H1 32 · 2025H2 16 · <b>2026H1 nula</b>. Konzulting zároveň vyskočil z 28 na 50. Jde o <b>migraci pipeline</b>, ne obchodní změnu.",
+ d:"<b>Outstaffing je jediná pipeline, kde je srovnání 2025H1 vs. 2026H1 poctivé.</b> Nepoužívat konzultingový nárůst (42,9 % → 50,0 %) jako protiargument k propadu v OUT.",
+ rel:["H-24","H-34"]},
+
+/* ---------- H — nesoutěžní kanál ---------- */
+{id:"H-39",g:"H",st:"val",key:true,conf:"5 výher v soutěži za celé okno",act:"met",w:"21. 8.",src:"nc_outcome_half",
+ t:"Celý propad konverze je propad nesoutěžního kanálu, ne prohraných soutěží",
+ tags:["incumbency","lokalizace"],
+ f:"Konverze nikdy nestála na vyhrávání soutěží — stála na nesoutěžním kanálu, a ten se rozpadl.",
+ v:"Doložených výher v soutěži je za celé okno 2024H1–2026H1 dohromady <b>5</b> (1 · 2 · 1 · 0 · 1). Výhry bez soutěže jdou <b>6 · 2 · 12 · 6 · 3</b> a křivka celkových výher je kopíruje.",
+ d:"Přeformulovat zadání pro vedení z „proč prohráváme soutěže“ na <b>„proč nám přestali dávat práci bez soutěže“</b>. Tvrzení „zlepšíme konverzi v soutěžích“ nemá v datech základnu; tvrzení „udržíme přístup k nesoutěžním zakázkám“ ji má.",
+ rel:["H-31","H-32","H-40","H-60"]},
+
+{id:"H-40",g:"H",st:"val",conf:"0,70 → 0,27 na účet",act:"vys",w:"21. 8.",src:"nc_yield_half",
+ t:"U incumbent účtů nepadá úspěšnost, padá počet příležitostí",
+ tags:["incumbency","poptávka klienta"],
+ f:"U klientů, kde už jsme uvnitř, se nezhoršila naše úspěšnost — jen jich přišlo míň.",
+ v:"Konverze příležitosti na nesoutěžní výhru v kanálu A: 25,0 % → 27,3 % → <b>28,6 %</b> (plochá až mírně rostoucí). Příležitostí na jeden incumbent účet: 0,696 → 0,407 → <b>0,269</b> (−61 %). Základna 23 → 27 → 26 účtů.",
+ d:"Náprava nepatří do „umět líp vyhrát“, ale do <b>generování poptávky u účtů, kde už jsme</b>. Rozděluje pokles na složku ovlivnitelnou vlastní aktivitou a složku na straně klienta.",
+ rel:["H-52","H-46","H-75"]},
+
+{id:"H-41",g:"H",st:"val",conf:"17→6 vs. 17→1",act:"vys",w:"21. 8.",src:"nc_chan_half",
+ t:"Skutečný kolaps je v kanálu „teplý kontakt, který ještě nekoupil“",
+ tags:["akvizice","poptávka klienta"],
+ f:"Nejdražší ztráta není u incumbentů, ale u teplých kontaktů, které dosud nekoupily.",
+ v:"Kanál C (klient v CRM, kontakty existují, nikdy nekoupil): 17 příležitostí → <b>6</b> nesoutěžních výher (2025H1) vs. <b>17 → 1</b> (2026H1). Objem identický, konverze <b>35,3 % → 5,9 %</b>. Zbytek kanálu C v 2026H1 je 6 proher v soutěži a 6 bez soutěže.",
+ d:"<b>Tady leží nejdražší ztráta</b>, ne u incumbency. Dvě různé poruchy, dvě různé nápravy.",
+ c:"Kanály C a D nelze srovnávat s rokem 2024 (aktivity od 10/2024) — viz H-51.",
+ rel:["H-42","H-56","H-51"]},
+
+{id:"H-42",g:"H",st:"val",conf:"fresh 9 → 0 → 1",act:"vys",w:"21. 8.",src:"nc_deal_chan",
+ t:"Nesoutěžní výhra je rychlá reakce na hotovou poptávku, ne výsledek dvoření",
+ tags:["akvizice","cyklus"],
+ f:"Nesoutěžní výhry nevznikají dlouhým budováním vztahu, ale rychlou reakcí na hotovou potřebu.",
+ v:"Zakázky vzniklé do 45 dnů od prvního zalogovaného doteku: 20 → 6 → 10, z toho nesoutěžních výher <b>9 → 0 → 1</b>. Šest ze šesti nesoutěžních výher kanálu C v 2025H1 mělo dvoření 0–26 dní (medián <b>1 den</b>). Kontrola podle data vzniku organizace dává totéž.",
+ d:"Měřit <b>čas od intra k zadání</b>, ne počet schůzek. Dlouho dvořené účty vydávají tendry, ne přímá zadání.",
+ rel:["H-41","H-56","H-48"]},
+
+{id:"H-43",g:"H",st:"val",conf:"kvalitativně, 6 účtů",act:"str",w:"21. 8.",src:"zápisky + nc_signal_half",
+ t:"Nákupní procesy klientů se uzavřely na rámcové smlouvy, poptávka k nám vůbec nedojde",
+ tags:["rámcové smlouvy","poptávka klienta"],
+ f:"Poptávka nekončí u nás prohrou — vůbec k nám nedorazí, protože klient oslovuje jen rámcové partnery.",
+ v:"Doloženo přímými zápisky u <b>ČSOB</b> („defaultně oslovují jen partnery s rámcovou smlouvou a ceníkem“ — explicitně jako odpověď na otázku, proč nám přestaly chodit poptávky), <b>ČSOB Leasing</b> („nedostáváme poptávky, protože nemáme rámcovou smlouvu“), <b>Škoda Auto</b> (rámec se 6 firmami, minitendery), <b>ORLEN</b> (jen vysoutěžení dodavatelé), <b>KCP</b> (veřejná soutěž nad 500 tis.). Zmínky o nákupu/procurementu <b>1,9 → 1,1 → 7,1</b> na 100 zápisků, oslovená konkurence 0,0 → 0,1 → 1,0.",
+ d:"Rámcová smlouva je akvizice, která se dělá roky předem, ne sourcing. <b>Chybějící metrika: u kolika top účtů máme platný rámec</b> — dnes to není nikde evidované. Testovatelná podoba je H-55.",
+ rel:["H-55","H-15","H-44"]},
+
+{id:"H-44",g:"H",st:"val",conf:"kvalitativně, 6 účtů",act:"niz",w:"21. 8.",src:"zápisky",
+ t:"Klienti externí PM ruší nebo insourcují, část poklesu je poptávková strana",
+ tags:["poptávka klienta","insourcing"],
+ f:"Část poklesu je rozhodnutí klientů omezit externí PM, ne naše selhání.",
+ v:"Doloženo u <b>ČSOB</b> (banka pouští externisty a nahrazuje je z interní burzy práce), <b>Novo Nordisk</b> (právní audit: ukončit bodyshop model; Dánsko: zvyšte efektivitu, využijte AI; chystaný tendr až 50 mil. DKK), <b>Edwards</b> (nový CIO proti kontraktorům, vyřazení z orgchartu), <b>Škoda Transportation</b> (ořezaný budget, hledají interního), <b>ČD-Telematika</b>, <b>CME</b>. Signál „proti kontraktorům“ 2,2 → 1,9 → 2,8 na 100 zápisků.",
+ d:"<b>Neovlivnitelná část.</b> Do propozice patří jako tržní podmínka, ne jako selhání — ale určuje, kde má smysl tlačit a kde ne.",
+ rel:["H-72","H-43","H-67"]},
+
+{id:"H-45",g:"H",st:"val",conf:"silná",act:"str",w:"21. 8.",src:"nc_effort_alloc, nc_owner_half",
+ t:"Výtlak obchodníků neklesl, byl přesměrován",
+ tags:["obchodníci","incumbency"],
+ f:"Obchodní aktivita se nezmenšila — přesunula se k jiným produktům a účtům.",
+ v:"Klientský kontakt celkem 958 → 1 000 → 867 za pololetí, fill zápisku 94,9 → 95,8 %, délka zápisku 858 → 1 222 znaků, BANT aktivit 142 → 121 → 146. Podíl kontaktu u incumbent PM účtů 48,4 % (24H2) → 38,7 → 31,1 → <b>30,6 %</b>, na účet 14,7 → <b>9,8</b> (−33 %). Ve stejných účtech vzniklo PM zakázek 26 → 16 → <b>9</b>, zatímco OUT_OTHER drží (11 → 8 → 11) a CONS_AI roste (2 → 7 → 5). <b>Pavel Veselý: 8 z 11 incumbent PM zakázek v 2025H2 → 0 v 2026H1</b> při nezměněných ~94 kontaktech. Petr Janiš: 0 × OUT_PM, 8 × CONS.",
+ d:"Není to kapacita (vyvrátila H-05), je to <b>alokace pozornosti a produktový mix</b>. To je rozhodnutí vedení, ne výkon obchodníka — a je otevřenou otázkou, jestli bylo zadané (H-57).",
+ rel:["H-05","H-57","H-10","H-76"]},
+
+{id:"H-46",g:"H",st:"val",conf:"12 konců, 0 výher",act:"vys",w:"21. 8.",src:"nc_refill_half",
+ t:"Uvolněná místa nedoplňujeme, i když se jich uvolňuje víc",
+ tags:["refill","incumbency"],
+ f:"Konec obsazení u klienta, kde jsme uvnitř, je nejlevnější příležitost — a nevyužíváme ji.",
+ v:"Obsazení, která skončila: 4 → 8 → 11 → <b>12</b> za pololetí. Nová zakázka u téhož klienta v okně −90/+180 dní vznikla v 1 · 1 · 6 · 3 případech, <b>výhrou skončila v 1 · 0 · 1 · 0</b>.",
+ d:"Nejlevnější dostupná páka — <b>kalendářní alarm 90 dní před koncem každého obsazení</b>, dnes neexistuje. Testovatelná podoba je H-67 (do níž se H-59 slila).",
+ c:"<b>Upřesněno censem odtoku 22. 8. (H-79):</b> u části konců nebylo co doplňovat — potřeba role u klienta zmizela (7 z 35 konců je konec projektu). „Nedoplňujeme“ platí, ale ne u všech 12 konců.",
+ rel:["H-79","H-81","H-53","H-67"]},
+
+{id:"H-47",g:"H",st:"val",conf:"73 kontaktů na nule",act:"vys",w:"21. 8.",src:"nc_activity",
+ t:"Odešlé pokrytí incumbent účtů nikdo nepřevzal",
+ tags:["obchodníci","incumbency"],
+ f:"Propad kontaktu u incumbent účtů není plošný — je to výpadek konkrétních lidí, který nikdo nezaplnil.",
+ v:"Tereza Dvořáková (42 kontaktů u incumbent PM účtů v 2025H1) a Petr Holub (31) jsou v 2026H1 na nule; součet <b>73</b> odpovídá téměř celému propadu kontaktu u těchto účtů (339 → 255 = −84). Jiří Zázvorka 60 → 27, Petr Janiš 37 → 10.",
+ d:"Rozšiřuje <b>H-33</b> z „nepřevzaté organizace“ na <b>nepřevzatý kontakt u účtů, kde uvnitř zůstáváme</b> — to je horší, protože tam obsazení běží a poptávka by přišla. Remedy: pojmenovaná odpovědnost za každý účet s běžícím obsazením.",
+ rel:["H-33","H-45","H-40"]},
+
+{id:"H-48",g:"H",st:"val",conf:"n = 3",act:"met",w:"21. 8.",src:"nc_deal_chan",
+ t:"I bez soutěže už vede proces — nesoutěžní výhra se ztrojnásobila v čase",
+ tags:["cyklus","rámcové smlouvy"],
+ f:"I přímé zadání dnes prochází formalizovaným procesem.",
+ v:"Medián dnů od vzniku dealu k nesoutěžní výhře: 30 · 38,5 · 53 · 27,5 · <b>92</b>; v 2026H1 je i nejrychlejší případ 37 dní.",
+ d:"Nezávislé potvrzení formalizace ze zápisků. Forecast nesmí u „přímého zadání“ počítat s měsícem.",
+ c:"<b>n = 3</b> v 2026H1 — indikace, ne měření.",
+ rel:["H-43","H-42","H-78"]},
+
+{id:"H-49",g:"H",st:"art",conf:"155 FTE-měsíců vs. 3 výhry",act:"met",w:"21. 8.",src:"nc_prolong_half",
+ t:"Incumbency dnes teče prolongací, kterou win count nevidí",
+ tags:["prolongace","měření"],
+ f:"Část incumbency byznysu se v OUT_PM neprojeví jako výhra, protože prodloužení se neeviduje jako nový deal.",
+ v:"V OUT_PM se prodloužení nezakládá jako nový deal, jen se posune „Job finish day“ (H-20, 0 shod dvěma metodami). V 2026H1 jsme takto u <b>17 klientů posunuli 23 zakázek o celkem 155,5 FTE-měsíců</b> (2025H2: 30 zakázek / 194,6 měsíce), medián posunu 62 → 106 → <b>180 dní</b>. Top: Novo Nordisk 29,1 · ORLEN 20,1 · Raiffeisenbank 15,1 FTE-měsíce.",
+ d:"<b>Na slide patří přidané FTE-měsíce vedle win countu.</b> Jakmile se mix posune z „nové místo“ na „prodloužení“, win count musí klesnout, i kdyby byznys byl zdravý. Nezaměňovat s tvrzením, že pokles není reálný.",
+ c:"Changelog od 30. 10. 2024, 2025H1 je podhodnocené náběhem evidence; srovnání 2025H2 vs. 2026H1 je čisté. Pole má fill 100 %.",
+ rel:["H-20","H-58","H-68","H-19"]},
+
+{id:"H-50",g:"H",st:"art",act:"met",w:"21. 8.",src:"nc_coverage, H-38",
+ t:"Kvalita zápisu roste → trend podílu nesoutěžních výher je nesrovnatelný, ale proti závěru",
+ tags:["evidence a data"],
+ f:"Trend podílu nesoutěžních výher lze číst jako čistou časovou řadu.",
+ v:"Certifikace „doloženo“ u kódování: 2024H1 11/22 → 2026H1 <b>25/30</b>, podíl doložených proher 46 · 39 · 73 · 55 · <b>77 %</b> (H-38). Lepší zápis znamená, že se nesoutěžnost v 2026 odhalí <b>snáz</b> — pokles 12 → 3 je tím spíš podhodnocený.",
+ d:"Uvést jako omezení srovnatelnosti, <b>ne jako důvod pokles zpochybnit</b>. Zrcadlí caveat u H-32.",
+ rel:["H-38","H-32","H-51"]},
+
+{id:"H-51",g:"H",st:"art",act:"met",w:"21. 8.",src:"dq_report",
+ t:"Kanály C a D jsou v roce 2024 strukturálně prázdné",
+ tags:["evidence a data"],
+ f:"Kanálová segmentace platí pro celé okno 2024–2026.",
+ v:"Aktivity od 23. 10. 2024, changelog od 30. 10. 2024, poznámky od 21. 10. 2024. Zakázky z 2024H1/H2 proto padají do kanálu D, i když teplý kontakt existoval — <b>2024H1 má kanál C nula zakázek</b>.",
+ d:"Každý graf o kanálech C/D, kontaktech, dvoření a prolongacích čte <b>jen 2025H1–2026H1</b>.",
+ rel:["H-61","H-41","H-50"]},
+
+{id:"H-52",g:"H",st:"vyv",conf:"18 → 26 účtů",act:"met",w:"21. 8.",src:"nc_base_half",
+ t:"Ztratili jsme pozice uvnitř klientů",
+ tags:["incumbency"],
+ f:"Propad výher je způsoben tím, že nás z účtů vytlačili.",
+ v:"Účtů s běžícím obsazením OUT_PM: 18 → 21 → 23 → 27 → <b>26</b>, obsazených míst 37 → 45, FTE 38,0 → 45,5. Celá OUT kniha roste z 20 na 33 účtů.",
+ d:"Nejde o retention, jde o generování poptávky. Konzistentní s H-19 (win overhang) i s vztahovou knihou (11 ze 17 nesoutěžně získaných klientů drží).",
+ rel:["H-40","H-19","H-66"]},
+
+{id:"H-53",g:"H",st:"vyv",conf:"konců 4 → 12",act:"met",w:"21. 8.",src:"nc_refill_half",
+ t:"Účty jsou nasycené, není co doplňovat",
+ tags:["refill","incumbency"],
+ f:"U incumbent účtů už není prostor — všechna místa jsou obsazená.",
+ v:"Naopak — obsazení končí čím dál víc (4 → 12 za pololetí) a FTE u incumbent účtů spadlo z vrcholu 51,7 na 45,5. Přesto z 12 konců v 2026H1 nevznikla ani jedna výhra u téhož klienta.",
+ d:"Prostor existuje a neplní se. Viz H-46 a H-59.",
+ rel:["H-46","H-59"]},
+
+{id:"H-54",g:"H",st:"vyv",conf:"kontakt 958 → 867",act:"met",w:"21. 8.",src:"nc_activity",
+ t:"Obchodníci přestali klienty obcházet",
+ tags:["obchodníci"],
+ f:"Klesl objem obchodní aktivity vůči klientům.",
+ v:"Klientský kontakt 958 → 1 000 → 867, fill zápisku 94,9 → 95,8 %, délka zápisku +42 %, BANT aktivit stabilně ~140.",
+ d:"Navazuje na H-05 a potvrzuje ji na jiné dimenzi. Není to objem aktivity, je to její směřování (H-45).",
+ rel:["H-05","H-45","H-47"]},
+
+{id:"H-55",g:"H",st:"leg",conf:"sloučena do H-67",act:"str",w:"21. 8.",src:"zápisky ČSOB, ČSOBL, Škoda",
+ t:"Bez rámcové smlouvy se k poptávce u velkého klienta nedostaneme vůbec",
+ tags:["rámcové smlouvy","poptávka klienta"],
+ f:"Rozhodující proměnná není kvalita nabídky ani vřelost vztahu, ale <b>existence platného rámce a ceníku</b> u daného klienta.",
+ v:"Opora: dvě přímé citace od nákupních kontaktů (ČSOB, ČSOB Leasing) a rámec se 6 firmami u Škoda Auto. Zrcadlí H-15 z druhé strany: kde rámec máme, dostáváme přímá zadání; kde ne, poptávka nedojde.",
+ m:"Podíl top 20 účtů s platným rámcem × počet doručených poptávek 2026.",
+ test:"Jeden průchod — seznam top 20 účtů, ano/ne rámec, počet poptávek. Dnes to není nikde evidované; potřebuje Petra/Jirku, ne data.",
+ d:"Druhá nejvyšší priorita otevřených hypotéz. Pokud drží, mění celou strukturu propozice — z „lepší sourcing“ na <b>„rámcové smlouvy jako produkt“</b>.",
+ rel:["H-43","H-15","H-67"]},
+
+{id:"H-56",g:"H",st:"otv",act:"str",ice:6.0,iceb:[4,3,2],w:"21. 8. → přeformulována 22. 8.",src:"nc_chan_half + H-65",
+ t:"Unese new-logo kanál 28 obsazení ročně?",
+ tags:["akvizice"],
+ f:"Vstup teplých intr je vyčerpatelný zdroj, ne obnovitelný, a rok 2025H1 byl jeho sklizeň.",
+ v:"Opora: H-41 + H-42. Nových organizací v CRM je stabilně ~132 za pololetí, ale zakázek OUT_PM u čerstvých organizací 30 → 6 → 11 a nesoutěžních výher z nich 8 → 0 → 1.",
+ test:"Počet nových organizací s ≥ 1 klientským kontaktem a doloženým intrem po pololetích, proti počtu, který z nich vydal zakázku do 45 dnů.",
+ rel:["H-41","H-42","H-09"]},
+
+{id:"H-57",g:"H",st:"otv",act:"str",ice:5.3,iceb:[4,4,3],w:"21. 8.",src:"nc_product_at_inc",
+ t:"Přesměrování výtlaku do CONS/AI je rozhodnutí, ne důsledek",
+ tags:["obchodníci","scope"],
+ f:"U PM outstaffingu nespadl výnos na kontakt — kapacita se <b>vědomě přesunula</b> tam, kde je marže a poptávka.",
+ v:"Opora: H-45. Podíl kontaktu u incumbent PM účtů 48,4 % → 30,6 %, PM zakázky 26 → 9, zatímco CONS_AI roste.",
+ test:"Jedna otázka na vedení — byl přesun Pavla Veselého a Petra Janiše do OUT_OTHER/CONS zadaný, nebo se stal? <b>Data na to neodpoví.</b> Stejný typ otázky jako u H-10.",
+ d:"Otázka na vedení, ne analýza. Určuje, jestli je propad výsledkem strategie, nebo jejího chybějícího zadání. <b>Sloučeno 22. 8. s otázkou na gap-filler</b> (je 14měsíční místo cílový produkt, nebo důsledek?) — na vedení jde jedna otázka, ne dvě.",
+ rel:["H-45","H-10","H-35","H-71"]},
+
+{id:"H-58",g:"H",st:"leg",conf:"překlasifikována na metriku",act:"met",w:"21. 8.",src:"nc_prolong_half",
+ t:"V FTE-měsících incumbency byznys neklesá, klesá jen jeho evidence",
+ tags:["prolongace","měření"],
+ f:"Po přičtení prolongací je incumbency 2026H1 v FTE-měsících srovnatelná s 2025H2.",
+ v:"Opora: H-49 (155,5 vs. 194,6 FTE-měsíců).",
+ test:"Nové FTE-měsíce z výher + přidané FTE-měsíce z prolongací, po pololetích. Čistě z warehouse, ale musí se dořešit pravostranné censurování 2026H2.",
+ rel:["H-49","H-64","H-20"]},
+
+{id:"H-59",g:"H",st:"leg",conf:"sloučena do H-67",act:"vys",w:"21. 8.",src:"nc_refill_half",
+ t:"Konverze uvolněného místa na refill je nejlevnější dostupná páka",
+ tags:["refill","incumbency"],
+ f:"Alarm 90 dní před koncem obsazení vyrobí víc nesoutěžních výher než jakákoli změna v sourcingu.",
+ v:"Opora: H-46 (12 konců v 2026H1, 0 výher u téhož klienta).",
+ test:"Vzít 12 konců obsazení z 2026H1 a u každého dohledat, jestli o něm někdo věděl dřív než měsíc předem. Půl dne práce v zápiscích.",
+ rel:["H-46","H-53","H-67"]},
+
+/* ---------- I — historie a životnost ---------- */
+{id:"H-29",g:"I",st:"val",conf:"validována 21. 8. (dřív odložena)",act:"str",w:"19. → 21. 8.",src:"qdash §7 → nch_survival",
+ t:"Kolaps délky kontraktů 35 → 15 měsíců je tichý násobič",
+ tags:["životnost obsazení","měření"],
+ f:"Zkrácení kontraktů znamená, že stejný počet výher udrží menší knihu — je to násobič, který win count nevidí.",
+ v:"Registr vedl H-29 jako <b>odloženou (mimo okno)</b> s tím, že zlom leží na hraně 2023/2024. <b>Popis je správný, závěr byl chybný:</b> příčina leží vně okna, ale její důsledek je celý uvnitř — obsazení z ročníků 2024 a 2025 dobíhají právě teď a to je to, co se v roce 2026 čte jako „pokles výher“.",
+ d:"Přeřazena na validovanou a rozpracovaná v H-63 – H-66. Bez tohoto kroku by se celá historická analýza při dalším průchodu znovu odložila.",
+ rel:["H-63","H-64","H-65","H-66"]},
+
+{id:"H-60",g:"I",st:"val",conf:"silná",act:"met",w:"21. 8. odp.",src:"nch_win_year",
+ t:"Řada 12 → 6 → 3 se poměřuje proti výjimečnému pololetí",
+ tags:["historie","incumbency"],
+ f:"Pokles nesoutěžních výher se měří proti špičce, ne proti normálu.",
+ v:"S doplněným rokem 2024 je série nesoutěžních výher <b>6 · 2 · 12 · 6 · 3</b>. 2025H1 je 6× nad 2024H2. 7 výher v okně navíc není zakódovaných (5 z nich v roce 2024), takže baseline 2024 je spodní odhad.",
+ d:"Na slidu vždy pět pololetí. Otázka pro vedení není „proč to padá z 12“, ale <b>„co bylo v 2025H1 unikátní a proč je 2026H1 pod celým okolím“</b>.",
+ rel:["H-39","H-62","H-50"]},
+
+{id:"H-61",g:"I",st:"val",conf:"datová past",act:"met",w:"21. 8. odp.",src:"nch_dq",
+ t:"Před rokem 2024 nelze konverzi měřit — CRM je registr výher",
+ tags:["evidence a data","historie"],
+ f:"Historii lze použít i na konverzi.",
+ v:"Pre-2024 obsahuje <b>57 zakázek napříč produkty a 0 proher</b>; všechny organizace mají add_time 2024+. CRM instance je z podzimu 2024, dealy dosypané zpětně do 2017.",
+ d:"<b>Zakázat jakýkoli graf konverze před 2024.</b> Historii používat jen na objem a délku obsazení.",
+ rel:["H-51","H-38","H-62"]},
+
+{id:"H-62",g:"I",st:"val",conf:"silná",act:"met",w:"21. 8. odp.",src:"nch_win_year",
+ t:"Firma historicky rostla s 1–4 PM výhrami ročně; dnešní tempo není historicky nízké",
+ tags:["historie","životnost obsazení"],
+ f:"Dnešní počet výher je historicky bezprecedentně nízký.",
+ v:"Historicky firma rostla s <b>1–4 PM výhrami ročně</b>. Dnešní tempo v absolutních počtech není z historie vybočující — vybočuje životnost, ne počet.",
+ d:"Přestat řídit počtem výher samostatně — vždy v páru s FTE-měsíci.",
+ rel:["H-64","H-65","H-60"]},
+
+{id:"H-63",g:"I",st:"val",conf:"potvrzuje H-29",act:"str",w:"21. 8. odp.",src:"nch_survival",
+ t:"Životnost obsazení se zlomila mezi 2023 a 2024",
+ tags:["životnost obsazení"],
+ f:"Kontrakty vydrží stejně dlouho jako dřív.",
+ v:"Dožití 24 měsíců: kohorty <b>2017–2020 8/8, 2021–2022 7/7, 2023 8/10, 2024 3/12</b>. Průměrná délka dokončených obsazení <b>2 119 → 1 597 → 790 → 423 dní</b>.",
+ d:"Životnost obsazení je sledovaná metrika a cíl (medián ≥ 18 měsíců u nových výher), ne poznámka pod čarou.",
+ c:"Ročníky 2025 a 2026 jsou pravostranně cenzurované — jejich přežití je dolní odhad. Ročník 2024 je z 14/16 dokončený, srovnání „do 2022 vs. 2024“ je čisté.",
+ rel:["H-29","H-64","H-71"]},
+
+{id:"H-64",g:"I",st:"val",conf:"2025/26 cenzurováno",act:"met",w:"21. 8. odp.",src:"nch_survival",
+ t:"Hodnota jedné výhry spadla 6× — z 82 na 13,4 FTE-měsíce",
+ tags:["životnost obsazení","měření"],
+ f:"Jedna výhra dnes znamená totéž co dřív.",
+ v:"Hodnota jedné výhry měřená ve FTE-měsících spadla <b>z 82 na 13,4</b>.",
+ d:"„Vyhraných FTE-měsíců“ jako headline metrika obchodu vedle počtu výher.",
+ c:"Ročníky 2025 a 2026 jsou cenzurované — hodnota je dolní odhad.",
+ rel:["H-29","H-63","H-58","H-68"]},
+
+{id:"H-65",g:"I",st:"val",conf:"aritmetika",act:"str",w:"21. 8. odp.",src:"nch_survival + nch_book_month",
+ t:"Běhací pás — kniha 33 míst potřebuje ~28 obsazení ročně, rekordní 2025 dal 23",
+ tags:["životnost obsazení","refill"],
+ f:"Cílový počet výher lze odvodit z minulého roku.",
+ v:"Kniha 33 míst při životnosti 1,16 roku potřebuje ve stabilním stavu <b>~28 nových obsazení ročně</b>. Skutečnost: 2023 potřeba ~10,5 / dodáno 11 ✅ · 2024 ~33 / 14 ❌ · 2025 ~35 / 23 ⚠️ · 2026 ~28 / 5 za 7,5 měsíce ❌.",
+ d:"Cílový počet výher spočítat z knihy a životnosti, ne z minulého roku. <b>Rok 2025 byl nejlepší v historii firmy a i tak byl pod hranicí udržení knihy.</b> Rozhodnout, zda cílem je udržet 33 míst, nebo knihu vědomě zmenšit.",
+ rel:["H-63","H-66","H-46"]},
+
+{id:"H-66",g:"I",st:"val",conf:"silná",act:"met",w:"21. 8. odp.",src:"nch_book_month, nch_book_today",
+ t:"Kniha už klesá, ne jen výhry",
+ tags:["životnost obsazení","incumbency"],
+ f:"Klesají jen nové výhry, aktivní báze drží.",
+ v:"Kniha <b>42 → 33 míst</b>, klientů <b>24 → 20</b>, věk míst je nejvyšší v historii.",
+ d:"Kniha (míst, FTE) na měsíční dashboard vedle win countu.",
+ rel:["H-52","H-65","H-67"]},
+
+{id:"H-67",g:"I",st:"otv",key:true,act:"vys",ice:12.5,iceb:[5,5,2],w:"21. 8. odp.",src:"nch_runway, nch_yearend_checkpoint",
+ t:"26 z 34 běžících míst má konec do 31. 12. 2026",
+ tags:["životnost obsazení","refill","rámcové smlouvy"],
+ f:"Na přelomu roku uvolní klienti podobný podíl míst jako loni, a bez cílené prolongační kampaně to znamená ~6 uvolněných míst v Q1 2027.",
+ v:"<b>26 z 34</b> běžících míst má smluvní konec do 31. 12. 2026, z toho <b>18 přesně na 31. 12.</b> Baseline z loňska: na checkpointu 31. 12. 2025 sedělo 35 míst, 19 přešlo aspoň o 3 měsíce dál, <b>12 (34 %) do měsíce skončilo</b>. U 12 z 26 míst je v zápiscích doložený rámcový / insourcingový / budgetový tlak (Novo Nordisk, ORLEN, Škoda Auto, Škoda Transportation, Edwards, ČSOB Leasing, ČD-Telematika).",
+ m:"Prolongační míra na checkpointu 31. 12. 2026 proti loňským 54 %.",
+ test:"Seznam 26 míst × vlastník × rozhodovatel × stav rámcové smlouvy × rozhodnutí klienta, <b>do 30. 9. 2026</b>. Není to analýza, je to kampaň — ale výsledek hypotézu uzavře.",
+ d:"<b>Nejvyšší priorita celého úkolu.</b> Předchází i H-55, protože má termín.",
+ c:"<b>Samo o sobě to není anomálie:</b> u kvartálních / na dobu neurčitou kontraktů je nejbližší formální konec v horizontu pár měsíců normální administrativní stav — bylo by naopak nápadné, kdyby dnes existoval kontrakt zapsaný až do roku 2027. 31. 12. je navíc u 24 z 69 obsazení re-kontraktační datum, ne nutně reálný konec (ze 40 změn z tohoto data bylo 23 prodloužení). Signálem proto <b>není počet 26/34</b>, ale odchylka od loňské skutečné míry na stejném checkpointu (54 % prodlouženo, 34 % rychle skončilo) — a to, že u 12 z 26 už dnes existuje doložený tlak (rámec, insourcing, budget) u jmenovaných klientů.",
+ rel:["H-55","H-46","H-59","H-44","H-66"]},
+
+{id:"H-68",g:"I",st:"art",act:"met",w:"21. 8. odp.",src:"nch_survival vs. marže",
+ t:"Marže se při prolongaci neaktualizuje → peněžní srovnání kohort nepoužitelné",
+ tags:["měření","prolongace"],
+ f:"Peněžní hodnota obsazení v CRM odpovídá skutečnosti po prodloužení.",
+ v:"Marže je napříč kohortami plochá (<b>445 → 493 tis.</b>) při <b>6× kratších</b> obsazeních — protože se při prolongaci neaktualizuje.",
+ d:"Buď marži na prolongaci aktualizovat, nebo ji přestat používat pro mezikohortní srovnání. FTE-měsíce použitelné jsou.",
+ rel:["H-64","H-22","H-49"]},
+
+{id:"H-69",g:"I",st:"val",conf:"n = 21 klientů",act:"vys",w:"21. 8. odp.",src:"nch_client_by_first_span",
+ t:"Délka prvního obsazení je jediný nalezený prediktor opakovaného byznysu",
+ tags:["životnost obsazení","kvalifikace","incumbency"],
+ f:"Existuje měřitelný prediktor toho, že z klienta bude opakovaný byznys.",
+ v:"Klienti s prvním obsazením <b>≥ 24 měsíců</b>: 13 klientů, <b>3,0 obsazení na klienta</b>, 39 obsazení celkem, <b>19 z nich běží dnes</b>. Klienti s prvním obsazením <b>12–24 měsíců</b>: 5 klientů, 1,2 obsazení, <b>0 běžících</b>. <b>Pod 12 měsíců</b>: 3 klienti, 1,0 obsazení, <b>0 běžících</b>.",
+ d:"Délka poptávky je kvalifikační kritérium, ne jen parametr. Otázka „poptávka kratší než 6 měsíců?“ v BANT šabloně už existuje — začít ji vyhodnocovat. Doplňuje H-15 o to, jak incumbency vůbec vzniká.",
+ rel:["H-15","H-71","H-70"]},
+
+{id:"H-70",g:"I",st:"val",conf:"malé n",act:"str",w:"21. 8. odp.",src:"nch_expand",
+ t:"Land-and-expand se rozpadl",
+ tags:["akvizice","incumbency"],
+ f:"Nové logo vede k druhé zakázce ve stejném rytmu jako dřív.",
+ v:"Druhá výhra do 12 měsíců: <b>60 % (2023) → 14 % (2024) → 25 % (2025)</b>. 13 nových log v 2025 a 2 rozšíření.",
+ d:"Zavést cíl „druhá zakázka u nového loga do 12 měsíců“ a měřit ho po kohortách.",
+ c:"Malé n — indikace, ne měření.",
+ rel:["H-09","H-69","H-56"]},
+
+{id:"H-71",g:"I",st:"val",conf:"kvalitativně",act:"str",w:"21. 8. odp.",src:"zápisky + nch_survival",
+ t:"Nová obsazení jsou jiný produkt — gap-filler, ne zabydlené místo",
+ tags:["životnost obsazení","kvalifikace"],
+ f:"Dnešní výhry jsou totéž co historické, jen kratší.",
+ v:"Zápisky Quadient, Kooperativa, AGEL SSC, Suntel plus délky ukazují jiný produkt: <b>výměna PM, peak sezóna, 0,5 FTE</b> — gap-filler, ne zabydlené místo.",
+ d:"Rozhodnout, zda gap-filler je cílový produkt. Pokud ano, potřebuje vlastní refill motoriku; pokud ne, změnit kvalifikaci.",
+ rel:["H-63","H-69","H-32"]},
+
+{id:"H-72",g:"I",st:"val",conf:"3 z 35 konců (census)",act:"vys",w:"21. 8. odp. → kvantifikováno 22. 8.",src:"nch_outflow, zápisky Suntel, ČSOB, Heureka",
+ t:"Konverze kontraktora na interního zaměstnance je samostatný mechanismus ztráty místa",
+ tags:["insourcing","evidence a data"],
+ f:"Ztráta místa je buď prohra, nebo konec projektu.",
+ v:"Ani jedno — <b>místo přestane existovat a nedá se doplnit</b>. Suntel: „Podmínky přechodu do interna.“ · ČSOB: „musí pouštět externisty a nahrazovat je interními existujícími zdroji (burza práce)“ · Heureka: „postupně se nám daří obsazovat pozice, kvůli kterým jsem Katarinu potřeboval“ · Škoda Transportation: „cílem je najít interního PM“.",
+ d:"<b>Zavést evidované pole „důvod ukončení obsazení“</b> (prolongace / konverze do interna / škrt budgetu / konkurence / konec projektu). Dnes se nikde nezapisuje, takže ovlivnitelnou ztrátu nelze oddělit od zaniklého místa.",
+ rel:["H-44","H-37","H-46"]},
+
+{id:"H-73",g:"I",st:"otv",conf:"1 z 35 konců (census)",act:"str",ice:9.0,iceb:[3,3,1],w:"21. 8. odp.",src:"nch_outflow, zápisek Suntel 4. 3. 2026",
+ t:"Cenový strop klienta je pod naší nákupní cenou",
+ tags:["cena"],
+ f:"Část ztrát není o kvalitě ani o soutěži — klientův strop je pod naší nákupní cenou.",
+ v:"Doložen <b>1 případ</b>: Suntel · Tonar · 4. 3. 2026 („7k … pod nákupku“).",
+ test:"Projít 2026 prohry na cenový strop a porovnat s nákupními sazbami. Levné — uzavře to nebo vyloučí celou třídu příčin.",
+ d:"Doplňuje H-03: cena není mechanismus na úrovni asking margin, ale může jím být na úrovni klientského stropu.",
+ rel:["H-03","H-44"]},
+
+{id:"H-74",g:"I",st:"val",conf:"silná",act:"vys",w:"21. 8. odp.",src:"nch_alumni",
+ t:"Alumni pool je 16 ex-PM klientů a reaktivace je nulová",
+ tags:["alumni","akvizice"],
+ f:"Bývalí klienti se sami vracejí.",
+ v:"<b>16 klientů</b>, kde obsazení OUT_PM skončilo a dnes neběží nic. <b>Ani jeden nedostal po skončení novou PM zakázku.</b> 10 z 16 má po skončení ≤ 2 doteky. Dva výjimeční (Allwyn 52 doteků, Heureka 21) mají kontaktu dost, ale míří na AI/data, ne na PM.",
+ d:"Win-back program: 16 účtů, jmenovaný vlastník, 90denní kadence, metrika „zakázky z alumni“. <b>Nejlevnější dostupný pipeline.</b> Doplňuje H-33 o druhou, disjunktní skupinu.",
+ rel:["H-33","H-75","H-40"]},
+
+{id:"H-75",g:"I",st:"val",conf:"8 zakázek, 0",act:"vys",w:"21. 8. odp.",src:"nch_open_pipeline",
+ t:"Otevřený pipeline neobsahuje jediný incumbent účet",
+ tags:["pipeline","incumbency"],
+ f:"Pipeline přirozeně obsahuje mix nových a stávajících účtů.",
+ v:"<b>8 otevřených OUT_PM zakázek</b> k 16. 8. 2026 (Dormer Pramet, Elevion, PRE ×2, Tatra banka, Jihomoravská zdravotní, ČEPS ×2). <b>U žádné z nich nám u klienta neběží obsazení.</b> Obě incumbency strany — běžící účty i alumni — jsou v pipeline zastoupené nulou.",
+ d:"Nastavit minimální podíl pipeline u incumbent účtů a alumni. Dnes je nula a nikdo si toho nevšiml.",
+ rel:["H-74","H-40","H-46"]},
+
+{id:"H-76",g:"I",st:"val",conf:"54 % historických výher",act:"str",w:"21. 8. odp.",src:"nch_owner",
+ t:"PM know-how odešlo z produktu, ne z firmy",
+ tags:["obchodníci","historie"],
+ f:"Lidé, kteří PM historicky vyhrávali, odešli z firmy.",
+ v:"Petr Janiš (14 PM výher), Pavel Veselý (13) a Petr Vesely (10) drží <b>37 z 69 historických PM výher (54 %)</b> a v roce 2026 otevřeli dohromady <b>3</b> PM zakázky. Není to odchod z firmy — Pavel Veselý je nejaktivnější člověk v CRM (1 662 aktivit v 2026).",
+ d:"Nepřevádět je zpět, ale <b>přenést vzorec</b>: sepsat s nimi, jak poznali nákupní moment u Škody, ORLENu a accompani, a udělat z toho kvalifikační checklist. Rozšiřuje H-45 a H-47 z „přesměrovaný výtlak“ na odtok produktového know-how.",
+ rel:["H-45","H-47","H-10","H-77"]},
+
+{id:"H-77",g:"I",st:"otv",act:"niz",ice:3.0,iceb:[3,3,3],w:"21. 8. odp.",src:"nch_owner",
+ t:"PM dnes prodávají lidé bez historie v produktu",
+ tags:["obchodníci"],
+ f:"Nižší konverze u nových originátorů je křivka učení, ne tržní změna.",
+ v:"Slocik, Zázvorka, Klimíček: <b>28 zakázek a 2 výhry v 2026</b>, zatímco Tonar 4 zakázky a 3 výhry.",
+ test:"Rozlišit křivku učení od tržní změny: porovnat jejich příležitosti proti Tonarovým na typu, velikosti a teplotě účtu.",
+ d:"Malé n, <b>netýká se hodnocení lidí</b>. Analýza personální opatření neunese.",
+ rel:["H-76","H-11","H-10"]},
+
+{id:"H-78",g:"I",st:"val",conf:"silná",act:"met",w:"21. 8. odp.",src:"nch_cycle_half",
+ t:"Funnel umírá rychleji a vyhrává pomaleji",
+ tags:["cyklus"],
+ f:"Doba do rozhodnutí se nemění.",
+ v:"Medián do prohry <b>56 → 27 dní</b>, do výhry <b>57 → 76 dní</b>.",
+ d:"Zjistit, která polovina to je: rychlejší diskvalifikace (dobře) vs. delší rozhodování klienta (špatně). Rozpad podle stage při prohře.",
+ rel:["H-07","H-48"]},
+
+/* ---------- J — odtok knihy (census 22. 8.) ---------- */
+{id:"H-79",g:"J",st:"val",conf:"4 z 35 konců",act:"met",w:"22. 8.",src:"nch_outflow_agg",
+ t:"Odtok knihy je z 89 % mimo naši kontrolu",
+ tags:["odtok","kvalita dodávky","měření"],
+ f:"Podstatná část konců obsazení je způsobená naší dodávkou — kvalitou nebo cenou.",
+ v:"Ze 35 konců obsazení 2024H2–2026H1 rozhodl <b>klient 17</b> (konec projektu 7 · změna vedení 5 · přechod do interna 3 · škrt budgetu 2), <b>konkurence 7</b>, <b>naše strana 4</b> (výkon kandidáta 1 · odchod kontraktora 2 · cenový strop 1) a <b>bez evidence 7</b>. Naše strana je tedy <b>11 %</b>.",
+ m:"Rozpad konců obsazení podle strany, která o konci rozhodla.",
+ d:"Diskuse o kvalitě dodávky nemá v odtoku oporu. Řídicí otázka je <b>expozice a prolongace</b>, ne kvalita — stejný závěr, k jakému došly H-16 a H-17 na straně proher.",
+ c:"Jeden průchod, jeden kodér (stejný caveat jako H-38). 16 z 35 řádků má certainty B — výrok o účtu nebo roli, ne o konkrétním místě.",
+ rel:["H-80","H-81","H-82","H-46","H-16"]},
+
+{id:"H-80",g:"J",st:"val",conf:"7 z 35 konců",act:"vys",w:"22. 8.",src:"nch_outflow, 6 účtů",
+ t:"Disintermediace je největší ovlivnitelná část odtoku",
+ tags:["odtok","rámcové smlouvy","incumbency"],
+ f:"Existuje samostatná kategorie konců, kde místo u klienta dál existovalo — jen bez nás — a nikdo ji dosud nepojmenoval.",
+ v:"<b>7 z 35 konců (20 %)</b>: kontraktor přešel napřímo nebo pod jinou firmu (4 — Infinite Solution ×2, VEOLIA, Raiffeisenbank/Vamberský), nebo nás nahradil dodavatel s rámcovkou (3 — SPORTISIMO/Meibach, Edwards/Enehano, Škoda Auto/VŘ). Doslova: <i>„Matouš stále chce svoji firmu… posouvám ukončení naší spolupráce na listopad“</i> · <i>„vypadá, že si chce převzít lidi pod jinou firmu“</i> · <i>„nás vynechali, dohodli si to napřímo, čemuž jsem neuměl zabránit“</i>.",
+ d:"Jediná velká kategorie odtoku, která je <b>smluvně a vztahově ovlivnitelná</b>: klauzule o přímém oslovení, dvojí kontakt u dlouhých míst, revize přeprodejních konstrukcí. Doplňuje H-55 z druhé strany — rámcovka není jen vstupní filtr, je i nástroj, kterým nás vytlačí z místa, kde už sedíme.",
+ rel:["H-79","H-81","H-55","H-15"]},
+
+{id:"H-81",g:"J",st:"art",conf:"malé n",act:"vys",w:"22. 8.",src:"nch_outflow_by_span",
+ t:"Krátká a dlouhá místa končí z jiných důvodů",
+ tags:["odtok","životnost obsazení"],
+ f:"Mechanismus konce nezávisí na tom, jak dlouho obsazení běželo.",
+ v:"Obsazení pod 12 měsíců: rozhodl <b>klient v 9 z 15</b> případů — konec byl v zadání (<i>„PM pro Heureku na 6M“</i>, <i>„doplnění kapacity, 0,5–1 FTE“</i>, <i>„implementace čipových karet, budget 100 tis. EUR“</i>). Obsazení nad 24 měsíců: <b>konkurence ve 4 z 10</b>. Čím delší obsazení, tím větší hodnota vztahu mezi kontraktorem a klientem — a tím větší motivace obou nás z rovnice vynechat.",
+ d:"<b>Dvě různé kampaně, ne jedna.</b> U krátkých míst je náprava v kvalifikaci na vstupu (H-69), u dlouhých v ochraně vztahu (H-80). Z 26 míst s koncem do 31. 12. 2026 je 15 dlouhých a 11 krátkých.",
+ c:"n = 35 rozdělené do tří pásem. Trend čtěte, jednotlivá čísla ne.",
+ rel:["H-80","H-69","H-67","H-63"]},
+
+{id:"H-82",g:"J",st:"val",conf:"7 z 35 bez zápisku",act:"met",w:"22. 8.",src:"nch_outflow",
+ t:"Odtok nemá evidenci, protože na něj není pole",
+ tags:["odtok","měření"],
+ f:"Chybějící evidence u konců obsazení je nedbalost obchodníků.",
+ v:"<b>7 z 35 konců (20 %)</b> nemá v CRM k datu konce žádný zápisek — přesné zrcadlo <b>H-37</b> (14 % proher bez vysvětlení). Přitom u proher pole <code>lost_reason</code> existuje a je vyplněné u 355 z 356; u konců obsazení pole neexistuje vůbec.",
+ m:"Fill rate pole „důvod ukončení obsazení“ po zavedení.",
+ test:"Zavést pole s enumem z kodebooku censu (úkol Ú-5): konec projektu · změna vedení klienta · přechod do interna · škrt budgetu · převzetí kontraktora · konkurence s rámcovkou · cenový strop · náš kandidát · odchod kontraktora.",
+ d:"Bez pole bude census za rok potřeba znovu a mezikohortní srovnání odtoku nebude možné. <b>Enum je hotový, stačí ho zadat.</b>",
+ rel:["H-79","H-37","H-38"]},
+
+/* ---------- K — kandidátské jádro (23. 8.) ---------- */
+{id:"H-83",g:"K",st:"val",conf:"4 z 60 (6,7 %)",act:"met",w:"23. 8.",src:"cc_reuse, cc_reuse_by_span",
+ t:"Přeobsazení kontraktora prakticky neexistuje",
+ tags:["kandidátské jádro","přeobsazení"],
+ f:"Prověřeného kontraktora po skončení místa umíme umístit znovu.",
+ v:"Ze <b>60 skončených obsazení následovalo další místo jen ve 4 případech (6,7 %)</b>, a to jen u 3 lidí (Piacsek 2×, Rejšek, da Lanca). Podle délky skončeného místa: ≥ 24 měsíců <b>0 z 22</b>, 12–24 měsíců 2 z 16, &lt; 12 měsíců 2 z 22.",
+ m:"Existuje pozdější placement téže osoby po skončení předchozího.",
+ d:"Nejtvrdší číslo na osobní ose a přímý vstup do refill aritmetiky H-65. Vysvětlení není kvalita lidí, ale absence procesu a vlastníka v okamžiku konce místa.",
+ c:"Přeobsazení je definované jako nový deal. U dvou lidí (Handl, Drbohlav) běží místa paralelně, ne za sebou, a do testu se nepočítají.",
+ rel:["H-65","H-85","H-89"]},
+
+{id:"H-84",g:"K",st:"val",conf:"107 ze 150 míst",act:"met",w:"23. 8.",src:"cc_extension",
+ t:"„Opakované obsazení“ je prolongace, ne přesun člověka",
+ tags:["kandidátské jádro","prolongace"],
+ f:"Opakované umísťování téhož kontraktora je ve firmě běžná praxe.",
+ v:"<b>107 ze 150 míst</b> má aspoň jeden posun „Job finish day“ vpřed, <b>60</b> aspoň dva. Klient si téhož člověka kupuje opakovaně; my ho nepřesouváme (H-83).",
+ d:"Obě metriky vykazovat odděleně. Sloučení dá „opakovaně umísťujeme 71 % lidí“, což v datech není. Doplňuje H-20 a H-49 o mechanismus na úrovni člověka.",
+ c:"Changelog až od 30. 10. 2024 — prodloužení u míst z 2017–2023 jsou dolní hranice.",
+ rel:["H-20","H-49","H-83"]},
+
+{id:"H-85",g:"K",st:"val",key:true,conf:"22 z 57 odepsáno",act:"vys",w:"23. 8.",src:"cc_core, cc_person",
+ t:"Doložené jádro existuje, ale jeho pětina je odepsaná",
+ tags:["kandidátské jádro","bench"],
+ f:"Firma má pevné kvalitní jádro kontraktorů a s jejich opětovným umístěním nemá problém.",
+ v:"137 lidí kdy obsazených, 83 sedí dnes. Pásmo A (24+ odpracovaných měsíců) = <b>57 lidí</b>, z toho 27 s PM obsazením; pásmo B = 39. <b>22 lidí z pásma A a 17 z pásma B už nesedí a žádný nebyl znovu umístěn</b> — 15,4 M Kč historické marže, z toho 8,6 M v pásmu A.",
+ d:"Reaktivační kadence na 39 prověřených lidí je zrcadlo H-74 (win-back 16 klientů) a dá se dělat stejným telefonátem. Zakládá Ú-9.",
+ c:"<b>Přepočet jen na OUT_PM (29. 8., H-85/PM):</b> pásmo A = 27 lidí, B = 21 — přesně sedí na restrikci „aspoň jedno OUT_PM obsazení“ z původní H-85 (A 27 · B 21 · C 12). V PM nesedí 10 z 27 v A (37 %) a 10 z 21 v B (48 %) — dohromady 20 z 48 (8,7 M Kč), podíl je v PM horší než celoknižně (39 %). Tři čísla jádra se nesmí míchat: „57“ = pásmo A celé knihy, „35“ = PM definice sekce K (24 m nebo 2+ prodloužení), „27“ = pásmo A jen v PM.",
+ rel:["H-74","H-83","H-87","H-92"]},
+
+{id:"H-86",g:"K",st:"val",conf:"29 vs. 5 obsazení",act:"met",w:"23. 8.",src:"cc_origin",
+ t:"Jádro nevzniklo v soutěži",
+ tags:["kandidátské jádro","nesoutěžní kanál"],
+ f:"Část kandidátů, kterou se nedaří opakovaně umísťovat, byla jen náhoda v soutěži.",
+ v:"V kódovaném okně stojí za obsazeními nesoutěžní kanál <b>29× (330 FTE-měsíců)</b> a vyhraná soutěž <b>5× (60 FTE-měsíců)</b>. Nezávislé potvrzení H-39 na jiné jednotce. Vedlejší zjištění: obsazení z vyhrané soutěže drží <b>nejdéle</b> (5 z 5 přes 12 měsíců, medián 22,4 vs. 13,7 měsíce) — protipól k H-71.",
+ d:"Dělící proměnnou jádra je délka a prodloužení obsazení, ne soutěžnost. Otázku „co byla náhoda“ nahradit otázkou „kdo dosedí a kdo ho převezme“.",
+ rel:["H-39","H-71","H-84"]},
+
+{id:"H-87",g:"K",st:"val",conf:"144/150 vs. 8/223",act:"vys",w:"23. 8.",src:"cc_coverage",
+ t:"Databáze je registr obsazení, ne databáze kandidátů",
+ tags:["kandidátské jádro","evidence a data"],
+ f:"Databáze klientů/kandidátů je jen špatně vedená a chce se opravit.",
+ v:"„Contractor name“ je na <b>144 ze 150 vyhraných</b> OUT dealů, ale jen na <b>8 z 223 prohraných</b>; na CONS_PM na <b>0 ze 78</b>. Ze 137 lidí má záznam osoby v CRM <b>49</b>. Z 54 alumni má dotek po skončení místa <b>3</b>.",
+ d:"Člověk vzniká v datech v okamžiku výhry a zmizí v okamžiku konce. Dokud kontraktor není entita a jméno se nezapisuje i u proher, je otázka „kterého kandidáta klienti berou a kterého odmítají“ neměřitelná — přitom je to jádro H-17. Zakládá Ú-9.",
+ c:"<b>Oprava 29. 8.:</b> „neměřitelné“ platí pro CRM, ne pro Tracker — ten vede 946 kandidátů na 98 zakázkách i s fází odchodu a stranou, která rozhodla. Omezení je jinde: okno Trackeru začíná 25. 3. 2025, takže vlastní výběr jádra (nástupy 2017–2024) v datech není a 21 z 35 lidí jádra tam nemá záznam. Měřitelné je „nabízíme je dál“ (H-90), ne „jak se tehdy vybíralo“.",
+ rel:["H-17","H-34","H-85","H-90"]},
+
+{id:"H-88",g:"K",st:"val",conf:"17 → 5, částečný rok",act:"str",w:"23. 8.",src:"cc_intake",
+ t:"Přítok nových lidí nespadl celkově, spadl v PM",
+ tags:["kandidátské jádro","obchodníci"],
+ f:"Propad je způsobený tím, že na trhu nejsou k dispozici noví kvalitní kandidáti.",
+ v:"Poprvé obsazených lidí: 2023 21 (10 PM) · 2024 20 (13) · 2025 <b>42 (17)</b> · 2026 k 16. 8. <b>22 (5)</b>. Ostatní kompetence drží (25 → 17 za sedm a půl měsíce).",
+ d:"Diagnóza „nejsou kandidáti“ neplatí — firma umí lidi přivést, jen ne na PM. Příčina je na poptávkové straně (H-40, H-67): bez místa se nesourcuje.",
+ c:"2026 je částečný rok, nesrovnávat přímo s celým 2025.",
+ rel:["H-40","H-67","H-77"]},
+
+{id:"H-89",g:"K",st:"ove",act:"vys",ice:9.0,iceb:[4,4.5,2],w:"23. 8.",src:"cc_outflow_person, ss_by_span",
+ t:"Ztráta jádra se koncentruje na nejdéle sedící lidi",
+ tags:["kandidátské jádro","disintermediace"],
+ f:"Pravděpodobnost, že o člověka přijdeme ve prospěch konkurence nebo napřímo, roste s jeho odpracovanou dobou u klienta.",
+ v:"Z 10 konců OUT_PM s důvodem na straně konkurence nebo naší odpracovalo <b>7 lidí přes 17 měsíců a 4 přes 53</b> (Nahodil 84, Heřmanská 81, Struckel 65, Folprecht 65, Skácel 54). Ani jeden nebyl znovu umístěn.",
+ test:"Podíl disintermediace na koncích podle pásma odpracované doby, na celé OUT knize, ne jen na 35 kódovaných PM koncích.",
+ d:"Jiná náprava než H-80: ten chrání místo smluvně, tady jde o člověka jako kapacitu pro ostatní klienty. Přirozený vstup do Ú-8 a Ú-9.",
+ c:"<b>Z části uzavřena 31. 8.:</b> census rozšířen na celou OUT knihu (65 konců) v H-98 — přežití místa roste s délkou obsazení (≥ 24 m 13/22 vs. &lt; 12 m 11/27). Zbývá jen řez po lidech.",
+ rel:["H-80","H-83","H-15","H-98"]},
+
+/* ---------- M — kandidátské jádro × Tracker ---------- */
+{id:"H-90",g:"M",st:"vyv",key:true,conf:"0 z 12 nabídnuto",act:"vys",w:"29. 8.",src:"core_tracker_bridge",
+ t:"Odešlé jádro nikdo nenabízí; nejsou odmítnutí, nejsou nabídnutí",
+ tags:["kandidátské jádro","evidence a data"],
+ f:"Věříme, že prověřené lidi po skončení místa neumísťujeme proto, že je trh nebere.",
+ v:"<b>Vyvrácena — a nahrazena tvrdším zjištěním.</b> Z 12 alumni PM jádra byl po skončení místa nabídnut na jinou zakázku <b>nikdo (0 z 12)</b>. <b>9 z 12 nejsou v Trackeru vůbec</b> — 435 odpracovaných měsíců, které nikdy nevstoupily do náborového procesu. Tři, kteří tam jsou, mají jen stopy z doby, kdy jim místo ještě běželo.",
+ d:"Diagnóza se posouvá z „neumísťujeme je“ na „nevstupují do procesu“. Odmítnutí by byl problém profilu nebo ceny (řeší se s klientem); tohle je díra ve vstupu (řeší se u nás) a je to nejlevnější dostupná náprava. Leading indikátor: kolik alumni jádra se objevilo na shortlistu do 90 dnů od konce místa — dnes nula. Nahrazuje H-83.",
+ c:"Kontrolní číslo: opakované nabízení funguje — kandidát nabídnutý na 3–4 zakázky nastoupí v <b>11,7 %</b> proti <b>1,5 %</b> u jednorázově nabídnutého.",
+ rel:["H-83","H-87","H-93"]},
+
+{id:"H-91",g:"M",st:"vyv",conf:"premisy platí, závěr ne",act:"met",w:"29. 8.",src:"cc_bench_overlap, Tracker",
+ t:"Prohráváme soutěže, protože nejlepší lidi máme umístěné a posíláme nováčky",
+ tags:["kandidátské jádro","nesoutěžní kanál"],
+ f:"Zadáno 29. 8. Rozloženo na dvě premisy a kauzální závěr: jádro je vytížené, do soutěží posíláme nikdy neumístěné lidi, proto soutěže prohráváme.",
+ v:"<b>Obě premisy platí, kauzální závěr ne.</b> K datu otevření zakázky sedí <b>78–89 % PM jádra</b> (premisa 1) a <b>97,9 % soutěžních nabídek</b> jsou lidé, které jsme nikdy neumístili (premisa 2, 11 z 534). Ale mimo soutěž je to <b>96,5 %</b> a přesto tam vyhráváme <b>40 %</b> (20 z 50) proti <b>9 %</b> v soutěži (3 z 33). Nesoutěžní zakázky vyhráváme při obsazenosti jádra 89 %, soutěže prohráváme při 78 %.",
+ d:"Nezakládat opatření na zlepšování sourcingu do soutěží. Vlastní úsudek se v soutěži nezhoršuje (screening→interní i interní→CV je tam lepší); zlom je až <b>klientský pohovor → nabídka (12,0 % vs. 58,5 %)</b> — tam, kde klient porovnává s jiným dodavatelem, ne v tom, koho jsme poslali.",
+ c:"„Nováček“ = „nikdy jsme ho neumístili“, ne „je horší než kandidát konkurence“ — to druhé nejde měřit: charge_rate je samé nuly, z 22 soutěžních klientských pohovorů bez nabídky má důvod jen 5 (jeden zní „nedostatečná seniorita“). Devět soutěží s prověřeným kandidátem dopadlo 1 výhrou (11,1 vs. 8,3 %, n = 9, ne závěr).",
+ rel:["H-39","H-83","H-86"]},
+
+{id:"H-92",g:"M",st:"val",key:true,conf:"přeformulována 29. 8.",act:"str",w:"29. 8.",src:"ce_core_evolution_views",
+ t:"Odtok jádra je stabilní; propadl přítok",
+ tags:["kandidátské jádro","historie a životnost"],
+ f:"Původní znění „zlom v PM jádře je rok 2025“ neobstálo — stálo na tom, že do konce 2024 jádro neztratilo nikoho.",
+ v:"Z 53 obsazení zahájených do konce 2023 <b>neskončilo před rokem 2025 ani jedno</b> (28 běží dodnes, 19 skončilo 2025, 6 v 2026) — starší historie je tenká a dopočtená, měří stáří evidence, ne stabilitu jádra. Ve spolehlivém okně (2025+): odchody z jádra po kvartálech <b>4 · 2 · 4 · 4 · 2</b> — plochý průběh, žádné zrychlení. Nová PM místa <b>5 · 5 · 8 · 5 · 4 · 0 · 1</b>, z průměru 5,75/kvartál v 2025 na <b>1,7 v 2026</b>, s nulou v 2026Q2.",
+ d:"Diagnóza se obrací — <b>neztrácíme jádro rychleji, přestali jsme ho nahrazovat</b>. Míří na chybějící PM poptávku (H-40, H-67), ne na retenci. Opatření na udržení lidí by řešila stabilní veličinu.",
+ c:"Rozsah je jen PM historie člověka (celoknižní obrázek je jiný). Řada ce_core_timeline před rokem 2025 se nesmí prezentovat jako historie jádra — je neúplná.",
+ rel:["H-40","H-67","H-88","H-85"]},
+
+{id:"H-93",g:"M",st:"val",conf:"0 z 12",act:"vys",w:"29. 8.",src:"Tracker + CRM cross-check",
+ t:"O odcházejících lidech nemáme jediný exit rozhovor",
+ tags:["kandidátské jádro","evidence a data"],
+ f:"Věříme, že u odchodů z jádra známe důvod od člověka, ne jen od klienta.",
+ v:"Z 12 alumni PM jádra nemá <b>ani jeden</b> zaznamenaný rozhovor o důvodu odchodu. V Trackeru 9 z 12 nefiguruje vůbec, u zbylých tří jsou dohromady 2 záznamy telefonátu a <b>nula</b> aktivit typu Interview či Reference. V CRM má osobu 8 z 12, poznámek je 8 — 3 prázdné zmínky, 3 klientské, <b>2 věcné, ani jedna o odchodu</b>.",
+ d:"Všech 12 doložených důvodů v censu Ú-1 pochází ze zápisků o klientovi, ne od člověka. Rozšířit Ú-5 o exit rozhovor jako povinný krok se dvěma poli: důvod vlastními slovy a je dál k dispozici. Nejlevnější opatření v celém úkolu — u lidí s desítkami odpracovaných měsíců dnes máme jen zprostředkovanou verzi.",
+ c:"Přímo omezuje H-90 — bez znalosti ochoty se ani nedá sestavit bench.",
+ rel:["H-90","H-85"]},
+
+{id:"H-94",g:"M",st:"val",conf:"n = 1",act:"niz",w:"29. 8.",src:"CRM osoba × klient cross-check",
+ t:"Část „ztraceného“ jádra jsou dnes naši zákazníci",
+ tags:["kandidátské jádro","bench"],
+ f:"Věříme, že konec obsazení znamená konec vztahu s člověkem.",
+ v:"<b>Peter Struckel</b> (Edwards, 64,9 měsíce, konec 7/2025, kódováno konkurence_ramcovka) má záznam osoby vedený u Edwards Lifesciences a po skončení místa <b>25 aktivit, ve kterých mu prodáváme</b> — nábor Scrum Mastera, školení za 330 tis., pracovní oběd, doplnění BANT. Ze zbylých 11 alumni má aktivitu po konci <b>nikdo</b> (0 dotyků).",
+ d:"Rozlišit v censu odchod kapacity od odchodu vztahu — Struckel je první případ, kde je ztráta kapacity zároveň ziskem kanálu. Vstup do win-back seznamu (H-74): bývalý kontraktor uvnitř klienta je nejlevnější cesta zpět.",
+ c:"n = 1. Zobecňovat nelze, ale mechanismus je doložený a stojí za to ho hledat u dalších odchodů (prevzeti_kontraktora, 3 další případy).",
+ rel:["H-74","H-90","H-85"]},
+
+/* ---------- N — délka kontraktu ---------- */
+{id:"H-95",g:"N",st:"otv",act:"niz",ice:1.3,iceb:[2,2,3],w:"31. 8.",src:"cln_*",
+ t:"Kontrakty vyhrané v soutěži jsou kratší než nesoutěžní",
+ tags:["soutěžnost","životnost"],
+ f:"Soutěžíme o krátké výpomoci, zatímco dlouhé kontrakty přicházejí vztahem.",
+ v:"<b>Netestovatelné při dnešním n.</b> Soutěžních kontraktů je za celou kódovatelnou historii <b>5</b> (1 skončený, 4 běžící). Směr je opačný, než se čeká — 12 měsíců přežily 4/4 soutěžních vs. 10/20 nesoutěžních, Fisher p = 0,094.",
+ c:"Délku určuje ročník, ne soutěžnost: medián skončeného kontraktu 64,8 → 52,5 → 25,5 → 14,9 → 6,0 měsíce po kohortách startu. Kohortní efekt 10×, soutěž/nesoutěž 1,3×. Navíc 2 z 5 soutěžních jsou MAKRO.",
+ test:"Nechodit tímto směrem. Přírůstek jsou ~2 soutěžní výhry ročně; produktivní verze otázky je H-63/H-64.",
+ d:"Do reportu jedna věta jako pojistka proti tvrzení „tendry nám berou jen krátké výpomoci“ — ne jako zjištění.",
+ rel:["H-63","H-64","H-69","H-29"]},
+
+/* ---------- O — přeživší místa ---------- */
+{id:"H-96",g:"O",st:"val",key:true,conf:"33 z 65, 14 cert A",act:"vys",w:"31. 8.",src:"ss_agg, ss_seat",
+ t:"Většina odtoku není zánik potřeby, ale ztráta místa",
+ tags:["odtok knihy","disintermediace","rámcové smlouvy"],
+ f:"Když obsazení skončí, pozice u klienta ve většině případů existuje dál — jen ji dodává někdo jiný, nebo si ji klient obsadil interně.",
+ m:"Všech 65 skončených obsazení celé OUT knihy zakódováno na otázku „co se stalo s místem potom“, s citací ze zápisku u každého řádku. Gate: 0 nezakódovaných, 0 tvrzení bez citace.",
+ v:"<b>33 z 65 konců (51 %) je místo, které žije dál bez nás</b>, z toho 14 s explicitní citací o tomto konkrétním místě. Skutečně zaniklo 11 (17 %), sami jsme doplnili 7 (11 %), bez evidence 14 (22 %). Mechanismy: jiný dodavatel 14 · přechod do interna 7 · kontraktor napřímo 6 · neznámý nástupce 3 · ostatní 3. Těch 33 míst = <b>39 % dnešní knihy</b> (85 sedících míst).",
+ d:"Těch 33 míst je cílový seznam pro <b>re-entry</b>, ne pro nový business development. U poloviny je znám i nástupnický kanál, takže se dá adresovat konkrétně.",
+ c:"26 z 65 řádků má cert B (odvozeno z výroku o účtu nebo roli). Škoda Auto 2025H2 je jeden blok čtyř míst opřený o tutéž událost. Peníze v analýze nejsou — margin_czk_equiv u dlouhých obsazení nesedí na celý span.",
+ rel:["H-79","H-80","H-89","H-97","H-98","H-99"]},
+
+{id:"H-97",g:"O",st:"val",key:true,conf:"12 z 24 v 2025H2+",act:"vys",w:"31. 8.",src:"ss_half_mechanismus",
+ t:"Mechanismus ztráty se posunul z převzetí kontraktora na přesoutěžení",
+ tags:["disintermediace","rámcové smlouvy","odtok knihy"],
+ f:"Kategorie disintermediace z H-80 popisuje rok 2025. Dnešní ztráty vypadají jinak.",
+ v:"2025H1 tvoří ze čtyř pětin <b>jedna událost</b> — partner z Infinite Solution si vzal celý tým pod jinou firmu, čtyři místa skončila k 31. 5. 2025. Od 2025H2 dominuje jiný dodavatel: <b>12 z 24</b> přeživších míst. Škoda Auto (vyřazení z VŘ na rámcovku, „nenominovali nás — nebyly jsme cenově OK“), Edwards („nový CIO má pifku na kontraktory“, hub v Pune), accompani/Sandoz (Accenture).",
+ d:"Smluvní opatření proti přímému oslovení řeší <b>včerejší</b> poruchu. Dnešní porucha je nákupní proces klienta — váže se přímo na H-55, dnes nejvýš prioritní hypotézu v backlogu.",
+ c:"Malé n na pololetí (1 / 8 / 10 / 14), a zápisky začínají 21. 10. 2024 — část růstu podílu 17 % → 61 % je artefakt rostoucí evidence.",
+ rel:["H-80","H-55","H-96"]},
+
+{id:"H-98",g:"O",st:"val",conf:"59 % vs. 41 %",act:"str",w:"31. 8.",src:"ss_by_span",
+ t:"Přežití místa roste s délkou obsazení",
+ tags:["odtok knihy","životnost","prolongace"],
+ f:"Čím déle člověk u klienta sedí, tím větší je šance, že po jeho odchodu místo zůstane — a připadne někomu jinému.",
+ v:"≥ 24 měsíců <b>13 z 22 (59 %)</b> · 12–24 měsíců 9 z 16 (56 %) · &lt; 12 měsíců <b>11 z 27 (41 %)</b>. Krátká místa umírají s projektem (6 z 11 zaniklých je pod 12 měsíců), dlouhá se přesoutěží.",
+ d:"Potvrzuje H-81 na širším vzorku (65 vs. 35 konců, všechny produkty) a odpovídá na H-89. Mění cílení prolongační kampaně: u dlouhých míst se rozhovor musí vést o rámcovce a o tom, kdo drží vztah, ne o spokojenosti s dodávkou.",
+ rel:["H-81","H-89","H-96"]},
+
+{id:"H-99",g:"O",st:"val",key:true,conf:"7 ze 7, kvalitativní",act:"vys",w:"31. 8.",src:"ss_seat",
+ t:"Rozdíl mezi udrženým a ztraceným místem je předstih, ne kvalita dodávky",
+ tags:["odtok knihy","evidence","prolongace"],
+ f:"Sedm míst jsme po konci obsazení udrželi. Nelišila se kvalitou naší práce, ale tím, kdy jsme se o konci dozvěděli.",
+ v:"U <b>všech 7 udržených</b> se náhrada řešila <b>před</b> koncem — Korous ohlásil odchod dva měsíce dopředu („řekl to s předstihem… radostně hledáme náhradu“), Poláček nastoupil čtyři dny před koncem Trejdla, Kovář měsíc před koncem Kóči a se závazkem klienta na šest měsíců za „stejnou sazbu, jako měl Milo“. U ztracených míst je první zmínka o osudu místa typicky až v den konce nebo po něm.",
+ d:"Rozšířit <b>Ú-5</b>: pole „důvod ukončení obsazení“ (H-82) nestačí. Potřeba je <b>datum, kdy jsme se o konci dozvěděli</b> — bez něj se předstih nedá měřit ani řídit, a přitom je to jediná proměnná, u které dnes vidíme rozdíl mezi udrženým a ztraceným místem.",
+ c:"n = 7 bez kontrafaktu — nevíme, kolik ztracených míst bylo ohlášeno včas a stejně jsme je nedodali. Datum zjištění se dnes v CRM nikde nezaznamenává, takže se to změřit nedá.",
+ rel:["H-82","H-96","H-46"]},
+
+/* ---------- X — backlog a odložené ---------- */
+{id:"H-26",g:"I",st:"otv",key:true,act:"str",ice:7.5,iceb:[5,3,2],w:"18. 8. → povýšena 22. 8.",src:"council 18. 8. + Ú-4",
+ t:"Je 14měsíční životnost obsazení trh, nebo naše?",
+ tags:["životnost obsazení","trh","scope"],
+ f:"Kolaps délky obsazení z pěti let na 14 měsíců je tržní posun, ne důsledek naší kvalifikace.",
+ v:"Původně „Q3 pipeline a tržní benchmark mění čtení diagnózy“ (ICE 6,0). Po H-63 – H-65 je to <b>nejdůležitější neznámá celého úkolu</b>: pokud je 14 měsíců trh, musí se změnit produkt a 28 obsazení ročně je trvalý provozní náklad; pokud je to naše, jde o kvalifikaci a account management.",
+ test:"Zaostřit běžící tržní stopu Petra Janiše na jednu otázku — <b>běžná délka kontraktu a vyžadovaná rámcovka v segmentu</b> (úkol Ú-4). Z warehousu se nezjistí: changelog začíná 30. 10. 2024, původní kontraktovanou délku kohort 2021–2023 nemáme.",
+ d:"Určuje tvar celé propozice. Do prezentace patří i kdyby zůstala nezodpovězená — jako explicitní předpoklad.",
+ rel:["H-63","H-64","H-65","H-71","H-23"]},
+
+{id:"H-27",g:"X",st:"odl",conf:"zavřena bez práce",act:"niz",w:"18.–19. 8.",src:"pass3 V31",
+ t:"Sektorový vzorec existuje",
+ tags:["scope"],
+ f:"Konverze se liší podle sektoru klienta.",
+ v:"Nedokončeno — sector_final ve V31a_org_sector_draft.csv je dnes guess a nic se z něj nepočítá.",
+ test:"Vyplnit sector_final v V31a_org_sector_draft.csv.",
+ d:"Nejnižší priorita otevřených hypotéz kromě H-28.",
+ rel:[]},
+
+{id:"H-28",g:"X",st:"odl",conf:"zavřena bez práce",act:"met",w:"19. 8.",src:"Win overhang",
+ t:"CON pipeline má stejnou overhang dynamiku jako OUT",
+ tags:["měření","prolongace"],
+ f:"Win overhang (H-19) platí i pro konzultační pipeline.",
+ v:"Nelze ověřit — start/end fill v Pipedrive je jen 21–26 %.",
+ test:"Ověřit start/end fill v Tracker exportu.",
+ d:"Odložena kvůli datům, ne kvůli prioritě.",
+ rel:["H-19","H-20"]},
+
+/* ---------- L — původní diagnostika ---------- */
+{id:"H1",g:"L",st:"leg",act:"met",w:"do 14. 8.",src:"ATS+CRM funnel (36 % → 16 %)",
+ t:"Propad se odehrává mezi „In progress“ a „Contracting“",
+ tags:["lokalizace"],
+ f:"Propad nastává v okamžiku srovnání finálních kandidátů, ne na vstupu do pipeline.",
+ v:"Původní status 🟢 silná. Warehouse verzí je <b>H-07</b>: stage mix proher je nezměněný, změnila se rychlost (54 → 27 dní).",
+ d:"<b>Nahrazena H-07.</b> Číslo 36 % → 16 % je ATS+CRM cut napříč kompetencemi — nemíchat s warehouse 33,3 % → 15,4 %.",
+ rel:["H-07"]},
+
+{id:"H2",g:"L",st:"leg",act:"niz",w:"do 14. 8.",src:"3 ze 14 oranžových případů",
+ t:"Konkurence disproporčně vyhrává díky insiderské výhodě",
+ tags:["incumbency"],
+ f:"Bývalý/současný zaměstnanec klienta u konkurence rozhoduje; nejde ovlivnit výběrem, jen šíří sourcingem.",
+ v:"Původní status 🟡 střední (ČEPS, Allianz, Tatra banka). Warehouse: insider advantage je <b>ploché</b> mezi pololetími (H-06) a klíčový mechanismus je <b>incumbency, ne insider</b> (H-15).",
+ d:"<b>Nahrazena H-06 + H-15.</b>",
+ rel:["H-06","H-15"]},
+
+{id:"H3",g:"L",st:"leg",act:"str",w:"do 14. 8.",src:"Raiffeisenbank APO, Tatra banka, MAKRO",
+ t:"Nákupní/tendrová poptávka mimo vztah s PMO má systémově nižší konverzi",
+ tags:["rámcové smlouvy","poptávka klienta"],
+ f:"Poptávka přicházející přes nákup má nižší konverzi kvůli rychlosti a chybějící vztahové výhodě.",
+ v:"Původní status 🟡 střední. Rozpracováno a doloženo v <b>H-43</b> (rámcové smlouvy) a <b>H-55</b>.",
+ d:"<b>Nahrazena H-43 + H-55.</b>",
+ rel:["H-43","H-55"]},
+
+{id:"H4",g:"L",st:"leg",act:"str",w:"do 14. 8.",src:"70 % quality-lost u jednoho ownera",
+ t:"Problém je koncentrovaný na konkrétního ownera/segment",
+ tags:["obchodníci","kvalita dodávky"],
+ f:"Propad není rovnoměrně rozložený napříč PM portfoliem, ale koncentrovaný u jednoho člověka.",
+ v:"Původní status 🟡 střední — malý vzorek. Warehouse: koncentrace je <b>strukturální (portfolio new-logo), ne osobní</b> — H-11.",
+ d:"<b>Nahrazena H-11.</b> Nepoužívat jako zjištění o člověku.",
+ rel:["H-11","H-09"]},
+
+{id:"H5",g:"L",st:"leg",act:"vys",w:"do 14. 8.",src:"MM 3. 8. (Jirka Tonar)",
+ t:"„Cancel by Client“ je z významné části špatně kvalifikovaná příležitost",
+ tags:["kvalifikace"],
+ f:"Otevřeli jsme deal, který neměl šanci.",
+ v:"Původní status 🔴 slabá — chyběla analýza analogická „Quality“. Dodána 19. 8. jako <b>H-25</b>: rozpad na tři skupiny + kategorie Cancelled by PJM (7 zakázek, 13,3 mil. Kč).",
+ d:"<b>Nahrazena H-25.</b>",
+ rel:["H-25","H-14"]},
+
+{id:"H6",g:"L",st:"leg",act:"met",w:"do 14. 8.",src:"měsíční tempo proher",
+ t:"I bez baseline z předloňska je 2026 měřitelně horší než 2025",
+ tags:["evidence a data","historie"],
+ f:"Zhoršení není v hranicích šumu roku k roku.",
+ v:"Původní status 🟢 částečně zodpovězeno. <b>Uzavřeno 21. 8.</b>: loňský rok byl nadprůměrný — série nesoutěžních výher je 6 · 2 · 12 · 6 · 3 (H-60). Zoho není potřeba: Pipedrive obsahuje výhry a délky až do 2017, jen ne prohry (H-61).",
+ d:"<b>Nahrazena H-60 + H-61 + H-62.</b> Zároveň zavírá otevřený bod OB-5.",
+ rel:["H-60","H-61","H-62"]}
+];
+
+/* =====================================================================
+   APP
+   ===================================================================== */
+const byId=Object.fromEntries(D.map(x=>[x.id,x]));
+const TAGS=[...new Set(D.flatMap(x=>x.tags))].sort((a,b)=>a.localeCompare(b,"cs"));
+const WAVES=[...new Set(D.map(x=>x.w))];
+const state={q:"",st:new Set(),g:new Set(),tag:new Set(),act:new Set(),w:new Set(),view:"table",sort:"id",onlyKey:false};
+
+const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const plain=h=>String(h||"").replace(/<[^>]*>/g," ");
+const hay=x=>[x.id,x.t,x.f,x.v,x.d,x.c,x.m,x.test,x.src,x.conf,GROUPS[x.g],STATUS[x.st].l,...(x.tags||[])]
+  .map(plain).join(" ").toLowerCase();
+D.forEach(x=>x._h=hay(x));
+
+function pass(x){
+  if(state.onlyKey&&!x.key)return false;
+  if(state.st.size&&!state.st.has(x.st))return false;
+  if(state.g.size&&!state.g.has(x.g))return false;
+  if(state.act.size&&!state.act.has(x.act))return false;
+  if(state.w.size&&!state.w.has(x.w))return false;
+  if(state.tag.size&&!(x.tags||[]).some(t=>state.tag.has(t)))return false;
+  if(state.q){
+    const terms=state.q.toLowerCase().split(/\s+/).filter(Boolean);
+    if(!terms.every(t=>x._h.includes(t)))return false;
+  }
+  return true;
+}
+const ORD={otv:0,ove:1,art:2,val:3,vyv:4,odl:5,leg:6};
+const AORD={vys:0,str:1,niz:2,met:3};
+function sorted(list){
+  const c=[...list];
+  if(state.sort==="ice")c.sort((a,b)=>(b.ice||-1)-(a.ice||-1)||a.id.localeCompare(b.id));
+  else if(state.sort==="status")c.sort((a,b)=>ORD[a.st]-ORD[b.st]||(b.ice||-1)-(a.ice||-1)||a.id.localeCompare(b.id));
+  else if(state.sort==="group")c.sort((a,b)=>a.g.localeCompare(b.g)||a.id.localeCompare(b.id));
+  else if(state.sort==="act")c.sort((a,b)=>AORD[a.act]-AORD[b.act]||(b.ice||-1)-(a.ice||-1)||a.id.localeCompare(b.id));
+  else c.sort((a,b)=>{
+    const n=s=>parseInt(s.replace(/\D/g,""),10)+(s.length>3?0:1000);
+    return n(a.id)-n(b.id);
+  });
+  return c;
+}
+
+/* ---- KPI ---- */
+function kpis(list){
+  const n=s=>list.filter(x=>x.st===s).length;
+  const open=list.filter(x=>x.st==="otv"||x.st==="ove").length;
+  const topIce=list.filter(x=>x.ice).sort((a,b)=>b.ice-a.ice)[0];
+  const box=(cls,v,l)=>`<div class="kpi ${cls}"><div class="n">${v}</div><div class="l">${l}</div></div>`;
+  document.getElementById("kpis").innerHTML=
+    box("","<span>"+list.length+"</span>","hypotéz ve výběru")+
+    box("c-ok",n("val"),"validovaných")+
+    box("c-no",n("vyv"),"vyvrácených")+
+    box("c-inf",open,"otevřených")+
+    box("c-amb",n("art"),"artefaktů měření")+
+    box("c-coral",topIce?topIce.id:"—",topIce?("nejvyšší ICE "+topIce.ice.toFixed(1).replace(".",",")):"bez ICE");
+}
+
+/* ---- overview ---- */
+function overview(){
+  const gb=document.getElementById("groupbars");
+  gb.innerHTML=Object.keys(GROUPS).map(g=>{
+    const items=D.filter(x=>x.g===g);
+    const seg=["val","vyv","art","ove","otv","odl","leg"].map(s=>{
+      const c=items.filter(x=>x.st===s).length;
+      return c?`<i style="width:${c/items.length*100}%;background:${STATUS[s].c}" title="${STATUS[s].l}: ${c}"></i>`:"";
+    }).join("");
+    return `<button class="grow${state.g.has(g)?" on":""}" data-g="${g}">
+      <span class="gname">${esc(GROUPS[g])}</span><span class="gbar">${seg}</span>
+      <span class="gnum">${items.length}</span></button>`;
+  }).join("");
+  gb.querySelectorAll(".grow").forEach(b=>b.onclick=()=>{toggle(state.g,b.dataset.g);render()});
+
+  const ic=D.filter(x=>x.ice).sort((a,b)=>b.ice-a.ice);
+  document.getElementById("icelist").innerHTML=ic.map(x=>
+    `<button class="iceli" data-id="${x.id}"><span class="icv">${x.ice.toFixed(1).replace(".",",")}</span>
+      <span class="icid">${x.id}</span><span class="ict">${esc(x.t)}</span></button>`).join("");
+  document.getElementById("icelist").querySelectorAll(".iceli")
+    .forEach(b=>b.onclick=()=>openH(b.dataset.id));
+}
+
+/* ---- filters ---- */
+function chips(elId,items,set){
+  const el=document.getElementById(elId);
+  el.innerHTML=items.map(i=>
+    `<button class="chip ${i.cls||""}${set.has(i.k)?" on":""}" data-k="${esc(i.k)}">${esc(i.l)}<span class="c">${i.n}</span></button>`).join(" ");
+  el.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{toggle(set,b.dataset.k);render()});
+}
+function toggle(set,k){set.has(k)?set.delete(k):set.add(k)}
+function buildFilters(){
+  chips("f-status",Object.keys(STATUS).map(k=>({k,l:STATUS[k].l,n:D.filter(x=>x.st===k).length,cls:"s-"+k})),state.st);
+  chips("f-group",Object.keys(GROUPS).map(k=>({k,l:GROUPS[k].split(" · ")[0]+" — "+GROUPS[k].split(" · ")[1],n:D.filter(x=>x.g===k).length})),state.g);
+  chips("f-tag",TAGS.map(k=>({k,l:k,n:D.filter(x=>x.tags.includes(k)).length})),state.tag);
+  chips("f-act",Object.keys(ACTS).map(k=>({k,l:ACTS[k],n:D.filter(x=>x.act===k).length})),state.act);
+  chips("f-wave",WAVES.map(k=>({k,l:k,n:D.filter(x=>x.w===k).length})),state.w);
+}
+
+/* ---- list ---- */
+function renderTable(list){
+  const rows=list.map(x=>`<tr data-id="${x.id}"${x.key?' class="key"':""}>
+    <td class="id">${x.key?'<span class="k-star" title="Klíčová hypotéza pro propozici">★</span>':""}${x.id}</td>
+    <td><span class="badge ${STATUS[x.st].b}">${STATUS[x.st].l}</span></td>
+    <td class="tt"><b>${esc(x.t)}</b>${x.key?' <span class="k-pill">★ klíčová</span>':""}${x.conf?`<div style="font-size:11px;color:var(--ink-muted);margin-top:2px">${esc(x.conf)}</div>`:""}</td>
+    <td class="grp hcol">${esc(GROUPS[x.g].split(" · ")[0])}</td>
+    <td class="grp hcol">${ACTS[x.act]}</td>
+    <td class="src hcol">${esc(x.src)}</td>
+    <td class="ice">${x.ice?x.ice.toFixed(1).replace(".",","):""}</td>
+  </tr>`).join("");
+  return `<div class="tbl-wrap"><table><thead><tr>
+    <th>ID</th><th>Status</th><th>Hypotéza</th><th class="hcol">Skup.</th>
+    <th class="hcol">Ovlivn.</th><th class="hcol">Zdroj</th><th style="text-align:right">ICE</th>
+  </tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function renderCards(list){
+  let out="",lastG=null;
+  const grouped=state.sort==="group"||state.sort==="id";
+  list.forEach(x=>{
+    if(grouped&&x.g!==lastG){out+=`<div class="ghead">${esc(GROUPS[x.g])}</div>`;lastG=x.g}
+    out+=`<div class="card${x.key?" key":""}" data-id="${x.id}">
+      <div class="card-top"><span class="card-id">${x.id}</span>
+        <span class="badge ${STATUS[x.st].b}">${STATUS[x.st].l}</span>
+        ${x.key?'<span class="k-pill">★ klíčová</span>':""}
+        ${x.ice?`<span class="card-ice">ICE ${x.ice.toFixed(1).replace(".",",")}</span>`:""}</div>
+      <h3>${esc(x.t)}</h3>
+      <p>${esc(plain(x.v||x.f)).slice(0,260)}</p>
+      <div class="card-foot">${x.tags.map(t=>`<span class="tg">${esc(t)}</span>`).join("")}</div>
+    </div>`;
+  });
+  return `<div class="cards">${out}</div>`;
+}
+
+function render(){
+  const list=sorted(D.filter(pass));
+  kpis(list);overview();buildFilters();
+  document.getElementById("count").innerHTML=`<b>${list.length}</b> z ${D.length} hypotéz`;
+  const nf=state.st.size+state.g.size+state.tag.size+state.act.size+state.w.size;
+  document.getElementById("fcount").textContent=nf?"· "+nf:"";
+  const out=document.getElementById("out");
+  out.innerHTML=list.length?(state.view==="table"?renderTable(list):renderCards(list))
+    :`<div class="empty">Nic neodpovídá filtru. <button class="btn" onclick="document.getElementById('reset').click()">Zrušit filtry</button></div>`;
+  out.querySelectorAll("[data-id]").forEach(el=>el.onclick=()=>openH(el.dataset.id));
+}
+
+/* ---- drawer ---- */
+function fld(k,v,cls){return v?`<div class="fld ${cls||""}"><div class="k">${k}</div><div class="v">${v}</div></div>`:""}
+function openH(id){
+  const x=byId[id];if(!x)return;
+  document.getElementById("dr-id").textContent=x.id;
+  const b=document.getElementById("dr-badge");
+  b.className="badge "+STATUS[x.st].b;b.textContent=STATUS[x.st].l+(x.conf?" · "+x.conf:"");
+  document.getElementById("dr-key").innerHTML=x.key?'<span class="k-pill">★ klíčová pro propozici</span>':"";
+  document.getElementById("dr-title").textContent=x.t;
+  document.getElementById("dr-meta").innerHTML=
+    `<span>${esc(GROUPS[x.g])}</span><span>vlna ${esc(x.w)}</span>
+     <span>ovlivnitelnost: ${ACTS[x.act]}</span>${x.tags.map(t=>`<span>${esc(t)}</span>`).join("")}`;
+  let ice="";
+  if(x.ice){
+    const[I,C,E]=x.iceb||[];
+    ice=`<div class="fld"><div class="k">Priorita ICE</div><div class="icegrid">
+      <div class="icebox"><div class="n">${I}</div><div class="l">Impact</div></div>
+      <div class="icebox"><div class="n">${C}</div><div class="l">Confidence</div></div>
+      <div class="icebox"><div class="n">${E}</div><div class="l">Effort</div></div>
+      <div class="icebox tot"><div class="n">${x.ice.toFixed(1).replace(".",",")}</div><div class="l">I×C/E</div></div>
+    </div></div>`;
+  }
+  document.getElementById("dr-body").innerHTML=
+    fld("Formulace",x.f)+
+    fld("Výsledek a opora",x.v)+
+    fld("Metrika",x.m)+
+    fld("Test s minimální námahou",x.test)+
+    fld("Rozhodnutí — co z toho plyne",x.d,"dec")+
+    fld("Caveat",x.c,"cav")+
+    ice+
+    fld("Zdroj",esc(x.src))+
+    (x.rel&&x.rel.length?`<div class="fld"><div class="k">Souvisí s</div><div class="rels">
+      ${x.rel.filter(r=>byId[r]).map(r=>`<button class="rel" data-rel="${r}">${r} — ${esc(byId[r].t.slice(0,42))}${byId[r].t.length>42?"…":""}</button>`).join("")}
+    </div></div>`:"")+
+    `<div class="dr-nav"><button class="btn" id="prev">← Předchozí</button><button class="btn" id="next">Další →</button></div>`;
+  document.getElementById("dr-body").querySelectorAll("[data-rel]")
+    .forEach(el=>el.onclick=()=>openH(el.dataset.rel));
+  const list=sorted(D.filter(pass)),i=list.findIndex(y=>y.id===x.id);
+  const p=document.getElementById("prev"),nx=document.getElementById("next");
+  if(i<=0)p.disabled=true;else p.onclick=()=>openH(list[i-1].id);
+  if(i<0||i>=list.length-1)nx.disabled=true;else nx.onclick=()=>openH(list[i+1].id);
+  document.getElementById("dr-body").scrollTop=0;
+  document.getElementById("drawer").classList.add("on");
+  document.getElementById("scrim").classList.add("on");
+  document.getElementById("drawer").setAttribute("aria-hidden","false");
+  try{history.replaceState(null,"","#"+x.id)}catch(e){}
+}
+function closeH(){
+  document.getElementById("drawer").classList.remove("on");
+  document.getElementById("scrim").classList.remove("on");
+  document.getElementById("drawer").setAttribute("aria-hidden","true");
+  try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}
+}
+
+/* ---- events ---- */
+document.getElementById("q").oninput=e=>{state.q=e.target.value.trim();render()};
+document.getElementById("sort").onchange=e=>{state.sort=e.target.value;render()};
+document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".seg button").forEach(o=>o.classList.remove("on"));
+  b.classList.add("on");state.view=b.dataset.view;render();
+});
+document.getElementById("reset").onclick=()=>{
+  state.q="";document.getElementById("q").value="";state.onlyKey=false;
+  document.getElementById("keyToggle").classList.remove("on");
+  [state.st,state.g,state.tag,state.act,state.w].forEach(s=>s.clear());render();
+};
+document.getElementById("keyToggle").onclick=e=>{
+  state.onlyKey=!state.onlyKey;e.currentTarget.classList.toggle("on",state.onlyKey);render();
+};
+let fManual=false;
+document.getElementById("ftoggle").onclick=e=>{
+  fManual=true;
+  const p=document.getElementById("fpanel"),h=p.classList.toggle("hid");
+  e.currentTarget.setAttribute("aria-expanded",String(!h));
+};
+/* filtry se samy sbalí, jakmile se scrolluje v seznamu — dokud si to uživatel nepřepne ručně */
+window.addEventListener("scroll",()=>{
+  if(fManual)return;
+  const t=document.querySelector(".tools"),p=document.getElementById("fpanel");
+  const hide=window.scrollY>t.offsetTop+70;
+  p.classList.toggle("hid",hide);
+  document.getElementById("ftoggle").setAttribute("aria-expanded",String(!hide));
+},{passive:true});
+document.getElementById("dr-x").onclick=closeH;
+document.getElementById("scrim").onclick=closeH;
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape")closeH();
+  if(e.key==="/"&&document.activeElement.id!=="q"){e.preventDefault();document.getElementById("q").focus()}
+  if(document.getElementById("drawer").classList.contains("on")){
+    if(e.key==="ArrowRight"){const n=document.getElementById("next");if(n&&!n.disabled)n.click()}
+    if(e.key==="ArrowLeft"){const p=document.getElementById("prev");if(p&&!p.disabled)p.click()}
+  }
+});
+
+render();
+if(location.hash&&byId[location.hash.slice(1)])openH(location.hash.slice(1));
+</script>
+</body>
+</html>

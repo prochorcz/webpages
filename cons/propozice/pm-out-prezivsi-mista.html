@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pozice pokračuje, my ne — přeživší místa</title>
+<style>
+@font-face{font-family:Poppins;font-weight:400;font-display:swap;
+  src:url("https://www.projectman.cz/themes/custom/projectman/fonts/Poppins/Poppins-Regular.woff2") format("woff2")}
+@font-face{font-family:Poppins;font-weight:600;font-display:swap;
+  src:url("https://www.projectman.cz/themes/custom/projectman/fonts/Poppins/Poppins-SemiBold.woff2") format("woff2")}
+:root{
+  --pjm-dark:#20272F; --pjm-coral:#FF525F; --pjm-blue:#A9C5DF; --pjm-blue-dark:#5C7894;
+  --pjm-grey:#878787; --pjm-bg:#F7F7F7; --pjm-bg-alt:#F0F2F5; --pjm-line:#DADADA;
+  --surface:#FFFFFF; --ink:#20272F; --ink-2:#3F4A57; --ink-muted:#878787; --grid:#E8E8E8;
+  --c-win:#2B72B8; --c-loss:#DC2F3C; --c-neutral:#9AA3B0; --c-open:#C4CAD1;
+  --c-a:#2B72B8; --c-b:#5C7894; --c-c:#E0A32E; --c-d:#7E5AA6;
+}
+@media (prefers-color-scheme:dark){
+  :root{--surface:#20272F; --ink:#FFFFFF; --ink-2:#C9D2DB; --ink-muted:#8C97A3;
+    --pjm-bg:#171D23; --pjm-bg-alt:#1C242C; --pjm-line:#333D48; --grid:#333D48;
+    --c-win:#4E97DC; --c-loss:#F0555F; --c-neutral:#7C8794; --c-open:#4A5561;
+    --c-a:#4E97DC; --c-b:#8AA6C2; --c-c:#F0BE55; --c-d:#A987CC;}
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--pjm-bg);color:var(--ink);
+  font:400 15px/1.62 Poppins,Helvetica,Calibri,Arial,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px 80px}
+h1{font-weight:400;font-size:40px;line-height:1.16;margin:0;color:var(--pjm-coral);max-width:26ch}
+h1 span{display:block;border-bottom:1.5px solid var(--pjm-coral);padding-bottom:7px;margin-bottom:7px}
+h2{font-weight:600;font-size:20px;margin:0 0 4px;letter-spacing:-.01em}
+h2 em{font-style:normal;color:var(--pjm-coral)}
+h3{font-weight:600;font-size:14.5px;margin:26px 0 8px}
+p{max-width:92ch}
+section{background:var(--surface);padding:26px 26px 30px;margin:0 0 2px;scroll-margin-top:56px}
+.hero{position:relative;background:var(--pjm-dark);color:#fff;overflow:hidden;margin-bottom:0}
+.hero-in{max-width:1180px;margin:0 auto;padding:50px 24px 44px;position:relative;z-index:2}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:40px}
+.logo-grid{display:grid;grid-template-columns:repeat(6,3px);gap:2.5px}
+.logo-grid i{width:3px;height:3px;background:var(--pjm-grey);border-radius:50%}
+.logo-wm{font-weight:600;font-size:19px;letter-spacing:-.01em}
+.logo-claim{font-size:9px;color:var(--pjm-grey);letter-spacing:.06em;margin-top:-2px}
+.hero-sub{color:#C9D2DB;font-size:14.5px;max-width:80ch;margin-top:20px}
+.hero-sub b{color:#fff}
+.orn{position:absolute;right:-70px;top:-40px;z-index:1;opacity:.85}
+.pill{display:inline-block;font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;
+  padding:4px 9px;border:1px solid var(--pjm-coral);color:var(--pjm-coral);margin-bottom:18px}
+nav.toc{position:sticky;top:0;z-index:40;background:var(--pjm-dark);border-top:1px solid #333D48}
+nav.toc .in{max-width:1180px;margin:0 auto;padding:0 24px;display:flex;gap:20px;overflow-x:auto}
+nav.toc a{color:#C9D2DB;text-decoration:none;font-size:11.5px;font-weight:600;white-space:nowrap;
+  padding:11px 0;border-bottom:2px solid transparent}
+nav.toc a:hover{color:#fff;border-bottom-color:var(--pjm-coral)}
+.tldr{background:var(--pjm-bg-alt);border-left:3px solid var(--pjm-coral);padding:20px 24px 22px;margin:26px 0 20px}
+.tldr ul{margin:0;padding-left:19px}
+.tldr li{font-size:13.5px;color:var(--ink-2);margin-bottom:9px;max-width:98ch}
+.tldr li b{color:var(--ink)}
+.tldr li:last-child{margin-bottom:0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2px;margin:0 0 2px}
+.kpi{background:var(--pjm-bg-alt);padding:15px 17px 14px}
+.kpi .k{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted)}
+.kpi .row{display:flex;gap:14px;align-items:baseline;margin-top:6px}
+.kpi .v{font-size:25px;font-weight:600;line-height:1.05;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kpi .d{font-size:11.5px;font-weight:600;margin-left:auto;font-variant-numeric:tabular-nums}
+.kpi .d.dn{color:var(--c-loss)} .kpi .d.fl{color:var(--ink-muted)}
+.kpi .n{font-size:11px;color:var(--ink-muted);line-height:1.42;margin-top:5px}
+.chart{margin:14px 0 6px}
+.crow{display:grid;grid-template-columns:60px 1fr 34px;gap:11px;align-items:center;margin-bottom:5px}
+.crow .lbl{font-size:11px;font-weight:600;color:var(--ink-2);font-variant-numeric:tabular-nums;text-align:right}
+.crow .tot{font-size:11.5px;font-weight:600;color:var(--ink-muted);font-variant-numeric:tabular-nums}
+.bar{display:flex;gap:2px;height:30px;overflow:hidden;min-width:0}
+.sg{position:relative;min-width:2px;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;border-radius:2px}
+.sg b{font:600 11.5px/1 Poppins,Arial,sans-serif;font-variant-numeric:tabular-nums;
+  white-space:nowrap;color:#fff}
+.sg-win{background:var(--c-win)} .sg-loss{background:var(--c-loss)}
+.sg-neutral{background:var(--c-neutral)} .sg-open{background:var(--c-open)}
+.sg-a{background:var(--c-a)} .sg-b{background:var(--c-b)} .sg-c{background:var(--c-c)}
+.sg-d{background:var(--c-d)} .sg-coral{background:var(--pjm-coral)}
+.sg-open b{color:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 20px;margin:18px 0 0;padding-top:15px;border-top:1px solid var(--grid)}
+.lg{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-2)}
+.lg i{width:20px;height:11px;border-radius:2px;flex:0 0 auto;display:block}
+.svgwrap{overflow-x:auto;margin:12px 0 4px}
+svg.lc{display:block;max-width:100%;height:auto}
+svg.lc .ax{stroke:var(--grid);stroke-width:1}
+svg.lc .gl{stroke:var(--grid);stroke-width:1;stroke-dasharray:2 3}
+svg.lc text{font:600 10px Poppins,Arial,sans-serif;fill:var(--ink-muted)}
+svg.lc text.vl{font:600 11.5px Poppins,Arial,sans-serif}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0 0}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:640px}
+th{background:var(--pjm-blue);color:#20272F;font-weight:600;text-align:left;padding:8px 10px;font-size:11px;
+  vertical-align:bottom;white-space:nowrap}
+td{padding:7px 10px;border-bottom:1px solid var(--pjm-line);vertical-align:top;color:var(--ink-2)}
+tbody tr:nth-child(even) td{background:var(--pjm-bg-alt)}
+td b{color:var(--ink)}
+td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.ev{font-size:11.5px;color:var(--ink-muted);min-width:280px;max-width:520px;line-height:1.5}
+td.ev .src{display:block;font-size:10px;color:var(--ink-muted);opacity:.8;margin-top:3px}
+.capline{font-size:12px;color:var(--ink-muted);margin:9px 0 0;max-width:92ch}
+.b{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:600;letter-spacing:.04em;
+  padding:2px 7px;border-radius:9px;white-space:nowrap;text-transform:uppercase}
+.b i{width:8px;height:8px;border-radius:2px;display:block}
+.b-cat{background:var(--pjm-bg-alt);color:var(--ink-2);border:1px solid var(--pjm-line)}
+.b-1{background:var(--ink-2);color:#fff} .b-2{background:var(--pjm-blue);color:#20272F}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:2px;margin-top:12px}
+.card{background:var(--pjm-bg-alt);padding:18px 19px 19px;border-top:3px solid var(--pjm-coral)}
+.card .cno{font-size:9.5px;font-weight:600;letter-spacing:.09em;color:var(--pjm-coral);text-transform:uppercase}
+.card h5{font-weight:600;font-size:14px;margin:5px 0 8px;color:var(--ink);line-height:1.34}
+.card p{font-size:12.5px;color:var(--ink-2);margin:0}
+.note{background:var(--pjm-bg-alt);border-left:3px solid var(--pjm-blue);padding:14px 17px;margin:18px 0 0;
+  font-size:12.5px;color:var(--ink-2);max-width:98ch}
+.note b{color:var(--ink)}
+.note.warn{border-left-color:var(--pjm-coral)}
+code{font-size:12px;background:var(--pjm-bg-alt);padding:1px 5px;border-radius:2px}
+footer{max-width:1180px;margin:0 auto;padding:26px 24px 40px;border-top:1px solid var(--pjm-line);
+  font-size:11.5px;color:var(--ink-muted);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a{color:var(--pjm-coral);text-decoration:none}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+@media (max-width:900px){.grid2{grid-template-columns:1fr}}
+@media (max-width:720px){
+  h1{font-size:29px} .hero-in{padding:38px 20px 34px} .wrap{padding:0 16px 60px}
+  section{padding:20px 18px 24px} .crow{grid-template-columns:48px 1fr 28px}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <svg class="orn" width="330" height="270" viewBox="0 0 330 270" aria-hidden="true">
+    <rect x="126" y="52" width="176" height="176" rx="34" fill="#A9C5DF" opacity=".2"/>
+    <circle cx="196" cy="118" r="86" fill="none" stroke="#FF525F" stroke-width="1.6" opacity=".55"
+      stroke-dasharray="404 136"/>
+  </svg>
+  <div class="hero-in">
+    <div class="logo"><div class="logo-grid"></div>
+      <div><div class="logo-wm">projectman</div><div class="logo-claim">connecting experts</div></div></div>
+    <span class="pill">PM Comp · Propositions · celá OUT kniha</span>
+    <h1><span>Pozice pokračuje,</span>my ne</h1>
+    <p class="hero-sub">U <b>33 z 65 skončených obsazení</b> je v CRM doloženo, že místo
+      u klienta existuje dál — jen ho dodává někdo jiný, nebo si ho klient obsadil interně.
+      Skutečně zaniklo jen <b>11</b>. Těch 33 míst se rovná <b>39 %
+      dnešní knihy</b> (85 sedících míst). Každý řádek v tabulkách má citaci ze
+      zápisku nebo přímý datový důkaz — žádná interpretace bez opory. Zdroj: warehouse
+      (Pipedrive + Tracker), extrakt 2026-08-16.</p>
+  </div>
+</div>
+
+<nav class="toc"><div class="in">
+  <a href="#s1">1 · Výsledek</a><a href="#s2">2 · Vývoj v čase</a>
+  <a href="#s3">3 · Mechanismy</a><a href="#s4">4 · Kde to bolí</a>
+  <a href="#s5">5 · Doložené místo po místě</a><a href="#s6">6 · Co jsme udrželi</a>
+  <a href="#s7">7 · Zbytek knihy</a><a href="#s8">8 · Metodika a pasti</a>
+</div></nav>
+
+<div class="wrap">
+
+<div class="tldr">
+<ul>
+<li><b>33 z 65 konců (51 %) je místo, které žije dál bez nás.</b> Zaniklo
+  11 (17 %), sami jsme doplnili 7, bez evidence 14.</li>
+<li><b>Na každé skutečně zaniklé místo připadají tři, která existují dál.</b> Odtok knihy tedy
+  z většiny není zánik potřeby — je to ztráta pozice.</li>
+<li><b>Podíl roste: 17 % → 67 % → 42 % → 61 %</b> po pololetích, absolutně 1 → 8 → 10 → 14.</li>
+<li><b>Mechanismus se mění.</b> 2025H1 byl jednorázový blok převzetí kontraktorů (Infinite/VEOLIA,
+  4 místa k jednomu dni). Od 2025H2 dominuje rámcovka a jiný dodavatel — 12 z 24 konců.</li>
+<li><b>Dlouhá místa přežívají častěji.</b> ≥ 24 měsíců 13 z 22 (59 %) vs. &lt; 12 měsíců 11 z 27 (41 %).</li>
+<li><b>Čtyři účty drží 24 z 33 míst</b> — Edwards 10, Škoda Auto 6, accompani/Sandoz 4,
+  Infinite + VEOLIA 4.</li>
+<li><b>Co odlišuje udržené místo od ztraceného, je předstih.</b> U všech 7 udržených se
+  náhrada řešila před koncem obsazení, ne po něm.</li>
+</ul>
+</div>
+
+<div class="kpis">
+  <div class="kpi"><div class="k">Skončených obsazení</div><div class="row"><div class="v">65</div></div>
+    <div class="n">Celá OUT kniha, všechny produkty, konce do 30. 6. 2026</div></div>
+  <div class="kpi"><div class="k">Pokračuje bez nás</div>
+    <div class="row"><div class="v">33</div><div class="d dn">51 %</div></div>
+    <div class="n">Z toho 14 s explicitní citací o&nbsp;tomto místě</div></div>
+  <div class="kpi"><div class="k">Skutečně zaniklo</div>
+    <div class="row"><div class="v">11</div><div class="d fl">17 %</div></div>
+    <div class="n">Projekt doběhl, budget zmizel, odběratel vypadl</div></div>
+  <div class="kpi"><div class="k">Podíl na dnešní knize</div>
+    <div class="row"><div class="v">39 %</div></div>
+    <div class="n">33 ztracených míst vs. 85 míst, která dnes sedí</div></div>
+</div>
+
+<section id="s1"><h2>1 · <em>Výsledek</em></h2>
+<p>Kódováno na všech 65 obsazeních, která k datu extraktu skončila. Otázka není „proč to
+skončilo" (to řeší census odtoku), ale „co se stalo s místem potom".</p>
+<div class="scroll"><table>
+<tr><th>Stav</th><th>Míst</th><th>z toho explicitních (A)</th><th>Podíl</th></tr>
+<tr><td><span class="b b-cat"><i class="sg-loss"></i>Pokračuje bez nás</span></td><td class="num"><b>33</b></td><td class="num">14</td><td class="num">51 %</td></tr><tr><td><span class="b b-cat"><i class="sg-win"></i>Pokračuje s námi</span></td><td class="num"><b>7</b></td><td class="num">5</td><td class="num">11 %</td></tr><tr><td><span class="b b-cat"><i class="sg-neutral"></i>Zaniklo</span></td><td class="num"><b>11</b></td><td class="num">6</td><td class="num">17 %</td></tr><tr><td><span class="b b-cat"><i class="sg-open"></i>Nejasné</span></td><td class="num"><b>14</b></td><td class="num">—</td><td class="num">22 %</td></tr></table></div>
+<div class="note"><b>Jak číst „nejasné".</b> 14 míst nemá k osudu v CRM žádný záznam.
+I kdyby všechna byla ve skutečnosti zaniklá, poměr přeživších k zaniklým je pořád
+33 : 25 — tedy většina.</div>
+</section>
+
+<section id="s2"><h2>2 · <em>Vývoj v čase</em></h2>
+<p>Konce obsazení po pololetích, rozdělené podle toho, co se stalo s místem. Šířka pruhu je
+srovnatelná napříč pololetími (společné měřítko = největší pololetí).</p>
+<div class="chart"><div class="crow"><span class="lbl">2024H2</span><span class="bar"><span class="sg sg-loss" style="flex:0 0 4.167%" title="Pokračuje bez nás: 1"><b>1</b></span><span class="sg sg-win" style="flex:0 0 4.167%" title="Pokračuje s námi: 1"><b>1</b></span><span class="sg sg-neutral" style="flex:0 0 8.333%" title="Zaniklo: 2"><b>2</b></span><span class="sg sg-open" style="flex:0 0 8.333%" title="Nejasné: 2"><b>2</b></span></span><span class="tot">6</span></div>
+<div class="crow"><span class="lbl">2025H1</span><span class="bar"><span class="sg sg-loss" style="flex:0 0 33.333%" title="Pokračuje bez nás: 8"><b>8</b></span><span class="sg sg-win" style="flex:0 0 4.167%" title="Pokračuje s námi: 1"><b>1</b></span><span class="sg sg-neutral" style="flex:0 0 8.333%" title="Zaniklo: 2"><b>2</b></span><span class="sg sg-open" style="flex:0 0 4.167%" title="Nejasné: 1"><b>1</b></span></span><span class="tot">12</span></div>
+<div class="crow"><span class="lbl">2025H2</span><span class="bar"><span class="sg sg-loss" style="flex:0 0 41.667%" title="Pokračuje bez nás: 10"><b>10</b></span><span class="sg sg-win" style="flex:0 0 16.667%" title="Pokračuje s námi: 4"><b>4</b></span><span class="sg sg-neutral" style="flex:0 0 16.667%" title="Zaniklo: 4"><b>4</b></span><span class="sg sg-open" style="flex:0 0 25.000%" title="Nejasné: 6"><b>6</b></span></span><span class="tot">24</span></div>
+<div class="crow"><span class="lbl">2026H1</span><span class="bar"><span class="sg sg-loss" style="flex:0 0 58.333%" title="Pokračuje bez nás: 14"><b>14</b></span><span class="sg sg-win" style="flex:0 0 4.167%" title="Pokračuje s námi: 1"><b>1</b></span><span class="sg sg-neutral" style="flex:0 0 12.500%" title="Zaniklo: 3"><b>3</b></span><span class="sg sg-open" style="flex:0 0 20.833%" title="Nejasné: 5"><b>5</b></span></span><span class="tot">23</span></div></div>
+<div class="legend"><span class="lg"><i class="sg-loss"></i>Pokračuje bez nás</span><span class="lg"><i class="sg-win"></i>Pokračuje s námi</span><span class="lg"><i class="sg-neutral"></i>Zaniklo</span><span class="lg"><i class="sg-open"></i>Nejasné</span></div>
+<p class="capline">2026H2 chybí záměrně: k datu extraktu (2026-08-16) nekončí žádné obsazení
+dřív než 30.&nbsp;9.&nbsp;2026, takže poslední úplně pozorované pololetí je 2026H1.</p>
+
+<h3>Kumulativně: kolik míst u klientů běží bez nás</h3>
+<p>Křivka nesčítá ztracené příležitosti, ale <b>obsazenou kapacitu, kterou jsme drželi a už
+nedržíme, přičemž u klienta nezanikla</b>.</p>
+<div class="svgwrap"><svg class="lc" viewBox="0 0 780 200" role="img" aria-label="Kumulativní počet míst, která u klienta pokračují bez nás"><line class="gl" x1="36" y1="164.0" x2="770" y2="164.0"/><text x="28" y="167.5" text-anchor="end">0</text><line class="gl" x1="36" y1="130.5" x2="770" y2="130.5"/><text x="28" y="134.0" text-anchor="end">8</text><line class="gl" x1="36" y1="97.1" x2="770" y2="97.1"/><text x="28" y="100.6" text-anchor="end">16</text><line class="gl" x1="36" y1="63.6" x2="770" y2="63.6"/><text x="28" y="67.1" text-anchor="end">24</text><line class="gl" x1="36" y1="30.2" x2="770" y2="30.2"/><text x="28" y="33.7" text-anchor="end">32</text><path d="M36.0,159.8 L278.7,126.4 L521.3,84.5 L764.0,26.0 L764.0,164.0 L36.0,164.0 Z" fill="var(--pjm-coral)" opacity=".13"/><path d="M36.0,159.8 L278.7,126.4 L521.3,84.5 L764.0,26.0" fill="none" stroke="var(--pjm-coral)" stroke-width="2.2"/><line class="ax" x1="36" y1="164" x2="770" y2="164"/><circle cx="36.0" cy="159.8" r="4.5" fill="var(--pjm-coral)"/><text class="vl" x="36.0" y="147.8" text-anchor="middle" fill="var(--pjm-coral)">1</text><text x="36.0" y="181.0" text-anchor="middle">2024H2</text><circle cx="278.7" cy="126.4" r="4.5" fill="var(--pjm-coral)"/><text class="vl" x="278.7" y="114.4" text-anchor="middle" fill="var(--pjm-coral)">9</text><text x="278.7" y="181.0" text-anchor="middle">2025H1</text><circle cx="521.3" cy="84.5" r="4.5" fill="var(--pjm-coral)"/><text class="vl" x="521.3" y="72.5" text-anchor="middle" fill="var(--pjm-coral)">19</text><text x="521.3" y="181.0" text-anchor="middle">2025H2</text><circle cx="764.0" cy="26.0" r="4.5" fill="var(--pjm-coral)"/><text class="vl" x="764.0" y="14.0" text-anchor="middle" fill="var(--pjm-coral)">33</text><text x="764.0" y="181.0" text-anchor="middle">2026H1</text></svg></div>
+
+<div class="scroll"><table>
+<tr><th>Konec v</th><th>Konců</th><th>Bez nás</th><th>S námi</th><th>Zaniklo</th><th>Nejasné</th><th>% bez nás</th></tr>
+<tr><td><b>2024H2</b></td><td class="num">6</td><td class="num"><b>1</b></td><td class="num">1</td><td class="num">2</td><td class="num">2</td><td class="num"><b>17 %</b></td></tr><tr><td><b>2025H1</b></td><td class="num">12</td><td class="num"><b>8</b></td><td class="num">1</td><td class="num">2</td><td class="num">1</td><td class="num"><b>67 %</b></td></tr><tr><td><b>2025H2</b></td><td class="num">24</td><td class="num"><b>10</b></td><td class="num">4</td><td class="num">4</td><td class="num">6</td><td class="num"><b>42 %</b></td></tr><tr><td><b>2026H1</b></td><td class="num">23</td><td class="num"><b>14</b></td><td class="num">1</td><td class="num">3</td><td class="num">5</td><td class="num"><b>61 %</b></td></tr></table></div>
+<div class="note warn"><b>Past v tomto grafu.</b> Zápisky v CRM začínají 21.&nbsp;10.&nbsp;2024.
+Šest konců v 2024H2 má proto slabší pokrytí evidencí než pozdější pololetí — část růstu podílu
+17&nbsp;% → 61&nbsp;% je artefakt rostoucí evidence, ne jen reality. Absolutní počty
+(1 → 8 → 10 → 14) jsou proti tomu odolnější.</div>
+</section>
+
+<section id="s3"><h2>3 · <em>Mechanismy</em> — jak přesně místo pokračuje</h2>
+<div class="scroll"><table>
+<tr><th>Mechanismus</th><th>Míst</th><th>z toho explicitních (A)</th></tr>
+<tr><td><span class="b b-cat"><i class="sg-a"></i>Jiný dodavatel / rámcovka</span></td><td class="num"><b>14</b></td><td class="num">5</td></tr><tr><td><span class="b b-cat"><i class="sg-b"></i>Přechod do interna</span></td><td class="num"><b>7</b></td><td class="num">3</td></tr><tr><td><span class="b b-cat"><i class="sg-c"></i>Kontraktor napřímo / vlastní firma</span></td><td class="num"><b>6</b></td><td class="num">4</td></tr><tr><td><span class="b b-cat"><i class="sg-neutral"></i>Klient hledal náhradu, nástupce neznáme</span></td><td class="num"><b>3</b></td><td class="num">—</td></tr><tr><td><span class="b b-cat"><i class="sg-d"></i>Kontraktor se stal zaměstnancem</span></td><td class="num"><b>1</b></td><td class="num">1</td></tr><tr><td><span class="b b-cat"><i class="sg-open"></i>Jiný kanál financování</span></td><td class="num"><b>1</b></td><td class="num">—</td></tr><tr><td><span class="b b-cat"><i class="sg-coral"></i>Levnější kanál (cenový strop)</span></td><td class="num"><b>1</b></td><td class="num">1</td></tr></table></div>
+
+<h3>Mechanismus po pololetích — dvě různé éry</h3>
+<div class="chart"><div class="crow"><span class="lbl">2024H2</span><span class="bar"><span class="sg sg-a" style="flex:0 0 7.143%" title="Jiný dodavatel / rámcovka: 1"><b>1</b></span></span><span class="tot">1</span></div>
+<div class="crow"><span class="lbl">2025H1</span><span class="bar"><span class="sg sg-a" style="flex:0 0 7.143%" title="Jiný dodavatel / rámcovka: 1"><b>1</b></span><span class="sg sg-b" style="flex:0 0 21.429%" title="Přechod do interna: 3"><b>3</b></span><span class="sg sg-c" style="flex:0 0 28.571%" title="Kontraktor napřímo / vlastní firma: 4"><b>4</b></span></span><span class="tot">8</span></div>
+<div class="crow"><span class="lbl">2025H2</span><span class="bar"><span class="sg sg-a" style="flex:0 0 42.857%" title="Jiný dodavatel / rámcovka: 6"><b>6</b></span><span class="sg sg-b" style="flex:0 0 7.143%" title="Přechod do interna: 1"><b>1</b></span><span class="sg sg-neutral" style="flex:0 0 14.286%" title="Klient hledal náhradu, nástupce neznáme: 2"><b>2</b></span><span class="sg sg-d" style="flex:0 0 7.143%" title="Kontraktor se stal zaměstnancem: 1"><b>1</b></span></span><span class="tot">10</span></div>
+<div class="crow"><span class="lbl">2026H1</span><span class="bar"><span class="sg sg-a" style="flex:0 0 42.857%" title="Jiný dodavatel / rámcovka: 6"><b>6</b></span><span class="sg sg-b" style="flex:0 0 21.429%" title="Přechod do interna: 3"><b>3</b></span><span class="sg sg-c" style="flex:0 0 14.286%" title="Kontraktor napřímo / vlastní firma: 2"><b>2</b></span><span class="sg sg-neutral" style="flex:0 0 7.143%" title="Klient hledal náhradu, nástupce neznáme: 1"><b>1</b></span><span class="sg sg-open" style="flex:0 0 7.143%" title="Jiný kanál financování: 1"><b>1</b></span><span class="sg sg-coral" style="flex:0 0 7.143%" title="Levnější kanál (cenový strop): 1"><b>1</b></span></span><span class="tot">14</span></div></div>
+<div class="legend"><span class="lg"><i class="sg-a"></i>Jiný dodavatel / rámcovka</span><span class="lg"><i class="sg-b"></i>Přechod do interna</span><span class="lg"><i class="sg-c"></i>Kontraktor napřímo / vlastní firma</span><span class="lg"><i class="sg-neutral"></i>Klient hledal náhradu, nástupce neznáme</span><span class="lg"><i class="sg-d"></i>Kontraktor se stal zaměstnancem</span><span class="lg"><i class="sg-open"></i>Jiný kanál financování</span><span class="lg"><i class="sg-coral"></i>Levnější kanál (cenový strop)</span></div>
+<div class="note"><b>Co se změnilo.</b> 2025H1 tvoří ze čtyř pětin jedna událost — partner si
+vzal celý tým pod jinou firmu, čtyři místa skončila k jednomu dni. Od 2025H2 už převažuje
+<b>jiný dodavatel</b>: rámcovky, tendry, nákup soutěžící na cenu. Smluvní opatření proti přímému
+oslovení řeší včerejší poruchu; dnešní porucha je nákupní proces klienta.</div>
+</section>
+
+<section id="s4"><h2>4 · <em>Kde to bolí</em></h2>
+<div class="grid2">
+<div><h3>Podle délky obsazení</h3>
+<div class="scroll"><table>
+<tr><th>Délka</th><th>Konců</th><th>Bez nás</th><th>%</th><th>S námi</th><th>Zaniklo</th><th>Nejasné</th></tr>
+<tr><td><b>&gt;= 24 m</b></td><td class="num">22</td><td class="num"><b>13</b></td><td class="num">59 %</td><td class="num">2</td><td class="num">2</td><td class="num">5</td></tr><tr><td><b>12-24 m</b></td><td class="num">16</td><td class="num"><b>9</b></td><td class="num">56 %</td><td class="num">3</td><td class="num">3</td><td class="num">1</td></tr><tr><td><b>&lt; 12 m</b></td><td class="num">27</td><td class="num"><b>11</b></td><td class="num">41 %</td><td class="num">2</td><td class="num">6</td><td class="num">8</td></tr></table></div>
+<p class="capline">Čím déle člověk u klienta sedí, tím vyšší je šance, že po jeho odchodu místo
+zůstane — a že ho dostane někdo jiný. Krátká místa umírají s projektem, dlouhá se přesoutěží.</p>
+</div>
+<div><h3>Podle klienta</h3>
+<div class="scroll"><table>
+<tr><th>Klient</th><th>Konců</th><th>Bez nás</th><th>Udrženo</th></tr>
+<tr><td><b>Edwards Lifesciences Czech Republic s.r.o.</b></td><td class="num">17</td><td class="num"><b>10</b></td><td class="num">1</td></tr><tr><td><b>Škoda Auto a.s.</b></td><td class="num">10</td><td class="num"><b>6</b></td><td class="num">2</td></tr><tr><td><b>accompani consulting GmbH</b></td><td class="num">5</td><td class="num"><b>4</b></td><td class="num">—</td></tr><tr><td><b>Infinite Solution a.s.</b></td><td class="num">3</td><td class="num"><b>3</b></td><td class="num">—</td></tr><tr><td><b>Raiffeisenbank a.s.</b></td><td class="num">4</td><td class="num"><b>1</b></td><td class="num">1</td></tr><tr><td><b>Československá obchodní banka, a. s.</b></td><td class="num">2</td><td class="num"><b>1</b></td><td class="num">—</td></tr><tr><td><b>Heureka Group a.s.</b></td><td class="num">2</td><td class="num"><b>1</b></td><td class="num">—</td></tr><tr><td><b>ORLEN Unipetrol RPA s.r.o.</b></td><td class="num">1</td><td class="num"><b>1</b></td><td class="num">—</td></tr><tr><td><b>Qinshift Czechia s.r.o.</b></td><td class="num">1</td><td class="num"><b>1</b></td><td class="num">—</td></tr><tr><td><b>SPORTISIMO s.r.o.</b></td><td class="num">1</td><td class="num"><b>1</b></td><td class="num">—</td></tr><tr><td><b>Allwyn Česko a.s.</b></td><td class="num">1</td><td class="num"><b>1</b></td><td class="num">—</td></tr><tr><td><b>Škoda Transportation a.s.</b></td><td class="num">1</td><td class="num"><b>1</b></td><td class="num">—</td></tr><tr><td><b>VEOLIA ČESKÁ REPUBLIKA, a.s.</b></td><td class="num">1</td><td class="num"><b>1</b></td><td class="num">—</td></tr><tr><td><b>Suntel s.r.o.</b></td><td class="num">1</td><td class="num"><b>1</b></td><td class="num">—</td></tr></table></div>
+<p class="capline">Čtyři účty drží 24 z 33 přeživších míst. Není to trh, jsou to čtyři
+vztahové situace.</p>
+</div>
+</div>
+</section>
+
+<section id="s5"><h2>5 · <em>Doložené</em> místo po místě</h2>
+<p>Sloupec „proč si to myslím" je citace ze zápisku nebo přímý datový důkaz (navazující kontrakt,
+název dealu). Certainty <b>A</b> = výrok o tomto konkrétním místě, <b>B</b> = výrok o účtu nebo
+roli, přiřazení k místu odvozené.</p>
+
+<h3>Doložené explicitně — 14 míst (cert A)</h3>
+<div class="scroll"><table><tr><th>Konec</th><th>Klient</th><th>Kontraktor</th><th>Pozice</th><th>Mechanismus</th><th>Délka</th><th>Cert</th><th>Proč si to myslím</th></tr>
+<tr><td class="num">28.&nbsp;2.&nbsp;2025</td><td><b>Edwards Lifesciences Czech Republic s.r.o.</b></td><td>Maroš Sitko</td><td>SF SNr developer od Enehana</td><td><span class="b b-cat">Jiný dodavatel / rámcovka</span></td><td class="num">122&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">„Petr Kampů z Enehana potvrdil 14.3., že jsou v procesu zalistování jako dodavatel v EDW a Maroš Sítko tak už nebude od 1.3. přes nás.&quot; <span class="src">14.&nbsp;3.&nbsp;2025</span></td></tr>
+<tr><td class="num">31.&nbsp;5.&nbsp;2025</td><td><b>Infinite Solution a.s.</b></td><td>Michal Štrál</td><td>Google Suite team lead pro Veolii</td><td><span class="b b-cat">Kontraktor napřímo / vlastní firma</span></td><td class="num">2601&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">„vypadá, že si chce převzít lidi pod jinou firmu. Slíbil zachovat benefity a péči. To by znamenalo ukončení spolupráce k 31.5.&quot; <span class="src">11.&nbsp;3.&nbsp;2025</span></td></tr>
+<tr><td class="num">31.&nbsp;5.&nbsp;2025</td><td><b>Infinite Solution a.s.</b></td><td>Tomáš Skácel</td><td>Security project manager / consultant</td><td><span class="b b-cat">Kontraktor napřímo / vlastní firma</span></td><td class="num">1629&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">tentýž zápis — čtyři místa u Infinite/VEOLIA končí ke stejnému dni <span class="src">11.&nbsp;3.&nbsp;2025</span></td></tr>
+<tr><td class="num">31.&nbsp;5.&nbsp;2025</td><td><b>Infinite Solution a.s.</b></td><td>Aleš Dlask</td><td>Aleš Dlask do Veolie</td><td><span class="b b-cat">Kontraktor napřímo / vlastní firma</span></td><td class="num">669&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">tentýž zápis — čtyři místa u Infinite/VEOLIA končí ke stejnému dni <span class="src">11.&nbsp;3.&nbsp;2025</span></td></tr>
+<tr><td class="num">30.&nbsp;6.&nbsp;2025</td><td><b>ORLEN Unipetrol RPA s.r.o.</b></td><td>Jiří Folprecht</td><td>IT PM Benzina - mimořádka</td><td><span class="b b-cat">Přechod do interna</span></td><td class="num">1974&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">„prodloužíme do 30.6.25 s tím, že je první na řadě kdo bude nahrazen interním PM až se podaří ho nabrat&quot; <span class="src">4.&nbsp;12.&nbsp;2024</span></td></tr>
+<tr><td class="num">31.&nbsp;7.&nbsp;2025</td><td><b>Edwards Lifesciences Czech Republic s.r.o.</b></td><td>Peter Struckel</td><td>PM Edwards</td><td><span class="b b-cat">Kontraktor se stal zaměstnancem</span></td><td class="num">1974&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">„Peter bude přecházet do interna - ideálně od 1.7.2025 (před chvílí dostal nabídku)&quot; — dnes je Struckel náš klientský kontakt s vlastním týmem <span class="src">17.&nbsp;6.&nbsp;2025</span></td></tr>
+<tr><td class="num">30.&nbsp;11.&nbsp;2025</td><td><b>Škoda Auto a.s.</b></td><td>Nathan Beddows</td><td>Interim UX writer přes EEC</td><td><span class="b b-cat">Jiný dodavatel / rámcovka</span></td><td class="num">1794&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">„oni to musí s námi v rámci VX ukončit a místo přes EEH se ukázalo, že je jenom jedno a protože Nathan tam je déle... tak si vybrali jeho&quot; <span class="src">31.&nbsp;10.&nbsp;2025</span></td></tr>
+<tr><td class="num">30.&nbsp;11.&nbsp;2025</td><td><b>Škoda Auto a.s.</b></td><td>David Creighton</td><td>Copywriter pro Kredbu</td><td><span class="b b-cat">Jiný dodavatel / rámcovka</span></td><td class="num">1357&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">tentýž zápis + „jsou tam dodavatelé jako Trixit a ještě horší s indama a rumunama na technických rolích&quot; <span class="src">31.&nbsp;10.&nbsp;2025</span></td></tr>
+<tr><td class="num">20.&nbsp;1.&nbsp;2026</td><td><b>Heureka Group a.s.</b></td><td>Katarina Regrutová</td><td>PMO Suport role pro H!G</td><td><span class="b b-cat">Přechod do interna</span></td><td class="num">183&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">„Katarina bude stopro končit, Indra končí taky, pozice si obsazují interně&quot; <span class="src">5.&nbsp;12.&nbsp;2025</span></td></tr>
+<tr><td class="num">31.&nbsp;1.&nbsp;2026</td><td><b>SPORTISIMO s.r.o.</b></td><td>Martin Čermák</td><td>PM pro WMS implementaci (náhrada Peláka)</td><td><span class="b b-cat">Jiný dodavatel / rámcovka</span></td><td class="num">517&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">„německo-polský PM ze společnosti Meibach zmůže s polským PSI více... CIO prosadil pro konzultace společnost Devcity&quot; <span class="src">6.&nbsp;2.&nbsp;2026</span></td></tr>
+<tr><td class="num">28.&nbsp;2.&nbsp;2026</td><td><b>Raiffeisenbank a.s.</b></td><td>Matouš Vamberský</td><td>Matouš Vamberský přeprodej do RB</td><td><span class="b b-cat">Kontraktor napřímo / vlastní firma</span></td><td class="num">344&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">„Matouš stále chce svoji firmu - má ji založenou a nyní ji chce prověřit pro EU, aby mohl být dodavatelem projektu&quot; + aktivita „převést Vamberskho do jeho firmy: Maty nebude nadále v RB přes PJM&quot; <span class="src">28.&nbsp;2.&nbsp;2026</span></td></tr>
+<tr><td class="num">31.&nbsp;3.&nbsp;2026</td><td><b>Edwards Lifesciences Czech Republic s.r.o.</b></td><td>Martin Javorský</td><td>Pricing analyst pro EDW (PP)</td><td><span class="b b-cat">Jiný dodavatel / rámcovka</span></td><td class="num">351&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">„They would like to onboard Martin Javorsky into their team. But the overhead from PJM is 10k CZK/month. Another supplier from the market would do it for 5k CZK/month. Business would consider another partner&quot; <span class="src">9.&nbsp;4.&nbsp;2025</span></td></tr>
+<tr><td class="num">31.&nbsp;3.&nbsp;2026</td><td><b>Suntel s.r.o.</b></td><td>Pavel Kvasnička</td><td>PM pro Huawei projekt</td><td><span class="b b-cat">Levnější kanál (cenový strop)</span></td><td class="num">256&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">„potřeboval by se dostat na nižší MD - uvedl 7k. To jsem mu řekl, že je pod nákupku a to neumím&quot;; zvažován i „přechod do interna&quot; <span class="src">4.&nbsp;3.&nbsp;2026</span></td></tr>
+<tr><td class="num">30.&nbsp;6.&nbsp;2026</td><td><b>Československá obchodní banka, a. s.</b></td><td>Martin Horný</td><td>PM na core bankovní systémy - Martin Horný</td><td><span class="b b-cat">Přechod do interna</span></td><td class="num">606&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">„na základě rozhodnutí banky musí pouštět externisty a nahrazovat je interními existujícími zdroji (burza práce)&quot; <span class="src">26.&nbsp;5.&nbsp;2026</span></td></tr>
+</table></div>
+
+<h3>Odvozené z výroku o účtu nebo roli — 19 míst (cert B)</h3>
+<div class="scroll"><table><tr><th>Konec</th><th>Klient</th><th>Kontraktor</th><th>Pozice</th><th>Mechanismus</th><th>Délka</th><th>Cert</th><th>Proč si to myslím</th></tr>
+<tr><td class="num">30.&nbsp;8.&nbsp;2024</td><td><b>accompani consulting GmbH</b></td><td>—</td><td>Integration Expert/Manager</td><td><span class="b b-cat">Jiný dodavatel / rámcovka</span></td><td class="num">152&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">„Solution ownera obsadil Dweight svým člověkem, proto se neozýval. Lead uzavírám.&quot; + „CFS took over finance team in Sandoz... they are looking for possible replacement of Program manager&quot; <span class="src">5.&nbsp;9.&nbsp;2025</span></td></tr>
+<tr><td class="num">30.&nbsp;4.&nbsp;2025</td><td><b>Qinshift Czechia s.r.o.</b></td><td>Vlastimil Rejšek</td><td>Retail BA pro ČS - Vlastík Rejšek</td><td><span class="b b-cat">Přechod do interna</span></td><td class="num">653&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">„řeší si interně, ale centrálně na úrovni skupiny a tam kontakty nemám.&quot; <span class="src">1.&nbsp;9.&nbsp;2025</span></td></tr>
+<tr><td class="num">30.&nbsp;4.&nbsp;2025</td><td><b>Škoda Transportation a.s.</b></td><td>Csaba Kovacs</td><td>PM pro BI - náhrada za Třasáka</td><td><span class="b b-cat">Přechod do interna</span></td><td class="num">160&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">„v BI rolích je důležité najít velmi kvalitní kandidáty a vymyslet dobu na externo a následně přechod do interna&quot; <span class="src">28.&nbsp;11.&nbsp;2024</span></td></tr>
+<tr><td class="num">31.&nbsp;5.&nbsp;2025</td><td><b>VEOLIA ČESKÁ REPUBLIKA, a.s.</b></td><td>Barbora Heřmanská</td><td>Project Support</td><td><span class="b b-cat">Kontraktor napřímo / vlastní firma</span></td><td class="num">2461&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">tentýž mechanismus, konec ke stejnému dni; přiřazení odvozené <span class="src">11.&nbsp;3.&nbsp;2025</span></td></tr>
+<tr><td class="num">10.&nbsp;10.&nbsp;2025</td><td><b>Allwyn Česko a.s.</b></td><td>Petr Smutný</td><td>PM pro Sazku</td><td><span class="b b-cat">Klient hledal náhradu, nástupce neznáme</span></td><td class="num">647&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">„Jak jsou na tom s hledáním náhrady za Pavla Humpolce?&quot; — místo dál existovalo, klient hledal náhradu <span class="src">4.&nbsp;12.&nbsp;2025</span></td></tr>
+<tr><td class="num">30.&nbsp;11.&nbsp;2025</td><td><b>Škoda Auto a.s.</b></td><td>Mária Müllerová</td><td>Grafik pro EEC tým 2020</td><td><span class="b b-cat">Jiný dodavatel / rámcovka</span></td><td class="num">2104&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">Blok ŠA: „nenominovali nás - nebyly jsme cenově OK&quot; + „cenová hladina je někde na 9k... nákup, kde se soutěží na cenu, přetlačit neumíme&quot; <span class="src">3.&nbsp;11.&nbsp;2025</span></td></tr>
+<tr><td class="num">30.&nbsp;11.&nbsp;2025</td><td><b>Škoda Auto a.s.</b></td><td>Aleš Rubáš</td><td>UX lead - náhrada Tomáše Haimanna</td><td><span class="b b-cat">Jiný dodavatel / rámcovka</span></td><td class="num">1217&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">Blok ŠA: vyřazení z VŘ na rámcovku 4.11.2025, role u EEH pokračují pod jinými dodavateli <span class="src">3.&nbsp;11.&nbsp;2025</span></td></tr>
+<tr><td class="num">31.&nbsp;12.&nbsp;2025</td><td><b>Edwards Lifesciences Czech Republic s.r.o.</b></td><td>Daniel Mašek</td><td>Business Data Analyst for HCP Data Management project</td><td><span class="b b-cat">Přechod do interna</span></td><td class="num">121&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">„Daniel Mašek končí ke konci roku - už to ví. Aktuálně direktiva firmy - omezit kontraktory&quot; — práce zůstává, kontraktor ne <span class="src">1.&nbsp;12.&nbsp;2025</span></td></tr>
+<tr><td class="num">31.&nbsp;12.&nbsp;2025</td><td><b>Edwards Lifesciences Czech Republic s.r.o.</b></td><td>Jan Štefan</td><td>Scrum master do Edwards - náhrada za Vláďu Šedivýho</td><td><span class="b b-cat">Klient hledal náhradu, nástupce neznáme</span></td><td class="num">478&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">„Nábor Scrum Mastera v horizontu cca 3 týdnů&quot; — role se obsazovala dál, my ji nedodali <span class="src">16.&nbsp;9.&nbsp;2025</span></td></tr>
+<tr><td class="num">31.&nbsp;12.&nbsp;2025</td><td><b>accompani consulting GmbH</b></td><td>Radek Honeš</td><td>PM pro Sandoz Radek Honeš</td><td><span class="b b-cat">Jiný dodavatel / rámcovka</span></td><td class="num">883&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">„New program - STEP - Sandoz transformation, 5 year program... Accenture CH - top level program management&quot; + „zapojení firmy Accenture&quot; <span class="src">1.&nbsp;10.&nbsp;2025</span></td></tr>
+<tr><td class="num">31.&nbsp;12.&nbsp;2025</td><td><b>Škoda Auto a.s.</b></td><td>Aleš Groma</td><td>APO WApp - tým Kredba</td><td><span class="b b-cat">Jiný dodavatel / rámcovka</span></td><td class="num">944&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">„David je poslední, kdo nám zůstal u Kredby... jsou tam dodavatelé jako Trixit a ještě horší&quot; <span class="src">18.&nbsp;6.&nbsp;2026</span></td></tr>
+<tr><td class="num">31.&nbsp;1.&nbsp;2026</td><td><b>accompani consulting GmbH</b></td><td>Lenka Füzy</td><td>IT PMO lead - Lenka Fuzy</td><td><span class="b b-cat">Jiný dodavatel / rámcovka</span></td><td class="num">760&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">„Lenka is wrapping up the Lift &amp; Shift project... There appears to be project work in Sandoz through 2027&quot; + zapojení Accenture <span class="src">5.&nbsp;9.&nbsp;2025</span></td></tr>
+<tr><td class="num">31.&nbsp;1.&nbsp;2026</td><td><b>accompani consulting GmbH</b></td><td>Kamila Krčmář</td><td>2x PgMO Support/Admin Kamila Krčmář</td><td><span class="b b-cat">Klient hledal náhradu, nástupce neznáme</span></td><td class="num">670&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">„Requests received to extend Camila... through the end of Q1 next year&quot; — prodloužení bylo v plánu a nestalo se <span class="src">24.&nbsp;10.&nbsp;2025</span></td></tr>
+<tr><td class="num">28.&nbsp;2.&nbsp;2026</td><td><b>Edwards Lifesciences Czech Republic s.r.o.</b></td><td>Alexandru Moise</td><td>SF.com Consultant for EDW</td><td><span class="b b-cat">Jiný dodavatel / rámcovka</span></td><td class="num">211&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">„Budou končit: Štefan, Kurila, Moise&quot; + SF role u EDW jde přes Enehano/4rest napřímo + „Nový CIO má pifku na kontraktory&quot; <span class="src">24.&nbsp;10.&nbsp;2025</span></td></tr>
+<tr><td class="num">28.&nbsp;2.&nbsp;2026</td><td><b>Škoda Auto a.s.</b></td><td>Jiří Nahodil</td><td>PM pro EEC3 - rozšíření týmu FO z roku 2018 o 1 FTE</td><td><span class="b b-cat">Jiný dodavatel / rámcovka</span></td><td class="num">2556&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">„je to výběrko přes ŠA portál na rámcovku&quot; + „cenová hladina je někde na 9k... nákup přetlačit neumíme&quot; <span class="src">15.&nbsp;10.&nbsp;2025</span></td></tr>
+<tr><td class="num">31.&nbsp;3.&nbsp;2026</td><td><b>Edwards Lifesciences Czech Republic s.r.o.</b></td><td>Roman Sipták</td><td>PowerBI developer pro EDW</td><td><span class="b b-cat">Jiný kanál financování</span></td><td class="num">295&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">„Sipták - budou hledat financování přímo z businessu&quot; — role zůstává, mění se kanál financování <span class="src">24.&nbsp;10.&nbsp;2025</span></td></tr>
+<tr><td class="num">31.&nbsp;3.&nbsp;2026</td><td><b>Edwards Lifesciences Czech Republic s.r.o.</b></td><td>FLO Group - Lenka Kurzveilová</td><td>Informatica Developer pro EDW</td><td><span class="b b-cat">Přechod do interna</span></td><td class="num">454&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">„Lenka Kurzveilová - max. Q1 26&quot; + „Otevřeli innovation hub v Pune (India)... Bude to mít dopad na IT externí role&quot; <span class="src">13.&nbsp;2.&nbsp;2026</span></td></tr>
+<tr><td class="num">31.&nbsp;3.&nbsp;2026</td><td><b>Edwards Lifesciences Czech Republic s.r.o.</b></td><td>Mário Kurila</td><td>SF.com architekt pro EDW</td><td><span class="b b-cat">Jiný dodavatel / rámcovka</span></td><td class="num">295&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">„Kurila, Kurzveilová, Moise - konec Q1&quot;; SF kompetenci u EDW dodává Enehano/4rest digital napřímo <span class="src">13.&nbsp;2.&nbsp;2026</span></td></tr>
+<tr><td class="num">30.&nbsp;4.&nbsp;2026</td><td><b>Edwards Lifesciences Czech Republic s.r.o.</b></td><td>Jana Ferenczová</td><td>SF developer pro EDW</td><td><span class="b b-cat">Kontraktor napřímo / vlastní firma</span></td><td class="num">388&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">„Jana Ferenczová asi bude napřímo&quot; <span class="src">24.&nbsp;10.&nbsp;2025</span></td></tr>
+</table></div>
+</section>
+
+<section id="s6"><h2>6 · Co jsme <em>udrželi</em> — a čím se to liší</h2>
+<p>7 míst po konci obsazení nepřešlo jinam, protože jsme kontinuitu zajistili sami.
+Tohle je důležitější než seznam ztrát, protože ukazuje, co funguje.</p>
+<div class="scroll"><table><tr><th>Konec</th><th>Klient</th><th>Kontraktor</th><th>Pozice</th><th>Mechanismus</th><th>Délka</th><th>Cert</th><th>Proč si to myslím</th></tr>
+<tr><td class="num">7.&nbsp;11.&nbsp;2024</td><td><b>Kooperativa pojišťovna, a.s., Vienna Insurance Group</b></td><td>—</td><td>PM pro VIG rollout - Michaela Jelínková</td><td><span class="b b-cat">refill_nas</span></td><td class="num">190&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">„Pro Míšu tam prostor nemá, ale rozpočet schválen má a rád by využil Jirku od 02/2025 na 25-50 % kapacity&quot; — Jiří Blažek na „PM pro VIG rollout&quot; sedí dodnes <span class="src">4.&nbsp;12.&nbsp;2024</span></td></tr>
+<tr><td class="num">6.&nbsp;6.&nbsp;2025</td><td><b>Škoda Auto a.s.</b></td><td>Tomáš Trejdl</td><td>UX DSG - HMI - nahrada Emil</td><td><span class="b b-cat">refill_nas</span></td><td class="num">634&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">Robert Poláček nastoupil na „UX DSG Škoda Auto_náhrada Tom Trejdl&quot; 2.6.2025, sedí dodnes <span class="src">2.&nbsp;6.&nbsp;2025</span></td></tr>
+<tr><td class="num">31.&nbsp;7.&nbsp;2025</td><td><b>MAKRO Cash &amp; Carry ČR s.r.o.</b></td><td>Zuzana Melinová</td><td>Medior PM - Zuzana Melinová</td><td><span class="b b-cat">refill_nas</span></td><td class="num">396&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">„Zuzka nám dá během května 2025 výpověď&quot;, „Vráťa potřebuje asap náhradu&quot; — Ondřej Konečný nastoupil 16.6.2025, sedí <span class="src">24.&nbsp;4.&nbsp;2025</span></td></tr>
+<tr><td class="num">19.&nbsp;12.&nbsp;2025</td><td><b>Škoda Auto a.s.</b></td><td>Daniel Korous</td><td>UX DSG - HMI - Daniel Korous</td><td><span class="b b-cat">refill_nas</span></td><td class="num">749&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">„Dan Korous končí... chce odjet do Austrálie... radostně hledáme náhradu&quot; — Tomáš Kňaze na „UXD - náhrada za Dana Korouse&quot; od 16.2.2026 <span class="src">13.&nbsp;10.&nbsp;2025</span></td></tr>
+<tr><td class="num">31.&nbsp;12.&nbsp;2025</td><td><b>Edwards Lifesciences Czech Republic s.r.o.</b></td><td>Olga Gabulová</td><td>Talent Aquisition Consultant - přeprodej</td><td><span class="b b-cat">refill_nas</span></td><td class="num">695&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">Nový kontrakt „HR Consultant pro EDW&quot; od 2.2.2026 se stejnou osobou, sedí <span class="src">2.&nbsp;2.&nbsp;2026</span></td></tr>
+<tr><td class="num">31.&nbsp;12.&nbsp;2025</td><td><b>Česká spořitelna, a.s.</b></td><td>Miloslav Kóča</td><td>Servis level manager - Miloslav Koča</td><td><span class="b b-cat">refill_nas</span></td><td class="num">974&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">„Michal má zájem na nahrazení kapacity... závazek na 6 měsíců&quot;, „Stejná sazba, jako měl Milo&quot; — Jan Kovář „SLM ServiceNow - náhrada za Mila&quot; od 15.12.2025 <span class="src">21.&nbsp;11.&nbsp;2025</span></td></tr>
+<tr><td class="num">28.&nbsp;2.&nbsp;2026</td><td><b>Raiffeisenbank a.s.</b></td><td>Martin Modl</td><td>Senior Analyst pro security projekty (Martin Modl)</td><td><span class="b b-cat">refill_nas</span></td><td class="num">150&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">Security portfolio v RB běží dál s našimi lidmi (Čapek, Šefčík); „anna by o Martinovi uvažovala na další projekty&quot; <span class="src">3.&nbsp;12.&nbsp;2025</span></td></tr>
+</table></div>
+<div class="note"><b>Společný jmenovatel všech 7:</b> o konci jsme věděli
+<b>s předstihem</b> a náhrada se řešila <b>před</b> koncem, ne po něm — Korous ohlásil odchod dva
+měsíce dopředu, Poláček nastoupil čtyři dny před koncem Trejdla, Kovář měsíc před koncem Kóči
+a se závazkem klienta na šest měsíců. U ztracených míst je první zmínka o osudu místa typicky až
+v den konce nebo po něm. <b>Rozdíl není v kvalitě dodávky, je v předstihu.</b></div>
+</section>
+
+<section id="s7"><h2>7 · Zbytek knihy</h2>
+<h3>Skutečně zaniklá místa — 11</h3>
+<div class="scroll"><table><tr><th>Konec</th><th>Klient</th><th>Kontraktor</th><th>Pozice</th><th>Mechanismus</th><th>Délka</th><th>Cert</th><th>Proč si to myslím</th></tr>
+<tr><td class="num">31.&nbsp;12.&nbsp;2024</td><td><b>European Housing Services s.r.o.</b></td><td>Luboš Jilich</td><td>PM pro EHS - automatické vypořádání realitních transakcí</td><td><span class="b b-cat">konec_projektu</span></td><td class="num">296&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">„hlavní odběratel (MM Reality) jim vypadl - proto se v projektu aktuálně nebude pokračovat&quot; <span class="src">15.&nbsp;12.&nbsp;2024</span></td></tr>
+<tr><td class="num">31.&nbsp;12.&nbsp;2024</td><td><b>UNIQA pojištovna, a.s.</b></td><td>—</td><td>Senior PM pro migrační projekt a nový vývoj</td><td><span class="b b-cat">skrt_budgetu</span></td><td class="num">125&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">„seškrtání projektů na rok 2025... musí snížit počet interních PM a logicky proto musí externisté jako první ven&quot; <span class="src">29.&nbsp;11.&nbsp;2024</span></td></tr>
+<tr><td class="num">30.&nbsp;6.&nbsp;2025</td><td><b>Edwards Lifesciences Czech Republic s.r.o.</b></td><td>Petr Holec</td><td>Senior PM pro novou entitu</td><td><span class="b b-cat">konec_projektu</span></td><td class="num">455&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">„Petr byl v EDW formálně 4-12/2024 - aby pomohl se spin-off. Prodej proběhl&quot; + „slíbil jsem off-boarding Petra Holce&quot; <span class="src">26.&nbsp;6.&nbsp;2025</span></td></tr>
+<tr><td class="num">30.&nbsp;6.&nbsp;2025</td><td><b>Škoda X s.r.o.</b></td><td>Veronika Šmídová</td><td>Konzultanti pro Tomáše Dražil - Veronika Šmídová</td><td><span class="b b-cat">konec_projektu</span></td><td class="num">454&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">„Dražil oznámil, že v druhé půlce roku nebude počítat s Verčou ani na 0,5 FTE... nemá pro ní práci&quot; <span class="src">13.&nbsp;5.&nbsp;2025</span></td></tr>
+<tr><td class="num">31.&nbsp;7.&nbsp;2025</td><td><b>accompani consulting GmbH</b></td><td>Zdeněk Svatý</td><td>Project Manager - P&amp;O Infrastructure - Zdeněk Svatý</td><td><span class="b b-cat">skrt_budgetu</span></td><td class="num">542&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">„The project budget is available but officially ends at the end of April... Post-budget changes are unlikely&quot; <span class="src">11.&nbsp;4.&nbsp;2025</span></td></tr>
+<tr><td class="num">30.&nbsp;9.&nbsp;2025</td><td><b>AGEL a.s.</b></td><td>Lukáš Lutter</td><td>PM pre implementaciu Čipove karty</td><td><span class="b b-cat">konec_projektu</span></td><td class="num">148&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">Projektově vymezené zadání (implementace čipových karet, budget 100 tis. EUR)</td></tr>
+<tr><td class="num">30.&nbsp;9.&nbsp;2025</td><td><b>Kooperativa pojišťovna, a.s., Vienna Insurance Group</b></td><td>Dean da Lanca</td><td>PM experienced in IT Configuration &amp; IT Asset Management &amp; ServiceNow</td><td><span class="b b-cat">konec_projektu</span></td><td class="num">91&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">„Doplnění kapacity Jirky - Andrea ho chce celého. Takže 0,5-1 FTE pro Luboše&quot; — krátkodobé dorovnání, 91 dní <span class="src">5.&nbsp;5.&nbsp;2025</span></td></tr>
+<tr><td class="num">31.&nbsp;12.&nbsp;2025</td><td><b>Heureka Group a.s.</b></td><td>Lukáš Kroupa</td><td>PM pro Heureku na 6M</td><td><span class="b b-cat">konec_projektu</span></td><td class="num">209&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">Zadání „PM pro Heureku na 6M&quot; — pevně vymezená šestiměsíční potřeba</td></tr>
+<tr><td class="num">28.&nbsp;2.&nbsp;2026</td><td><b>Edwards Lifesciences Czech Republic s.r.o.</b></td><td>Pavel Plachký</td><td>Marketo konzultant</td><td><span class="b b-cat">kontraktor_odesel</span></td><td class="num">3207&nbsp;d</td><td><span class="b b-2">B</span></td><td class="ev">„domluvil se s Pavlem Plachkým na ukončení spolupráce... Pavel dal najevo, že se chce více věnovat Marketu - v EDW pro to nemá úplně prostor&quot; <span class="src">11.&nbsp;12.&nbsp;2024</span></td></tr>
+<tr><td class="num">15.&nbsp;5.&nbsp;2026</td><td><b>Algotech, a.s.</b></td><td>Kateřina Kocourová</td><td>PM implementace JD Edwards</td><td><span class="b b-cat">konec_projektu</span></td><td class="num">1536&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">„Katka spouští projekt 1.4., pak bude hypercare a pak přejde do servisu&quot; <span class="src">17.&nbsp;2.&nbsp;2026</span></td></tr>
+<tr><td class="num">23.&nbsp;6.&nbsp;2026</td><td><b>CME MEDIA ENTERPRISES B.V.</b></td><td>Petr Piacsek</td><td>Senior ERP PM</td><td><span class="b b-cat">konec_projektu</span></td><td class="num">344&nbsp;d</td><td><span class="b b-1">A</span></td><td class="ev">„Milan si nemyslí, že by CME do Novy nakonec Dynamics implementovala... a PM tedy potřebovat nebudou&quot; + „Molnár chce zastavit zběsilé projekty. Aktuálně nebude potřebovat Petra Piacseka&quot; <span class="src">29.&nbsp;10.&nbsp;2025</span></td></tr>
+</table></div>
+
+<h3>Bez evidence — 14</h3>
+<p>K osudu těchto míst není v CRM nic. Je to zrcadlová hodnota k 14&nbsp;% proher bez vysvětlení
+(H-37) a k 20&nbsp;% konců bez evidence v censu odtoku (H-82): odtok se nikde nezapisuje, protože
+na něj není pole.</p>
+<div class="scroll"><table><tr><th>Konec</th><th>Klient</th><th>Kontraktor</th><th>Pozice</th><th>Mechanismus</th><th>Délka</th><th>Cert</th><th>Proč si to myslím</th></tr>
+<tr><td class="num">30.&nbsp;7.&nbsp;2024</td><td><b>CTP Invest, spol. s r.o.</b></td><td>—</td><td>PM Lada Jakubicka</td><td><span class="b b-cat">zadna_evidence</span></td><td class="num">105&nbsp;d</td><td><span class="b b-2">C</span></td><td class="ev">105denní obsazení, k datu konce v CRM nic</td></tr>
+<tr><td class="num">30.&nbsp;12.&nbsp;2024</td><td><b>Škoda Auto a.s.</b></td><td>—</td><td>Lukáš Šaněk pro Tomáše Dražil</td><td><span class="b b-cat">zadna_evidence</span></td><td class="num">273&nbsp;d</td><td><span class="b b-2">C</span></td><td class="ev">Škodovácký kontext rámcovky, k tomuto místu nic konkrétního</td></tr>
+<tr><td class="num">9.&nbsp;5.&nbsp;2025</td><td><b>Ernst &amp; Young, s.r.o.</b></td><td>Petr Piacsek</td><td>IT PM pro Asahi</td><td><span class="b b-cat">zadna_evidence</span></td><td class="num">606&nbsp;d</td><td><span class="b b-2">C</span></td><td class="ev">606denní obsazení u EY; k datu konce nic, účet vychladl</td></tr>
+<tr><td class="num">31.&nbsp;7.&nbsp;2025</td><td><b>Československá obchodní banka, a. s.</b></td><td>Jiří Drbohlav</td><td>ČSOB  Seniorní projektový manažer pro Transformation office</td><td><span class="b b-cat">zadna_evidence</span></td><td class="num">178&nbsp;d</td><td><span class="b b-2">C</span></td><td class="ev">„Ještě interně nerozhodli&quot; — k důvodu konce nic</td></tr>
+<tr><td class="num">22.&nbsp;10.&nbsp;2025</td><td><b>Revolgy Business Solutions a.s.</b></td><td>Petr Piacsek</td><td>PM pro Cloud AI Platform implementation</td><td><span class="b b-cat">zadna_evidence</span></td><td class="num">12&nbsp;d</td><td><span class="b b-2">C</span></td><td class="ev">12denní obsazení za 23 tis., 0,2 FTE; v zápiscích nic</td></tr>
+<tr><td class="num">30.&nbsp;11.&nbsp;2025</td><td><b>Raiffeisenbank a.s.</b></td><td>Jiří Drbohlav</td><td>PM pro BankID</td><td><span class="b b-cat">zmena_vedeni</span></td><td class="num">1658&nbsp;d</td><td><span class="b b-2">C</span></td><td class="ev">„Gábina skončila okamžitě v RB&quot; — odchod sponzorky; k osudu místa nic <span class="src">21.&nbsp;7.&nbsp;2025</span></td></tr>
+<tr><td class="num">15.&nbsp;12.&nbsp;2025</td><td><b>O2 Czech Republic a.s.</b></td><td>Vít Hradečný</td><td>BA pro ART team O2</td><td><span class="b b-cat">zadna_evidence</span></td><td class="num">287&nbsp;d</td><td><span class="b b-2">C</span></td><td class="ev">„Vybrali Vítka pro roli BA do ART týmu na 1 rok +&quot; — skončilo po 9,5 měsíci, důvod nikde <span class="src">21.&nbsp;2.&nbsp;2025</span></td></tr>
+<tr><td class="num">31.&nbsp;12.&nbsp;2025</td><td><b>Edwards Lifesciences Czech Republic s.r.o.</b></td><td>Jan Pivovarník</td><td>Data Analyst, App developer (Pivovarník)</td><td><span class="b b-cat">zadna_evidence</span></td><td class="num">107&nbsp;d</td><td><span class="b b-2">C</span></td><td class="ev">„Jan Pivovarnik - Q1 2026 OK - new PO&quot; — prodloužení plánováno, místo skončilo 31.12. <span class="src">19.&nbsp;11.&nbsp;2025</span></td></tr>
+<tr><td class="num">31.&nbsp;12.&nbsp;2025</td><td><b>Edwards Lifesciences Czech Republic s.r.o.</b></td><td>Martin Sakáč</td><td>Process manager pro Edwards</td><td><span class="b b-cat">tlak_na_internalizaci</span></td><td class="num">1325&nbsp;d</td><td><span class="b b-2">C</span></td><td class="ev">„velký tlak na cost = internalizaci&quot; — k tomuto místu nic konkrétního <span class="src">15.&nbsp;12.&nbsp;2025</span></td></tr>
+<tr><td class="num">28.&nbsp;2.&nbsp;2026</td><td><b>Edwards Lifesciences Czech Republic s.r.o.</b></td><td>Vašek David</td><td>Procurement assistent - dočasný přeprodej - David Vašek</td><td><span class="b b-cat">zadna_evidence</span></td><td class="num">985&nbsp;d</td><td><span class="b b-2">C</span></td><td class="ev">Přeprodejní konstrukce, k datu konce nic; obdobná role (Wittichová) u nás pokračuje</td></tr>
+<tr><td class="num">28.&nbsp;2.&nbsp;2026</td><td><b>Raiffeisenbank a.s.</b></td><td>Tomáš Rossi</td><td>Rossi zpět do Raifky PART TIME</td><td><span class="b b-cat">zadna_evidence</span></td><td class="num">1003&nbsp;d</td><td><span class="b b-2">C</span></td><td class="ev">Konec dle plánu; na účtu zvlášť doloženo obcházení („Každopádně nás vynechali, dohodli si to napřímo&quot;) <span class="src">8.&nbsp;12.&nbsp;2025</span></td></tr>
+<tr><td class="num">31.&nbsp;3.&nbsp;2026</td><td><b>Edwards Lifesciences Czech Republic s.r.o.</b></td><td>Monika Feigler</td><td>Streamlit Developer Junior/Medior for Edwards</td><td><span class="b b-cat">zadna_evidence</span></td><td class="num">162&nbsp;d</td><td><span class="b b-2">C</span></td><td class="ev">„Monika Feigler - existing PO - to be ended (12/2026)&quot; — plánováno do 12/2026, skončilo 3/2026 <span class="src">19.&nbsp;11.&nbsp;2025</span></td></tr>
+<tr><td class="num">30.&nbsp;6.&nbsp;2026</td><td><b>Kooperativa pojišťovna, a.s., Vienna Insurance Group</b></td><td>Denis Korchun</td><td>Delivery manager na AI projekty</td><td><span class="b b-cat">zadna_evidence</span></td><td class="num">134&nbsp;d</td><td><span class="b b-2">C</span></td><td class="ev">Zadání „od února na cca 12 měsíců s možností přechodu do interna&quot;, skončilo po 134 dnech</td></tr>
+<tr><td class="num">30.&nbsp;6.&nbsp;2026</td><td><b>Škoda Auto a.s.</b></td><td>Martin Hutník</td><td>UX ENG - náhrada Jan Horák</td><td><span class="b b-cat">zmenseni_scope</span></td><td class="num">1218&nbsp;d</td><td><span class="b b-2">C</span></td><td class="ev">„Jsme jedním ze 4 dodavatelů, u kterých se žádá o prodloužení bez VŘ. Hlavní argument: meziroční zmenšení scope na 7 FTE&quot; <span class="src">16.&nbsp;7.&nbsp;2026</span></td></tr>
+</table></div>
+</section>
+
+<section id="s8"><h2>8 · Metodika a <em>datové pasti</em></h2>
+<h3>Gate</h3>
+<div class="scroll"><table>
+<tr><th>Kontrola</th><th>Hodnota</th><th>Očekáváno</th></tr>
+<tr><td>Skončených obsazení v okně</td><td class="num"><b>65</b></td><td class="num">—</td></tr>
+<tr><td>Nezakódovaných</td><td class="num"><b>0</b></td><td class="num">0</td></tr>
+<tr><td>Kódů bez odpovídajícího konce</td><td class="num"><b>0</b></td><td class="num">0</td></tr>
+<tr><td>Tvrzení bez citace</td><td class="num"><b>0</b></td><td class="num">0</td></tr>
+</table></div>
+
+<h3>Pasti, se kterými se musí počítat</h3>
+<div class="cards">
+<div class="card"><div class="cno">Past 01</div><h5>Jeden průchod, jeden kodér</h5>
+<p>19 z 33 přeživších míst má cert&nbsp;B — jsou odvozená z výroku o účtu nebo roli, ne
+o konkrétním místě. Stejný caveat jako u <b>H-38</b>.</p></div>
+<div class="card"><div class="cno">Past 02</div><h5>Škoda Auto 2025H2 je jeden blok</h5>
+<p>Čtyři místa končí 30.&nbsp;11.&nbsp;2025 a všechna se opírají o tutéž událost — vyřazení z VŘ
+na rámcovku 4.&nbsp;11.&nbsp;2025. Může to být správně i nadhodnoceně.</p></div>
+<div class="card"><div class="cno">Past 03</div><h5>V reportu nejsou peníze</h5>
+<p>Pole <code>margin_czk_equiv</code> u dlouhých obsazení nesedí na celý span (3&nbsp;207&nbsp;dní
+/ 150&nbsp;tis.&nbsp;Kč), takže anualizovaná marže by byla vymyšlená. Jednotkou je
+<b>místo</b>, ne koruna.</p></div>
+<div class="card"><div class="cno">Past 04</div><h5>„FTE" tady znamená „místo"</h5>
+<p><code>fte</code> je v <code>cc_placement</code> konstantní 1,0 — proxy, ne reálná alokace.</p></div>
+<div class="card"><div class="cno">Past 05</div><h5>Evidence začíná 21.&nbsp;10.&nbsp;2024</h5>
+<p>Konce z 2024H2 mají slabší pokrytí. Podíly v čase čti opatrně, absolutní počty jsou odolnější.</p></div>
+<div class="card"><div class="cno">Past 06</div><h5>Nejasné ≠ zaniklé</h5>
+<p>14 míst je bez evidence. Znamená to, že v CRM nic není — ne že tam nic nebylo.</p></div>
+</div>
+
+<h3>Reprodukovatelnost</h3>
+<div class="scroll"><table>
+<tr><th>Soubor</th><th>Co dělá</th></tr>
+<tr><td><code>config/seat_survival_coding.csv</code></td><td>65 řádků: stav / mechanismus / certainty / citace / datum citace</td></tr>
+<tr><td><code>analysis/seat_survival_views.sql</code></td><td><code>ss_seat</code>, <code>ss_coverage</code>, <code>ss_agg</code>, <code>ss_mechanismus</code>, <code>ss_half</code>, <code>ss_half_mechanismus</code>, <code>ss_org</code>, <code>ss_product</code>, <code>ss_by_span</code>, <code>ss_expozice</code></td></tr>
+<tr><td><code>analysis/seat_survival_report.py</code></td><td>Generátor tohoto HTML</td></tr>
+</table></div>
+</section>
+
+</div>
+
+<footer>
+  <span>Projectman · PM Comp · Propositions — přeživší místa · interní materiál</span>
+  <span>Extrakt 2026-08-16 · <a href="https://www.projectman.cz">www.projectman.cz</a></span>
+</footer>
+
+<script>document.querySelector(".logo-grid").innerHTML = "<i></i>".repeat(30);</script>
+</body>
+</html>

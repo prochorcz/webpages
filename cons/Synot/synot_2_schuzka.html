@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Synot × Projectman — 2. schůzka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red:#FF525F;--blue:#A9C5DF;--white:#fff;--surf:#f4f7fa;--body:#626567;
+    --muted:#9aa3b0;--dark:#1a1a1a;--dark2:#242424;--line:#e6eaf0;
+    --font:'Poppins',system-ui,sans-serif;--radius:8px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font);color:var(--body);background:var(--surf);line-height:1.55;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4{color:var(--dark);font-weight:600;line-height:1.2}
+  strong{color:var(--dark);font-weight:600}
+  a{color:var(--red);text-decoration:none}
+
+  .dots{display:grid;grid-template-columns:repeat(9,6px);grid-auto-rows:6px;gap:9px}
+  .dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.28);display:block}
+  .wrap{max-width:940px;margin:0 auto;padding:0 24px}
+
+  header.hero{background:var(--dark);color:#fff;padding:44px 0 40px;position:relative;overflow:hidden}
+  .hero .emblem{position:absolute;top:-70px;right:-60px;width:280px;height:280px;opacity:.9}
+  .brandrow{display:flex;align-items:center;gap:16px;margin-bottom:34px}
+  .wordmark{font-weight:600;font-size:26px;letter-spacing:.2px;color:#fff;line-height:1}
+  .wordmark small{display:block;font-weight:400;font-size:10px;letter-spacing:3px;color:var(--blue);text-transform:lowercase;margin-top:3px}
+  .eyebrow{color:var(--blue);font-size:12px;letter-spacing:3px;text-transform:uppercase;font-weight:500;margin-bottom:14px}
+  header.hero h1{color:#fff;font-size:38px;max-width:720px}
+  header.hero h1 em{color:var(--red);font-style:normal}
+  .herometa{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .chip{border:1px solid rgba(255,255,255,.22);border-radius:100px;padding:7px 15px;font-size:13px;color:#e9edf2}
+  .chip b{color:#fff}
+  .goalbar{margin-top:26px;background:var(--dark2);border-left:3px solid var(--red);border-radius:var(--radius);padding:16px 20px}
+  .goalbar p{color:#d7dde4;font-size:14.5px}
+  .goalbar b{color:#fff}
+
+  main{padding:52px 0 70px}
+  section.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;scroll-margin-top:20px}
+  .head{display:flex;align-items:center;gap:16px;padding:20px 22px;cursor:pointer;user-select:none;list-style:none}
+  .head::-webkit-details-marker{display:none}
+  .idx{width:34px;height:34px;flex:0 0 34px;border-radius:8px;background:var(--surf);color:var(--red);font-weight:600;display:flex;align-items:center;justify-content:center;font-size:15px}
+  .htext{flex:1}.htext h2{font-size:18px}.htext .sub{font-size:13px;color:var(--muted);margin-top:2px}
+  .badge{font-size:11px;color:var(--body);background:var(--surf);border:1px solid var(--line);border-radius:100px;padding:4px 11px;white-space:nowrap}
+  .chev{width:20px;height:20px;flex:0 0 20px;transition:.25s;color:var(--muted)}
+  details[open] .chev{transform:rotate(180deg)}
+  .body{padding:4px 22px 24px;border-top:1px solid var(--line)}
+  .body.pad0{padding-top:22px}
+  p.lead{font-size:14.5px;margin-bottom:14px}
+
+  /* agenda flow */
+  ol.flow{list-style:none;counter-reset:f;display:flex;flex-direction:column;gap:2px}
+  ol.flow li{counter-increment:f;display:flex;gap:14px;align-items:baseline;padding:12px 4px;border-bottom:1px solid var(--line)}
+  ol.flow li:last-child{border-bottom:none}
+  ol.flow li::before{content:counter(f);color:var(--red);font-weight:600;font-size:13px;min-width:18px}
+  ol.flow .l{flex:1;font-size:14px;color:var(--dark);font-weight:500}
+  ol.flow .l small{display:block;font-weight:400;color:var(--muted);font-size:12px;margin-top:1px}
+  ol.flow .t{color:var(--muted);font-size:12px;white-space:nowrap}
+
+  /* how-we-do-it grid */
+  .kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:8px}
+  .kv .box{border:1px solid var(--line);border-radius:var(--radius);padding:15px 16px}
+  .kv .box h4{font-size:14px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+  .kv .box h4 .d{width:8px;height:8px;border-radius:50%;background:var(--red);flex:0 0 8px}
+  .kv .box h4 .d.b{background:var(--blue)}
+  .kv .box ul{margin:6px 0 0;padding-left:16px;font-size:12.5px}.kv .box li{margin-bottom:4px}
+
+  .levels{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+  .levels .lv{flex:1;min-width:150px;border:1px solid var(--line);border-radius:var(--radius);padding:11px 13px}
+  .levels .lv b{display:block;font-size:12.5px;color:var(--dark);margin-bottom:2px}
+  .levels .lv span{font-size:11.5px;color:var(--body)}
+  .levels .lv.on{border-color:var(--red);background:rgba(255,82,95,.05)}
+
+  /* proof stats */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:6px 0 4px}
+  .stat{background:var(--surf);border-radius:var(--radius);padding:14px 15px;border-left:3px solid var(--blue)}
+  .stat .n{font-size:22px;font-weight:600;color:var(--dark);line-height:1}
+  .stat .c{font-size:12px;color:var(--body);margin-top:5px}
+
+  /* expert opinion callout */
+  .expert{display:flex;gap:12px;background:#20262c;color:#e7ecf1;border-radius:var(--radius);padding:14px 16px;margin:12px 0;font-size:13.5px}
+  .expert .who{flex:0 0 auto;font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--blue);font-weight:600;writing-mode:vertical-rl;transform:rotate(180deg)}
+  .expert p{margin:0}.expert b{color:#fff}
+
+  /* important callouts */
+  .imp{border:1px solid var(--red);border-radius:var(--radius);margin:16px 0;overflow:hidden;box-shadow:0 0 0 1px rgba(255,82,95,.15)}
+  .imp .imph{background:var(--red);color:#fff;padding:13px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .imp .imph .rib{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;background:rgba(255,255,255,.22);border-radius:100px;padding:4px 10px}
+  .imp .imph h3{color:#fff;font-size:16px;margin:0}
+  .imp .impb{padding:16px 18px}
+  .imp .why{background:rgba(255,82,95,.06);border-left:3px solid var(--red);border-radius:6px;padding:11px 14px;font-size:13px;color:var(--dark);margin-bottom:14px}
+  .imp .why b{color:var(--red)}
+  .qlabel{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  .qlabel .tag{background:var(--dark);color:#fff;border-radius:5px;padding:3px 9px;letter-spacing:1px}
+  ol.q{list-style:none;counter-reset:q;display:flex;flex-direction:column;gap:9px;margin:0}
+  ol.q li{counter-increment:q;position:relative;padding:11px 14px 11px 42px;background:var(--surf);border-radius:var(--radius);font-size:13.5px;color:var(--dark)}
+  ol.q li::before{content:counter(q);position:absolute;left:12px;top:11px;color:var(--red);font-weight:600;font-size:12px}
+  ol.q li em{font-style:normal;color:var(--red);font-weight:600}
+  .drv{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 12px}
+  .drv span{font-size:12px;border:1px solid var(--line);border-radius:100px;padding:5px 12px;color:var(--body);background:#fff}
+  .drv span b{color:var(--dark)}
+
+  .note{font-size:12.5px;color:var(--muted);background:var(--surf);border-radius:6px;padding:11px 14px;margin-top:14px}
+  .note b{color:var(--body)}
+
+  footer{background:var(--dark);color:#cfd5dc;padding:26px 0;font-size:12px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  footer b{color:#fff}
+  @media print{.head{cursor:default}details:not([open])>.body{display:block}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="emblem" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="120" cy="80" r="62" stroke="#FF525F" stroke-width="10"/>
+    <rect x="96" y="56" width="96" height="96" rx="6" stroke="#A9C5DF" stroke-width="10"/>
+  </svg>
+  <div class="wrap">
+    <div class="brandrow">
+      <div class="dots" aria-hidden="true"><script>for(let i=0;i<36;i++)document.write('<i></i>')</script></div>
+      <div class="wordmark">Projectman<small>connecting experts</small></div>
+    </div>
+    <div class="eyebrow">Podklad · 2. schůzka</div>
+    <h1>Synot × Projectman</h1>
+    <div class="herometa">
+      <span class="chip"><b>S kým:</b> Michal (CEO)</span>
+      <span class="chip"><b>Navazuje na:</b> 17. 7. 2026</span>
+      <span class="chip"><b>Vede:</b> obchod · přisedící expert dle potřeby</span>
+    </div>
+    <div class="goalbar">
+      <p><b>Cíl:</b> dostat se do detailu možné spolupráce, ověřit, že očekávání sedí se zaslaným návrhem, a hlavně <b>vyjasnit hlavní driver a KPI úspěchu</b>.</p>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- 1 · AGENDA -->
+  <section class="card" id="s1">
+    <details open>
+      <summary class="head">
+        <span class="idx">1</span>
+        <span class="htext"><h2>Agenda</h2></span>
+        <span class="badge">≈ 30 min</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </summary>
+      <div class="body">
+        <ol class="flow">
+          <li><span class="l">Krátké napojení na 1. schůzku<small>kde jsme skončili, co se od té doby posunulo na vaší straně</small></span><span class="t">3′</span></li>
+          <li><span class="l">Jak tyto programy děláme &amp; na co se zaměřujeme<small>stručně model + proč tento přístup a proč rozsah 2 MD/týden</small></span><span class="t">5′</span></li>
+          <li><span class="l">Ujasnění potřeby, dopadů a hlavního driveru<small>jádro — co pro nás potřebujeme slyšet (vč. ceny a kadence)</small></span><span class="t">20′</span></li>
+          <li><span class="l">Shrnutí &amp; next step<small>je průsek / není — obojí OK</small></span><span class="t">2′</span></li>
+        </ol>
+      </div>
+    </details>
+  </section>
+
+  <!-- 2 · JAK TO DĚLÁME -->
+  <section class="card" id="s2">
+    <details open>
+      <summary class="head">
+        <span class="idx">2</span>
+        <span class="htext"><h2>Jak tyto programy děláme &amp; na co se zaměřujeme</h2><span class="sub">Stručně — a proč děláme rozsah 2 MD/týden</span></span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </summary>
+      <div class="body">
+        <p class="lead">Neděláme nárazové školení. Jsme <strong>kontinuální change partner („styčný důstojník")</strong>, který adopci táhne, nenechává ji na lidech a každý týden obnovuje konverzaci — sbírá use casy, přináší quick wins a bere týmy za ručičku.</p>
+
+        <div class="kv">
+          <div class="box">
+            <h4><span class="d"></span>Jak to běží</h4>
+            <ul>
+              <li>Ambasadorský tým napříč odděleními, který sbírá use casy a drží backlog</li>
+              <li>Pravidelné sessions &amp; workshopy (teorie → prompting → nástroje/asistenti → týmové scénáře)</li>
+              <li>Quick wins s ROI — „tohle mi ušetří 2 h týdně"</li>
+              <li>Copilot / AI agenti a asistenti do reálné práce (vytěžování, reporty, kontroly)</li>
+              <li>1-1 mentoring vybraných lidí</li>
+              <li>Governance &amp; AI kompetenční centrum — pravidla, vzdělávací plán, škálování</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h4><span class="d b"></span>Na co se zaměřujeme</h4>
+            <ul>
+              <li>Otevřít mindset — „nevíš na co ho použít? Zeptej se ho."</li>
+              <li>Začínat potřebou/problémem, teprve pak volit nástroj</li>
+              <li>Standardizovat a sdílet use casy mezi odděleními</li>
+              <li>Udržet tempo, aby adopce po prvním nadšení <strong>nevyprchala</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <h4 style="font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin:20px 0 8px">Ambice — postupujeme po úrovních</h4>
+        <div class="levels">
+          <div class="lv on"><b>1 · Osobní produktivita</b><span>efektivita a menší chybovost jednotlivce</span></div>
+          <div class="lv on"><b>2 · Cross-týmová</b><span>sdílení nástrojů, agentů a dat, zástupnost</span></div>
+          <div class="lv"><b>3 · Firemní</b><span>automatizované procesy, use casy s ROI</span></div>
+          <div class="lv"><b>4 · Zákazník</b><span>personalizace, predikce, samoobsluha</span></div>
+        </div>
+
+        <h4 style="font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin:22px 0 10px;font-weight:600">Proč tento přístup a proč 2 MD/týden</h4>
+        <p class="lead" style="margin-bottom:12px">Není to náhodné číslo. <strong>Adopce se udrží jen kontinuitou</strong> — 2 dny přítomnosti týdně = weekly heartbeat, který stíhá paralelně vést ambasadory, workshopy, mentoring i governance. Pod tímto tempem se u firmy vaší velikosti (~300 lidí, více oddělení) ztrácí momentum. Vychází to z reálné zkušenosti — nejvíc z <strong>Kooperativy (VIG)</strong>, kde jedeme stejný model:</p>
+
+        <div class="stats">
+          <div class="stat"><div class="n">12+ měs.</div><div class="c">kontinuální běh programu AI adopce v Kooperativě</div></div>
+          <div class="stat"><div class="n">7–8 MD</div><div class="c">měsíčně v aktivních fázích (≈ 2 MD/týden)</div></div>
+          <div class="stat"><div class="n">„AI Avengers"</div><div class="c">ambasadorský tým, sessions à ~2 týdny</div></div>
+          <div class="stat"><div class="n">agenti + KC</div><div class="c">Copilot agenti, mentoring, AI kompetenční centrum</div></div>
+        </div>
+
+        <div class="expert">
+          <span class="who">Přisedící expert</span>
+          <p><b>Kadence:</b> naše zkušenost je, že vůči ~200+ lidem je <b>2× měsíčně málo</b> — adopce se při takovém tempu prostě zastaví. Proto tlačíme týdenní rytmus.<br><br><b>K ceně:</b> kvalitní AI/IT lidi jsou na trhu drazí a těžko k sehnání — běžně je umisťujeme <b>přes 20 tis. za MD</b>. To je naše zboží a odpovídá to hodnotě, kterou odvedou.</p>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- 3 · CO POTŘEBUJEME ZJISTIT -->
+  <section class="card" id="s3">
+    <details open>
+      <summary class="head">
+        <span class="idx">3</span>
+        <span class="htext"><h2>Co dnes potřebujeme zjistit</h2><span class="sub">Jádro schůzky. Kvalifikace: bez těchto odpovědí spolupráci nepostavíme.</span></span>
+        <span class="badge">jádro</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </summary>
+      <div class="body">
+        <p class="lead">Následující body jsou pro nás <strong>rozhodovací</strong>.</p>
+
+        <!-- A -->
+        <div class="imp">
+          <div class="imph"><span class="rib">Důležité pro nás</span><h3>A · Ujasnění potřeby</h3></div>
+          <div class="impb">
+            <div class="why"><b>Proč to potřebujeme slyšet:</b> bez ostře pojmenované potřeby neumíme nastavit rozsah ani slíbit dopad. Tohle je pro nás gate — když potřeba není jasná, raději do spolupráce nejdeme, než abychom slibovali mlhu.</div>
+            <ol class="q">
+              <li>Když si představíte, že tahle iniciativa dopadne skvěle — co <em>konkrétně</em> bude jinak než dnes?</li>
+              <li>Co dnes nefunguje tak, jak byste chtěl — je to adopce, use casy, tempo, nebo že to nikdo netáhne?</li>
+              <li>Sedí náš navržený postup ze zaslaného dokumentu s tím, jak si to představujete? Kde je případně rozpor?</li>
+              <li>Kdo uvnitř firmy tuhle potřebu cítí nejsilněji — vy, byznys, konkrétní oddělení?</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- B -->
+        <div class="imp">
+          <div class="imph"><span class="rib">Důležité pro nás</span><h3>B · Dopady, kdyby se s tím nic nedělalo</h3></div>
+          <div class="impb">
+            <div class="why"><b>Proč to potřebujeme slyšet:</b> cena dává smysl jen proti hodnotě, kterou odemyká. Když neznáme cenu nečinnosti, budeme se bavit jen o ceně místo o návratnosti — a to nechceme ani my, ani vy.</div>
+            <ol class="q">
+              <li>Kdyby se příštích 12 měsíců nic nezměnilo — kde to firmu reálně bolí? (ušlá efektivita, náklady, morálka, konkurence)</li>
+              <li>Co se stalo s předchozí vlnou nadšení po workshopech — vyprchalo to? Kolik takový „falešný start" stojí?</li>
+              <li>Jaká je vaše zkušenost — když adopci necháte jen na lidech, dostaví se výsledek?</li>
+              <li>Je tu spouštěč nebo termín, který dělá „nedělat nic" dražším?</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- C -->
+        <div class="imp">
+          <div class="imph"><span class="rib">Nejdůležitější</span><h3>C · Hlavní driver &amp; KPI úspěchu</h3></div>
+          <div class="impb">
+            <div class="why"><b>Proč to potřebujeme slyšet:</b> tohle je <b>nejdůležitější bod celé schůzky</b>. Podle toho, co je vaším hlavním driverem, postavíme úplně jinou spolupráci.</div>
+            <div class="drv">
+              <span><b>1</b> · snížit personální náklady / head count</span>
+              <span><b>2</b> · zvýšit efektivitu — víc práce bez náboru</span>
+              <span><b>3</b> · něco jiného?</span>
+            </div>
+            <ol class="q">
+              <li>Co je pro vás to hlavní „proč"? Je to <em>ušetření staff costu</em>, <em>zvýšení efektivity</em>, nebo něco dalšího?</li>
+              <li>Jaké <em>hlavní KPI</em> úspěchu si představujete — podle čeho za rok poznáte, že to fungovalo?</li>
+              <li>Měří se ten dopad objemem odvedené práce na zaměstnance, ušetřeným časem, nebo počtem lidí?</li>
+              <li>Kdyby šlo naplnit jen jeden z těch cílů — který si vyberete?</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- D -->
+        <div class="imp">
+          <div class="imph"><span class="rib">Důležité pro nás</span><h3>D · Cena, kadence &amp; rozhodování</h3></div>
+          <div class="impb">
+            <div class="why"><b>Proč to potřebujeme slyšet:</b> chceme jasno, jestli je tu reálný průsek, a férově si říct věci kolem ceny a tempa dřív, než do toho půjdeme. O kadenci se pobavíme — ale musí zůstat doručitelná a funkční.</div>
+            <ol class="q">
+              <li>Zaslaná cena — jak na ni koukáte? Je akceptovatelná, nebo je cena hlavním faktorem rozhodnutí? <em>(Jsme podle vás v MD rate drazí?)</em></li>
+              <li>Kdybyste chtěl jinou kadenci, jaká je vaše představa? (Víme, kde to začíná fungovat — tempo doladíme, ať je doručitelné.)</li>
+              <li>Jak u vás vznikne rozhodnutí jít do toho — kdo všechno u něj musí být a do kdy?</li>
+              <li>Kdo bude interní „majitel" spolupráce, se kterým budeme držet tempo?</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </details>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Projectman.cz, s.r.o · <b>Podklad na 2. schůzku Synot × Projectman</b> · interní</span>
+    <span style="cursor:pointer" onclick="window.print()">Vytisknout / uložit jako PDF ↗</span>
+  </div>
+</footer>
+
+</body>
+</html>

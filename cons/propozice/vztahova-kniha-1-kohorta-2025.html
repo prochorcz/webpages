@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kohorta 2025 — Vztahová kniha 2026</title>
+<style>
+@font-face{font-family:Poppins;font-weight:400;font-display:swap;
+  src:url("https://www.projectman.cz/themes/custom/projectman/fonts/Poppins/Poppins-Regular.woff2") format("woff2")}
+@font-face{font-family:Poppins;font-weight:600;font-display:swap;
+  src:url("https://www.projectman.cz/themes/custom/projectman/fonts/Poppins/Poppins-SemiBold.woff2") format("woff2")}
+:root{
+  --pjm-dark:#20272F; --pjm-dark-soft:#3F4A57; --pjm-coral:#FF525F; --pjm-coral-light:#FF7580;
+  --pjm-blue:#A9C5DF; --pjm-blue-dark:#5C7894; --pjm-blue-light:#BAD1E5;
+  --pjm-grey:#878787; --pjm-bg:#F7F7F7; --pjm-bg-alt:#F0F2F5; --pjm-line:#DADADA;
+  --surface:#FFFFFF; --ink:#20272F; --ink-2:#3F4A57; --ink-muted:#878787;
+  --ok-bg:#E8F1E9; --ok-ink:#2C6B45; --warn-bg:#FDF0E3; --warn-ink:#8A5A18;
+  --bad-bg:#FDE9EA; --bad-ink:#A32B36; --row-hl:#FFF6F7;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --surface:#20272F; --ink:#FFFFFF; --ink-2:#C9D2DB; --ink-muted:#8C97A3;
+    --pjm-bg:#171D23; --pjm-bg-alt:#1C242C; --pjm-line:#333D48;
+    --ok-bg:#1D3227; --ok-ink:#8FD3A6; --warn-bg:#33281A; --warn-ink:#E5B673;
+    --bad-bg:#3A1F23; --bad-ink:#F0959D; --row-hl:#2A1F22;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--pjm-bg);color:var(--ink);
+  font:400 15px/1.6 Poppins,Helvetica,Calibri,Arial,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px 80px}
+.hero{position:relative;background:var(--pjm-dark);color:#fff;overflow:hidden}
+.hero-in{max-width:1240px;margin:0 auto;padding:52px 24px 40px;position:relative;z-index:2}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:40px}
+.logo-grid{display:grid;grid-template-columns:repeat(6,3px);gap:2.5px}
+.logo-grid i{width:3px;height:3px;background:var(--pjm-grey);border-radius:50%}
+.logo-wm{font-weight:600;font-size:19px;letter-spacing:-.01em}
+.logo-claim{font-size:9px;color:var(--pjm-grey);letter-spacing:.06em;margin-top:-2px}
+h1{font-weight:400;font-size:38px;line-height:1.16;margin:0 0 2px;color:var(--pjm-coral);max-width:26ch}
+.hero h1 span{display:block;border-bottom:1.5px solid var(--pjm-coral);padding-bottom:7px;margin-bottom:7px}
+.hero-sub{color:#C9D2DB;font-size:14px;max-width:82ch;margin-top:20px}
+.orn{position:absolute;right:-70px;top:-40px;z-index:1;opacity:.85}
+.pill{display:inline-block;font-size:9.5px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.09em;padding:4px 9px;border:1px solid var(--pjm-coral);color:var(--pjm-coral);
+  border-radius:11px;margin-bottom:18px}
+.nav{background:var(--pjm-dark-soft);margin-bottom:32px}
+.nav-in{max-width:1240px;margin:0 auto;padding:0 24px;display:flex;flex-wrap:wrap;gap:2px}
+.nav a{display:block;padding:12px 16px;font-size:12px;font-weight:600;color:#C9D2DB;
+  text-decoration:none;border-bottom:2.5px solid transparent}
+.nav a:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav a.on{color:#fff;border-bottom-color:var(--pjm-coral)}
+.nav a .n{color:var(--pjm-coral);margin-right:7px}
+.nav a.idx{margin-left:auto;color:var(--pjm-grey)}
+section{background:var(--surface);border:1px solid var(--pjm-line);padding:28px 30px 26px;margin-bottom:20px}
+h2{font-weight:600;font-size:21px;margin:0 0 6px;letter-spacing:-.01em}
+h2 em{font-style:normal;color:var(--pjm-coral)}
+h3{font-weight:600;font-size:16.5px;margin:0;letter-spacing:-.005em}
+.q{color:var(--ink-2);font-size:13.5px;margin:0 0 18px;max-width:96ch;
+  border-left:2px solid var(--pjm-blue);padding-left:12px}
+p{max-width:96ch}
+.lede{color:var(--ink-2);font-size:14px;margin:0 0 18px}
+.lede b{color:var(--ink)}
+.tldr{background:var(--pjm-bg-alt);border:none;border-left:3px solid var(--pjm-coral)}
+.tldr ol{margin:6px 0 0;padding-left:22px}
+.tldr li{margin-bottom:11px;font-size:14px;color:var(--ink-2);max-width:94ch}
+.tldr li b{color:var(--ink)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;
+  background:var(--pjm-line);margin:0 0 22px}
+.kpis>div{background:var(--surface);padding:14px 16px}
+.kpis .k{display:block;font-size:26px;font-weight:600;line-height:1.1;letter-spacing:-.02em}
+.kpis .l{display:block;font-size:11px;color:var(--ink-muted);margin-top:4px;line-height:1.4}
+.coral{color:var(--pjm-coral)}
+.tw{overflow-x:auto;margin:0 -30px;padding:0 30px}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th{text-align:left;font-weight:600;font-size:9.5px;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--ink-muted);border-bottom:1.5px solid var(--pjm-line);padding:0 10px 7px 0;
+  vertical-align:bottom;white-space:nowrap}
+td{padding:9px 10px 9px 0;border-bottom:1px solid var(--pjm-line);vertical-align:top;
+  color:var(--ink-2)}
+tbody tr:hover td{background:var(--pjm-bg-alt)}
+tr.hl td{background:var(--row-hl)}
+td.org{font-weight:600;color:var(--ink);min-width:170px}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+td.c,th.c{text-align:center;font-variant-numeric:tabular-nums}
+td.b{font-weight:600;color:var(--ink)}
+td.sm{font-size:11.5px;line-height:1.5}
+.nw{white-space:nowrap}
+.na{color:var(--ink-muted);font-size:11px}
+.neg{color:var(--pjm-coral)}
+.chip{display:inline-block;font-size:10px;font-weight:600;padding:2.5px 8px;border-radius:10px;
+  white-space:nowrap;line-height:1.4}
+.chip.ok{background:var(--ok-bg);color:var(--ok-ink)}
+.chip.warn{background:var(--warn-bg);color:var(--warn-ink)}
+.chip.bad{background:var(--bad-bg);color:var(--bad-ink)}
+.chip.neutral{background:var(--pjm-bg-alt);color:var(--ink-2)}
+.owner{border-top:1px solid var(--pjm-line);padding-top:22px;margin-top:26px}
+.owner-head{display:flex;flex-wrap:wrap;gap:14px 26px;align-items:flex-start;
+  justify-content:space-between;margin-bottom:12px}
+.tag{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;
+  padding:2px 8px;border-radius:9px;margin-left:8px;vertical-align:2px}
+.tag.gone{background:var(--bad-bg);color:var(--bad-ink)}
+.tag.here{background:var(--pjm-blue-light);color:#20272F}
+.owner-kpi{display:flex;gap:22px;flex-wrap:wrap}
+.owner-kpi .k{display:block;font-size:17px;font-weight:600;color:var(--ink);
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.owner-kpi .l{display:block;font-size:10px;color:var(--ink-muted);margin-top:1px}
+.mix{font-size:11.5px;color:var(--ink-muted);margin:0 0 9px}
+.mix b{color:var(--ink-2)}
+.onote{font-size:13px;color:var(--ink-2);margin:0 0 10px;line-height:1.62}
+.onote b{color:var(--ink)}
+.tally{font-size:11px;font-weight:600;color:var(--ink-muted);text-transform:uppercase;
+  letter-spacing:.05em;margin:0 0 12px}
+details{margin-top:14px}
+summary{cursor:pointer;font-size:12px;font-weight:600;color:var(--pjm-coral);
+  padding:7px 0;user-select:none}
+summary:hover{color:var(--pjm-coral-light)}
+.caveat{background:var(--pjm-bg-alt);border-left:3px solid var(--pjm-blue-dark);
+  padding:16px 20px;margin:18px 0 0;font-size:12.5px;color:var(--ink-2);line-height:1.62}
+.caveat b{color:var(--ink)}
+.caveat ul{margin:8px 0 0;padding-left:20px}
+.caveat li{margin-bottom:7px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;
+  background:var(--pjm-bg-alt);padding:1px 5px;border-radius:3px}
+footer{background:var(--pjm-dark);color:#fff;margin-top:34px}
+.foot-in{max-width:1240px;margin:0 auto;padding:26px 24px;display:flex;
+  justify-content:space-between;align-items:center;font-size:12px;flex-wrap:wrap;gap:8px}
+.foot-in a{color:#fff;text-decoration:none}
+.foot-in .v{color:var(--pjm-coral);font-weight:600}
+@media (max-width:720px){
+  h1{font-size:28px} .hero-in{padding:38px 20px 30px}
+  section{padding:22px 18px} .tw{margin:0 -18px;padding:0 18px}
+  .wrap{padding:0 18px 60px} .nav-in{padding:0 18px} .nav a.idx{margin-left:0}
+}
+
+/* ---- přepínače ---- */
+.ctrl{display:flex;flex-wrap:wrap;gap:22px 34px;padding:16px 18px;margin:0 0 22px;
+  background:var(--pjm-bg-alt);border-left:3px solid var(--pjm-blue-dark)}
+.ctrl-g{display:flex;flex-direction:column;gap:7px}
+.ctrl-l{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--ink-muted)}
+.ctrl-b{display:flex;gap:1px;background:var(--pjm-line)}
+.ctrl-b button{border:none;background:var(--surface);color:var(--ink-2);cursor:pointer;
+  font:600 12px/1 Poppins,Helvetica,Arial,sans-serif;padding:9px 14px;white-space:nowrap}
+.ctrl-b button:hover{background:var(--pjm-blue-light);color:#20272F}
+.ctrl-b button.on{background:var(--pjm-coral);color:#fff}
+.hint{font-size:11.5px;color:var(--ink-muted);margin:0 0 18px}
+/* ---- tok kohorty ---- */
+.flow{display:flex;height:52px;margin:0 0 4px;background:var(--pjm-line);gap:1px;
+  cursor:pointer;overflow:hidden}
+.flow div{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:#fff;font-weight:600;overflow:hidden;transition:opacity .15s;min-width:2px}
+.flow div span.n{font-size:16px;line-height:1}
+.flow div span.t{font-size:8.5px;text-transform:uppercase;letter-spacing:.05em;opacity:.9;
+  white-space:nowrap;margin-top:2px}
+.flow div.dim{opacity:.28}
+.f-roste{background:#2C6B45}.f-stare{background:#5C7894}.f-prodano{background:#A9C5DF;color:#20272F!important}
+.f-pipe{background:#8A5A18}.f-prazdny{background:#A32B36}
+.flow-leg{font-size:11px;color:var(--ink-muted);margin:0 0 22px}
+/* ---- matice ---- */
+.mx{display:grid;grid-template-columns:auto 1fr 1fr;gap:1px;background:var(--pjm-line);
+  margin:0 0 6px;max-width:660px}
+.mx>div{background:var(--surface);padding:11px 13px}
+.mx .hd{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--ink-muted);display:flex;align-items:flex-end}
+.mx .cell{cursor:pointer;transition:background .12s}
+.mx .cell:hover{background:var(--pjm-bg-alt)}
+.mx .cell.on{outline:2px solid var(--pjm-coral);outline-offset:-2px}
+.mx .cell b{display:block;font-size:24px;font-weight:600;line-height:1.1;color:var(--ink)}
+.mx .cell span{display:block;font-size:10.5px;color:var(--ink-muted);margin-top:3px}
+.mx .cell.g b{color:#2C6B45}.mx .cell.r b{color:var(--pjm-coral)}
+/* ---- půlroční graf ---- */
+.hc{display:flex;align-items:flex-end;gap:10px;height:150px;margin:6px 0 4px;
+  padding:0 2px;border-bottom:1.5px solid var(--pjm-line)}
+.hc .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;
+  min-width:0;position:relative}
+.hc .seg{width:100%}
+.hc .s-pm{background:var(--pjm-coral)}
+.hc .s-oth{background:var(--pjm-blue-dark)}
+.hc .val{font-size:10px;font-weight:600;color:var(--ink);text-align:center;
+  font-variant-numeric:tabular-nums;margin-bottom:2px}
+.hc-x{display:flex;gap:10px;padding:0 2px;margin:0 0 10px}
+.hc-x div{flex:1;text-align:center;font-size:9.5px;font-weight:600;color:var(--ink-muted);
+  letter-spacing:.04em;min-width:0}
+.hc-x div.part{color:var(--pjm-coral)}
+.leg{display:flex;gap:16px;flex-wrap:wrap;font-size:11px;color:var(--ink-2);margin:0 0 20px}
+.leg i{display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:-1px}
+/* ---- tabulka klientů ---- */
+.spark{display:flex;gap:1.5px;align-items:flex-end;height:26px}
+.spark i{width:7px;background:var(--pjm-line);position:relative;min-height:1px;display:block}
+.spark i.pm{background:var(--pjm-coral)}
+.spark i.oth{background:var(--pjm-blue-dark)}
+.spark i.now{outline:1px solid var(--ink-muted);outline-offset:1px}
+.tot{font-size:11px;font-variant-numeric:tabular-nums;color:var(--ink-2);white-space:nowrap}
+.empty-note{font-size:12px;color:var(--ink-muted);padding:26px 0;text-align:center}
+/* ---- karty prázdných ---- */
+.card{border:1px solid var(--pjm-line);border-left:3px solid var(--bad-ink);
+  padding:18px 20px;margin:0 0 14px;background:var(--surface)}
+.card.warn-b{border-left-color:var(--warn-ink)}
+.card h4{margin:0 0 3px;font-size:15.5px;font-weight:600;color:var(--ink)}
+.card .meta{font-size:11px;color:var(--ink-muted);margin:0 0 12px}
+.card .meta b{color:var(--ink-2)}
+.card .row{display:grid;grid-template-columns:104px 1fr;gap:5px 14px;font-size:12.5px;
+  line-height:1.6;margin-bottom:7px}
+.card .row>.k{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--ink-muted);padding-top:3px}
+.card .row>.v{color:var(--ink-2)}
+.card .row>.v b{color:var(--ink)}
+.act-bar{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--ink-muted)}
+.act-bar i{display:inline-block;height:7px;background:var(--pjm-blue-dark);min-width:2px}
+@media (max-width:720px){
+  .card .row{grid-template-columns:1fr;gap:1px}
+  .hc{height:120px} .mx{max-width:none}
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <svg class="orn" width="330" height="290" viewBox="0 0 330 290" aria-hidden="true">
+    <rect x="150" y="52" width="176" height="176" rx="40" fill="none" stroke="#A9C5DF" stroke-width="2"/>
+    <path d="M212 60 a86 86 0 1 1 -60 146" fill="none" stroke="#FF525F" stroke-width="2"/>
+  </svg>
+  <div class="hero-in">
+    <div class="logo">
+      <div class="logo-grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div><div class="logo-wm">projectman</div><div class="logo-claim">connecting experts</div></div>
+    </div>
+    <span class="pill">Vztahová kniha 2026 · otázka 1 ze 3 · interní</span>
+    <h1><span>Kohorta 2025</span>komu jsme prodali a co z toho zbylo</h1>
+    <p class="hero-sub">Kolik klientů jsme v roce 2025 získali na PM outsourcing, kolik z nich letos koupilo znovu, u kolika ještě něco běží — a u prázdných účtů proč přestali. Zdroj: warehouse (Pipedrive + Tracker), extrakt 16. 8. 2026, 662 zakázek, 0 nezařazených.</p>
+  </div>
+</header>
+<nav class="nav"><div class="nav-in"><a href="vztahova-kniha-1-kohorta-2025.html" class="on"><span class="n">1</span>Kohorta 2025</a><a href="vztahova-kniha-2-nesoutezni-vyhry.html" class=""><span class="n">2</span>Nesoutěžní výhry</a><a href="vztahova-kniha-3-obchodnici.html" class=""><span class="n">3</span>Obchodníci s propadem</a><a href="index.html" class="idx">← rozcestník</a></div></nav>
+<div class="wrap">
+
+  <section class="tldr">
+    <h2>TL;DR</h2>
+    <ol>
+      <li><b>V roce 2025 jsme PM outsourcing prodali 19 klientům</b> —
+        23 zakázek za 11 926 tis. Kč marže.</li>
+      <li><b>Znovu jsme letos zobchodovali 7 z nich</b> (37 %),
+        a to i mimo PM — u Novo Nordisku i Škody Auto se objem přelil do jiných kompetencí.
+        <b>Obsazení běží u 14</b>, protože sedm klientů jede dál na prodeji z 2025,
+        aniž bychom letos přidali cokoli nového.</li>
+      <li><b>Prázdných — ani neběží, ani jsme neprodali — je 5:</b> Heureka, ČSOB,
+        CME, Suntel a Revolgy. Dohromady to je 1 796 tis. Kč
+        marže z roku 2025, která se nezopakovala.</li>
+      <li><b>Aktivita ale není ten problém.</b> U čtyř z pěti prázdných účtů je obchodník
+        prokazatelně aktivní — od 2 do 13 reálných dotyků letos. Důvody, proč klient nekupuje,
+        leží jinde: <b>zmrazený budget a reorganizace</b> (Heureka), <b>chybějící rámcová
+        smlouva</b> (ČSOB, a nově i CME), <b>sazba pod naší nákupní cenou</b> (Suntel).
+        Jediný účet, kde je ticho na naší straně, je <b>Revolgy</b> — nula zápisů, nula
+        aktivit.</li>
+      <li><b>Nejcennější zjištění je systémové.</b> ČSOB nám přestala posílat poptávky
+        proto, že <b>defaultně oslovuje jen dodavatele s rámcovou smlouvou a ceníkem</b> —
+        potvrzeno přímo nákupem 21. 5. 2026. To není ztráta vztahu, to je ztráta
+        přístupu, a řeší se jinak než schůzkami.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Kohorta 2025 — <em>co z ní zbylo</em></h2>
+    <p class="q"><b>Zadání:</b> kolik jsme prodali 2025 · kolik z nich jsme zobchodovali znovu
+      letos · kteří běží · kteří jsou prázdní (neběží ani jsme neprodali).</p>
+    <div class="ctrl">
+      <div class="ctrl-g">
+        <span class="ctrl-l">Komu jsme v 2025 prodali — rozsah kohorty</span>
+        <div class="ctrl-b">
+          <button data-scope="pm" class="on">jen PM_OUT</button>
+          <button data-scope="out">všechen outstaffing</button>
+          <button data-scope="all">všechny kompetence</button>
+        </div>
+      </div>
+      <div class="ctrl-g">
+        <span class="ctrl-l">Objem měřit jako</span>
+        <div class="ctrl-b">
+          <button data-metric="deals" class="on">počet zakázek</button>
+          <button data-metric="margin">marži</button>
+        </div>
+      </div>
+    </div>
+    <p class="hint">„Prodali jsme" se počítá podle rozsahu vlevo. <b>„Zobchodovali znovu" a
+      „běží" se počítají vždy napříč všemi kompetencemi</b> — když klient přešel z PM na BA nebo
+      consulting, pořád je to udržený klient, ne ztracený.</p>
+    <div class="kpis" id="kpis"></div>
+    <h3 style="margin:26px 0 10px">Kam kohorta odtekla</h3>
+    <div class="flow" id="flow"></div>
+    <p class="flow-leg" id="flowleg"></p>
+    <h3 style="margin:6px 0 10px">Běží × znovu prodáno</h3>
+    <div class="mx" id="matrix"></div>
+    <p class="hint">Klikni do matice nebo na tok výše — obojí filtruje tabulku pod grafem.</p>
+  </section>
+
+  <section>
+    <h2>Dynamika po <em>pololetích</em></h2>
+    <p class="lede">Objem vybrané skupiny v čase — <span id="metriclbl">počet vyhraných
+      zakázek</span>. Korálová část je PM_OUT, modrá všechny ostatní kompetence. Tady je
+      nejlíp vidět, jestli klient odešel, nebo jen přešel do jiné kapsy.</p>
+    <div class="hc" id="hc"></div>
+    <div class="hc-x" id="hcx"></div>
+    <p class="leg"><span><i class="s-pm" style="background:var(--pjm-coral)"></i>PM_OUT</span>
+      <span><i class="s-oth" style="background:var(--pjm-blue-dark)"></i>ostatní kompetence</span>
+      <span class="na">2026 H2 je nekompletní — data končí 16. 8. 2026</span></p>
+  </section>
+
+  <section>
+    <h2>Klienti <em>jeden po druhém</em></h2>
+    <p class="lede">Sloupec „historie" je osm pololetí od 2023 H1 do 2026 H2, ve stejném
+      měřítku pro všechny klienty — dvě poslední pololetí jsou orámovaná. Najetím myší se zobrazí
+      konkrétní čísla.</p>
+    <div class="tw">
+      <table style="min-width:1080px">
+        <thead><tr>
+          <th>Klient</th><th class="c">Zakázek 2025</th><th class="r">Marže 2025 (tis. Kč)</th>
+          <th>Historie 2023 H1 → 2026 H2</th><th>Stav</th><th>Co tam je dnes</th>
+          <th>Dotyků 2026 · poslední</th><th>Kdo se ozval</th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Prázdní klienti — <em>proč přestali kupovat</em></h2>
+    <p class="lede">Pět účtů z PM kohorty, kde dnes nic neběží a letos jsme nic neprodali.
+      U každého obchodník, kolik jsme reálně komunikovali, a závěr z zápisů a aktivit v CRM.
+      Řazeno podle toho, jak strukturální ten důvod je — první dva se nedají vyřešit schůzkou.</p>
+    
+  <div class="card warn-b">
+    <h4>Československá obchodní banka, a. s.</h4>
+    <p class="meta">Závěr: <b>Vypadli jsme z nákupu — nemáme rámcovou smlouvu</b> · zdroj: 14 zakázek, 10 zápisů, 13 dotyků v 2026 (Zázvorka, Tonar, Janiš, Veselý)</p>
+    <div class="row"><div class="k">Jak jsme aktivní</div><div class="v"><b>Nejrozsáhlejší obchodní práce v celé kohortě.</b> Na účtu jsou čtyři lidé
+        — Jiří Zázvorka, Jiří Tonar, Petr Janiš a Pavel Veselý. Systematicky se mapuje
+        organizační změna banky (schůzky 18.&nbsp;3., 19.&nbsp;5., 21.&nbsp;5., 25.&nbsp;6.),
+        poslední dotyk 3.&nbsp;8.&nbsp;2026. Aktivity nejsou problém.</div></div>
+    <div class="row"><div class="k">Proč nekupuje</div><div class="v">Tři strukturální důvody a všechny jsou v zápisech doložené:<br>
+        <b>1. Nemáme rámcovou smlouvu.</b> Na schůzce 21.&nbsp;5.&nbsp;2026 Ladislav Vašek
+        z nákupu potvrdil, že ČSOB <b>defaultně oslovuje jen dodavatele s rámcovou smlouvou
+        a ceníkem</b> — a proto nám přestaly chodit poptávky. Hiring manažer nás sice může
+        prosadit navíc, ale musí to sám protlačit. K tomu dostávají na jednu pozici až 70 CV.<br>
+        <b>2. Externisty nahrazují internisty.</b> Od dubna 2026 platí nová organizace (BIAT),
+        všichni dostali seškrtaný budget a mandát brát lidi z interní burzy práce. Zápis
+        z 19.&nbsp;5.: „musí pouštět externisty a nahrazovat je interními".<br>
+        <b>3. Hlavní zdroj poptávky je zablokovaný.</b> Program Core Banking Replacement stojí
+        na smlouvě s Oraclem, která se od ledna 2026 opakovaně posouvá o 1–2 měsíce.</div></div>
+    <div class="row"><div class="k">Co s tím</div><div class="v">Osm proher v roce 2026 — u jedné jsme se „nedostali ani k pohovorům", u druhé
+        odstoupil poslední kandidát. Nejkonkrétnější akce z celého reportu je ale systémová:
+        <b>získat rámcovou smlouvu a ceník</b>, protože bez nich jsme z většiny poptávek
+        vyloučení ještě předtím, než se o nich dozvíme. Krátkodobě: Martin Horný se podle
+        zápisu z 17.&nbsp;6. vrací po prázdninách na BIAT a měl se ozvat v půlce srpna.</div></div>
+  </div>
+  <div class="card warn-b">
+    <h4>Heureka Group a.s.</h4>
+    <p class="meta">Závěr: <b>Klient v turbulenci, ne obchodní chyba</b> · zdroj: 3 zakázky, 7 zápisů, 13 dotyků v 2026 (Jan Klimíček)</p>
+    <div class="row"><div class="k">Jak jsme aktivní</div><div class="v"><b>Nejaktivnější účet z celé prázdné části.</b> Jan Klimíček drží
+            pravidelnou kadenci celý rok — schůzky 11.&nbsp;2., 7.&nbsp;4. a 15.&nbsp;6., mezi tím
+            e-maily, vyplněný BANT a kvalifikace klienta z 25.&nbsp;6.&nbsp;2026. Poslední dotyk
+            13.&nbsp;8.&nbsp;2026, tedy tři dny před koncem dat. Tady rozhodně nejde o to,
+            že bychom se neozývali.</div></div>
+    <div class="row"><div class="k">Proč nekupuje</div><div class="v">Rozpadlo se to na straně klienta. Heureku podle zápisů „drtí Google i AI",
+            majitelé dolili peníze, a firma <b>vyhodila celý middle management</b> — agendu si
+            vzali boarďáci. Odešli postupně všichni naši lidé: Ondra Cingl, Veronika Laksarová,
+            Katarina Regrútová, mění se CTO. K tomu <b>zmrazený budget</b> („budget je neúprosný",
+            „do konce března dotahují QBR, jsou tedy zmražení") a board, který se neshodl, jestli
+            si pomůže sám, nebo vezme někoho zvenčí. Jediná letošní zakázka — Delivery manager —
+            padla jako <i>Cancelled by client</i> s komentářem „nový stakeholder, reorganizace,
+            nový plán".</div></div>
+    <div class="row"><div class="k">Co s tím</div><div class="v">Držet kadenci a nic netlačit. Klient sám píše „stále na Vás myslím" a
+            u Delivery managera jsme „první, komu kdyžtak bude volat". Reálný signál k návratu
+            přijde s novým CTO a rozmrazeným budgetem — do té doby je to čekání, ne prodej.</div></div>
+  </div>
+  <div class="card warn-b">
+    <h4>CME MEDIA ENTERPRISES B.V.</h4>
+    <p class="meta">Závěr: <b>Nový nákupní režim — chybí rámcová smlouva a nabídka</b> · zdroj: 2 zakázky, 4 zápisy, 7 dotyků v 2026 (Pavel Veselý)</p>
+    <div class="row"><div class="k">Jak jsme aktivní</div><div class="v">Účet po Petru Veselym <b>převzal Pavel Veselý a rozjel ho znovu</b>:
+            čtyři osobní schůzky v H1 2026 (28.&nbsp;1., 5.&nbsp;2., 23.&nbsp;4., 5.&nbsp;5.),
+            nové kontakty Milan Svoboda, Ivan Holko, Tomáš Molnár. <b>Od 29.&nbsp;5.&nbsp;2026 už
+            ale nic</b> — dva a půl měsíce ticho.</div></div>
+    <div class="row"><div class="k">Proč nekupuje</div><div class="v">Nový Head of Business Operations Tomáš Molnár <b>zastavuje projekty</b>
+            („chce zastavit zběsilé projekty") a našemu kontraktorovi přišla výpověď — od poloviny
+            června byl volný. Ze zápisu z dubna: „průbojnější odešli, horší zůstali". Zároveň
+            <b>klient mění způsob nákupu</b>: přechází na objednávky přes PO, dřív byl jen
+            kontrakt, a sám navrhuje podepsat rámcovou smlouvu a z ní odvolávat služby.</div></div>
+    <div class="row"><div class="k">Co s tím</div><div class="v">Tady je otevřená příležitost, kterou jsme zmapovali a neprodali: CME jede
+            transformační program — ERP rollout na D365, nová datová platforma na MS Fabric,
+            plánovací nástroje, sjednocení station management systémů. Dvě konkrétní věci:
+            <b>podepsat rámcovou smlouvu</b>, kterou klient sám navrhl, a poslat nabídku do
+            datové platformy, kde už dnes sedí Adastra a Billigence.</div></div>
+  </div>
+  <div class="card ">
+    <h4>Suntel s.r.o.</h4>
+    <p class="meta">Závěr: <b>Prohra na sazbě, vztah nepoškozený</b> · zdroj: 1 zakázka, 1 zápis, 2 dotyky v 2026 (Jiří Tonar)</p>
+    <div class="row"><div class="k">Jak jsme aktivní</div><div class="v">V roce 2025 vzorová práce — Jiří Tonar držel <b>měsíční status calls</b>
+            (11.&nbsp;8., 8.&nbsp;9., 6.&nbsp;10., 3.&nbsp;11., 10.&nbsp;12.). V roce 2026 už jen
+            dva dotyky, <b>poslední 4.&nbsp;3.&nbsp;2026</b>. Od té doby, co obsazení skončilo,
+            se neozýváme.</div></div>
+    <div class="row"><div class="k">Proč nekupuje</div><div class="v"><b>Padlo to na ceně, ne na kvalitě ani na vztahu.</b> Klient chtěl
+            pokračovat — v lednu bylo v zápisu „má zájem pokračovat, budeme domlouvat od dubna do
+            konce roku" — ale na schůzce 4.&nbsp;3. řekl Michal, že si našeho člověka
+            <b>nemůže dovolit</b>: nabídl 7&nbsp;tis. za MD, což je pod naší nákupní cenou
+            („to je pod nákupku a to neumím"). Zpětná vazba na dodávku byla přitom dobrá —
+            „dobře se mu i kolegyni s ním dělá". Obsazení skončilo 31.&nbsp;3.&nbsp;2026.</div></div>
+    <div class="row"><div class="k">Co s tím</div><div class="v">Dvě konkrétní stopy, obě z lednového zápisu a obě nevyužité: nová iniciativa
+            <b>výstavby BTS</b>, kam by se člověk vešel i za nižší sazbu, a kontakt na
+            <b>Veroniku Kallauschovou</b> (rozvoj a AI), na kterou jsme měli poslat AI referenční
+            list. Pokud na sazbu neumíme jít, je tohle účet pro juniornější profil, ne pro
+            slevu.</div></div>
+  </div>
+  <div class="card ">
+    <h4>Revolgy Business Solutions a.s.</h4>
+    <p class="meta">Závěr: <b>Ticho na naší straně — jediný takový případ</b> · zdroj: 1 zakázka, 0 zápisů, 0 dotyků — bez jakéhokoli záznamu</p>
+    <div class="row"><div class="k">Jak jsme aktivní</div><div class="v"><b>Nula.</b> Ani jeden zápis, ani jedna aktivita — nikdy, ani v roce
+            2025, ani letos. V celé kohortě je to jediný účet, kde v CRM není po prodeji
+            <b>vůbec žádný záznam</b>.</div></div>
+    <div class="row"><div class="k">Proč nekupuje</div><div class="v">Nevíme — a to je ta odpověď. Nikdo se nezeptal. Kontext ale říká, že to
+            asi nikdy nebyl účet: obsazení běželo <b>od 10. do 22.&nbsp;10.&nbsp;2025, tedy
+            dvanáct dní</b>, s marží 23&nbsp;tis.&nbsp;Kč — nejmenší zakázka v kohortě.
+            Vypadá to na jednorázovou výpomoc na cizí implementaci (Cloud AI Platform),
+            ne na vztah, který se měl rozvíjet.</div></div>
+    <div class="row"><div class="k">Co s tím</div><div class="v">Rozhodnout, jestli je to účet, nebo ne. Jeden telefonát stačí na zjištění,
+            jestli má Revolgy opakovanou potřebu PM na cloud/AI implementace — a pokud ne,
+            vyřadit ho z kohorty vědomě, ne mlčením.</div></div>
+  </div>
+    <div class="caveat"><b>Odkud závěry jsou.</b> Ručně přečtené zápisy (<code>notes</code>)
+      a aktivity (<code>activities</code>) v Pipedrive u těchto pěti účtů — u každého je uvedeno,
+      kolik zápisů a dotyků za tím stojí. Citace v uvozovkách jsou z CRM, ne parafráze.
+      Za „dotyk" se počítají jen typy, které znamenají kontakt s klientem; <code>task</code>
+      a <code>deadline</code> jsou interní připomínky a nepočítají se.</div>
+  </section>
+
+  <section>
+    <h2>Co těmto číslům <em>věřit</em> a co ne</h2>
+    <div class="caveat" style="border-left-color:var(--pjm-coral)">
+      <ul>
+        <li><b>Rozsah je záměrně asymetrický.</b> „Prodali jsme 2025" je ve výchozím nastavení
+          <b>jen OUT_PM</b>, ale „zobchodovali znovu" a „běží" jsou <b>všechny kompetence</b> —
+          jinak by přechod klienta z PM na BA vypadal jako ztráta. Přepínač vlevo mění jen
+          kohortu, ne definici roku 2026.</li>
+        <li><b>„Běží" znamená kontraktováno, ne vyfakturováno.</b> Vychází z okna
+          <code>Starting workday</code> → <code>Job finish day</code>; u
+          84 ze 150 obsazení leží konec až za datem
+          extraktu. Kdyby něco skončilo dřív, prázdných je <b>víc</b>, ne méně.</li>
+        <li><b>Rok 2026 je nekompletní</b> — data končí 16. 8. 2026. Poslední
+          pololetí v grafu i ve spark grafech je proto kratší než ostatní; neporovnávej ho
+          jako celé.</li>
+        <li><b>„Prázdný" ≠ „nikdy nekoupí".</b> Heureka i ČSOB mají letos aktivní pipeline
+          (poptávky i prohry), jen z nich nic nevyhráli. Bucket <i>jen pipeline</i> je od
+          <i>prázdný</i> oddělený právě proto.</li>
+        <li><b>Jeden účet běží, ale nikdo s ním nemluví:</b> intoit má běžící obsazení bez
+          data konce a <b>nula dotyků v 2026</b>. Není v prázdných, ale je to stejné riziko
+          — tichý účet, který se obnovuje sám.</li>
+        <li><b>Marže je primární metrika</b>, protože hodnota kontraktu je vyplněná jen na
+          58 % výher. Součty marží ber jako spodní hranici
+          (fill 96.5 % na vyhraných zakázkách).</li>
+        <li><b>Kontrola integrity proběhla</b> v téže session: <code>99_checks.sql</code> hlásí
+          0 orphanů a 0 nezařazených zakázek.</li>
+      </ul>
+      <details>
+        <summary>Pokrytí a kontrolní čísla kohorty</summary>
+        <div class="tw"><table style="min-width:520px"><tbody><tr><td class="sm">Kohorta PM: orgs s vyhranou OUT_PM zakázkou v 2025</td><td class="sm b">19</td></tr><tr><td class="sm">Kohorta OUT (širší přepínač)</td><td class="sm b">24</td></tr><tr><td class="sm">Kohorta VŠE (nejširší přepínač)</td><td class="sm b">52</td></tr><tr><td class="sm">Vyhraných OUT_PM zakázek v 2025</td><td class="sm b">23</td></tr><tr><td class="sm">Marže těch zakázek (tis. Kč)</td><td class="sm b">11926.0</td></tr><tr><td class="sm">Orgs bez marže na výhře 2025 (fill gap)</td><td class="sm b">0</td></tr><tr><td class="sm">Bucket „prázdný" v PM kohortě</td><td class="sm b">3</td></tr><tr><td class="sm">Z toho bez jediného dotyku 2026</td><td class="sm b">1</td></tr><tr><td class="sm">Kontrola: součet bucketů = velikost PM kohorty</td><td class="sm b">true</td></tr></tbody></table></div>
+      </details>
+    </div>
+  </section>
+
+</div>
+<footer>
+  <div class="foot-in">
+    <div>Projectman.cz, s.r.o | <a href="https://www.projectman.cz">www.projectman.cz</a></div>
+    <div class="v">interní · data k 16. 8. 2026</div>
+  </div>
+</footer>
+<script>
+const D = {"state": [{"org_id": 74, "org_name": "Model Obaly a.s.", "w25_pm": 1, "w25_out": 1, "w25_all": 2, "m25_pm_tis": 87.0, "m25_out_tis": 87.0, "m25_all_tis": 109.0, "bucket": "jede na starém", "is_running": true, "is_resold": false, "run_n": 2, "run_codes": "OUT_PM", "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 7, "last_act": "2026-06-03", "act_owner_2026": "Jiří Tonar"}, {"org_id": 357, "org_name": "Česká tisková kancelář", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 47.0, "bucket": "jen pipeline", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 1, "acts_done": 0, "last_act": null, "act_owner_2026": null}, {"org_id": 232, "org_name": "WOOD & Company Financial Services, a.s.", "w25_pm": 1, "w25_out": 1, "w25_all": 3, "m25_pm_tis": 1000.0, "m25_out_tis": 1000.0, "m25_all_tis": 1047.0, "bucket": "roste", "is_running": true, "is_resold": true, "run_n": 1, "run_codes": "OUT_PM", "w26_n": 1, "w26_codes": "CONS_PM", "w26_marg": 119.0, "new26": 1, "lost26": 1, "acts_done": 12, "last_act": "2026-07-23", "act_owner_2026": "Jan Klimíček"}, {"org_id": 33, "org_name": "Allwyn Česko a.s.", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 113.0, "bucket": "prodáno, nic neběží", "is_running": false, "is_resold": true, "run_n": 0, "run_codes": null, "w26_n": 1, "w26_codes": "CONS_PM", "w26_marg": 48.0, "new26": 1, "lost26": 2, "acts_done": 14, "last_act": "2026-07-16", "act_owner_2026": "Jan Klimíček"}, {"org_id": 53, "org_name": "W.A.G. payment solutions, a.s.", "w25_pm": 0, "w25_out": 3, "w25_all": 5, "m25_pm_tis": null, "m25_out_tis": 1171.0, "m25_all_tis": 1258.0, "bucket": "jede na starém", "is_running": true, "is_resold": false, "run_n": 4, "run_codes": "OUT_AGILE, OUT_PM, OUT_BA", "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 3, "lost26": 2, "acts_done": 25, "last_act": "2026-08-04", "act_owner_2026": "Pavel Veselý"}, {"org_id": 138, "org_name": "IKEA Česká republika, s.r.o.", "w25_pm": 0, "w25_out": 0, "w25_all": 3, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 112.0, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 2, "last_act": "2026-06-02", "act_owner_2026": "Jiří Tonar"}, {"org_id": 72, "org_name": "Generali Česká pojišťovna a.s.", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 12.0, "bucket": "jen pipeline", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 2, "lost26": 2, "acts_done": 16, "last_act": "2026-08-12", "act_owner_2026": "Jan Klimíček"}, {"org_id": 265, "org_name": "intoit, s.r.o.", "w25_pm": 1, "w25_out": 1, "w25_all": 1, "m25_pm_tis": 166.0, "m25_out_tis": 166.0, "m25_all_tis": 166.0, "bucket": "jede na starém", "is_running": true, "is_resold": false, "run_n": 1, "run_codes": "OUT_PM", "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 0, "last_act": null, "act_owner_2026": null}, {"org_id": 155, "org_name": "VIG RE zajišťovna, a.s.", "w25_pm": 1, "w25_out": 1, "w25_all": 3, "m25_pm_tis": 1540.0, "m25_out_tis": 1540.0, "m25_all_tis": 2185.0, "bucket": "roste", "is_running": true, "is_resold": true, "run_n": 1, "run_codes": "OUT_PM", "w26_n": 1, "w26_codes": "CONS_PM", "w26_marg": 1174.0, "new26": 4, "lost26": 3, "acts_done": 11, "last_act": "2026-07-22", "act_owner_2026": "Jiří Tonar"}, {"org_id": 280, "org_name": "AGEL SSC a.s.", "w25_pm": 1, "w25_out": 1, "w25_all": 1, "m25_pm_tis": 340.0, "m25_out_tis": 340.0, "m25_all_tis": 340.0, "bucket": "roste", "is_running": true, "is_resold": true, "run_n": 2, "run_codes": "OUT_PM", "w26_n": 1, "w26_codes": "OUT_PM", "w26_marg": 682.0, "new26": 2, "lost26": 2, "acts_done": 12, "last_act": "2026-06-15", "act_owner_2026": "Lubomir Slocik"}, {"org_id": 204, "org_name": "ČEPS, a.s.", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 167.0, "bucket": "roste", "is_running": true, "is_resold": true, "run_n": 1, "run_codes": "OUT_AGILE", "w26_n": 1, "w26_codes": "OUT_AGILE", "w26_marg": 783.0, "new26": 7, "lost26": 6, "acts_done": 31, "last_act": "2026-08-13", "act_owner_2026": "Jiří Zázvorka"}, {"org_id": 55, "org_name": "Česká spořitelna, a.s.", "w25_pm": 0, "w25_out": 2, "w25_all": 2, "m25_pm_tis": null, "m25_out_tis": 335.0, "m25_all_tis": 335.0, "bucket": "roste", "is_running": true, "is_resold": true, "run_n": 5, "run_codes": "OUT_BA, OUT_OTHER", "w26_n": 2, "w26_codes": "OUT_BA, CONS_OTHER", "w26_marg": 459.0, "new26": 1, "lost26": 0, "acts_done": 13, "last_act": "2026-07-10", "act_owner_2026": "Jiří Tonar"}, {"org_id": 132, "org_name": "Pražská energetika, a.s.", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 52.0, "bucket": "prodáno, nic neběží", "is_running": false, "is_resold": true, "run_n": 0, "run_codes": null, "w26_n": 2, "w26_codes": "CONS_BA, CONS_PM", "w26_marg": 138.0, "new26": 6, "lost26": 2, "acts_done": 26, "last_act": "2026-07-29", "act_owner_2026": "Jiří Zázvorka"}, {"org_id": 182, "org_name": "Notino, s.r.o.", "w25_pm": 0, "w25_out": 0, "w25_all": 10, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 1974.0, "bucket": "prodáno, nic neběží", "is_running": false, "is_resold": true, "run_n": 0, "run_codes": null, "w26_n": 4, "w26_codes": "CONS_PM, CONS_AI", "w26_marg": 1010.0, "new26": 9, "lost26": 1, "acts_done": 14, "last_act": "2026-08-06", "act_owner_2026": "Petr Janiš"}, {"org_id": 29, "org_name": "Škoda Auto a.s.", "w25_pm": 1, "w25_out": 2, "w25_all": 5, "m25_pm_tis": 254.0, "m25_out_tis": 1528.0, "m25_all_tis": 1932.0, "bucket": "roste", "is_running": true, "is_resold": true, "run_n": 16, "run_codes": "OUT_BA, OUT_AGILE, OUT_PM, OUT_OTHER, OUT_UX", "w26_n": 2, "w26_codes": "OUT_UX", "w26_marg": 1657.0, "new26": 2, "lost26": 0, "acts_done": 29, "last_act": "2026-08-05", "act_owner_2026": "Petr Vesely"}, {"org_id": 252, "org_name": "RETIA, a.s.", "w25_pm": 0, "w25_out": 0, "w25_all": 3, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 103.0, "bucket": "prodáno, nic neběží", "is_running": false, "is_resold": true, "run_n": 0, "run_codes": null, "w26_n": 1, "w26_codes": "CONS_PM", "w26_marg": 46.0, "new26": 2, "lost26": 0, "acts_done": 15, "last_act": "2026-08-12", "act_owner_2026": "Jan Klimíček"}, {"org_id": 317, "org_name": "Heureka Group a.s.", "w25_pm": 2, "w25_out": 2, "w25_all": 2, "m25_pm_tis": 792.0, "m25_out_tis": 792.0, "m25_all_tis": 792.0, "bucket": "jen pipeline", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 1, "acts_done": 13, "last_act": "2026-08-13", "act_owner_2026": "Jan Klimíček"}, {"org_id": 301, "org_name": "PROVYS Technologies, a.s.", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 48.0, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 1, "last_act": "2026-02-04", "act_owner_2026": "Jiří Tonar"}, {"org_id": 97, "org_name": "Barclays Execution Services Limited, odštěpný závod", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 5.0, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 2, "last_act": "2026-03-18", "act_owner_2026": "Petr Janiš"}, {"org_id": 131, "org_name": "O2 Czech Republic a.s.", "w25_pm": 0, "w25_out": 1, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": 404.0, "m25_all_tis": 404.0, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 2, "last_act": "2026-03-18", "act_owner_2026": "Jiří Zázvorka"}, {"org_id": 321, "org_name": "Suntel s.r.o.", "w25_pm": 1, "w25_out": 1, "w25_all": 1, "m25_pm_tis": 271.0, "m25_out_tis": 271.0, "m25_all_tis": 271.0, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 2, "last_act": "2026-03-04", "act_owner_2026": "Jiří Tonar"}, {"org_id": 324, "org_name": "CME MEDIA ENTERPRISES B.V.", "w25_pm": 1, "w25_out": 1, "w25_all": 1, "m25_pm_tis": 580.0, "m25_out_tis": 580.0, "m25_all_tis": 580.0, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 7, "last_act": "2026-05-29", "act_owner_2026": "Pavel Veselý"}, {"org_id": 101, "org_name": "FOXCONN CZ s.r.o.", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": null, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 1, "last_act": "2026-03-19", "act_owner_2026": "Jiří Zázvorka"}, {"org_id": 95, "org_name": "Škoda Transportation a.s.", "w25_pm": 0, "w25_out": 0, "w25_all": 2, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 48.0, "bucket": "jede na starém", "is_running": true, "is_resold": false, "run_n": 2, "run_codes": "OUT_PM", "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 1, "acts_done": 7, "last_act": "2026-07-15", "act_owner_2026": "Jiří Zázvorka"}, {"org_id": 334, "org_name": "Univerzita Karlova", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 28.0, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 2, "last_act": "2026-06-25", "act_owner_2026": "Jan Klimíček"}, {"org_id": 68, "org_name": "ČD - Telematika a.s.", "w25_pm": 1, "w25_out": 2, "w25_all": 2, "m25_pm_tis": 709.0, "m25_out_tis": 1499.0, "m25_all_tis": 1499.0, "bucket": "jede na starém", "is_running": true, "is_resold": false, "run_n": 2, "run_codes": "OUT_OTHER, OUT_PM", "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 1, "acts_done": 13, "last_act": "2026-07-21", "act_owner_2026": "Pavel Veselý"}, {"org_id": 146, "org_name": "ESSITY SLOVAKIA S.R.O.", "w25_pm": 1, "w25_out": 1, "w25_all": 1, "m25_pm_tis": 631.0, "m25_out_tis": 631.0, "m25_all_tis": 631.0, "bucket": "jede na starém", "is_running": true, "is_resold": false, "run_n": 1, "run_codes": "OUT_PM", "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 2, "last_act": "2026-07-20", "act_owner_2026": "Lubomir Slocik"}, {"org_id": 316, "org_name": "AGEL a.s.", "w25_pm": 1, "w25_out": 2, "w25_all": 2, "m25_pm_tis": 372.0, "m25_out_tis": 975.0, "m25_all_tis": 975.0, "bucket": "jede na starém", "is_running": true, "is_resold": false, "run_n": 1, "run_codes": "OUT_BA", "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 1, "lost26": 0, "acts_done": 3, "last_act": "2026-05-12", "act_owner_2026": "Lubomir Slocik"}, {"org_id": 58, "org_name": "MAKRO Cash & Carry ČR s.r.o.", "w25_pm": 1, "w25_out": 1, "w25_all": 1, "m25_pm_tis": 650.0, "m25_out_tis": 650.0, "m25_all_tis": 650.0, "bucket": "jede na starém", "is_running": true, "is_resold": false, "run_n": 2, "run_codes": "OUT_PM", "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 2, "lost26": 3, "acts_done": 8, "last_act": "2026-08-07", "act_owner_2026": "Jiří Tonar"}, {"org_id": 76, "org_name": "CETIN a.s.", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 41.0, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 1, "last_act": "2026-01-27", "act_owner_2026": "Jiří Tonar"}, {"org_id": 359, "org_name": "Beanz s.r.o.", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 30.0, "bucket": "jen pipeline", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 1, "acts_done": 1, "last_act": "2026-04-20", "act_owner_2026": "Jiří Tonar"}, {"org_id": 118, "org_name": "VEOLIA ČESKÁ REPUBLIKA, a.s.", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 240.0, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 0, "last_act": null, "act_owner_2026": null}, {"org_id": 450, "org_name": "Revolgy Business Solutions a.s.", "w25_pm": 1, "w25_out": 1, "w25_all": 1, "m25_pm_tis": 23.0, "m25_out_tis": 23.0, "m25_all_tis": 23.0, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 0, "last_act": null, "act_owner_2026": null}, {"org_id": 405, "org_name": "Shoptet, a.s.", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 50.0, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 0, "last_act": null, "act_owner_2026": null}, {"org_id": 347, "org_name": "ADASTRA, s.r.o.", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 15.0, "bucket": "jen pipeline", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 1, "acts_done": 0, "last_act": null, "act_owner_2026": null}, {"org_id": 82, "org_name": "Actum, s.r.o.", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 20.0, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 0, "last_act": null, "act_owner_2026": null}, {"org_id": 77, "org_name": "Edwards Lifesciences Czech Republic s.r.o.", "w25_pm": 0, "w25_out": 11, "w25_all": 12, "m25_pm_tis": null, "m25_out_tis": 4388.0, "m25_all_tis": 4462.0, "bucket": "roste", "is_running": true, "is_resold": true, "run_n": 12, "run_codes": "OUT_OTHER, OUT_DATA, OUT_PM, OUT_AGILE, OUT_AI, OUT_UX", "w26_n": 4, "w26_codes": "CONS_AGILE, OUT_AGILE, OUT_AI, OUT_OTHER", "w26_marg": 373.0, "new26": 5, "lost26": 1, "acts_done": 40, "last_act": "2026-07-22", "act_owner_2026": "Pavel Veselý"}, {"org_id": 48, "org_name": "Raiffeisenbank a.s.", "w25_pm": 1, "w25_out": 4, "w25_all": 4, "m25_pm_tis": 197.0, "m25_out_tis": 2281.0, "m25_all_tis": 2281.0, "bucket": "roste", "is_running": true, "is_resold": true, "run_n": 6, "run_codes": "OUT_PM, OUT_OTHER, OUT_BA", "w26_n": 1, "w26_codes": "OUT_OTHER", "w26_marg": 171.0, "new26": 8, "lost26": 8, "acts_done": 21, "last_act": "2026-08-14", "act_owner_2026": "Jan Klimíček"}, {"org_id": 57, "org_name": "Kooperativa pojišťovna, a.s., Vienna Insurance Group", "w25_pm": 1, "w25_out": 1, "w25_all": 3, "m25_pm_tis": 372.0, "m25_out_tis": 372.0, "m25_all_tis": 568.0, "bucket": "roste", "is_running": true, "is_resold": true, "run_n": 1, "run_codes": "OUT_PM", "w26_n": 3, "w26_codes": "OUT_PM, CONS_AI", "w26_marg": 1069.0, "new26": 3, "lost26": 2, "acts_done": 19, "last_act": "2026-06-18", "act_owner_2026": "Jiří Tonar"}, {"org_id": 187, "org_name": "Novo Nordisk Production Czech s.r.o.", "w25_pm": 4, "w25_out": 6, "w25_all": 7, "m25_pm_tis": 2874.0, "m25_out_tis": 3648.0, "m25_all_tis": 3648.0, "bucket": "roste", "is_running": true, "is_resold": true, "run_n": 10, "run_codes": "OUT_OTHER, OUT_PM", "w26_n": 4, "w26_codes": "OUT_OTHER", "w26_marg": 2085.0, "new26": 3, "lost26": 0, "acts_done": 31, "last_act": "2026-08-14", "act_owner_2026": "Pavel Veselý"}, {"org_id": 46, "org_name": "Lundegaard a.s.", "w25_pm": 0, "w25_out": 1, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": 455.0, "m25_all_tis": 455.0, "bucket": "roste", "is_running": true, "is_resold": true, "run_n": 2, "run_codes": "OUT_BA", "w26_n": 1, "w26_codes": "OUT_BA", "w26_marg": 478.0, "new26": 1, "lost26": 0, "acts_done": 5, "last_act": "2026-06-01", "act_owner_2026": "Jiří Tonar"}, {"org_id": 264, "org_name": "ČSOB Leasing, a.s.", "w25_pm": 1, "w25_out": 1, "w25_all": 1, "m25_pm_tis": 938.0, "m25_out_tis": 938.0, "m25_all_tis": 938.0, "bucket": "jede na starém", "is_running": true, "is_resold": false, "run_n": 1, "run_codes": "OUT_PM", "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 2, "lost26": 2, "acts_done": 6, "last_act": "2026-06-15", "act_owner_2026": "Jiří Zázvorka"}, {"org_id": 65, "org_name": "Československá obchodní banka, a. s.", "w25_pm": 1, "w25_out": 1, "w25_all": 1, "m25_pm_tis": 130.0, "m25_out_tis": 130.0, "m25_all_tis": 130.0, "bucket": "jen pipeline", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 3, "lost26": 4, "acts_done": 13, "last_act": "2026-08-03", "act_owner_2026": "Jiří Zázvorka"}, {"org_id": 177, "org_name": "Globus ČR, v.o.s.", "w25_pm": 0, "w25_out": 0, "w25_all": 2, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 133.0, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 6, "last_act": "2026-07-21", "act_owner_2026": "Jiří Tonar"}, {"org_id": 79, "org_name": "EG.D, a.s.", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 64.0, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 3, "last_act": "2026-05-12", "act_owner_2026": "Jiří Zázvorka"}, {"org_id": 184, "org_name": "Letiště Praha, a. s.", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 41.0, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 2, "last_act": "2026-02-25", "act_owner_2026": "Jiří Zázvorka"}, {"org_id": 140, "org_name": "GasNet, s.r.o.", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 25.0, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 1, "last_act": "2026-08-11", "act_owner_2026": "Pavel Veselý"}, {"org_id": 80, "org_name": "Ernst & Young, s.r.o.", "w25_pm": 0, "w25_out": 0, "w25_all": 2, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 55.0, "bucket": "jen pipeline", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 1, "lost26": 0, "acts_done": 2, "last_act": "2026-07-07", "act_owner_2026": "Petr Janiš"}, {"org_id": 427, "org_name": "IXPERTA s.r.o.", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 33.0, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 8, "last_act": "2026-06-25", "act_owner_2026": "Jan Klimíček"}, {"org_id": 90, "org_name": "J&T BANKA, a.s.", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 33.0, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 4, "last_act": "2026-08-12", "act_owner_2026": "Jiří Zázvorka"}, {"org_id": 114, "org_name": "Logio s.r.o.", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 10.0, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 0, "last_act": null, "act_owner_2026": null}, {"org_id": 61, "org_name": "PPF banka a.s.", "w25_pm": 0, "w25_out": 0, "w25_all": 1, "m25_pm_tis": null, "m25_out_tis": null, "m25_all_tis": 15.0, "bucket": "prázdný", "is_running": false, "is_resold": false, "run_n": 0, "run_codes": null, "w26_n": 0, "w26_codes": null, "w26_marg": null, "new26": 0, "lost26": 0, "acts_done": 0, "last_act": null, "act_owner_2026": null}], "half": [{"org_id": 29, "half": "2023H1", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 432.0, "value_won": 0.0}, {"org_id": 29, "half": "2023H2", "won_pm": 0, "won_oth": 2, "lost": 0, "marg_pm": 0.0, "marg_oth": 2400.0, "value_won": 0.0}, {"org_id": 29, "half": "2024H1", "won_pm": 0, "won_oth": 7, "lost": 0, "marg_pm": 0.0, "marg_oth": 1962.0, "value_won": 190.0}, {"org_id": 29, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 29, "half": "2025H1", "won_pm": 1, "won_oth": 4, "lost": 10, "marg_pm": 254.0, "marg_oth": 1678.0, "value_won": 4608.0}, {"org_id": 29, "half": "2025H2", "won_pm": 0, "won_oth": 0, "lost": 4, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 29, "half": "2026H1", "won_pm": 0, "won_oth": 2, "lost": 0, "marg_pm": 0.0, "marg_oth": 1657.0, "value_won": 4941.0}, {"org_id": 29, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 33, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 33, "half": "2023H2", "won_pm": 1, "won_oth": 0, "lost": 0, "marg_pm": 570.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 33, "half": "2024H1", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 28.0, "value_won": 48.0}, {"org_id": 33, "half": "2024H2", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 725.0}, {"org_id": 33, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 4, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 33, "half": "2025H2", "won_pm": 0, "won_oth": 1, "lost": 2, "marg_pm": 0.0, "marg_oth": 113.0, "value_won": 653.0}, {"org_id": 33, "half": "2026H1", "won_pm": 0, "won_oth": 1, "lost": 1, "marg_pm": 0.0, "marg_oth": 48.0, "value_won": 458.0}, {"org_id": 33, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 46, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 46, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 46, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 46, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 2, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 46, "half": "2025H1", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 455.0, "value_won": 2275.0}, {"org_id": 46, "half": "2025H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 46, "half": "2026H1", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 478.0, "value_won": 2510.0}, {"org_id": 46, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 48, "half": "2023H1", "won_pm": 1, "won_oth": 1, "lost": 0, "marg_pm": 276.0, "marg_oth": 480.0, "value_won": 0.0}, {"org_id": 48, "half": "2023H2", "won_pm": 1, "won_oth": 0, "lost": 0, "marg_pm": 570.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 48, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 4, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 48, "half": "2024H2", "won_pm": 0, "won_oth": 1, "lost": 5, "marg_pm": 0.0, "marg_oth": 30.0, "value_won": 48.0}, {"org_id": 48, "half": "2025H1", "won_pm": 1, "won_oth": 0, "lost": 5, "marg_pm": 197.0, "marg_oth": 0.0, "value_won": 3251.0}, {"org_id": 48, "half": "2025H2", "won_pm": 0, "won_oth": 3, "lost": 2, "marg_pm": 0.0, "marg_oth": 2084.0, "value_won": 10087.0}, {"org_id": 48, "half": "2026H1", "won_pm": 0, "won_oth": 1, "lost": 7, "marg_pm": 0.0, "marg_oth": 171.0, "value_won": 2907.0}, {"org_id": 48, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 53, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 53, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 53, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 53, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 2, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 53, "half": "2025H1", "won_pm": 0, "won_oth": 1, "lost": 1, "marg_pm": 0.0, "marg_oth": 40.0, "value_won": 200.0}, {"org_id": 53, "half": "2025H2", "won_pm": 0, "won_oth": 4, "lost": 0, "marg_pm": 0.0, "marg_oth": 1218.0, "value_won": 4117.0}, {"org_id": 53, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 2, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 53, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 55, "half": "2023H1", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 1048.0, "value_won": 0.0}, {"org_id": 55, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 55, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 55, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 3, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 55, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 2, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 55, "half": "2025H2", "won_pm": 0, "won_oth": 2, "lost": 2, "marg_pm": 0.0, "marg_oth": 335.0, "value_won": 2073.0}, {"org_id": 55, "half": "2026H1", "won_pm": 0, "won_oth": 2, "lost": 0, "marg_pm": 0.0, "marg_oth": 459.0, "value_won": 1493.0}, {"org_id": 55, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 57, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 57, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 57, "half": "2024H1", "won_pm": 2, "won_oth": 0, "lost": 1, "marg_pm": 1663.0, "marg_oth": 0.0, "value_won": 5250.0}, {"org_id": 57, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 57, "half": "2025H1", "won_pm": 0, "won_oth": 2, "lost": 0, "marg_pm": 0.0, "marg_oth": 196.0, "value_won": 467.0}, {"org_id": 57, "half": "2025H2", "won_pm": 1, "won_oth": 0, "lost": 0, "marg_pm": 372.0, "marg_oth": 0.0, "value_won": 992.0}, {"org_id": 57, "half": "2026H1", "won_pm": 1, "won_oth": 1, "lost": 2, "marg_pm": 500.0, "marg_oth": 95.0, "value_won": 2239.0}, {"org_id": 57, "half": "2026H2", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 474.0, "value_won": 1194.0}, {"org_id": 58, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 58, "half": "2023H2", "won_pm": 1, "won_oth": 0, "lost": 0, "marg_pm": 598.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 58, "half": "2024H1", "won_pm": 1, "won_oth": 0, "lost": 1, "marg_pm": 757.0, "marg_oth": 0.0, "value_won": 2062.0}, {"org_id": 58, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 2, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 58, "half": "2025H1", "won_pm": 1, "won_oth": 0, "lost": 1, "marg_pm": 650.0, "marg_oth": 0.0, "value_won": 1635.0}, {"org_id": 58, "half": "2025H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 58, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 58, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 2, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 61, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 61, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 61, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 61, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 61, "half": "2025H1", "won_pm": 0, "won_oth": 1, "lost": 1, "marg_pm": 0.0, "marg_oth": 15.0, "value_won": 33.0}, {"org_id": 61, "half": "2025H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 61, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 61, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 65, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 65, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 65, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 65, "half": "2024H2", "won_pm": 1, "won_oth": 0, "lost": 7, "marg_pm": 456.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 65, "half": "2025H1", "won_pm": 1, "won_oth": 0, "lost": 3, "marg_pm": 130.0, "marg_oth": 0.0, "value_won": 3250.0}, {"org_id": 65, "half": "2025H2", "won_pm": 0, "won_oth": 0, "lost": 2, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 65, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 4, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 65, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 68, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 68, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 68, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 68, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 68, "half": "2025H1", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 790.0, "value_won": 2370.0}, {"org_id": 68, "half": "2025H2", "won_pm": 0, "won_oth": 0, "lost": 2, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 68, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 68, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 72, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 72, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 72, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 2, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 72, "half": "2024H2", "won_pm": 0, "won_oth": 2, "lost": 0, "marg_pm": 0.0, "marg_oth": 59.0, "value_won": 137.0}, {"org_id": 72, "half": "2025H1", "won_pm": 0, "won_oth": 1, "lost": 1, "marg_pm": 0.0, "marg_oth": 12.0, "value_won": 24.0}, {"org_id": 72, "half": "2025H2", "won_pm": 0, "won_oth": 0, "lost": 2, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 72, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 2, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 72, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 74, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 74, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 74, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 74, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 74, "half": "2025H1", "won_pm": 1, "won_oth": 1, "lost": 0, "marg_pm": 87.0, "marg_oth": 22.0, "value_won": 425.0}, {"org_id": 74, "half": "2025H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 74, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 74, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 76, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 76, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 76, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 2, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 76, "half": "2024H2", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 46.0, "value_won": 72.0}, {"org_id": 76, "half": "2025H1", "won_pm": 0, "won_oth": 1, "lost": 2, "marg_pm": 0.0, "marg_oth": 41.0, "value_won": 71.0}, {"org_id": 76, "half": "2025H2", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 76, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 76, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 77, "half": "2023H1", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 8.0, "value_won": 0.0}, {"org_id": 77, "half": "2023H2", "won_pm": 0, "won_oth": 2, "lost": 0, "marg_pm": 0.0, "marg_oth": 1226.0, "value_won": 0.0}, {"org_id": 77, "half": "2024H1", "won_pm": 2, "won_oth": 2, "lost": 2, "marg_pm": 0.0, "marg_oth": 418.0, "value_won": 1482.0}, {"org_id": 77, "half": "2024H2", "won_pm": 0, "won_oth": 4, "lost": 2, "marg_pm": 0.0, "marg_oth": 313.0, "value_won": 4793.0}, {"org_id": 77, "half": "2025H1", "won_pm": 0, "won_oth": 4, "lost": 2, "marg_pm": 0.0, "marg_oth": 842.0, "value_won": 7878.0}, {"org_id": 77, "half": "2025H2", "won_pm": 0, "won_oth": 8, "lost": 4, "marg_pm": 0.0, "marg_oth": 3620.0, "value_won": 16386.0}, {"org_id": 77, "half": "2026H1", "won_pm": 0, "won_oth": 4, "lost": 1, "marg_pm": 0.0, "marg_oth": 373.0, "value_won": 5388.0}, {"org_id": 77, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 79, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 79, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 79, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 79, "half": "2024H2", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 52.0, "value_won": 107.0}, {"org_id": 79, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 79, "half": "2025H2", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 64.0, "value_won": 128.0}, {"org_id": 79, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 79, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 80, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 80, "half": "2023H2", "won_pm": 1, "won_oth": 0, "lost": 0, "marg_pm": 480.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 80, "half": "2024H1", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 45.0, "value_won": 275.0}, {"org_id": 80, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 80, "half": "2025H1", "won_pm": 0, "won_oth": 1, "lost": 2, "marg_pm": 0.0, "marg_oth": 40.0, "value_won": 200.0}, {"org_id": 80, "half": "2025H2", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 15.0, "value_won": 241.0}, {"org_id": 80, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 80, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 82, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 82, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 82, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 82, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 82, "half": "2025H1", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 20.0, "value_won": 38.0}, {"org_id": 82, "half": "2025H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 82, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 82, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 90, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 90, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 90, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 90, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 90, "half": "2025H1", "won_pm": 0, "won_oth": 1, "lost": 1, "marg_pm": 0.0, "marg_oth": 33.0, "value_won": 45.0}, {"org_id": 90, "half": "2025H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 90, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 90, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 95, "half": "2023H1", "won_pm": 2, "won_oth": 0, "lost": 0, "marg_pm": 1962.0, "marg_oth": 0.0, "value_won": 9372.0}, {"org_id": 95, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 95, "half": "2024H1", "won_pm": 0, "won_oth": 1, "lost": 1, "marg_pm": 0.0, "marg_oth": 32.0, "value_won": 55.0}, {"org_id": 95, "half": "2024H2", "won_pm": 1, "won_oth": 0, "lost": 0, "marg_pm": 140.0, "marg_oth": 0.0, "value_won": 535.0}, {"org_id": 95, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 95, "half": "2025H2", "won_pm": 0, "won_oth": 2, "lost": 7, "marg_pm": 0.0, "marg_oth": 48.0, "value_won": 129.0}, {"org_id": 95, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 95, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 97, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 97, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 97, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 97, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 97, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 97, "half": "2025H2", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 5.0, "value_won": 14.0}, {"org_id": 97, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 97, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 101, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 101, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 101, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 101, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 101, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 101, "half": "2025H2", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 60.0}, {"org_id": 101, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 101, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 114, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 114, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 114, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 114, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 114, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 114, "half": "2025H2", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 10.0, "value_won": 25.0}, {"org_id": 114, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 114, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 118, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 118, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 118, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 118, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 118, "half": "2025H1", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 240.0, "value_won": 240.0}, {"org_id": 118, "half": "2025H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 118, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 118, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 131, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 131, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 131, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 131, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 131, "half": "2025H1", "won_pm": 0, "won_oth": 1, "lost": 5, "marg_pm": 0.0, "marg_oth": 404.0, "value_won": 1950.0}, {"org_id": 131, "half": "2025H2", "won_pm": 0, "won_oth": 0, "lost": 2, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 131, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 131, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 132, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 132, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 132, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 132, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 132, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 132, "half": "2025H2", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 52.0, "value_won": 100.0}, {"org_id": 132, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 2, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 132, "half": "2026H2", "won_pm": 0, "won_oth": 2, "lost": 0, "marg_pm": 0.0, "marg_oth": 138.0, "value_won": 318.0}, {"org_id": 138, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 138, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 138, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 138, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 138, "half": "2025H1", "won_pm": 0, "won_oth": 3, "lost": 1, "marg_pm": 0.0, "marg_oth": 112.0, "value_won": 173.0}, {"org_id": 138, "half": "2025H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 138, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 138, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 140, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 140, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 140, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 140, "half": "2024H2", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 42.0}, {"org_id": 140, "half": "2025H1", "won_pm": 0, "won_oth": 1, "lost": 2, "marg_pm": 0.0, "marg_oth": 25.0, "value_won": 60.0}, {"org_id": 140, "half": "2025H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 140, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 140, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 146, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 146, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 146, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 146, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 146, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 146, "half": "2025H2", "won_pm": 1, "won_oth": 0, "lost": 0, "marg_pm": 631.0, "marg_oth": 0.0, "value_won": 2525.0}, {"org_id": 146, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 146, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 155, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 155, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 155, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 155, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 155, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 155, "half": "2025H2", "won_pm": 1, "won_oth": 2, "lost": 0, "marg_pm": 1540.0, "marg_oth": 645.0, "value_won": 5554.0}, {"org_id": 155, "half": "2026H1", "won_pm": 0, "won_oth": 1, "lost": 3, "marg_pm": 0.0, "marg_oth": 1174.0, "value_won": 2962.0}, {"org_id": 155, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 177, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 177, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 177, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 177, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 177, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 177, "half": "2025H2", "won_pm": 0, "won_oth": 2, "lost": 0, "marg_pm": 0.0, "marg_oth": 133.0, "value_won": 278.0}, {"org_id": 177, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 177, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 182, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 182, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 182, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 182, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 182, "half": "2025H1", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 210.0, "value_won": 485.0}, {"org_id": 182, "half": "2025H2", "won_pm": 0, "won_oth": 9, "lost": 0, "marg_pm": 0.0, "marg_oth": 1764.0, "value_won": 6105.0}, {"org_id": 182, "half": "2026H1", "won_pm": 0, "won_oth": 4, "lost": 1, "marg_pm": 0.0, "marg_oth": 1010.0, "value_won": 3187.0}, {"org_id": 182, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 184, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 184, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 184, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 184, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 184, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 184, "half": "2025H2", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 41.0, "value_won": 65.0}, {"org_id": 184, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 184, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 187, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 187, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 187, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 187, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 187, "half": "2025H1", "won_pm": 1, "won_oth": 0, "lost": 2, "marg_pm": 1068.0, "marg_oth": 0.0, "value_won": 4984.0}, {"org_id": 187, "half": "2025H2", "won_pm": 3, "won_oth": 3, "lost": 2, "marg_pm": 1806.0, "marg_oth": 774.0, "value_won": 9990.0}, {"org_id": 187, "half": "2026H1", "won_pm": 0, "won_oth": 4, "lost": 0, "marg_pm": 0.0, "marg_oth": 2085.0, "value_won": 11800.0}, {"org_id": 187, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 204, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 204, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 204, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 204, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 204, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 204, "half": "2025H2", "won_pm": 0, "won_oth": 1, "lost": 1, "marg_pm": 0.0, "marg_oth": 167.0, "value_won": 353.0}, {"org_id": 204, "half": "2026H1", "won_pm": 0, "won_oth": 1, "lost": 3, "marg_pm": 0.0, "marg_oth": 783.0, "value_won": 2871.0}, {"org_id": 204, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 3, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 232, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 232, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 232, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 232, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 232, "half": "2025H1", "won_pm": 0, "won_oth": 1, "lost": 1, "marg_pm": 0.0, "marg_oth": 26.0, "value_won": 59.0}, {"org_id": 232, "half": "2025H2", "won_pm": 1, "won_oth": 1, "lost": 0, "marg_pm": 1000.0, "marg_oth": 21.0, "value_won": 3810.0}, {"org_id": 232, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 232, "half": "2026H2", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 119.0, "value_won": 299.0}, {"org_id": 252, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 252, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 252, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 252, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 252, "half": "2025H1", "won_pm": 0, "won_oth": 1, "lost": 1, "marg_pm": 0.0, "marg_oth": 81.0, "value_won": 144.0}, {"org_id": 252, "half": "2025H2", "won_pm": 0, "won_oth": 2, "lost": 0, "marg_pm": 0.0, "marg_oth": 22.0, "value_won": 46.0}, {"org_id": 252, "half": "2026H1", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 46.0, "value_won": 82.0}, {"org_id": 252, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 264, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 264, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 264, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 264, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 264, "half": "2025H1", "won_pm": 1, "won_oth": 0, "lost": 3, "marg_pm": 938.0, "marg_oth": 0.0, "value_won": 5394.0}, {"org_id": 264, "half": "2025H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 264, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 2, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 264, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 265, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 265, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 265, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 265, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 265, "half": "2025H1", "won_pm": 1, "won_oth": 0, "lost": 0, "marg_pm": 166.0, "marg_oth": 0.0, "value_won": 886.0}, {"org_id": 265, "half": "2025H2", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 265, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 265, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 280, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 280, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 280, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 280, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 280, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 280, "half": "2025H2", "won_pm": 1, "won_oth": 0, "lost": 1, "marg_pm": 340.0, "marg_oth": 0.0, "value_won": 1132.0}, {"org_id": 280, "half": "2026H1", "won_pm": 1, "won_oth": 0, "lost": 2, "marg_pm": 682.0, "marg_oth": 0.0, "value_won": 2778.0}, {"org_id": 280, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 301, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 301, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 301, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 301, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 301, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 301, "half": "2025H2", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 48.0, "value_won": 66.0}, {"org_id": 301, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 301, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 316, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 316, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 316, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 316, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 316, "half": "2025H1", "won_pm": 1, "won_oth": 1, "lost": 0, "marg_pm": 372.0, "marg_oth": 603.0, "value_won": 2890.0}, {"org_id": 316, "half": "2025H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 316, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 316, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 317, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 317, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 317, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 317, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 317, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 317, "half": "2025H2", "won_pm": 2, "won_oth": 0, "lost": 0, "marg_pm": 792.0, "marg_oth": 0.0, "value_won": 3036.0}, {"org_id": 317, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 317, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 321, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 321, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 321, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 321, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 321, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 321, "half": "2025H2", "won_pm": 1, "won_oth": 0, "lost": 0, "marg_pm": 271.0, "marg_oth": 0.0, "value_won": 1223.0}, {"org_id": 321, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 321, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 324, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 324, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 324, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 324, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 324, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 324, "half": "2025H2", "won_pm": 1, "won_oth": 0, "lost": 0, "marg_pm": 580.0, "marg_oth": 0.0, "value_won": 1740.0}, {"org_id": 324, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 324, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 334, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 334, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 334, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 334, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 334, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 334, "half": "2025H2", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 28.0, "value_won": 46.0}, {"org_id": 334, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 334, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 347, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 347, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 347, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 347, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 347, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 347, "half": "2025H2", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 15.0, "value_won": 27.0}, {"org_id": 347, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 347, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 357, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 357, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 357, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 357, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 357, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 357, "half": "2025H2", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 47.0, "value_won": 72.0}, {"org_id": 357, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 357, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 359, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 359, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 359, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 359, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 359, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 359, "half": "2025H2", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 30.0, "value_won": 60.0}, {"org_id": 359, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 1, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 359, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 405, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 405, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 405, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 405, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 405, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 405, "half": "2025H2", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 50.0, "value_won": 129.0}, {"org_id": 405, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 405, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 427, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 427, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 427, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 427, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 427, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 427, "half": "2025H2", "won_pm": 0, "won_oth": 1, "lost": 0, "marg_pm": 0.0, "marg_oth": 33.0, "value_won": 81.0}, {"org_id": 427, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 427, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 450, "half": "2023H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 450, "half": "2023H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 450, "half": "2024H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 450, "half": "2024H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 450, "half": "2025H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 450, "half": "2025H2", "won_pm": 1, "won_oth": 0, "lost": 0, "marg_pm": 23.0, "marg_oth": 0.0, "value_won": 37.0}, {"org_id": 450, "half": "2026H1", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}, {"org_id": 450, "half": "2026H2", "won_pm": 0, "won_oth": 0, "lost": 0, "marg_pm": 0.0, "marg_oth": 0.0, "value_won": 0.0}]};
+const HALVES = ["2023H1","2023H2","2024H1","2024H2","2025H1","2025H2","2026H1","2026H2"];
+const BUCKETS = [
+  ["roste","f-roste","Roste"],
+  ["jede na starém","f-stare","Jede na starém"],
+  ["prodáno, nic neběží","f-prodano","Prodáno, nic neběží"],
+  ["jen pipeline","f-pipe","Jen pipeline"],
+  ["prázdný","f-prazdny","Prázdný"]
+];
+let scope = "pm", metric = "deals", pick = null;   // pick: {k:"bucket",v} | {k:"cell",run,res}
+
+const inScope = o => scope === "pm" ? o.w25_pm > 0 : scope === "out" ? o.w25_out > 0 : true;
+const cohort = () => D.state.filter(inScope);
+const match = o => !pick || (pick.k === "bucket"
+  ? o.bucket === pick.v
+  : o.is_running === pick.run && o.is_resold === pick.res);
+const shown = () => cohort().filter(match);
+const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+const fmt = n => (n == null ? "—" : Math.round(n).toLocaleString("cs-CZ").replace(/\s/g, " "));
+const sold  = o => scope === "pm" ? o.w25_pm  : scope === "out" ? o.w25_out  : o.w25_all;
+const soldM = o => scope === "pm" ? o.m25_pm_tis : scope === "out" ? o.m25_out_tis : o.m25_all_tis;
+
+function kpis() {
+  const c = cohort();
+  const n = c.length, re = c.filter(o => o.is_resold).length,
+        ru = c.filter(o => o.is_running).length,
+        em = c.filter(o => !o.is_running && !o.is_resold).length;
+  const deals = c.reduce((a, o) => a + sold(o), 0),
+        marg  = c.reduce((a, o) => a + (soldM(o) || 0), 0);
+  document.getElementById("kpis").innerHTML = [
+    [n, "klientů, kterým jsme v 2025 prodali", 0],
+    [fmt(deals) + " / " + fmt(marg), "zakázek / marže v tis. Kč", 0],
+    [re, "zobchodovali jsme znovu letos", 0],
+    [ru, "má u nás dnes běžící obsazení", 0],
+    [em, "prázdných — neběží ani neprodáno", 1]
+  ].map(([v, l, c2]) =>
+    `<div><span class="k${c2 ? " coral" : ""}">${v}</span><span class="l">${l}</span></div>`
+  ).join("");
+}
+
+function flow() {
+  const c = cohort(), tot = c.length || 1;
+  document.getElementById("flow").innerHTML = BUCKETS.map(([b, cls, lbl]) => {
+    const n = c.filter(o => o.bucket === b).length;
+    if (!n) return "";
+    const dim = pick && !(pick.k === "bucket" && pick.v === b) ? " dim" : "";
+    return `<div class="${cls}${dim}" data-b="${b}" style="flex:${n}"
+      title="${lbl}: ${n} klientů — klikni pro filtr">
+      <span class="n">${n}</span><span class="t">${lbl}</span></div>`;
+  }).join("");
+  document.getElementById("flow").onclick = e => {
+    const d = e.target.closest("[data-b]"); if (!d) return;
+    const p = {k: "bucket", v: d.dataset.b};
+    pick = same(pick, p) ? null : p; render();
+  };
+  const lbl = !pick ? null
+    : pick.k === "bucket" ? pick.v
+    : (pick.run ? "obsazení běží" : "nic neběží") + " × " +
+      (pick.res ? "znovu prodáno" : "neprodáno");
+  document.getElementById("flowleg").textContent = lbl
+    ? `Filtr: ${lbl} — ${shown().length} z ${tot} klientů. Klikni znovu pro zrušení.`
+    : `Klikni na blok pro filtr tabulky. Celkem ${tot} klientů v kohortě.`;
+}
+
+function matrix() {
+  const c = cohort();
+  const cell = (run, res, cls, lbl) => {
+    const n = c.filter(o => o.is_running === run && o.is_resold === res).length;
+    const on = pick && pick.k === "cell" && pick.run === run && pick.res === res;
+    return `<div class="cell ${cls}${on ? " on" : ""}" data-run="${run}" data-res="${res}">
+      <b>${n}</b><span>${lbl}</span></div>`;
+  };
+  document.getElementById("matrix").innerHTML =
+    `<div class="hd"></div><div class="hd">znovu prodáno 2026</div><div class="hd">neprodáno 2026</div>
+     <div class="hd">obsazení běží</div>${cell(true, true, "g", "roste — jádro knihy")}${cell(true, false, "", "jede na starém prodeji")}
+     <div class="hd">nic neběží</div>${cell(false, true, "", "prodáno, ale bez obsazení")}${cell(false, false, "r", "prázdní")}`;
+  document.getElementById("matrix").onclick = e => {
+    const d = e.target.closest(".cell"); if (!d) return;
+    const p = {k: "cell", run: d.dataset.run === "true", res: d.dataset.res === "true"};
+    pick = same(pick, p) ? null : p; render();
+  };
+}
+
+function halfChart() {
+  const ids = new Set(shown().map(o => o.org_id));
+  const pm = [], oth = [];
+  HALVES.forEach(h => {
+    let a = 0, b = 0;
+    D.half.forEach(r => {
+      if (!ids.has(r.org_id) || r.half !== h) return;
+      a += metric === "deals" ? r.won_pm  : r.marg_pm;
+      b += metric === "deals" ? r.won_oth : r.marg_oth;
+    });
+    pm.push(a); oth.push(b);
+  });
+  const max = Math.max(1, ...pm.map((v, i) => v + oth[i]));
+  document.getElementById("hc").innerHTML = HALVES.map((h, i) => {
+    const t = pm[i] + oth[i], hp = 130 * pm[i] / max, ho = 130 * oth[i] / max;
+    return `<div class="col" title="${h}: PM ${fmt(pm[i])}, ostatní ${fmt(oth[i])}">
+      ${t ? `<div class="val">${fmt(t)}</div>` : ""}
+      ${oth[i] ? `<div class="seg s-oth" style="height:${ho}px"></div>` : ""}
+      ${pm[i] ? `<div class="seg s-pm" style="height:${hp}px"></div>` : ""}</div>`;
+  }).join("");
+  document.getElementById("hcx").innerHTML = HALVES.map(h =>
+    `<div class="${h === "2026H2" ? "part" : ""}">${h.replace("H", " H")}</div>`).join("");
+}
+
+function tableRows() {
+  const list = shown().slice().sort((a, b) => (soldM(b) || 0) - (soldM(a) || 0));
+  if (!list.length) return `<tr><td colspan="8" class="empty-note">Žádný klient neodpovídá filtru.</td></tr>`;
+  const byOrg = {};
+  D.half.forEach(r => { (byOrg[r.org_id] = byOrg[r.org_id] || {})[r.half] = r; });
+  const gmax = Math.max(1, ...list.flatMap(o => HALVES.map(h => {
+    const r = (byOrg[o.org_id] || {})[h]; if (!r) return 0;
+    return metric === "deals" ? r.won_pm + r.won_oth : r.marg_pm + r.marg_oth;
+  })));
+  return list.map(o => {
+    const spark = HALVES.map(h => {
+      const r = (byOrg[o.org_id] || {})[h] || {won_pm: 0, won_oth: 0, marg_pm: 0, marg_oth: 0};
+      const a = metric === "deals" ? r.won_pm : r.marg_pm;
+      const b = metric === "deals" ? r.won_oth : r.marg_oth;
+      const ha = Math.round(24 * a / gmax), hb = Math.round(24 * b / gmax);
+      const now = h === "2026H1" || h === "2026H2" ? " now" : "";
+      const ttl = `${h}: PM ${fmt(a)}, ostatní ${fmt(b)}`;
+      if (!a && !b) return `<i class="${now.trim()}" style="height:1px" title="${ttl}"></i>`;
+      return (b ? `<i class="oth${now}" style="height:${Math.max(1, hb)}px" title="${ttl}"></i>` : "")
+           + (a ? `<i class="pm${now}" style="height:${Math.max(1, ha)}px" title="${ttl}"></i>` : "");
+    }).join("");
+    const cls = {"roste": "ok", "jede na starém": "neutral", "prodáno, nic neběží": "neutral",
+                 "jen pipeline": "warn", "prázdný": "bad"}[o.bucket] || "neutral";
+    const dnes = [];
+    if (o.run_n) dnes.push(`${o.run_n}× obsazení běží${o.run_codes ? " (" + o.run_codes + ")" : ""}`);
+    if (o.w26_n) dnes.push(`výhra 2026: ${o.w26_codes} (${fmt(o.w26_marg)} tis.)`);
+    if (!o.run_n && !o.w26_n) {
+      if (o.new26) dnes.push(`${o.new26}× nová poptávka`);
+      if (o.lost26) dnes.push(`${o.lost26}× prohra`);
+      if (!o.new26 && !o.lost26) dnes.push(o.acts_done ? `${o.acts_done}× dotyk, nic víc` : "nic");
+    }
+    return `<tr>
+      <td class="org">${o.org_name}</td>
+      <td class="c">${sold(o)}</td>
+      <td class="r">${fmt(soldM(o))}</td>
+      <td><div class="spark">${spark}</div></td>
+      <td><span class="chip ${cls}">${o.bucket}</span></td>
+      <td class="sm">${dnes.join("; ")}</td>
+      <td class="sm nw">${o.acts_done || 0}${o.last_act ? " · " + o.last_act : ""}</td>
+      <td class="sm nw">${o.act_owner_2026 || '<span class="na">nikdo</span>'}</td>
+    </tr>`;
+  }).join("");
+}
+
+function render() {
+  kpis(); flow(); matrix(); halfChart();
+  document.getElementById("tbody").innerHTML = tableRows();
+  document.getElementById("metriclbl").textContent =
+    metric === "deals" ? "počet vyhraných zakázek" : "marže v tis. Kč";
+}
+
+document.querySelectorAll("[data-scope]").forEach(b => b.onclick = () => {
+  scope = b.dataset.scope; pick = null;
+  document.querySelectorAll("[data-scope]").forEach(x => x.classList.toggle("on", x === b));
+  render();
+});
+document.querySelectorAll("[data-metric]").forEach(b => b.onclick = () => {
+  metric = b.dataset.metric;
+  document.querySelectorAll("[data-metric]").forEach(x => x.classList.toggle("on", x === b));
+  render();
+});
+render();
+</script>
+</body>
+</html>

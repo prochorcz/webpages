@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portfolio 14 produktů — výkon po pololetích</title>
+<meta name="description" content="Marže a konverze všech 14 produktů (způsob dodání x
+kompetence) po pololetích 2024 H1 – 2026 H2. 470 uzavřených dealů.
+Interní materiál Projectman.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+ rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --red:#FF525F; --blue:#A9C5DF; --white:#fff; --surf:#f4f7fa;
+  --body:#626567; --muted:#9aa3b0; --dark:#1a1a1a;
+  --font:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--white);color:var(--body);font-family:var(--font);
+  font-weight:400;font-size:16px;line-height:1.66}
+.wrap{max-width:920px;margin:0 auto;padding:0 28px}
+h1,h2,h3,h4{font-weight:600;color:var(--dark);line-height:1.25;margin:0}
+h2{font-size:1.55rem;margin:64px 0 6px}
+h3{font-size:1.12rem;font-weight:500;margin:38px 0 10px}
+h4{font-size:1rem;font-weight:600;margin:34px 0 12px}
+p{margin:0 0 16px}
+strong{color:var(--dark);font-weight:600}
+a{color:var(--red)}
+ul,ol{margin:0 0 16px;padding-left:20px}li{margin-bottom:7px}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.86em;
+  background:var(--surf);padding:1px 6px;border-radius:4px;color:var(--dark);
+  white-space:nowrap}
+
+.cover{background:var(--dark);color:#fff;padding:60px 0 66px;margin-bottom:8px}
+.cover img.logo{height:44px;width:auto;display:block;margin-bottom:52px}
+.cover h1{color:#fff;font-size:2.5rem;letter-spacing:-.015em;max-width:22ch}
+.cover .rule{width:76px;height:4px;background:var(--red);border-radius:2px;margin:24px 0 22px}
+.cover .sub{color:var(--blue);font-weight:500;font-size:1.12rem;max-width:62ch;margin:0 0 30px}
+.cover .meta{display:flex;flex-wrap:wrap;gap:12px 34px;font-size:.86rem;color:#fff;opacity:.82}
+.cover .meta div span{display:block;color:var(--blue);font-size:.74rem;text-transform:uppercase;
+  letter-spacing:.09em;margin-bottom:3px;opacity:1}
+
+.sec{border-top:3px solid var(--red);margin-top:74px;padding-top:8px}
+.sec .kicker{font-size:.74rem;text-transform:uppercase;letter-spacing:.11em;
+  color:var(--red);font-weight:600}
+.lead{font-size:1.06rem}
+
+.call{background:var(--surf);border-left:3px solid var(--red);padding:20px 24px;
+  border-radius:0 6px 6px 0;margin:24px 0}
+.call p:last-child{margin-bottom:0}
+.call.blue{border-left-color:var(--blue)}
+.impact{background:var(--dark);color:#fff;padding:34px 32px;border-radius:8px;margin:30px 0}
+.impact p{color:#fff}.impact p:last-child{margin-bottom:0}
+.impact .big{font-size:1.9rem;font-weight:600;color:#fff;line-height:1.2;margin-bottom:12px}
+.impact .cap{color:var(--blue)}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:14px;margin:26px 0}
+.kpi{background:var(--white);border:1px solid #e6ecf2;border-top:3px solid var(--red);
+  border-radius:6px;padding:16px 18px}
+.kpi .v{font-size:1.62rem;font-weight:600;color:var(--dark);line-height:1.1}
+.kpi .l{font-size:.79rem;color:var(--muted);margin-top:5px;line-height:1.4}
+.kpi.dk{background:var(--dark);border-color:var(--dark)}
+.kpi.dk .v{color:#fff}.kpi.dk .l{color:var(--blue)}
+
+.tw{overflow-x:auto;margin:22px 0;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:440px}
+thead th{background:var(--blue);color:var(--dark);font-weight:600;text-align:left;
+  padding:10px 13px;white-space:nowrap}
+tbody td{padding:9px 13px;border-bottom:1px solid #eceff3;vertical-align:top}
+tbody tr:nth-child(even){background:var(--surf)}
+tbody tr.hi{background:#fff4f5}
+tbody tr.hi td{font-weight:500;color:var(--dark)}
+td:not(:first-child),th:not(:first-child){text-align:right;white-space:nowrap}
+td.t,th.t{text-align:left;white-space:normal;min-width:190px}
+
+.ev{border-left:2px solid var(--blue);padding:2px 0 2px 18px;margin:0 0 18px}
+.ev-h{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;margin-bottom:4px}
+.ev-org{font-weight:600;color:var(--dark);font-size:.95rem}
+.ev-dt{font-size:.76rem;color:var(--muted);font-family:ui-monospace,Menlo,monospace}
+.ev p{margin:0;font-size:.95rem;font-style:italic}
+
+.chart{width:100%;height:auto;display:block;margin:26px 0 8px}
+.cx-hd{font:600 12px var(--font);fill:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.cx-ax{font:400 13px var(--font);fill:var(--body)}
+.cx-ax.b{font-weight:600;fill:var(--dark)}
+.cx-vl{font:600 12.5px var(--font);fill:var(--dark)}
+.cx-lg{font:400 12px var(--font);fill:var(--body)}
+.cx-sub{font:400 11.5px var(--font);fill:var(--muted)}
+.cx-sub .b{font-weight:600;fill:var(--dark)}
+
+.hyp{border-left:3px solid var(--blue);padding:4px 0 4px 20px;margin:0 0 24px}
+.hyp h4{margin:0 0 6px}
+.hyp .test{font-size:.9rem;color:var(--muted)}
+.foot{border-top:1px solid #e6ecf2;margin-top:80px;padding:26px 0 60px;
+  font-size:.84rem;color:var(--muted)}
+@media(max-width:600px){.cover h1{font-size:1.9rem}h2{font-size:1.3rem;margin-top:48px}}
+
+/* Scoped addition to the shared CID block above. The theme paints `strong` in --dark, which is
+   invisible on the two dark surfaces (.cover, .impact); the earlier reports simply avoided
+   <strong> there. These reports use it to carry the argument, so it is scoped back to white. */
+.cover .sub strong,.impact strong{color:#fff}
+.impact .mono{background:#333;color:#fff}
+
+.tw.grid{width:min(1420px,calc(100vw - 32px));position:relative;left:50%;
+  transform:translateX(-50%)}
+.grid table{min-width:1150px;font-size:.84rem}
+.grid thead th.grp{background:#8fb0cc;color:var(--dark);font-weight:600;text-align:center;
+  font-size:.74rem;text-transform:uppercase;letter-spacing:.07em;padding:6px 8px}
+.grid thead th.grp.kg{background:#c9bcd8}
+.grid thead th.k{background:#ded3e8;text-align:center;font-size:.76rem}
+.grid td.k{text-align:center;font-weight:600;color:var(--dark);background:#faf7fc;
+  border-left:1px solid #eceff3;white-space:normal;min-width:122px;padding:7px 7px;
+  vertical-align:middle}
+.grid td.k:last-child{min-width:52px;white-space:nowrap}
+.grid td.k .kp{display:block;line-height:1.2;white-space:nowrap}
+.grid td.k .kn{display:block;font-weight:400;font-size:.7rem;line-height:1.25;margin-top:2px;
+  color:var(--body);white-space:normal;overflow-wrap:anywhere}
+.grid td.k.hot .kn{color:#8a2f5f;opacity:.85}
+.grid td.k .kn.one{font-style:italic;color:var(--muted)}
+.grid td.k.hot{background:#f3e6ee;color:#8a2f5f}
+.grid tr.totrow td.k{background:#efe8f4}
+.grid thead th{padding:9px 8px;font-size:.78rem;text-align:center}
+.grid thead th.t,.grid thead th.rk{text-align:left}
+.grid thead th.part{background:#c8d7e6}
+.grid thead th.part i{display:block;font-style:normal;font-weight:400;font-size:.68rem;
+  text-transform:uppercase;letter-spacing:.06em;opacity:.72}
+.grid tbody tr:nth-child(even){background:transparent}
+.grid tbody td{border-bottom:1px solid #e6ecf2;padding:7px 8px}
+.grid td.rk{color:var(--muted);font-size:.8rem;text-align:left;width:26px}
+.grid td.t{min-width:210px;white-space:normal}
+.grid td.t b{color:var(--dark);font-weight:600;display:block;line-height:1.3}
+.grid td.g{text-align:center;white-space:nowrap;min-width:92px;border-left:1px solid #eceff3}
+.grid td.g .gm{display:block;font-weight:600;font-size:1rem;color:var(--dark);line-height:1.25}
+.grid td.g .gm.dash{font-weight:400;color:#c3cbd6}
+.grid td.g .gm .ga{font-style:normal;font-size:.66em;margin-left:3px;vertical-align:1px}
+.grid td.g .gn{display:block;font-size:.7rem;color:var(--muted);line-height:1.3}
+.grid td.g .gc{display:block;font-size:.76rem;font-weight:500;line-height:1.35}
+.grid td.g.up{background:#e8f6ed}.grid td.g.up .gm,.grid td.g.up .gm .ga{color:#15703c}
+.grid td.g.flat{background:#fdf5da}.grid td.g.flat .gm,.grid td.g.flat .gm .ga{color:#8a6708}
+.grid td.g.down{background:#fdeaec}.grid td.g.down .gm,.grid td.g.down .gm .ga{color:#b31e2d}
+.grid td.g.none,.grid td.g.part{background:#fafbfc}
+.grid td.g.part{background:repeating-linear-gradient(135deg,#f6f8fa 0 6px,#eef2f6 6px 12px)}
+.gc.up{color:#15703c}.gc.down{color:#b31e2d}.gc.flat{color:#8a6708}.gc{color:var(--muted)}
+.gc.over{font-weight:700;text-decoration:underline dotted 1.5px;text-underline-offset:2px}
+.grid tr.totrow td{border-top:2px solid var(--dark);background:#f0f4f8;padding-top:10px}
+.grid tr.totrow td.g .gm{color:var(--dark)}
+.grid tr.totrow td.t b{color:var(--dark)}
+.code{display:inline-block;font-family:ui-monospace,Menlo,monospace;font-size:.7rem;
+  color:var(--muted);letter-spacing:.02em}
+.grid td.t .code{font-size:.68rem}
+
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;margin:14px 0 0;font-size:.82rem;
+  color:var(--body)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend i{width:15px;height:15px;border-radius:3px;display:inline-block;border:1px solid #dfe6ee}
+.legend i.up{background:#e8f6ed}.legend i.flat{background:#fdf5da}
+.legend i.down{background:#fdeaec}.legend i.none{background:#fafbfc}
+.legend i.part{background:repeating-linear-gradient(135deg,#f6f8fa 0 5px,#eef2f6 5px 10px)}
+
+h3 .rank{display:inline-flex;align-items:center;justify-content:center;width:25px;height:25px;
+  border-radius:50%;background:var(--dark);color:#fff;font-size:.8rem;font-weight:600;
+  margin-right:9px;vertical-align:2px}
+h3{margin-top:52px}
+h3 .code{margin-left:7px}
+.tb{display:inline-block;font-size:.7rem;font-weight:600;text-transform:uppercase;
+  letter-spacing:.06em;padding:2px 8px;border-radius:11px;margin-left:8px;vertical-align:2px;
+  white-space:nowrap}
+.tb.up{background:#e8f6ed;color:#15703c}.tb.flat{background:#fdf5da;color:#8a6708}
+.tb.down{background:#fdeaec;color:#b31e2d}.tb.none{background:var(--surf);color:var(--muted)}
+
+.pgrid{display:grid;grid-template-columns:1fr auto;gap:18px 26px;align-items:start;margin:18px 0 6px}
+.pk .kpis{margin:0;grid-template-columns:repeat(2,1fr)}
+.pk .kpi{padding:12px 14px}.pk .kpi .v{font-size:1.24rem}.pk .kpi .l{font-size:.73rem}
+.ps{text-align:center}
+.spark{display:block}
+.spark .sb{fill:#cfd8e2}
+.spark .sb.up{fill:#4fae74}.spark .sb.flat{fill:#e0b93c}.spark .sb.down{fill:#e2626f}
+.spark .sb.zero{fill:#e4e9ef}.spark .sb.part{fill:#b9c5d2}
+.spark .sl{font:400 9.5px var(--font);fill:var(--muted)}
+.scap{display:block;font-size:.7rem;color:var(--muted);margin-top:2px}
+@media(max-width:760px){.pgrid{grid-template-columns:1fr}.ps{text-align:left}}
+
+.toc{columns:2;column-gap:32px;margin:20px 0 0;padding:0;list-style:none}
+.toc li{margin:0 0 3px;break-inside:avoid}
+.toc a{display:flex;align-items:baseline;gap:8px;text-decoration:none;color:var(--body);
+  font-size:.88rem;padding:3px 0;border-bottom:1px solid #f0f3f7}
+.toc a:hover{color:var(--red)}
+.toc .tn{color:var(--muted);font-size:.76rem;min-width:16px;text-align:right}
+.toc .tm{margin-left:auto;color:var(--dark);font-weight:600;font-size:.82rem;white-space:nowrap}
+@media(max-width:600px){.toc{columns:1}}
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="wrap">
+    <img class="logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABdwAAAI1CAYAAADM2TigAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAUL9JREFUeNrs3d1128a6MGBwr31/eCrYTAVhKghdQeQKTFVg6VK+kXRjXcquQHQFVioQXYGZCsyvgvBUwA8jDXcYRT/8GYDA4HnWwuLejgQBL+YdAC+Gg6IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGBnPSFohqurj8Pyox//7+zs7MNCVP4WnxCbYfy/8zI+c1H5R4xGq/9dxmcqIv+Iz6D8GMixjXJsUcZnJirP99NyTI4BAADAUxTcD+jq6uO4/PitXI6e+M/zcpmWy2VXi8uxgPwuxqf/xI/clsvvZXwmHY1PiMlJbEPDJ34kFEy/lMukq4WvDXPsc1eLy7GA/L5cQq4N5NiTOTaO/dBzOfZ7zLGu9tNHMT6jJ/rpRWxDXzygAAAAoCsU3A8gFiiui6cLXE+ZlMtpV4qmcZTkTfFQwNnEvFzedqloWsboongolPY3+PHQbsKDm08dis8otqFNcywUBY87lGP9GJ+jLXLsuEtF0zJG4WHW+RY5Fh7cXHQoPsPYhoYb/so0tqG5qwAAAABypuBes6urj6HQfrLDr86LDhSVYxHnrtisyPXYce4jcWOh9Gux+cOIdZ0oKsdR7Tc7/GqIyxs59qLT3B/cxBwL/fR4h1+fxTYkxzqcYwAAAHTbv4SgPnsU24NBudzF0d+5xmefQmBwEwtBOQvxGe34u2E089fMcywc/5sdf70fc2wox551HUd+5yy0n137kWFsQ3051s0cAwAAAAX3msRpZPYtVK1GN+cYn9W+7Vuousm1mBMf2Oy7b6O4nhzjMyp2LwT+LccyLpjeJMix6/UX9GbWhi6KzafZeU7I0fNM4zNMlGNZP5QAAACg2xTc65OqyDnMdIRp2KdBw2LdGLHAmeq4n2T6TYmbROsZJIx1k9rQRbH/A5vUsW5SfMJxP0+YYyPnsWf1i0wfSgAAAICCew3iV/AHCVf5PrP49BPv0yjDYte7xOs7z6wNHaXOsQxH4KbMsUGG0zedNzjeTcix0Kem7FdPjHIHAAAgRwru9UhdLB3EAmMuwr70Gx7zg4lFqXEFMZdjz+vnFKPYX6TOsd8ya0Opj/dRZgXlKvrUcQEAAACZUXCvx6iCdeY0T/mvLYn5oVRxrPuZfQugin35WY69KKcHEqH99FvSLnPKsV8LAAAAyIyCe8UqfIFnToWKQUvWeSijitab00ObvvjUvy8ZjeAeyLGDxMiUMgAAAGRHwb16CgpomxXK9OWUbZFLQXngUB6E3AUAACA7Cu5A282FAOQuAAAANIGCe/VmFa13LrSdMW9Z26zV2dkHufC6RUWxn2YSn2mb4q5vAwAAgOZScK/Y2dmHUHCZV7DqPzIKUxWF36n4HGy9ucToW0bxqWJf5hnFp6p9yakfmrYkbwEAAOCgFNzrMa1gnbcZxedLBev8PZfgnJ19CEWpeeLVzjMbGS7HxGefHAu5MKsgx3IqKFfRp+b0UAsAAADuKbjX43Pi9U1zKpZWVFC+zawNpX4ocSnHXs2xWWY5Nm14zHNrQ18yi8+kSDtFTnggkVs/DQAAAArudYjFrknCVZ5mGKbjhOu6zHBe709FuocSodA1ySzH5jFGydpQhjmWcp8mueVYzIlU+7RI3B6bEJ+wTykfSuR4HgMAAAAF9xqF4sI8wXouM5um4F58+eIkwapCbD5lGJ9Q7Er1UOJtpjl2WaSZFuRTRi8DfZxjKXJjXuRbLE2VG8cxZ3NrQxeJcmxidDsAAAC5UnCvSSy+hGLOPkWYSSx45BqjUFCe7LGKUAh6k2OhK8ZnWuxfdD/O8YHNWo4dJ8ix04xz7HTPHLvvxzLOsVmiHMu5mPym2K/oHn7X6HYAAACy1ROCel1dfRyWHzflMtzyVy9zLrY/itF1+XGy5a9Ni4wLgY/icxTbUH+LX7svRndhVGkZnxCXux1y7FPOxfYEOTaLOTbvQHxG5cdXOfZijoX4jLb81Ul8sAoAAADZUnA/kKurjxflx/vi9YLOtFxOcx2V/EJ8RuXHefF6QWdePDyMmHQsPqHdhKLpeIMfn8Q2tOhYjMaxDQ02yLHLHKeRSZhjn8v4fOpgjp3HHOtvkGOXXXgYIccAAADgZQruBxZHK4eRuL+u/fO8XP4ol9uuFXCeiE+IzSjGZ73o9a1cpl0v4MSiYGhDPxd/H9E9W2tDCzn2jxxbxDYkx64+Dtba0OBRjs26Pte2HNu4nz56IsdW8ZkVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdEBPCA7n6upjv/w4Kpdfy2Xw6D9/K5fbs7MPs47HaBWf4aP/NF+L0aLD8RmstaH+2n9arMVnLseezLGQW7+X8Zl2PMeGazGSY3JslxiNX8ixb2V8bp3xAQAA6AoF9wOIRcCTcnlf/L2A85RQsDjtWlEwFtqvi38WcB4LRa/PZXwuOhafEJebchlt8OOTcrnsUlFwyxybxxy7lWPP51i5fOpS4T3m2Hm5jDf48WlsQ7OOtaGLLXIs9EETVwAAAADkTsG9ZnE06dfi9SLXY6HYddqB+ITCTSgkH235q6HQddyFglccTXqz5a+FQulpFwpeMcdCfIZb/uokxmjRgRiF+Iy3/LV5ubztUI6FhxH9LX/1uCM5NojnsW1z7DbGqLPfmAAAACB/Cu41ioXAu2L7Is7K5Ozsw3HG8enH+Ax3XEUo4rzJuSC4Y7F9XdYFwQQ5NottaJFxjL7LsUpz7DLnb9zIMQAAAHjZv4SgHnFE4D5FimBcruc64zDtMip5XYjt11i4z7ENHRX7FQLvYxzXk2N87o//njkW2l+2ORZHtu+bY3cZ59goQY6dx6J9rjl2kyDHbgoAAADIlIJ7ffYtUqycxKJQVmIROEUheFA8zLucW3xWha4kbTHTgukm85FvYpzjQ4nYb4wTrCplW8w1x64zzbHQtw4TrOco14cSAAAAoOBeg1joGiVc5XmGYUo5qvgkfqMgJ+EFoKkKeKsXiuaUY+F4jxvaHpsiZb9xFKcWyUloPwM59mKOnTS0PQIAAEBjKLjX413i9Y1yKijH0cSp9+e9NlTr+g4t9fEe5FRQjvsykmO17k9u8TmqIMeynN4KAACAblNwr8dRS9Z5KL9WsM5RLsGJxdJB4tUOMhuhLMfq35eccmxQQY71M5v+67eW9P0AAABwUAruFYuFnCrm8v05ozANW7LOQxlVtN5BRjGqYl9yKgb+rP0cZF/0Q92JDwAAANxTcK/eoGXrpXmqevliFsWuDOcSb00bymgE96hluev8CAAAAA2l4A60naImyF0AAABoBAX36i1atl66Y57DTpydfZg6lAczsx+IOwAAAPxFwb1iZ2cfqioo/JFRmOYtWeehTFsU90Op4gFUTsXAb1XEvOzfcnnwN29Z7h7CrCV5CwAAAAel4F6P25as81CqKAZOcwlORSO4F5mNDL9tSbs8lJkcezHHQnw8tKn/eP/u8gAAAIDcKLjXI3VRYV7hyPlDCMXS1MWuL5m1oUkFMc9J6uMdHkhkE6O4L3M5VmuOTTL6BkAlOZZhPwQAAAAK7nU4O/swKdIWuy4zi08ovHxOuMpphvN6XzZ8fYduQ+F4pzzmn4v8pNynWU4PJNbis9CGns2xWeocy+yBBAAAANxTcK/PcaL1TGMBPzefijTTLywSxroxymM+L9IVyS/j+nJzmmg9oZh8kWEbSpVjhRx7vT/L7FtI68c9RZF8Hvt8AAAAyI6Ce03iCNx9i1ShgPM20/isCuX7FnNOMy0mF7EIPNlzNZMci8kxPrMEObbINceiNwly7DjTYvLqocS+ORYeip5mGp95qhwzuh0AAIBcKbjXKI5M37VYEQpcb3IuUsQiXigIznf49fuCfaaj/9djFNrPrvs4ib8vx17OsXnG8VnEHNu1YC7HXsmxIu8HNqv3AbwtdntwM485NisAAAAgUz0hqN/V1cdh+XFTLsMNfyVMc/CpKyMCy/j0y4/rchlv+CvT4mFk+6xDbeik/Dgvl/4GP756GHHbsRwLbWi04a+Ekc2XHcux0H5O5NizMTqKbWiwYY5dxhHyXYnPIJ7HNs2xSWxDRrYDAACQNQX3A4oFnd+Kh4LF4NF/DoWtL+Vym/OI21fiE2LyPsbn8cOJEJNpiFGGL0jdND6haLpqQ0eP/vMixuf33EckvxKj0HbevZBjIUafO55j49iG5NjTMRqv9dOPH3BN1/rphRyTYwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN3WE4LDurr62C8/huUyWvvnebnMzs4+zEToPkbDGKNB/KdFjM9UdO7jM4jxGa798yzGaC5C9zEaxfj05dhGORZM5djf+umRHJNjAAAA8BoF9wOJBa735TJ+4cfm5fKlXD6dnX1YdCw+oWhzUi7vir8XAdeFmNyWy2UXi15ljMaxDQ1f+LFpuXwu43PbwfiEdnMux/bKsWDS4RwbxTY0euHHZjHHJh3OsaPir0L7U/305y7mGAAAAN2k4H4AV1cfr4uHQtem5uVy3JXRpmV8QvHmpni+gPOUUBC86Eh8BjE+oy1+LbSdt10peJUxCm3hfItfWcQcu+1IfEaxDQ22+LVQMD3tSHxC3/N1hxw77sqDCTkGAAAAT1Nwr1Es4twVL49Ifslx7qMo46jtmx1/fVLG5zjz+AxjG+rv8Ouh4PUm5ykediyUyrHNTYvMH9zIsY1iFNrPeMdf78zDUQAAALrpX0JQq1AIHO7x+zdx9HeW9iwEBuNYCMo1PoNi90JgEX/vLhalcxW+PTLaM8fGGbehoz1zbLTn7zc9PqsHNvvm2CDjGO1TbA/Oc84xAAAAUHCvSfz6/SjBqm5yLJiuTZOyr3HGDyW2nWbnKauCYo45FqZpGidY1XWOBdOEOXYUY51rjg3k2LNt6ChRjt3EbxIAAABAdhTcaxALXe8TrS4Uc64zDFPKUbPZPZSII0JHiVY3inN45xSfcLzPE+bYeYY5dl7s/8Dmv+vKMMdCTqR6WDfMdBT3dUPXBQAAAI2h4F6PcZGu0HW/vpyKXfGBxCjhKkNschvl/j7x+s7l2Ks5Nsgox/pFmpHJ6zk2lmO1ru/QbSgc75Q5MTLKHQAAgBwpuNfjtwrWmVNB+aglMT+IWPhNXZgaZTZCWY7Vvy/vMsqxKh7SDTObmkiOAQAAwAYU3OtRxSi+nzOKz68VrHOk/RxsvYcwakm7zCnHhnKsU/2QHAMAAIANKLhXrMK5snMqdvVbss5DUQx8Ocf6LWqXhzKoKPZDOVZ/3PXTAAAA0FwK7kDbmQf6cPr2A7kLAAAAf1FwB9puJgQHs7AfyF0AAAD4i4J7xc7OPkwrWnVOhYpFS9Z5KFUd62kmObZoUbs8lHlFsZ/Jsfrjrp8GAACA5lJwr0cVxZw/MorPtwrWOdV+DrbeQ5i2pF3mlGMzOdapfkiOAQAAwAYU3Ovxe+L1hVGBtxnF57YFMT+Ys7MP8yJ9QXBa4cjwHHKskGOv+pJRjlXRp85i7sqx501cHgAAAJAbBfd6fCrSfnX+NqdiaSxKTROucl6uc5JZG/qceH2XmcVnkjjHJjkVS2N/kTInUq8vxxz7nFNwYp+aMiemmT2QAAAAgHsK7jWIxa5UxZewrtMMw3RcpCuYnmbYhiZFuocS0wrfLXDIHLtMmGOXGebYZcIcu8zsGxKr923cJsyxSYZt6LSh6wIAAIDGUHCvydnZh4siTcH0bW6FrhifeZGmABNGJt9m2oxSPJQIv/820xwL3ySZJFjVaY4jb+M+HSdY1W2Mda45Nk+QY8eZ5thtohw7zuiFuwAAAPA3Cu71CoXOfYoMx7mNTF4XR4TuU6gKxfbjjOMzLz/eFLsX3cPvvcnxgc1ajMLxn+yZY5OM43O7Z45Ni0yLyTE+qwdS8z1zbC7HupljAAAA0BOC+l1dfbwuP062+JV58TCyfdaR+ByVHzfl0t/i1y7jtwi6EJ9BjM9oi1+bFpl+O+KZGIW2cL5ljmX9QOtRfEaxDQ3k2JPx6cf4HG2ZY8ddmZe8jNFJzLFN++lFjM9tAQAAABlTcD+QWDQNxYrxCz82L5fPGU/f8FJ8QhEnFHTeFc8XBUMBJxRvLrv48r0yRuMYn9ELPzaN8Zl2OMdC0bT/Qo59KZdPXXkYIce2ilHIrffFy4X3kFtfujhqW44BAADAPym4N0As6gyLvwoWYST7rIsFrmfiM4zxGcR/WsT4TEXnv4XTEJ/R2j9PY4wUuJ7OsXmMj3mk/8qxQYyRHNs8x+b6aTkGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdF1PCAAAALphuVwOyo9RuQye+M/TXq83FSUAAAAAAHjGcrkcl8v35ev+LJebWJgHAAAAAACC5XI53LDQ/pQLEQQAoLWurj4Oy6UvEs/Gp18uA5F4MUYjUZBje+bYUCTk2B7xGeinAZojFtv/XO7nRiQBADZnDvcDurr6eFR+vCse5lB8XASclcvv5TI5O/sw72h8BuXH+xifx0XAEJNpuXwp4zPtaHxCmxmXy28xRo/dx6dcbssYLToao1HMsaNncizE6LMcezLHQpu5Df1QGZ/bDufYUcyxo2dybNVPdz3HwufgiX76tss5BnBIy+UynMd+PHENtItPvV7vVFQBAF6n4H4AsUBxXfyzwPXsBW65XHaloBOLXCE+4w1/ZVoup2V8Zh1qQyflx/mGN1CLGJ9Jh+IzjG1oJMeezbHQfk42/JWQW8cdy7FQYL/ZIsdC+/kkx541if1QJx9MdF3LpqSYxZxe9Hq9maNHBrl3nuzGsSSqAAAbXDcJQb2urj6Oi4cizi43gG9zHyUYizhfi3+OlHxNJ4rKOzyMWBdG4R7LsWfNY47NOpBjIT67TB1z3IUHN2WMbnbMsdsYo0UHciz0Q9uOmAxxedOlBzc8CPNRtHjzZ3H5Vi7TXq83d0RpUe5dFAruAAC1c9FUoz0KgSvhJu+XXIs5sRB4V+z3tdesC4JljEJ8RnusIuuie4Icy7ogGKeQ+S7HXozRrsX2lVkZn1/kWDdzjKe1vOD+1LVYeLj2xQh4WpB7F4WCO2ybN/vca809mAUg+JcQ1CNOI7PvC4cGxcPo7xzj0y82n77hJde5vvSx3K9w0zTaczXjuJ4c4zNMkGP9BOtosq8Jcuwm4xwLU+yM91xNeDHvdabxCeeg6wQ59tXLi2mxkAehr/i+XC7DMo7zZAOQh7s9lrHwARAouNcnVRFvFEcY5ibcvKYo4q2mXMlKLHSlGqF0HteXm1THfZjjQ4lYTE5VKL+RYy/3Z5k+lEjxUDQYFJu/PwCabPWg90cYSazwDgAABAruNYgF8kHCVZ5nFp9wg/o+4SpH8RsFOTlv+PoO3YbC8U55zN8X+Ul5zIfxpaI5Cce8rw09m2PD1DlmlDsZWb2IOhTex8IBAADdpuBej98Sr2+QWUH5qEhb6AreZdaGxhXEPCepj3c/p4Jy3Bc5Vm+OjTMrKCfPsQz7Ibiflmy5XN6Vy0A4AACgmxTc61FFUWGUUXx+FZ/nVfRwpZ/hQ5s2tEs51swcC6O3qyiO5zStTBXH+7cC8hTy5bvR7gAA0E0K7hWrcB7fnzMK06Al6zzkjXshRi9SLK1/X/oZjeAetCx3s2lDrhLI2Gq0+41QAABAtyi413PD1ab10h2DHHYiw/n622RoPxB3eNF4uVx+90JVDmTa0HUBAGRNwR1ou7kQQCsthICOCA+X7hTdqVuv15uWH8cJVjUrl7ciCgCwGQX36s1btl6604ZmOQTn7OyDXHjdoqLYTzOJz7RNcde3QSspunMQvV5vUjwUy3c9J4Vz5JtyPc5pAAAbUnCvWCwGVnGB+kdGYZq1ZJ05xSeYi9GLvmUUnz+0n4PsS0790FR8YG+h6G5Od2rX6/Vuy4+fyuVyi/uS0Ecfl7+r2A4AsCUF93rctmSdh1JFYfP3XIJzdvYh3PDME692Htebi6kcq31fphnl2LyCHFtk9A2AqvrUnB5qwaaOlsvlhTBQt1A0L5eLcvnf4mHE+2W8PpiuLZNyOS2XX8qf+yWOjgcAYEsK7vX4knh905ym0Sj3JVzsp96fiTZU6/oO7XPi9WX1QCLuyzTxai+1oVrXd2i3FeTYbQHddL5cLkfCwKGEEe+x+P42jmBfLWFE+6dy8Q0kAIA9/FsIqhdGOV5dfQyFhaNEq7zMMExhNM3XROv6lOG83p/K5X25pJj7dR7Xl1OOzcscm5T/c5xolccZ5ljoN0aJ1jXJLcfK/flUtqGQY4MEq1tkmmNhn06cxzhgH1aF/6zl/TDReXYTYWqZnxxWAADIj4J7fUIBb5TgRu5TZtMU3AsjHRMVTGdFhoWcMj6LMj6hDaV4KHEc1pdhjp3GHBvsuZ5Jpjk2TVQwXcRY59pP38mxZ60e2gz3XM9tGZ+JywK2EUbj1vF3lsvlILbz34p0AyWeMghTy9S1XwAAQH1MKVOTWHx5U+z3AtVQCDzNOExh3/b5CmuIba6FrtXUO/uOvD7OsZi8lmNv98yxWbme41wTLPYfkz1z7E3GOTZNlGO3cuz5HCvy/AYJmej1evMwb3WYaqP8v2Gu68s92/xL3i+Xy76oAwBAXhTcaxTnUQ5F9/kOv/4p50JgjM/qocRkh18Psf0lsxeBPhWjEJvjHW7+Vw8jJh3JsV3aQXig9UsH+qHjPXLsTUdybNeichdyLJy/ftoxx26LjB/YkJ/VSyZjm69imqhQbD8SaQAAyOxeQgjqd3X1MdxghWkdNpmTe1oul7mOSn4hRuEG9Lp4fXqQULj5XMbnomPxCXE5LzabgmcS29C8YzG62DDHQlxOu/YCxzI+o5hjw01yrHh46LeQY0+6jW1IjskxnrAs7X3BWmrAfoR+82uRdp73Wblrv2glAFmcsy5NFQbA/f2LEBxOLLyHwvKvxT8Ly9+Kh3luZx2P0XAtRn+7QQ0x6noBJxYFV/FZLwAs1trQvOMxGpcfPxf/LCzLsZdzbL4Wo4Uck2MvxGgVn6dybNq1B8b8Uy4F97gvoU/4Wuz/LoPG7RsACu4AAABAwy0TaNj+9Mvlz2UiWghAY/r34Z5d+oUoAhD8WwgAAGAzYW735XIZ3hfyXTTaKb6sNnxLYfX5mnlcwhRA3kPRjmM8iv9z5PgmieW2uRJeQD1vYb9w44hX1lbCt4oXTcqz8IAlbu+geHoq28Ztcwv6gGm8VprKiI1iu2p7z8V31aeG9wrNRKxdFNwBAGAL4aanvEkKL1I96fgNeDBa++dGFifitobl5/jZ32Ndi7if99NmKSo04vgO4nFdTW823PP4TteO76xjsRw+iuVgj3UVMZb3+VLG8rbhbSjpdGEdaCv92FZ+i5+DLX53HtvF7zHP5jVu76/xc7hH33DbtgdKO/anox36gPO1/J8/6k/n8ma5Pp3rcJvrkRjT2SqmTe5TifcLQgAAQIU3F9nM4f7EzfuPYs+XqO67b+V2jIsdi2LbzDUci9arwsqmI12/HGo+43J7j+L2HhVpX3T7lHDTGwpHt00cBbn2wKGoup3UuE+DeGzfFdUWSUM7npbL51yL77EA9L7YrbjW2FzZsG/8n2KH4usLQlv5lmJF++TdHlPbhG8mTDZsLyn71mk8X0wq6v9CPzFOvOrQH3wpl0nbR7/X2J/O1vrTecNiUGXOhDw5ifFN3ceGv/274jsAAHRMzvOcl5t2d+h922cbNlz/uFx+7Pgn7uouGpTLdco59rcU/u5NLEg1qpCQ0TsUjlLk3Y5+xHzoZ9Avh3dRnOyR26lyZdDk/vmQDnTevXulf72rIccuUuTYnueuRrXlTPvTu/hQrO3Xqq/lzE2d5yd3HQAA0BEK7u0suMcb8X2LFXc1HYc6b2q3KSaMGtJOW19wr7F4tmmBLUlR8ABx7Mdt/7NBuVJJsVLBPU2fvdZm6n64dbTjvo/K5bt+oTX9aSMKxamvcw7Yzyq8N8i/hAAAAFgrroS5jMMyaMG2hpcchql9mnaDOSqXu1j0My/07sd4FAsaNw1qj6GgFuYp/r5rUfBAsbyIuXJeVD/N0jZC7v6I307pa/WNajOh77qLbaZOIde/xv6zv+G2hvPBddze4YH7hVFTj2cD+9OwHTe5nCtjjL8fsJ9dj+eg4KAU3AEAgNU8ruFm/KgF2xrmQ21iof2xUfFQgFFM3O74rhfPRg3dzJAvWxUFDxTLQxeANnWf0216iJF5Do6KwxWv1/vPH68VsNceDJw0pF+4i/1X0/rT7w3uT/97rmxxzhw1IGcex3NccDAK7gAA0HGxYPG9ITeKL23nII7QCzflbSpgn8SbX6PdN2+LJy3Z5FHR0EJxHNXe+LxeE3L6a5xmxgOqw7WbcfFQOOw3pE08O9/3WrG9aW38pAkP4xr2MGLTuH1v2+js2D6/Nuy6JGzLTZsfYrSdgjsAAHRYLAg07Ubxqe0cFc0eofeaQfFQdD/R6p49xuN4jAct2/RVofiiKTkdH0ydt7QphHZwp+h+sBy8aeCm3cQpxNa3dVVMbmo7GR2yHa89OGnbg95h0aIH1A3OmZWTx7lDPRTcAQCg28IN+aAFN7RNLqxs49rN75PHOIzCa3tczg99bNemhhq1PJah2PbDt0JqFdpOk0fDjlejdVtQbF9vx7UX3ePDv5sWnzPDdrdhSpRhS85bY9cd9VNwBwCAjorFi6ZPI3NTtL8Q++TNrxG8fzvGJzkd2wPFsRVTQ21hNZ2Ions9BkXzC7QnsZjcpgewtRbdY/9znkmbvGl40b1N53BF95opuAMAQAfFKVpOGr6N4eZwnOkhCPt1px1meYxrL2y0aMTvtlZF94Fem+i8he28lpHQmfanNx66JT03XQhDPRTcAQCgmxo90imOvh9nfgyGXR5xFuezz/UY11Z0b8t7GPawmiPfN0Jos6Mq3+ERR4Ln2p966JbOeRxwQcUU3AEAoJsae/MaCwddebnof+cl7pJyn4+KZs8XnerY1tGOG/8ehgTaMlcyvOS6isJxLKDmnB99+Z+UKe1q8G8hAAAAmiJ+dbzOG+t5XJ66wa/ra+xhXuI/er3epCPHeFDxMV6Uy6xcvsXPxdq/rxcZRuXyc/ysqvgQCmzT8tjOKoplne9hOHSu3I8QLmP5SU9Ji4W+703CPmD1DZe68j/0Zf+39u//KR4e+A2Lar9lM8os/1fnqUNcc4TjFaZmOpWO1ekJAQAAVSlvjpZ7X7CWGrpvP4o9R5Xuu2/lNoSRraOGHv5QZHyz5f6EG87vRbWjdafl8nu40S23b7rBNg1jjH8tl6OKb75/KbdpnridXhR7vECvivyrsN1OwrEtN/l2h20Kx/ld8TAlQ+qi0Twe20XiOIYYVvkegFnMlWmDcmWjPInbsstxvNuz/X1JsZObxLvK8+4G7TnkWHigNX/qYVKM/yC2hdAmmjAH93/bc9zu+TM5Fbb159iGqyogv9nnGD/a5q8V5tskHufbTfqv+DB11QeMK8r/nyroS6vOmcWja4/ZK9dBq770t4pz56fU1xwAAEANlgk0dL9OmrBvoXC5bK67HfbnuqJt+TMUnvf9Kn+4EY7H/kdTYrbBNl80Kf9S5c4jN6mmaYjH+CK2mZSuE8exX2E73PslhRXGsZI8SXTOusjlvPtc3Hed+zm0p9iu6rZX3x+mN6soz+4SHeujCmPWb2gfcNOinPkR21B/j20bVNiXmqYHAADaKMeCe7z5+bMJ+3bggvuf8e8/t1xvuS+jphYOXijEVHEDPE68nY0puMcCTMqYVfYivbitXxMf22FTjuszvqaO51rRLbVRA89ZF7mcdx/5nire8fz5taZz1HWqvr+i/n6YYLtSPwxIfr6MfUDqh+n9hufMnxWcy6vqS83lDgAAbZNbwT3e8HxPdZeTYHvqKrj/GYskJxUWur4n3uavVd9IVlRI+DPldjes4J6yWHBRU86nLLSlGtU6qKDNjSqO4zBxjt818Jx1kct5t6pvZqxt40nF56tRRf39XVNiG/umlCOxhxW3y6OEfelJg3Om0muPCvrSrrygHgAA8pFTwT11sb0lBfew/qMaYjtOvN0nNbeNlIWEpIW7phTcE49uH9d8fIcJt32UYHtSTs3xva4RjrENpNz2UcPOWRe5nHfryLP4rabUo8Yrb88J2/DdntvxPeF5vt+yvvSioTlzU2Nf+r0J7ZDn/UsIAADg1ZubQfHwMr2UI8DmDd7lafHwMq03u7yAcgfnidYTXkx2XG7zpzqDFWP0Jv79FN5nmEbhIUiKok44vpOaj+8s4fHd69jGwliqh2D3+5X6BYQvxHFRLsfFw4sYU/RRVOe06jyLLw09TXxOrbw9xzZ824BjFPqk4z2vJSbxPF9XH5CyL22aSWwbtfSlMY4zXVVzKbgDAMAL4mjp70XaYnvwpYG7G27i3sYb8HlN8R2VH4NEqzutuxhbUSGhX/co7hq8S7COywMf3xTFlKM950kP7SLFg4tai+2PYrlrwTJsa3iYtnoYOHWGqsS0roeWMZ9T/a23NbbnfQvdKWIXHmCFIu9PYd+L7R9CzeoqED/Rl15mmDPHdR//eNxzfHgBAAC8pM1TysRpTlK/kCzpPN2Jp5T5XvUcrs/sw00bpj/YYn9GTfqadxOmlIlT7mTxtfdEc/af7PH3vyfqfwYHjmN/i/71e135bUqZe4MDtIU/2zCVxxPXCI3q0+L7HTY5p/449Msy97x+uWhYzgwPGMeTHM6tOTLCHQAA/rpxOYoFtT/L/xtu4KsqPHw+xMjSF6xGux7i68kpYnx7qJHPj8VRtylG740ySq0UxYjjhuxLOLb75m7/wLE8resbLC/kyeKVYxr+e8jpX8qf/aUp+d0B07rbRmwLkwR5WXcbblybDMcujrT+3xiT547lcQOuQb5lkjO3B7p2Wh3zT4VR7o30byEAAKDJKh41+D/FQwGrX6SfMuY5q2kRmmI1jUxbb9heK9wd4gY4jCoPU6gMZHASk0MXiNeO7aI8tp+LdO8dqNu0SQ+nyliGbRmv/XMoXIX43ra4T2J7/7dnW5oL4d/7qfIjXDtdxG+HvF+7xpmYjimpPxqwDaHfHDkUzaLgDgBA051ntj/HDSskHbe8WPG5oYW5MLrwRvqmOcYN257wwCwUsPotjOVlA7cnvAT2NuaylwBCQvEB2yS+L+Vdkd/86dBICu4AAFCfMLLstkHbM23Y9uziUxM3KhQ5wvRERTuLsk2L5axh2xNGubdxROG8aSNb48O+/9XKofJcC7nfpPz/j6NCzszhDgAA9QgFutOGbVPbR7pNGz7thNG6NMlcCIBDii/JDQ+jx6JBzoxwBwCA6s2Lh5eSNqk4PDePKwBQpVBkLx6+EfRbodBORyi4AwBAtZr6UtK5QwMApBTniw8vaf05fg5Fha5RcAcAgOqEKUXetvylpHBQy5IoADSqXx6UH2EJxfT/xM/Vv0HnKbgDAEA1QrH9TcPnGAcA+Ie1ovqoXP6nUFSHjSm4AwBAep96vd6pMAAATbc2z/qvxUNhfSQqsDsFdwAASGdeLsdeRgoANFmcaz28yDR8mmcdElJwBwCANC6Lh5HtppABABpnuVyGwvq7chmXS19EoBoK7gAAsJ9JuVx6MSoA0ETL5XJcPBTaR6IB1VNwBwCA7YVR7LeFQjsA0FDL5fKo/LguvOgUaqXgDgAAmwtF9t/Dp6ljAIAmWi6Xg/LjpjCiHQ5CwR0AAJ43i0sosk8V2QGAJovTx4RR7U2doz1cV83L5cjRIlcK7gAANN20hr8Rbvz+39qN4KLX602FHgBoi+VyGUa1jxu6eeH66nN5fTUpt/OiUHAnYwruAAA0Wnlj9kYUAACe19Bi+7x4mI7vS3k9N3OU6AoFdwAAAABoqQYV28PUe9Ny+VY8vO9m7ujQRQruAAAANNllZvszdUiBVJbL5UlxmGJ7KK6HUevf4udMgR0eKLgDAADQWL1e70IUAP5puVwOi4cXpFZtXjwU1f8oHh4azhXX4XkK7gAAAADQPlUV2+fFw9zrYfT6tNfrLYQaNqfgDgAAAAAtEke3jxKuMhTVJ4UXnMLeFNwBAAAAoF36idYTCu2fy+WTkeyQhoI7AADQVn0hAICdhZHsb83HDmn9SwgAAICWGi6Xy0ETN6zcrvAwYOQQJYtlI7erqe3vuXxpaByHWjkcRCi2v1Fsh/SMcD+wq6uPR+XHr48ufsJXeMKLKW7Pzj7MOx6fEJcQo5+Lv49gCvGZlfG57Xh8+jE+oQ2tX+zP19rQQo7d59evj3LsjxifmRy7Lwb8KsdezLGfH/XTckyOAc1xXi7HDdyuE4cmmXG5fGroMT5fLpfT4mHO40nD4xgeEIybtJ3l9oTr0LvyM1xbfSmXieIf1OatKWSgGj0hOIyrq48X5cf74vWvwYaLt8uzsw/TjsVnFG+eRq/86DzGZ9Kx+AxifMYb/HiIzWnXioJljE5ijg3k2F45dj+fXxmfi47FJ/TN11vk2GXXHpCWMRrHNvRajs1iH9SpHOMvy9LeF6wlkXw2vnfF7qOop2Vo37R8H1Z+adIL3uKI7B/FnlPepGj75bZcxP66tdsQrvnLzfipYbn31DEO101hsMLnqtpjgj51HvNl0ZA4PpX/IYbhAcbtAbZnn/heltt80YCY7rMPBzkvNKGfamOsVw+s2nh9tecxT5prbc/7HK4Fc2RKmfoLFMNy+R47lk0uwO870Fig70qMbuJJY5MOY1AuN+Xv3MUCWRfiE0aThjY03vBXws/9iL/XhfgMYo5dF68XAtdz7LpDOXa9RY6FvDoPMY0PeroQn1G8gd4mx77HAnQX4tMPfW7oezfMsWHMsZuu9NPAQdw0bNqRm2L/+eVzGiyx774MYnGmaPgx7q+uC8rtDcu4gdPhDIr9Hn4kU8bm5Jnr0XDf8rX87z/CcW/ZtD0AoOBepzh1QyhS7DJH3XksROceo20KyevChVr2BcFY0Pu6ww1c+PmvuRcEY4593zHHTjqSY2Efd/mK+zDm2LADOXa3Y47ddCDH+sXmD2seu4+tojvwhG8J1hHOT414eB6LiCkGOuQ0rVuKfTlvylzf5XYcbXCMw7aG665QNL5JuO0pYnkSR8YeMoYhHq8V/gfxZ0IMw7QzTb/O+h/dOQCBgntN1ooU+xQaxjmPdI+FwH0uRMMF2ddcizlx1O2+BeGbuJ5cc+wmQY5dZ5xjm06R8px+5jk2TJRjOX+bZNeHxuvFh858mwTY2CTResJo4oM+PI8FwVT93OdcDnCck3ua4jx06BHjsVC8TTtLPer9S6Jd+XqoBxhx/7cdRHR/L1T+7p/lct3QUe/jpr7gFxroNyEgZwru9UnxtdLgPMcRprFANU6wqk1GSrQxPquL0lRtMUfnxX6FwJWTHB9KxH1K8fK2QZFvwTRZjuX4UCI+8E2RY+OuTHEFbCYWYyeJVnewonsstqf629MmzUmfSIoHCPeDmA5V1IwF6n0GUa2Peu/vmC9hhPs8YSyHNcdwNRBtsMd2n8QYNu3FxP2M77UgZT+w72BLaDwF9xrEAnnK4kKOxa6U+3SS4dQyJ0WaBzbBIL5QNKccGxRpiskr5xnmWMp9GueWY3EqmFT71E/cHpsQn7BP753HgApdpjxPlTfzX+sqyoa/E4sHNw2NRyMkLBTfT3N3gELxvsX2dbd7vrQ0VftYFd2PaozhrtM/PhnHBjb1o0N/0waaLObHWCTInYJ7Pd4nXt8op2JXfCCRen9yGz35ruFtMsccG2aWYyNtqNb9yS0+4yLdQ79gYJQ7sC7xKPfVteCPqguJcR7su8TFgzC6fZrpoT5NdR4pHgrFtTzgjn8nVbE9uNwzX0KuzBNty/03aeM0Lf0aYpjqvm8S+41GXjfFeftNL0Oj1flwKD6c/loottMRCu71GFWwzpwKFe8qWGc284FV9EBikNkIZTlW/74cZZRjIRdSP2DpZzb9VxV96q8uD4BHQjF2kXB9q0LiXeoXRIb5o2OhYt93WzwXhyzFUe7ThMf3Oh7fSs658TiHY3xdpCu2f0pUKE7dTkJB/HvqF5OG3KsghqGfaPq3QMareCq80+R2WkfRPZ6Dvxf5DYyEZym4Vyx+DX9Qwap/zihMVVwgj8TnYOvNJUY5FQOr6C8GGcWnqn3JqR8atSRvgRaLU2xUUUQLfdhdLMzuVfwKI+bjCL0fRTWj9C4znLv9seMKju/3OKI4yfkqFPBjEepH4nNgsjae+OHF+jVRiOP9/Oj7vJg05lootN9VcB3xucGj2/8Rz3L5M05zdRIfQAwKaI5xfKFz8uv9Rw+ntXs6RcG9elUVFHRW3TFoWdusVYbz9VehX1HsR5nEZ9SmuOvbgJz1er1PRXXzMof+flX8CsX3i5eKX7FQMIo/F4plfxYPL9iuaoTerNz/iw4c43lRzSj+cfHwYOVHnB5lq/N7PNbh90KR/XtRzQOV4z3nbv/H+oq03wpZP0eHEek/YiHuIj5sGj4Tu36M38lartxUdI3V1jw5ijG9i3F9zaiA+gyLvx5M732Oq+HhNDTev4UAaLmBEIDcBbJyHG/+q+wnRnE5j8WBQ+/zokg/8ruxwoOVMua/FdUUZEO7CdOjnMTjOovxDZ//t/Zz/4k/O6jpnPQpjkpPGcd5uY+h3XytcLuHxdpAnQbkStV5MikUCOmu+3Njmeehzwz91R+x75w997Awfmts1U/8Gtdh4BGdp+Bez8UzaJsVOTv7ML26+uhoHkYuX3mfO5QHMRUC4Cnhpr68gX9bpH1JZdMdd2AqmcdWx7jqb12u1j865DVTeXxPK8qX2zJfwjdDTjrQZk5ryJMw5c9RoWBIt+9jQvsfr/9DAx62QauYUqZiZ2cfqrog+OYkcZATzyFMq7rwzyhGC/GpfV8WZf+WywPFuRw7SIw8kAaeFYtqbzqyu8epRz635BivRvXnfj6ovC3HYv4k8zhO4pRTVbfLcM1zWUA7+tHQXj+JBDSPgns9qriAzqmQU8XDg2lmF+mphWJpTjGqYl/+kGPdyLGYCwsxqn1fcnpwDFQgFt1zn2YlFNsnHT/Gb4p8i+6LIv287c/F8rjI99tjk7h/dbXLKt8lAamFB0RzYYBmUXCvx++J1zc/O/uQ0wXAbQUX2V9yCU4cRTypIOY5SX28FznFKPYXqXPs98zaUOrjfZvRNwCq6lMnBcArYjH6lyLPgmyni+1rxzjXonvYnzc1TxX0NsPz67So5iW7r+ZnkdcgN/LtQxcx9317FBpEwb0GZ2cfwkXPPOEqLzOLTzgxfE55UZbZ6O0icXxybEO3iS+IP2dWLE3dhuaxX8vJZcNz9tA5Ni3Sjpr7lGGOAdUVE1YF2Xkmu3RfHFFsf/IY51LgDPvxU93z8ofCWxwJnkvbCiPb39TxDYGnYplZmyT/PrSN3wibO3rkSsG9Pqk6v1mGha7gU8LO9jS34MR3AaSam+2yXF+OJ7ZUxz1lrJvUhi4S3jAcZxifkBOpiu6fMnzot8qxFDe8KWMNdKuYEEa6t71/vS8sd3HO9g2PcShwtj02t/EYLw4Yy+MM7oku65xG5pk4KrrTpj70tmjXezGOCwV3MqbgXpNYfNm3wLD6qlCO8Un1NajjCl9Ue+gYnSa42JvGwmuuOXacIMeOMx55e5wox6aZtqGQG5M9VzMrMi0mx771NEGOvTW6HdixmBBG775pcT8bHujXPcVIG4/x26KdxeJwbjsN23/IYvtaLEN7Cw+p5i2MY4jhRVPaZPFQdJ/IUFrQh06K5k/R5VtedIKCe41iMWfXG4RwofQm05HJq/jsO3/jcaaj/9eF+Ex3/N3wxPtt5jkWjv+uRfdFzLFZB3JsLseejdE+X8Oexja0kGPdzDGgtoJCuKb+qWjPaPf76/hyu0+bUIhtyTFeFYvbcozDdv4St7tJcVx9M6Qt394M9ys/Ne0bIGtT9Zgnmzb0n7N4jmzit4VW50Pf8iJ7Cu41i0X3bQtek3Ch1IUiRdzHbU8OsxifSQfisyiX1ciuTS/27kfblL/XiVGlsR3skmM/dSjHfim2KyrfXxh1IcdijFZfw94mx8JUTW86lGO/FNt942balfMYUFtBYR5Hu78tmjuC9/78UG5nKCBOHbWtj/EsHuMmTzsQtus4zjM+b2gcQ7H4tGj2A4z7a82mfDvghVjexnvVTzKUhvefq28LNekcGfLnF9/yojN5KASHc3X1cVx+/FYuR89cdIQO6XPOo9pfic+w/HhfLqNyGTxxAxMuGL/EF2Z2MT798iO0oXflMnziR8KJ7Eu5TLo6fcNajoU21H8ix6Yxx2Ydjc8g5tjREzm2uij6vSuFdjm2U4yOYnxeyrEvuU5DxGaWpQQ3jq5Zn4/vXczBXUxjQTOHOIT++vyZ81nd5vH88KkJxcMyNjfxfNbq/GvgMb5s45QIZRxHMY4jcdwrjqvr6PET10ApvNn1Qd2e592DnBfKTb6I7bJV/VQbYl1uYmifJ7G99g+U58dPtec9rmEuU047tedxvDz0FFiuBZvJzUtzihaD1cWjwsST8QknhlXBa97VhxCvxGgYT6ALo0jl2I4xGskxOZaon56Zp51ENzEHvZFuSXzdZP09HiEW4UHg+AB/PlxffGlS8TAWWn4UexRZmpZ/sfD+3KClqt3GY3ybQa6E6+LzGMe+OO4Vy6O1NpkqlgruLein2hTreD4IbfR98fRgotTC/eSLD9QU3F0L5szNCwAAVd4EjPZdh+k4Xozv6mHgLha5frV7rbDw3DfdUgkFw2/hs4lTiuxbxIr512voMR48OsZVWH2r9vd4jBeZ5st6HAddzJXEfXKI43+Kh6LmYMOYhrYV+uMQmz/KZbJre9vzvHuQ80LM553b3qGuE9oY67V2usr7lMX3RfHXA7Xphtuxy/l5nrIf2fM4zg/dp7kWbCYFdwAAIGtrRbCfi4eizi431+vFsGnTHwTFAtaPvW8YW/INk1gwWT/GuxSRpo+O8ayjuTKMcVz9737OuXKAdvrfOHmRMg1ok/3Ydw536D9Xuf6tq30mPHv9JAQAAEAXbTiqrZVFsXLfvhf7j1wMI9/+t8XHt79JDBSEN4rlJoV3BWToQN7rMwEAAIBOCS9KXaZxI5oAAAAAAHRSwmL7Mo5uBAAAAACAbklcbL8TUQAAAAAAOiWMRA9zti/TGoksAAAAAACdEF4KWi4Xy/SMbgcAAAAAIH9h9HmcPubPZTXM3Q4AAAAAQL7i1DFVFdlXrkUaAGB3/xICAACAVujHpSqzcrkUZgCA3Sm4AwAAsCiX416vtxAKAIDdKbgDAAAQiu0zYQAA2I+COwAAQLeFYvutMAAA7E/BHQAAoLtCsX0iDAAAaSi4AwAAdJNiOwBAYv8WAgAAgE4JL0Z9Y852AID0jHAHAADojjBX+0+K7QAA1TDCHQAAIH9hVLuXowIAVMwIdwAAgLxdFg+j2hXbAQAqZoQ7AABAfsKI9km5fO71enPhAACoh4I7AABAPsLc7J/L5bbX6y2EAwCgXgruAAAA7RWK6tNy+VY8FNnnQgIAcDgK7gAAAO2wXlyfl8us1+vNhAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgF8vl8qJcfiz/7qZc+qIDAAAAAAAbWC6X18vn/VB0B0jn30IAAAAA0EzL5XJYfjxVEF/0er3ZhqsZvvDfBvG/T0UbKsnhQcyzfyhzWN4BAAAAQF2Wy+XdMyPT7xKsY2Uk0lBZDl88l3iik6d/CQEAAAAAAOxPwR0AAAAgby9NPbN45b8DsAUFdwAAAICM9Xq90/Ljsngorq+blsub8r8vRAkgDS9NBQAAAMhcr9e7KD8u1l7COlNoB0hPwR0AAACgI3q9nuljACqk4A4AAEBnrY32/Zterzet6O8Nyo9BXX/vmW0YPfqnykc6l38zxHhY1z4/sY/BvPyb8zr3cd/4xnUOWpJLj9t2ZfF+4vhWemyb1CZadPwXVT7caUJfuoWfD9CvLzxcO5yeEAAAANAly+VyXH78Vi6j4oli+5ppufxeLpN9imNb/L1QHPlSLrfbFA9j4Wn8xH8KRchJ/Jnwt9+Xy9Erf3vjfY3rHD0Vt1XRK+57+LvDZ1ZzG2K82s49YtyPMXj3wt+6j0k8rl9SFObiA5t3Ma6DV/5u2NfPLx3bGK/Vev7nlfXO4zH7hzh9zON1XzzXzp+LxXO/s1p/bHvncTufatuLuN+X+xTENzy+f4vxC3nxZHwS9i+DtVwbvJLvq/5lvmOO36+n/P3bDbft6IX4/a0dbNGvvHvh+CfL8Ud/b7RBbLfqz57Iv3X/PUZrx3cYt2P10uHj2O4e94u/vdInXT7z75NX+opN+7wk5zEAAACAfwjFpnL5sdzeny8UK1/6e+Md/15wHQsqm/yd0TPruAvriJ/b7OvRhn/34pl13M8TvuW+f4/F612O60Xc7m3d7fE3h1vGdd1NLNo9td5d1/k3z6z7ORcv7Oez63/h+O/dphMc34sX8mJZUf8yiMc2eb6/tC/RaMM2++em7WCDfmXbff2xad+SMN+26rtf+BujDdr8aMe82PqY7pgTO53HAAAAAP4hFof+P3t3e9VGki4AuL1n/1/dCFaOYOQILEdgJoIRERgiMI4AHIGYCPBEgCYCtBHAjQBvBLpdpjQra9TV1V9Cguc5pw8+QHd11xc+b5feuukhAHKXEzBsEeROBUimGeVNE/d71zYonFFuVWDppmUAfBVXmOa267jD87UqM5Y766ltT3Zc+ygC7h0Cy1ljqKdxdL+vgHt8mffYsdnuUy+Aavr6fV29Nj1/oHnlx8uFZxhvd1UvuTLH3zSjz09r5sXOAfc4Ju56qIuR/xkAAAAArfQUoNgOlI72WF5tQDhj9esggbEeA0vbTjLaddJDgLPRC4ZY7nzItj2igPugAb+BxtEgAfeeAsKb88ukopxxTZ+/SdzjZYvg7lDzynONt8e6T7Qkxt9lxvWnPc+L0wHHhKD7wP6hCgAAAHjBQhBq0uP1QpDidtcPYgDjtufygnnOSvcBnD1TufO6lxqxXfsMGM0yXmyEn88GeNbJKxuT4Xk/19XLAOOod3F8zHu85I85ZFefiPm8zxPnnuzqw/EezxLnfXmGjUbDeDvb83j7MW+0DDSfHUB363NM5IxBOvinKgAAAOAliit3pxm/uoxH2FBuknFOWF19sWPjxdyAyHZ54agLAoVA0duOm96tN/f76zkyyg1BmUXHpniIx1pd/Y5iuVXBxVDP45prhI0a/4zPG373l6J+E8uwinWxa6PCmI5invmsocx/l8f7WF7dvYbrvtvoG3/rb0X1hqTLAxlum30k55nDy5yvFXV9UlRv7pt6/ume55f1i5+6e7yO/eEhtuW6L44S/X+zT/wlbDxalvsxUT8/9eGMe1z2tIFsm7YI9/qtw3h7iON8s27f1/Sd9XV/HbBrPOyYM1NjYpGo000nGf3sz/jv8UZdjJqOQQAAAIC/iR+/r0s5crkrr288t25Tup9Sy2SmX7hIbJaZs8HqRcW5dWVXblYYy62rp6oUF3WpE3au1N2o32T6h5bPepPK1RxW1dY877zivJuMZ50m7rmubWeJe65Kc3HbcEwMkVLmYteK4cxNLqv6811GOoyq/py1MXJPc8xFm+fbGAPzNn0inpt6xrvMfvtYM1Zy5rSbxBjPmVuqxtu85r7PEvc9zhiv04ZjLdUXb+s2YE71lR7Gb2V6mMQ+CI9tNzEGAAAAXqkYWO20UWYiT/jNdsAvI7A1ySivLkdvmyB0br7s+xbBqYuOm65OWuQhn/eQF3pS0zfGW78/7mGD2aq2vYuByVQKnUMNuOf06XmTcjPappfc3z3NMY9dN+KtGUN3HfrwRUZu+ZOae5v2MIfm5B0fNRhvWXNp27kiM+DeOA3UwAH3aca5d1V/uwAAAACy1ASyLhpc52RjlfhZYiXhbZdNQDeukwx+V5wz7RKM2XrOvgLuo8xyLxs+621iFf+op/4xbVC/dw3b9jEe8waBw0MMuF82eOYmAfdUXTd93tuBA+6dXgp0vc+cT4l0fEmUaouzvua0huPtoqdyb1vM44+rlvstDBxwP8usi7H/GeyPTVMBAAB4ba5yf/HNmzchR/C78mvIn37VIof6Ml4jt7xw/d+foU6+93mxBvX0n56KfGjYNoueyv3SsE4+lEfoS6flsTziMfSfnvtBjq8Nf//PZ6qb3/dxnzH3eqofV72ACv3uvOMzLhv2+y891e2iYbkPPbbrrwc6Zi/ji8tpqi7kat8vm6YCAADwqjQNAnYMsnxX43sxabgCuq/cxfvsS6/dsYylEPxscq/jDmWFzT/vG/bn055fhOR4eKa6nfRUbnhxujiA/l+5AWrxtAnq+veWsc7/rzwWB3Dvr46AOwAAAHDsQiBqqho4AJN9FRQC56vV6rT8503mKedH/tJn8kzlHsLLnvCphJx0Rdtz4ef4kuK6PL5a6b4fUsoAAAAAwBGKKaty0mR9C2mx1NjRtvN18RQ0byME4cMq+Lsm+fdpT8AdAAAAAF62kSo4bmHvh+IpjdD3Dn3gsunGvjQn4A4AAADAoRMw3mG1Wp0UT6uX60ytbj5+8RMNb4unjWgfWl5mpi8MSw53AAAA4NiFvNTnPV6Lw/OpPL41+P2Pz3Sf5/vqQ6vVKryEaLJaOaxuXhxxHve+6vaoN7OOm95ehKNsz3HxlNs+HL8U+ftZfC7yUhHRgoA7AAAAJISAho3mDt73so0Wz1DuqGFfGsVgGRXtmPhZWKE9j2k1knVcfrksnm+DzeUe++JN0Xzl/7ysow977oejI6zboxD/NoXj2/bfrfLLrHgKrA/ZJuwgpQwAAACvSpOP0pe/Oy2/3Jdfb8pj1qK4abxGbnkhCPKbVmpsHOuuST+4i8dZ03M3fGrYtqG8+45lvlhx5fUi8SuzWH+zijoO378rngKNz+W3hv0w9N1VnGNOGs5j0xb3F15EfO74jE377uee6nbasG6nsW7nTebhI/gbNq77exQC8eVxUf7z1MwCAAAAdBYDmlUey2OScY1J/N3tcy+3z4/Bsk7lxevME9dZVZwzTZwyzSy38TXK7180uc8+rlFTz/MG5e6q551BuY2AaJXLDmXWBlnLn98m+tWowTNXuejznK7XqOmL2243jmw9zTGPiSJmmdcYxZc+u+aYcc3clOyTNXPgKqPfTfcxp20/Z8Z4yy131/y9ftk1bjjWbjv2lYuuc/RGm9w06WepdvQ/BQAAACBbRtBmFYMgo4rzZzUBtZ8CRRlBwsfUquZ4/l3NNeaJc19LwL2unm9qApWjmqD9qiLoftu23My2nSXuOVX2XYM2PoqAezzncjWgnuaYi7bzSzx/UtMvHhN9+L6mT4wy+s5jzf3lzGmpOXScMW5uW/T5x7pPKcV7T83f9w3LHTLg/lgXOI9/O6ravK4u5gLu+yeHOwAAAC9O+Dj9arX6UqRTGYSffQqbCJZf/x2/96/iKW3BuKaIq8287iGvcLzOtOL313mlP7csL+Rb/qJda+s5rNo9KX/nOtbxeoPFUL/v489Tq8IXFTmivxTpdBbrckN5f8Tv/U88p25Fbkj9cN2ySsK1b2PsbLFRTx+OvJ3PYyB3dsC3GTac/JToT+v5JbTtn8V/89NPY1+c1lz/a8X3L2vmi9ON/Oy/lsd9xT2G74Uc8G37yqhiDs3t90ViTgubo96l5tKyzPUmutt1+zGj7PMD6kc/Nr6NL1SXG89yvrG57S+JNl/Xxdfi5w1lJ7F/jgsAAACAvmSsLG7jfteqzrjy9HGgRbmzxDO+mhXuA9fzY83q+IuB2nZaU0eXfazgPqYV7hvnzjuO00FX9oa0LAP1ibuW5Z31cU7GnNCHy5q6PRuo3HmizKFWuM+6zAvx0wJ9z3m3/ocwHJumAgAA8JKF1ZvLHq8XVh/+urGC9C/xex+K/65Q7MtphxXQL87A9fyQKPei/HI9QJmLmt/50nMfPqa2Po1t/dDgtPC7YWX373u4v7DCuu9NKZfFjlXn8WVQap+C8OmMq4p7TPXby9y86H0+Y/gUQ03dXg0w3kLdnj9DP77u8ixxXurzvr/HMcJABNwBAAB4sTaCs30ELB/CtTY+5r+rvGWP5YV7F2xP1/NDT/X8LgYm68oNwdWrnh4jq2177sPH2NYhkPy2eAoQXle0eaijb7FO3+a0ZY/3F+7ptOjnBdAyzjG7rhWC7aPUXJG47nnNWJk32YC3o29FZhqbON76SqV1najbfTiPz961n/X1d+x7AQAAANBFTAnS9mP5jQNSHcu7TaU32SrnVaWU2Tp/1HGDzVaBxlhf9x3adtKizOxnrTj/6FLK9DDe97ZZZOYmockNSFuOz+Ck4xj/W2qZmt+ftUjXVbvZac29t00Pdl+3KelGObdDp1+JqXIem6SU2Tp/0qGf7fPFyqtm01QAAABehZASZLVahdXJs/L4rcjYzLJ4WpH4NZVqZIDyfk+tot8hrFRcJH421DUeEufk6nSNuEozbLD5daOex0O2ayw33PPbGOgMZZ5k1O+6bRcdn/VLfNb3sU9tP2/V9ReJ+ih6PKeXa8TA4Mn6Ocvnf9ewyt7veX4Jz/MhBkrXfaIuuBnGeUh9c12z4jg1PpeZn84IGw6HVdYfO84VP9outEcMZH+qmdse4jNetV1VHcfMu1i3obxpRt2GOvmj4SeElg2/3+ZZwt+Eq1h36zE82VHe94rzlw37Wef5jhbtrAoAAAB4jWJAbx2wHMdvhyBHCGg89B2c2Hd52vXHMdpXPccA2LrstUUou+ELlNfediGA+LH4+0uM65hiJOc6YSV11aacoT3+d0/Ps+6D041vL+M9LA68LcI9V63s/rB5/xtjbrrV94ccb+u5dHJsdTtgP1v/bXlYH/6uAAAAAMArFVOVdEqJkUols49UNi+oLTqnqoLXygp3AAAAAA5CyLldpNMCrdPz/FH8nHZjvSq+7ty3NozMaodpkbnCHQAAAACAA5SxuWcXMzXcSztM1RBU+4cqAAAAAOAQxJXTpwNc+qrhBpoArfxTFQAAAABwKEJgfLVahX/Oe7rkqWA7sC9WuAMAAABwUGKA/F15LDpcJpz7TrAd2Ccr3AEAAAA4OG/evFmWXz7EnOG/FU+boo5qTgsboi7K46uNPTtZ12PVz4CquUsVAAAAAHAMVqvVpPwyLo/J1o8ewiHIDgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAsEf/L8AA5onaDpE/X+sAAAAASUVORK5CYII="
+         alt="Projectman — connecting experts">
+    <h1>Portfolio 14 produktů: marže a konverze po pololetích</h1>
+    <div class="rule"></div>
+    <p class="sub">Každý produkt je průsečík <strong>kompetence</strong> a
+      <strong>způsobu dodání</strong>. 470 uzavřených dealů,
+      52,97 mil. Kč marže, 149 organizací —
+      seřazeno podle marže v 2026 H1.</p>
+    <div class="meta">
+      <div><span>Extrakce</span>2026-08-31 · pouze Pipedrive</div>
+      <div><span>Okno</span>2024 H1 → 2026 H2</div>
+      <div><span>Rozsah</span>14 produktů · 162 výher ·
+        308 proher</div>
+      <div><span>Peněžní metrika</span>Total Gross Margin (KPI Total), CZK ekvivalent</div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="call">
+  <p><strong>Poznámka k zadání: „první pololetí 2027“ v datech neexistuje.</strong>
+  Extrakce je z 2026-08-31, nejnovější uzavřený deal je z 14. 8. 2026.
+  Řazení produktů proto vychází z <strong>marže v 2026 H1</strong> — posledního
+  <em>úplného</em> pololetí v datech. 2026 H2 je v mřížce ponecháno,
+  ale je označeno jako částečné (drží necelých 9 týdnů z půlroku), nepočítá se mu trend
+  a nevstupuje do řazení.</p>
+</div>
+
+<section class="sec">
+  <div class="kicker">Jak se to měří</div>
+  <h2>Definice, ať se čísla nedají číst dvěma způsoby</h2>
+  <ul>
+    <li><b>Produkt</b> = způsob dodání × kompetence. Dva způsoby dodání (OUT =
+      outsourcing, CONS = konzultace) × sedm kompetencí = 14 produktů. Pipeline
+      <span class="mono">EDU</span> je mimo rozsah, stejně jako v předchozích průchodech.</li>
+    <li><b>Marže</b> = <span class="mono">Total Gross Margin (KPI Total)</span> na
+      <em>vyhraných</em> dealech, v CZK ekvivalentu (jeden fixní kurz
+      1 EUR = 24,19 Kč z <span class="mono">config/fx_rates.csv</span>).
+      Není to pole <span class="mono">value</span> a nejde o KPIV — s firemním P&amp;L se
+      tato čísla neshodnou.</li>
+    <li><b>Konverze</b> = dealy <em>vyhrané</em> v daném pololetí ÷ dealy
+      <em>založené</em> v tomtéž pololetí. Jmenovatel je počet dealů, které v pololetí
+      <b>vznikly</b> (<span class="mono">add_time</span>), a to bez ohledu na to, jak
+      skončily — vyhrané, prohrané i ty, které jsou k datu extrakce stále otevřené.
+      Slovo „založený“ je tu použito záměrně: „otevřený deal“ v tomto dokumentu znamená
+      deal, který je <em>dosud</em> ve stavu open, což je jiná množina.
+      Čitatel a jmenovatel jsou <b>záměrně dvě různé skupiny</b>: deal vyhraný v 2026 H1
+      mohl vzniknout v 2025. Není to tedy míra úspěšnosti na uzavřené kohortě a
+      <b>může přesáhnout 100 %</b>.</li>
+    <li><b>Marže</b> se naopak řídí datem <em>uzavření</em> — deal přináší marži do pololetí,
+      ve kterém se vyhrál. Marže a konverze se proto v jedné buňce opírají o dvě různá data
+      a nelze je vzájemně přepočítat.</li>
+    <li><b>Barva</b> je směr <em>marže</em> proti předchozímu pololetí: zelená ≥ +20 %,
+      žlutá v pásu ±20 %, červená ≤ −20 %. Šipka u konverze je v procentních
+      <em>bodech</em> (±5 pb), protože podíl na malém jmenovateli se relativně hýbe
+      příliš snadno.</li>
+  </ul>
+  <div class="call blue">
+    <p><strong>Tři omezení, která platí pro celou mřížku.</strong>
+    (1) <b>Konverze nad 100 % není chyba.</b> Protože čitatel a jmenovatel jsou dvě
+    různé skupiny dealů, vyhraje-li produkt v pololetí víc dealů, než v něm založil, vyjde
+    přes 100 %. Stane se to ve 3 ze 84 buněk:
+    OUT_UX 2026 H1 (2/1), CONS_AGILE 2025 H2 (5/4), OUT_DATA 2025 H2 (5/4).
+    Kde pololetí nezaložilo ani jeden deal, je konverze <b>nedefinovaná</b> a v mřížce je
+    pomlčka, ne nula — to je případ
+    CONS_BA 2026 H2.
+    (2) <b>Zakládání dealů se v Pipedrive rozjíždělo během roku 2024.</b> V 2024 H1
+    bylo založeno 58 dealů proti 112–120 v pozdějších
+    pololetích. Jmenovatel je tam tedy tenčí a konverze se na něm hýbe snadněji; není to
+    měřítko obchodní výkonnosti roku 2024, ale i míry zavedení CRM.
+    (3) <b>Marže chybí u 4 z
+    162 výher</b> (2,5 %); všechny čtyři jsou v
+    <span class="mono">CONS_PM</span>. Dalších sedm výher z roku 2024 má marži zapsanou jako
+    nulu. Pololetní marže roku 2024 je tím spíš podhodnocená než nadhodnocená.
+    Nepřiřazených dealů: 0.</p>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="kicker">Mřížka</div>
+  <h2>Všech 14 produktů × 6 pololetí</h2>
+  <p class="lead">V každé buňce: <b>marže v tis. Kč</b> (barva = směr marže),
+  pod ní počet <b>výher/založených</b> dealů a <b>konverze</b> se šipkou. Tři pravé
+  sloupce jsou <b>koncentrace za celé okno</b>, ne za pololetí. Řazeno podle
+  marže v 2026 H1.</p>
+  <div class="tw grid"><table><thead><tr><th class="rk" rowspan="2">#</th><th class="t" rowspan="2">Produkt</th><th class="grp" colspan="6">Marže v tis. Kč · výher/založených · konverze</th><th class="grp kg" colspan="3">Koncentrace 2024 H1 – 2026 H2</th></tr><tr><th class="">2024 H1</th><th class="">2024 H2</th><th class="">2025 H1</th><th class="">2025 H2</th><th class="">2026 H1</th><th class="part">2026 H2<i>část.</i></th><th class="k">Top 1</th><th class="k">Top 1+2</th><th class="k">Klientů</th></tr></thead><tbody><tr><td class="rk">1</td><td class="t"><b>Projektové řízení — outsourcing</b><span class="code">OUT_PM</span></td><td class="g none"><span class="gm">4 695<i class="ga"></i></span><span class="gn">10/22</span><span class="gc none">45,5 % </span></td><td class="g down"><span class="gm">1 358<i class="ga">▼</i></span><span class="gn">4/25</span><span class="gc down">16,0 % ▼</span></td><td class="g up"><span class="gm">4 570<i class="ga">▲</i></span><span class="gn">10/39</span><span class="gc up">25,6 % ▲</span></td><td class="g up"><span class="gm">7 354<i class="ga">▲</i></span><span class="gn">13/28</span><span class="gc up">46,4 % ▲</span></td><td class="g down"><span class="gm">3 801<i class="ga">▼</i></span><span class="gn">4/30</span><span class="gc down">13,3 % ▼</span></td><td class="g part"><span class="gm">0<i class="ga"></i></span><span class="gn">0/9</span><span class="gc none">0,0 % </span></td><td class="k"><span class="kp">13,2 %</span><span class="kn" title="Novo Nordisk Production Czech s.r.o.">Novo Nordisk Production Czech</span></td><td class="k"><span class="kp">24,8 %</span><span class="kn" title="Kooperativa pojišťovna, a.s., Vienna Insurance Group">+ Kooperativa pojišťovna</span></td><td class="k">29</td></tr><tr><td class="rk">2</td><td class="t"><b>Ostatní kompetence — outsourcing</b><span class="code">OUT_OTHER</span></td><td class="g none"><span class="gm">158<i class="ga"></i></span><span class="gn">2/6</span><span class="gc none">33,3 % </span></td><td class="g down"><span class="gm">44<i class="ga">▼</i></span><span class="gn">1/12</span><span class="gc down">8,3 % ▼</span></td><td class="g up"><span class="gm">1 382<i class="ga">▲</i></span><span class="gn">4/14</span><span class="gc up">28,6 % ▲</span></td><td class="g flat"><span class="gm">1 370<i class="ga">▬</i></span><span class="gn">5/15</span><span class="gc flat">33,3 % ▬</span></td><td class="g up"><span class="gm">3 286<i class="ga">▲</i></span><span class="gn">8/19</span><span class="gc up">42,1 % ▲</span></td><td class="g part"><span class="gm">0<i class="ga"></i></span><span class="gn">0/6</span><span class="gc none">0,0 % </span></td><td class="k"><span class="kp">41,8 %</span><span class="kn" title="Novo Nordisk Production Czech s.r.o.">Novo Nordisk Production Czech</span></td><td class="k"><span class="kp">58,9 %</span><span class="kn" title="Edwards Lifesciences Czech Republic s.r.o.">+ Edwards Lifesciences</span></td><td class="k">8</td></tr><tr><td class="rk">3</td><td class="t"><b>UX — outsourcing</b><span class="code">OUT_UX</span></td><td class="g none"><span class="gm">1 695<i class="ga"></i></span><span class="gn">3/3</span><span class="gc none">100,0 % </span></td><td class="g down"><span class="gm">0<i class="ga">▼</i></span><span class="gn">0/3</span><span class="gc down">0,0 % ▼</span></td><td class="g up"><span class="gm">1 274<i class="ga">▲</i></span><span class="gn">1/1</span><span class="gc up">100,0 % ▲</span></td><td class="g down"><span class="gm">0<i class="ga">▼</i></span><span class="gn">0/2</span><span class="gc down">0,0 % ▼</span></td><td class="g up"><span class="gm">1 657<i class="ga">▲</i></span><span class="gn">2/1</span><span class="gc up over">200,0 % ▲</span></td><td class="g part"><span class="gm">0<i class="ga"></i></span><span class="gn">0/1</span><span class="gc none">0,0 % </span></td><td class="k hot"><span class="kp">100,0 %</span><span class="kn" title="Škoda Auto a.s.">Škoda Auto</span></td><td class="k hot"><span class="kp">100,0 %</span><span class="kn one">jediný klient</span></td><td class="k">1</td></tr><tr><td class="rk">4</td><td class="t"><b>Projektové řízení — konzultace</b><span class="code">CONS_PM</span></td><td class="g none"><span class="gm">0<i class="ga"></i></span><span class="gn">1/10</span><span class="gc none">10,0 % </span></td><td class="g up"><span class="gm">629<i class="ga">▲</i></span><span class="gn">5/14</span><span class="gc up">35,7 % ▲</span></td><td class="g down"><span class="gm">222<i class="ga">▼</i></span><span class="gn">2/12</span><span class="gc down">16,7 % ▼</span></td><td class="g up"><span class="gm">1 617<i class="ga">▲</i></span><span class="gn">14/20</span><span class="gc up">70,0 % ▲</span></td><td class="g flat"><span class="gm">1 578<i class="ga">▬</i></span><span class="gn">9/17</span><span class="gc down">52,9 % ▼</span></td><td class="g part"><span class="gm">166<i class="ga"></i></span><span class="gn">2/6</span><span class="gc none">33,3 % </span></td><td class="k"><span class="kp">43,2 %</span><span class="kn" title="Notino, s.r.o.">Notino</span></td><td class="k"><span class="kp">71,0 %</span><span class="kn" title="VIG RE zajišťovna, a.s.">+ VIG RE zajišťovna</span></td><td class="k">18</td></tr><tr><td class="rk">5</td><td class="t"><b>Byznysová analýza — outsourcing</b><span class="code">OUT_BA</span></td><td class="g none"><span class="gm">492<i class="ga"></i></span><span class="gn">1/8</span><span class="gc none">12,5 % </span></td><td class="g down"><span class="gm">0<i class="ga">▼</i></span><span class="gn">0/11</span><span class="gc down">0,0 % ▼</span></td><td class="g up"><span class="gm">1 463<i class="ga">▲</i></span><span class="gn">3/14</span><span class="gc up">21,4 % ▲</span></td><td class="g up"><span class="gm">3 013<i class="ga">▲</i></span><span class="gn">6/16</span><span class="gc up">37,5 % ▲</span></td><td class="g down"><span class="gm">1 460<i class="ga">▼</i></span><span class="gn">4/8</span><span class="gc up">50,0 % ▲</span></td><td class="g part"><span class="gm">0<i class="ga"></i></span><span class="gn">0/2</span><span class="gc none">0,0 % </span></td><td class="k"><span class="kp">32,4 %</span><span class="kn" title="Raiffeisenbank a.s.">Raiffeisenbank</span></td><td class="k"><span class="kp">46,9 %</span><span class="kn" title="Lundegaard a.s.">+ Lundegaard</span></td><td class="k">10</td></tr><tr><td class="rk">6</td><td class="t"><b>AI — konzultace</b><span class="code">CONS_AI</span></td><td class="g none"><span class="gm">0<i class="ga"></i></span><span class="gn">0/1</span><span class="gc none">0,0 % </span></td><td class="g none"><span class="gm">0<i class="ga"></i></span><span class="gn">0/0</span><span class="gc none">— </span></td><td class="g up"><span class="gm">173<i class="ga">▲</i></span><span class="gn">2/6</span><span class="gc none">33,3 % </span></td><td class="g up"><span class="gm">388<i class="ga">▲</i></span><span class="gn">6/18</span><span class="gc flat">33,3 % ▬</span></td><td class="g up"><span class="gm">995<i class="ga">▲</i></span><span class="gn">4/18</span><span class="gc down">22,2 % ▼</span></td><td class="g part"><span class="gm">618<i class="ga"></i></span><span class="gn">4/7</span><span class="gc none">57,1 % </span></td><td class="k"><span class="kp">36,8 %</span><span class="kn" title="Notino, s.r.o.">Notino</span></td><td class="k"><span class="kp">70,2 %</span><span class="kn" title="Kooperativa pojišťovna, a.s., Vienna Insurance Group">+ Kooperativa pojišťovna</span></td><td class="k">12</td></tr><tr><td class="rk">7</td><td class="t"><b>Agile — outsourcing</b><span class="code">OUT_AGILE</span></td><td class="g none"><span class="gm">0<i class="ga"></i></span><span class="gn">1/2</span><span class="gc none">50,0 % </span></td><td class="g up"><span class="gm">277<i class="ga">▲</i></span><span class="gn">2/4</span><span class="gc flat">50,0 % ▬</span></td><td class="g down"><span class="gm">0<i class="ga">▼</i></span><span class="gn">0/4</span><span class="gc down">0,0 % ▼</span></td><td class="g up"><span class="gm">390<i class="ga">▲</i></span><span class="gn">1/3</span><span class="gc up">33,3 % ▲</span></td><td class="g up"><span class="gm">910<i class="ga">▲</i></span><span class="gn">2/4</span><span class="gc up">50,0 % ▲</span></td><td class="g part"><span class="gm">0<i class="ga"></i></span><span class="gn">0/1</span><span class="gc none">0,0 % </span></td><td class="k"><span class="kp">49,7 %</span><span class="kn" title="ČEPS, a.s.">ČEPS</span></td><td class="k"><span class="kp">75,3 %</span><span class="kn" title="Edwards Lifesciences Czech Republic s.r.o.">+ Edwards Lifesciences</span></td><td class="k">4</td></tr><tr><td class="rk">8</td><td class="t"><b>Ostatní kompetence — konzultace</b><span class="code">CONS_OTHER</span></td><td class="g none"><span class="gm">0<i class="ga"></i></span><span class="gn">0/1</span><span class="gc none">0,0 % </span></td><td class="g none"><span class="gm">0<i class="ga"></i></span><span class="gn">0/2</span><span class="gc flat">0,0 % ▬</span></td><td class="g up"><span class="gm">240<i class="ga">▲</i></span><span class="gn">1/4</span><span class="gc up">25,0 % ▲</span></td><td class="g up"><span class="gm">366<i class="ga">▲</i></span><span class="gn">2/5</span><span class="gc up">40,0 % ▲</span></td><td class="g down"><span class="gm">121<i class="ga">▼</i></span><span class="gn">2/4</span><span class="gc up">50,0 % ▲</span></td><td class="g part"><span class="gm">0<i class="ga"></i></span><span class="gn">0/0</span><span class="gc none">— </span></td><td class="k"><span class="kp">50,4 %</span><span class="kn" title="Notino, s.r.o.">Notino</span></td><td class="k hot"><span class="kp">83,4 %</span><span class="kn" title="VEOLIA ČESKÁ REPUBLIKA, a.s.">+ VEOLIA</span></td><td class="k">4</td></tr><tr><td class="rk">9</td><td class="t"><b>Agile — konzultace</b><span class="code">CONS_AGILE</span></td><td class="g none"><span class="gm dash">—</span></td><td class="g none"><span class="gm dash">—</span></td><td class="g none"><span class="gm">0<i class="ga"></i></span><span class="gn">0/4</span><span class="gc none">0,0 % </span></td><td class="g up"><span class="gm">714<i class="ga">▲</i></span><span class="gn">5/4</span><span class="gc up over">125,0 % ▲</span></td><td class="g down"><span class="gm">58<i class="ga">▼</i></span><span class="gn">2/5</span><span class="gc down">40,0 % ▼</span></td><td class="g none"><span class="gm dash">—</span></td><td class="k hot"><span class="kp">83,5 %</span><span class="kn" title="VIG RE zajišťovna, a.s.">VIG RE zajišťovna</span></td><td class="k hot"><span class="kp">89,6 %</span><span class="kn" title="W.A.G. payment solutions, a.s.">+ W.A.G. payment solutions</span></td><td class="k">5</td></tr><tr><td class="rk">10</td><td class="t"><b>AI — outsourcing</b><span class="code">OUT_AI</span></td><td class="g none"><span class="gm dash">—</span></td><td class="g none"><span class="gm dash">—</span></td><td class="g none"><span class="gm">0<i class="ga"></i></span><span class="gn">0/2</span><span class="gc none">0,0 % </span></td><td class="g none"><span class="gm">0<i class="ga"></i></span><span class="gn">0/0</span><span class="gc none">— </span></td><td class="g up"><span class="gm">41<i class="ga">▲</i></span><span class="gn">1/2</span><span class="gc none">50,0 % </span></td><td class="g none"><span class="gm dash">—</span></td><td class="k hot"><span class="kp">100,0 %</span><span class="kn" title="Edwards Lifesciences Czech Republic s.r.o.">Edwards Lifesciences</span></td><td class="k hot"><span class="kp">100,0 %</span><span class="kn one">jediný klient</span></td><td class="k">1</td></tr><tr><td class="rk">11</td><td class="t"><b>Data — konzultace</b><span class="code">CONS_DATA</span></td><td class="g none"><span class="gm">0<i class="ga"></i></span><span class="gn">0/1</span><span class="gc none">0,0 % </span></td><td class="g none"><span class="gm">0<i class="ga"></i></span><span class="gn">0/3</span><span class="gc flat">0,0 % ▬</span></td><td class="g none"><span class="gm">0<i class="ga"></i></span><span class="gn">0/1</span><span class="gc flat">0,0 % ▬</span></td><td class="g none"><span class="gm">0<i class="ga"></i></span><span class="gn">0/2</span><span class="gc flat">0,0 % ▬</span></td><td class="g up"><span class="gm">10<i class="ga">▲</i></span><span class="gn">1/2</span><span class="gc up">50,0 % ▲</span></td><td class="g none"><span class="gm dash">—</span></td><td class="k hot"><span class="kp">100,0 %</span><span class="kn" title="AUTO IN s.r.o.">AUTO IN</span></td><td class="k hot"><span class="kp">100,0 %</span><span class="kn one">jediný klient</span></td><td class="k">1</td></tr><tr><td class="rk">12</td><td class="t"><b>Data — outsourcing</b><span class="code">OUT_DATA</span></td><td class="g none"><span class="gm">418<i class="ga"></i></span><span class="gn">1/3</span><span class="gc none">33,3 % </span></td><td class="g down"><span class="gm">0<i class="ga">▼</i></span><span class="gn">0/6</span><span class="gc down">0,0 % ▼</span></td><td class="g up"><span class="gm">250<i class="ga">▲</i></span><span class="gn">1/10</span><span class="gc up">10,0 % ▲</span></td><td class="g up"><span class="gm">3 137<i class="ga">▲</i></span><span class="gn">5/4</span><span class="gc up over">125,0 % ▲</span></td><td class="g down"><span class="gm">0<i class="ga">▼</i></span><span class="gn">0/3</span><span class="gc down">0,0 % ▼</span></td><td class="g part"><span class="gm">390<i class="ga"></i></span><span class="gn">1/2</span><span class="gc none">50,0 % </span></td><td class="k hot"><span class="kp">90,7 %</span><span class="kn" title="Edwards Lifesciences Czech Republic s.r.o.">Edwards Lifesciences</span></td><td class="k hot"><span class="kp">100,0 %</span><span class="kn" title="MAMA AI Eva, s.r.o.">+ MAMA AI Eva</span></td><td class="k">2</td></tr><tr><td class="rk">13</td><td class="t"><b>Byznysová analýza — konzultace</b><span class="code">CONS_BA</span></td><td class="g none"><span class="gm dash">—</span></td><td class="g none"><span class="gm">0<i class="ga"></i></span><span class="gn">0/1</span><span class="gc none">0,0 % </span></td><td class="g up"><span class="gm">25<i class="ga">▲</i></span><span class="gn">1/1</span><span class="gc up">100,0 % ▲</span></td><td class="g down"><span class="gm">0<i class="ga">▼</i></span><span class="gn">0/2</span><span class="gc down">0,0 % ▼</span></td><td class="g none"><span class="gm">0<i class="ga"></i></span><span class="gn">0/3</span><span class="gc flat">0,0 % ▬</span></td><td class="g part"><span class="gm">91<i class="ga"></i></span><span class="gn">1/0</span><span class="gc none">— </span></td><td class="k hot"><span class="kp">78,4 %</span><span class="kn" title="Pražská energetika, a.s.">Pražská energetika</span></td><td class="k hot"><span class="kp">100,0 %</span><span class="kn" title="GasNet, s.r.o.">+ GasNet</span></td><td class="k">2</td></tr><tr><td class="rk">14</td><td class="t"><b>UX — konzultace</b><span class="code">CONS_UX</span></td><td class="g none"><span class="gm">0<i class="ga"></i></span><span class="gn">0/1</span><span class="gc none">0,0 % </span></td><td class="g up"><span class="gm">24<i class="ga">▲</i></span><span class="gn">1/3</span><span class="gc up">33,3 % ▲</span></td><td class="g none"><span class="gm dash">—</span></td><td class="g up"><span class="gm">50<i class="ga">▲</i></span><span class="gn">1/1</span><span class="gc none">100,0 % </span></td><td class="g down"><span class="gm">0<i class="ga">▼</i></span><span class="gn">0/1</span><span class="gc down">0,0 % ▼</span></td><td class="g none"><span class="gm dash">—</span></td><td class="k hot"><span class="kp">67,6 %</span><span class="kn" title="Shoptet, a.s.">Shoptet</span></td><td class="k hot"><span class="kp">100,0 %</span><span class="kn" title="PORTALS Czech Republic s.r.o.">+ PORTALS</span></td><td class="k">2</td></tr><tr class="totrow"><td class="rk"></td><td class="t"><b>Portfolio celkem</b><span class="code">14 produktů</span></td><td class="g tot "><span class="gm">7 458</span><span class="gn">19/40</span><span class="gc">32,8 %</span></td><td class="g tot "><span class="gm">2 332</span><span class="gn">13/65</span><span class="gc">15,5 %</span></td><td class="g tot "><span class="gm">9 599</span><span class="gn">25/100</span><span class="gc">22,3 %</span></td><td class="g tot "><span class="gm">18 399</span><span class="gn">58/111</span><span class="gc">48,3 %</span></td><td class="g tot "><span class="gm">13 916</span><span class="gn">39/125</span><span class="gc">33,3 %</span></td><td class="g tot part"><span class="gm">1 265</span><span class="gn">8/29</span><span class="gc">23,5 %</span></td><td class="k"><span class="kp">10,4 %</span><span class="kn" title="Edwards Lifesciences Czech Republic s.r.o.">Edwards Lifesciences</span></td><td class="k"><span class="kp">20,7 %</span><span class="kn" title="Novo Nordisk Production Czech s.r.o.">+ Novo Nordisk Production Czech</span></td><td class="k">64</td></tr></tbody></table></div>
+  <div class="legend">
+    <span><i class="up"></i>marže roste ≥ +20 %</span>
+    <span><i class="flat"></i>stagnuje ±20 %</span>
+    <span><i class="down"></i>klesá ≤ −20 %</span>
+    <span><i class="none"></i>bez signálu / bez dealů</span>
+    <span><i class="part"></i>částečné pololetí</span>
+  </div>
+  <p class="fnote"><b>Koncentrace</b> (tři pravé sloupce): <b>Top 1</b> a <b>Top 1+2</b> je
+  podíl největšího, resp. dvou největších klientů na <em>vyhrané marži</em> produktu za celé
+  okno 2024 H1 – 2026 H2, včetně částečného pololetí.
+  <b>Klientů</b> je počet různých organizací, u kterých produkt v okně alespoň jeden deal
+  vyhrál — započítány jsou i výhry bez vyplněné marže, takže u
+  <span class="mono">CONS_PM</span> stojí procenta na
+  14 klientech z
+  18.
+  Pod procentem je <b>jméno klienta</b>: ve sloupci Top 1 největší klient, ve sloupci
+  Top 1+2 <b>druhý</b> klient (proto „+“) — první už stojí ve sloupci vlevo. U produktů,
+  které mají jediného klienta s marží, druhé jméno neexistuje a je tam
+  <em>jediný klient</em>. Právní formy a označení země jsou v názvech zkráceny; plný název je
+  v bublině při přejetí myší. Zvýrazněno je Top 1 nad 60 % a
+  Top 1+2 nad 80 %. Podtržená konverze značí hodnotu nad 100 %.</p>
+  <div class="impact">
+    <p class="big">13,92 mil. Kč marže v 2026 H1</p>
+    <p>Proti 18,40 mil. Kč v 2025 H2 — pokles o
+    24,4 % při
+    <strong>vyšším</strong> počtu uzavřených dealů (111 → 125).
+Konverze portfolia spadla z 48,3 % na
+    33,3 % — při 117 založených dealech proti
+    120. <span class="cap">6 ze čtrnácti produktů má
+    v 2026 H1 klesající marži, 6 rostoucí.</span></p>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="kicker">Produkty</div>
+  <h2>Čtrnáct produktů, od nejvyšší marže v 2026 H1</h2>
+  <ol class="toc"><li><a href="#p1"><span class="tn">1</span>Projektové řízení — outsourcing<span class="tm">3 801 tis. Kč</span></a></li><li><a href="#p2"><span class="tn">2</span>Ostatní kompetence — outsourcing<span class="tm">3 286 tis. Kč</span></a></li><li><a href="#p3"><span class="tn">3</span>UX — outsourcing<span class="tm">1 657 tis. Kč</span></a></li><li><a href="#p4"><span class="tn">4</span>Projektové řízení — konzultace<span class="tm">1 578 tis. Kč</span></a></li><li><a href="#p5"><span class="tn">5</span>Byznysová analýza — outsourcing<span class="tm">1 460 tis. Kč</span></a></li><li><a href="#p6"><span class="tn">6</span>AI — konzultace<span class="tm">995 tis. Kč</span></a></li><li><a href="#p7"><span class="tn">7</span>Agile — outsourcing<span class="tm">910 tis. Kč</span></a></li><li><a href="#p8"><span class="tn">8</span>Ostatní kompetence — konzultace<span class="tm">121 tis. Kč</span></a></li><li><a href="#p9"><span class="tn">9</span>Agile — konzultace<span class="tm">58 tis. Kč</span></a></li><li><a href="#p10"><span class="tn">10</span>AI — outsourcing<span class="tm">41 tis. Kč</span></a></li><li><a href="#p11"><span class="tn">11</span>Data — konzultace<span class="tm">10 tis. Kč</span></a></li><li><a href="#p12"><span class="tn">12</span>Data — outsourcing<span class="tm">0 tis. Kč</span></a></li><li><a href="#p13"><span class="tn">13</span>Byznysová analýza — konzultace<span class="tm">0 tis. Kč</span></a></li><li><a href="#p14"><span class="tn">14</span>UX — konzultace<span class="tm">0 tis. Kč</span></a></li></ol>
+  
+<h3 id="p1"><span class="rank">1</span>
+  Projektové řízení — outsourcing
+  <span class="code">OUT_PM</span> <span class="tb down">▼ marže klesá</span></h3>
+<div class="pgrid">
+  <div class="pk"><div class="kpis"><div class="kpi"><div class="v">3 801 tis. Kč</div><div class="l">marže 2026 H1</div></div><div class="kpi"><div class="v">21,78 mil. Kč</div><div class="l">marže 2024 H1–2026 H1</div></div><div class="kpi"><div class="v">13,3 %</div><div class="l">konverze 2026 H1 (4/30 zal.)</div></div><div class="kpi"><div class="v">26,8 %</div><div class="l">konverze za okno (41/153 zal.)</div></div></div></div>
+  <div class="ps"><svg class="spark" viewBox="0 0 246 67" width="246" height="67" role="img" aria-label="marže po pololetích"><rect class="sb none" x="0" y="26.5" width="31" height="25.5" rx="2"/><text class="sl" x="15.5" y="63" text-anchor="middle">24H1</text><rect class="sb down" x="40" y="44.6" width="31" height="7.4" rx="2"/><text class="sl" x="55.5" y="63" text-anchor="middle">24H2</text><rect class="sb up" x="80" y="27.1" width="31" height="24.9" rx="2"/><text class="sl" x="95.5" y="63" text-anchor="middle">25H1</text><rect class="sb up" x="120" y="12.0" width="31" height="40.0" rx="2"/><text class="sl" x="135.5" y="63" text-anchor="middle">25H2</text><rect class="sb down" x="160" y="31.3" width="31" height="20.7" rx="2"/><text class="sl" x="175.5" y="63" text-anchor="middle">26H1</text><rect class="sb part" x="200" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="215.5" y="63" text-anchor="middle">26H2</text></svg><span class="scap">marže po pololetích, vlastní škála</span></div>
+</div>
+<ul>
+  <li><b>Vývoj:</b> marže po pololetích (tis. Kč): 4 695 → 1 358 → 4 570 → 7 354 → 3 801; 2026 H2 částečně 0</li>
+  <li><b>Velikost obchodu:</b> mediánová výhra 462 tis. Kč, největší 2,21 mil. Kč; 41 výher z 144 uzavřených a 153 založených dealů (26,8 % konverze za celé okno)</li>
+  <li><b>Koncentrace:</b> Top 1 <b>Novo Nordisk Production Czech s.r.o.</b> drží 13,2 % vyhrané marže (2,87 mil. Kč), Top 1+2 drží <b>24,8 %</b>; 29 klientů s výhrou z 77 oslovených organizací</li>
+  <li><b>Prohry:</b> <b>Quality</b> 44× · <b>Cancelled by client</b> 42× · <b>Cancelled by PJM</b> 7× (z 103 proher)</li>
+  <li><b>Výhry 2026 H1:</b> Quadient Germany GmbH &amp; Co. KG 2 210 tis. Kč · AGEL SSC a.s. 682 tis. Kč · Kooperativa pojišťovna, a.s., Vienna Insurance Group 500 tis. Kč (+1 další)</li>
+  <li><b>Pipeline:</b> <b>10</b> otevřených dealů za 6,82 mil. Kč marže k datu extrakce</li>
+</ul>
+<div class="call"><p><b>Závěr.</b> Největší produkt portfolia: 21,78 mil. Kč marže za pět úplných pololetí, tedy 42,1 % veškeré marže. V 2026 H1 spadla marže z 7 354 tis. Kč na 3 801 tis. Kč při <em>vyšším</em> počtu založených dealů (28 → 30) — konverze klesla z 46,4 % na 13,3 % a výher ubylo z 13 na 4. Úbytek je tedy na straně výher, ne poptávky. 44 z 103 proher nese důvod <span class="mono">Quality</span> (42,7 %), nejvíc v absolutním počtu z celého portfolia.</p></div>
+
+<h3 id="p2"><span class="rank">2</span>
+  Ostatní kompetence — outsourcing
+  <span class="code">OUT_OTHER</span> <span class="tb up">▲ marže roste</span></h3>
+<div class="pgrid">
+  <div class="pk"><div class="kpis"><div class="kpi"><div class="v">3 286 tis. Kč</div><div class="l">marže 2026 H1</div></div><div class="kpi"><div class="v">6,24 mil. Kč</div><div class="l">marže 2024 H1–2026 H1</div></div><div class="kpi"><div class="v">42,1 %</div><div class="l">konverze 2026 H1 (8/19 zal.)</div></div><div class="kpi"><div class="v">27,8 %</div><div class="l">konverze za okno (20/72 zal.)</div></div></div></div>
+  <div class="ps"><svg class="spark" viewBox="0 0 246 67" width="246" height="67" role="img" aria-label="marže po pololetích"><rect class="sb none" x="0" y="50.1" width="31" height="1.9" rx="2"/><text class="sl" x="15.5" y="63" text-anchor="middle">24H1</text><rect class="sb down" x="40" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="55.5" y="63" text-anchor="middle">24H2</text><rect class="sb up" x="80" y="35.2" width="31" height="16.8" rx="2"/><text class="sl" x="95.5" y="63" text-anchor="middle">25H1</text><rect class="sb flat" x="120" y="35.3" width="31" height="16.7" rx="2"/><text class="sl" x="135.5" y="63" text-anchor="middle">25H2</text><rect class="sb up" x="160" y="12.0" width="31" height="40.0" rx="2"/><text class="sl" x="175.5" y="63" text-anchor="middle">26H1</text><rect class="sb part" x="200" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="215.5" y="63" text-anchor="middle">26H2</text></svg><span class="scap">marže po pololetích, vlastní škála</span></div>
+</div>
+<ul>
+  <li><b>Vývoj:</b> marže po pololetích (tis. Kč): 158 → 44 → 1 382 → 1 370 → 3 286; 2026 H2 částečně 0</li>
+  <li><b>Velikost obchodu:</b> mediánová výhra 209 tis. Kč, největší 914 tis. Kč; 20 výher z 63 uzavřených a 72 založených dealů (27,8 % konverze za celé okno)</li>
+  <li><b>Koncentrace:</b> Top 1 <b>Novo Nordisk Production Czech s.r.o.</b> drží 41,8 % vyhrané marže (2,61 mil. Kč), Top 1+2 drží <b>58,9 %</b>; 8 klientů s výhrou z 28 oslovených organizací</li>
+  <li><b>Prohry:</b> <b>Quality</b> 17× · <b>Cancelled by client</b> 14× · <b>Cancelled by PJM</b> 7× (z 43 proher)</li>
+  <li><b>Výhry 2026 H1:</b> ELDIS Pardubice, s.r.o. 914 tis. Kč · Novo Nordisk Production Czech s.r.o. 777 tis. Kč · Novo Nordisk Production Czech s.r.o. 777 tis. Kč (+5 další)</li>
+  <li><b>Pipeline:</b> <b>9</b> otevřených dealů za 12,02 mil. Kč marže k datu extrakce</li>
+</ul>
+<div class="call"><p><b>Závěr.</b> Marže v 2026 H1 nejvyšší za celé okno: 1 370 tis. Kč → 3 286 tis. Kč, a druhý nejvyšší počet výher v tomto pololetí (8, po <span class="mono">CONS_PM</span> s 9). Růst stojí na dvou účtech: dva největší klienti pololetí drží 83,7 % pololetní marže produktu. Kompetence je zbytková kategorie <span class="mono">OTHER</span>, takže tenhle řádek nepopisuje jednu službu, ale směs rolí, které se nevešly do ostatních šesti.</p></div>
+
+<h3 id="p3"><span class="rank">3</span>
+  UX — outsourcing
+  <span class="code">OUT_UX</span> <span class="tb up">▲ marže roste</span></h3>
+<div class="pgrid">
+  <div class="pk"><div class="kpis"><div class="kpi"><div class="v">1 657 tis. Kč</div><div class="l">marže 2026 H1</div></div><div class="kpi"><div class="v">4,63 mil. Kč</div><div class="l">marže 2024 H1–2026 H1</div></div><div class="kpi"><div class="v">200,0 %</div><div class="l">konverze 2026 H1 (2/1 zal.)</div></div><div class="kpi"><div class="v">54,5 %</div><div class="l">konverze za okno (6/11 zal.)</div></div></div></div>
+  <div class="ps"><svg class="spark" viewBox="0 0 246 67" width="246" height="67" role="img" aria-label="marže po pololetích"><rect class="sb none" x="0" y="12.0" width="31" height="40.0" rx="2"/><text class="sl" x="15.5" y="63" text-anchor="middle">24H1</text><rect class="sb zero" x="40" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="55.5" y="63" text-anchor="middle">24H2</text><rect class="sb up" x="80" y="21.9" width="31" height="30.1" rx="2"/><text class="sl" x="95.5" y="63" text-anchor="middle">25H1</text><rect class="sb zero" x="120" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="135.5" y="63" text-anchor="middle">25H2</text><rect class="sb up" x="160" y="12.9" width="31" height="39.1" rx="2"/><text class="sl" x="175.5" y="63" text-anchor="middle">26H1</text><rect class="sb part" x="200" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="215.5" y="63" text-anchor="middle">26H2</text></svg><span class="scap">marže po pololetích, vlastní škála</span></div>
+</div>
+<ul>
+  <li><b>Vývoj:</b> marže po pololetích (tis. Kč): 1 695 → 0 → 1 274 → 0 → 1 657; 2026 H2 částečně 0</li>
+  <li><b>Velikost obchodu:</b> mediánová výhra 724 tis. Kč, největší 1,27 mil. Kč; 6 výher z 12 uzavřených a 11 založených dealů (54,5 % konverze za celé okno)</li>
+  <li><b>Koncentrace:</b> Top 1 <b>Škoda Auto a.s.</b> drží 100,0 % vyhrané marže (4,63 mil. Kč), Top 1+2 drží <b>100,0 %</b>; 1 klient s výhrou z 6 oslovených organizací</li>
+  <li><b>Prohry:</b> <b>Cancelled by client</b> 3× · <b>Quality</b> 2× · <b>Silent client</b> 1× (z 6 proher)</li>
+  <li><b>Výhry 2026 H1:</b> Škoda Auto a.s. 892 tis. Kč · Škoda Auto a.s. 764 tis. Kč</li>
+  <li><b>Pipeline:</b> <b>1</b> otevřený deal (marže nevyplněna) k datu extrakce</li>
+</ul>
+<div class="call"><p><b>Závěr.</b> Nejmenší objem dealů z první pětky — 12 uzavřených dealů za celé okno — a nejvyšší mediánová výhra (724 tis. Kč). Veškerá marže produktu pochází od jednoho klienta (Škoda Auto a.s.), takže konverze 54,5 % popisuje chování jednoho účtu, ne trhu. Pololetí se střídají mezi plnou a nulovou marží, což je při dvou až čtyřech dealech na pololetí vlastnost vzorku, nikoli trend.</p></div>
+
+<h3 id="p4"><span class="rank">4</span>
+  Projektové řízení — konzultace
+  <span class="code">CONS_PM</span> <span class="tb flat">▬ marže stagnuje</span></h3>
+<div class="pgrid">
+  <div class="pk"><div class="kpis"><div class="kpi"><div class="v">1 578 tis. Kč</div><div class="l">marže 2026 H1</div></div><div class="kpi"><div class="v">4,05 mil. Kč</div><div class="l">marže 2024 H1–2026 H1</div></div><div class="kpi"><div class="v">52,9 %</div><div class="l">konverze 2026 H1 (9/17 zal.)</div></div><div class="kpi"><div class="v">41,8 %</div><div class="l">konverze za okno (33/79 zal.)</div></div></div></div>
+  <div class="ps"><svg class="spark" viewBox="0 0 246 67" width="246" height="67" role="img" aria-label="marže po pololetích"><rect class="sb zero" x="0" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="15.5" y="63" text-anchor="middle">24H1</text><rect class="sb up" x="40" y="36.4" width="31" height="15.6" rx="2"/><text class="sl" x="55.5" y="63" text-anchor="middle">24H2</text><rect class="sb down" x="80" y="46.5" width="31" height="5.5" rx="2"/><text class="sl" x="95.5" y="63" text-anchor="middle">25H1</text><rect class="sb up" x="120" y="12.0" width="31" height="40.0" rx="2"/><text class="sl" x="135.5" y="63" text-anchor="middle">25H2</text><rect class="sb flat" x="160" y="13.0" width="31" height="39.0" rx="2"/><text class="sl" x="175.5" y="63" text-anchor="middle">26H1</text><rect class="sb part" x="200" y="47.9" width="31" height="4.1" rx="2"/><text class="sl" x="215.5" y="63" text-anchor="middle">26H2</text></svg><span class="scap">marže po pololetích, vlastní škála</span></div>
+</div>
+<ul>
+  <li><b>Vývoj:</b> marže po pololetích (tis. Kč): 0 → 629 → 222 → 1 617 → 1 578; 2026 H2 částečně 166</li>
+  <li><b>Velikost obchodu:</b> mediánová výhra 72 tis. Kč, největší 1,17 mil. Kč; 33 výher z 64 uzavřených a 79 založených dealů (41,8 % konverze za celé okno)</li>
+  <li><b>Koncentrace:</b> Top 1 <b>Notino, s.r.o.</b> drží 43,2 % vyhrané marže (1,82 mil. Kč), Top 1+2 drží <b>71,0 %</b>; 18 klientů s výhrou z 39 oslovených organizací</li>
+  <li><b>Prohry:</b> <b>Cancelled by client</b> 13× · <b>Silent client</b> 7× · <b>Cancelled by PJM</b> 6× (z 31 proher)</li>
+  <li><b>Výhry 2026 H1:</b> VIG RE zajišťovna, a.s. 1 174 tis. Kč · Notino, s.r.o. 105 tis. Kč · Notino, s.r.o. 105 tis. Kč (+6 další)</li>
+  <li><b>Pipeline:</b> <b>15</b> otevřených dealů za 1,26 mil. Kč marže k datu extrakce</li>
+</ul>
+<div class="call"><p><b>Závěr.</b> Třetí nejvyšší konverze v portfoliu za celé okno (41,8 %) při mediánové výhře 72 tis. Kč — hodně malých obchodů. Marže v 2026 H1 stagnovala (1 617 tis. Kč → 1 578 tis. Kč), ale konverze spadla z 70,0 % na 52,9 %; z 9 výher tohoto pololetí tvoří jediný deal (VIG RE zajišťovna, a.s.) 1,17 mil. Kč, tedy většinu pololetní marže. Jde o jediný produkt s nevyplněnou marží u výher — 4 ze 33.</p></div>
+
+<h3 id="p5"><span class="rank">5</span>
+  Byznysová analýza — outsourcing
+  <span class="code">OUT_BA</span> <span class="tb down">▼ marže klesá</span></h3>
+<div class="pgrid">
+  <div class="pk"><div class="kpis"><div class="kpi"><div class="v">1 460 tis. Kč</div><div class="l">marže 2026 H1</div></div><div class="kpi"><div class="v">6,43 mil. Kč</div><div class="l">marže 2024 H1–2026 H1</div></div><div class="kpi"><div class="v">50,0 %</div><div class="l">konverze 2026 H1 (4/8 zal.)</div></div><div class="kpi"><div class="v">23,7 %</div><div class="l">konverze za okno (14/59 zal.)</div></div></div></div>
+  <div class="ps"><svg class="spark" viewBox="0 0 246 67" width="246" height="67" role="img" aria-label="marže po pololetích"><rect class="sb none" x="0" y="45.5" width="31" height="6.5" rx="2"/><text class="sl" x="15.5" y="63" text-anchor="middle">24H1</text><rect class="sb zero" x="40" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="55.5" y="63" text-anchor="middle">24H2</text><rect class="sb up" x="80" y="32.6" width="31" height="19.4" rx="2"/><text class="sl" x="95.5" y="63" text-anchor="middle">25H1</text><rect class="sb up" x="120" y="12.0" width="31" height="40.0" rx="2"/><text class="sl" x="135.5" y="63" text-anchor="middle">25H2</text><rect class="sb down" x="160" y="32.6" width="31" height="19.4" rx="2"/><text class="sl" x="175.5" y="63" text-anchor="middle">26H1</text><rect class="sb part" x="200" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="215.5" y="63" text-anchor="middle">26H2</text></svg><span class="scap">marže po pololetích, vlastní škála</span></div>
+</div>
+<ul>
+  <li><b>Vývoj:</b> marže po pololetích (tis. Kč): 492 → 0 → 1 463 → 3 013 → 1 460; 2026 H2 částečně 0</li>
+  <li><b>Velikost obchodu:</b> mediánová výhra 447 tis. Kč, největší 783 tis. Kč; 14 výher z 57 uzavřených a 59 založených dealů (23,7 % konverze za celé okno)</li>
+  <li><b>Koncentrace:</b> Top 1 <b>Raiffeisenbank a.s.</b> drží 32,4 % vyhrané marže (2,08 mil. Kč), Top 1+2 drží <b>46,9 %</b>; 10 klientů s výhrou z 24 oslovených organizací</li>
+  <li><b>Prohry:</b> <b>Quality</b> 16× · <b>Cancelled by client</b> 13× · <b>Cancelled by PJM</b> 8× (z 43 proher)</li>
+  <li><b>Výhry 2026 H1:</b> Lundegaard a.s. 478 tis. Kč · Česká spořitelna, a.s. 439 tis. Kč · Deutsche Börse Prague Branch 311 tis. Kč (+1 další)</li>
+  <li><b>Pipeline:</b> <b>2</b> otevřené dealy za 1,87 mil. Kč marže k datu extrakce</li>
+</ul>
+<div class="call"><p><b>Závěr.</b> Marže se v 2026 H1 vrátila na úroveň 2025 H1 (1 463 tis. Kč → 1 460 tis. Kč) po špičce 3 013 tis. Kč v 2025 H2. Konverze přitom vzrostla z 37,5 % na 50,0 % — ne proto, že by bylo víc výher (6 → 4), ale protože počet založených dealů klesl na polovinu (16 → 8). 4 výhry v 2026 H1 přišly od 4 různých klientů, žádný z nich není Raiffeisenbank a.s., který drží 32,4 % marže produktu za celé okno.</p></div>
+
+<h3 id="p6"><span class="rank">6</span>
+  AI — konzultace
+  <span class="code">CONS_AI</span> <span class="tb up">▲ marže roste</span></h3>
+<div class="pgrid">
+  <div class="pk"><div class="kpis"><div class="kpi"><div class="v">995 tis. Kč</div><div class="l">marže 2026 H1</div></div><div class="kpi"><div class="v">1,56 mil. Kč</div><div class="l">marže 2024 H1–2026 H1</div></div><div class="kpi"><div class="v">22,2 %</div><div class="l">konverze 2026 H1 (4/18 zal.)</div></div><div class="kpi"><div class="v">32,0 %</div><div class="l">konverze za okno (16/50 zal.)</div></div></div></div>
+  <div class="ps"><svg class="spark" viewBox="0 0 246 67" width="246" height="67" role="img" aria-label="marže po pololetích"><rect class="sb zero" x="0" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="15.5" y="63" text-anchor="middle">24H1</text><rect class="sb zero" x="40" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="55.5" y="63" text-anchor="middle">24H2</text><rect class="sb up" x="80" y="45.0" width="31" height="7.0" rx="2"/><text class="sl" x="95.5" y="63" text-anchor="middle">25H1</text><rect class="sb up" x="120" y="36.4" width="31" height="15.6" rx="2"/><text class="sl" x="135.5" y="63" text-anchor="middle">25H2</text><rect class="sb up" x="160" y="12.0" width="31" height="40.0" rx="2"/><text class="sl" x="175.5" y="63" text-anchor="middle">26H1</text><rect class="sb part" x="200" y="27.1" width="31" height="24.9" rx="2"/><text class="sl" x="215.5" y="63" text-anchor="middle">26H2</text></svg><span class="scap">marže po pololetích, vlastní škála</span></div>
+</div>
+<ul>
+  <li><b>Vývoj:</b> marže po pololetích (tis. Kč): 0 → 0 → 173 → 388 → 995; 2026 H2 částečně 618</li>
+  <li><b>Velikost obchodu:</b> mediánová výhra 87 tis. Kč, největší 474 tis. Kč; 16 výher z 37 uzavřených a 50 založených dealů (32,0 % konverze za celé okno)</li>
+  <li><b>Koncentrace:</b> Top 1 <b>Notino, s.r.o.</b> drží 36,8 % vyhrané marže (800 tis. Kč), Top 1+2 drží <b>70,2 %</b>; 12 klientů s výhrou z 24 oslovených organizací</li>
+  <li><b>Prohry:</b> <b>Cancelled by client</b> 8× · <b>Silent client</b> 5× · <b>Cancelled by PJM</b> 3× (z 21 proher)</li>
+  <li><b>Výhry 2026 H1:</b> Notino, s.r.o. 420 tis. Kč · Notino, s.r.o. 380 tis. Kč · Genesis Capital Equity s.r.o. 100 tis. Kč (+1 další)</li>
+  <li><b>Pipeline:</b> <b>13</b> otevřených dealů za 1,61 mil. Kč marže k datu extrakce</li>
+</ul>
+<div class="call"><p><b>Závěr.</b> Jediný produkt v portfoliu, jehož marže roste tři úplná pololetí v řadě (173 → 388 → 995 tis. Kč) a 2026 H2 přidalo 618 tis. Kč za necelých 9 týdnů. Konverze přitom v 2026 H1 spadla z 33,3 % na 22,2 %, a to při <em>shodném</em> počtu založených dealů (18 a 18): výher ubylo z 6 na 4, ale byly větší, takže marže přesto vzrostla. S 13 otevřenými dealy je to druhá nejobsazenější pipeline v portfoliu, po <span class="mono">CONS_PM</span> s 15.</p></div>
+
+<h3 id="p7"><span class="rank">7</span>
+  Agile — outsourcing
+  <span class="code">OUT_AGILE</span> <span class="tb up">▲ marže roste</span></h3>
+<div class="pgrid">
+  <div class="pk"><div class="kpis"><div class="kpi"><div class="v">910 tis. Kč</div><div class="l">marže 2026 H1</div></div><div class="kpi"><div class="v">1,58 mil. Kč</div><div class="l">marže 2024 H1–2026 H1</div></div><div class="kpi"><div class="v">50,0 %</div><div class="l">konverze 2026 H1 (2/4 zal.)</div></div><div class="kpi"><div class="v">33,3 %</div><div class="l">konverze za okno (6/18 zal.)</div></div></div></div>
+  <div class="ps"><svg class="spark" viewBox="0 0 246 67" width="246" height="67" role="img" aria-label="marže po pololetích"><rect class="sb zero" x="0" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="15.5" y="63" text-anchor="middle">24H1</text><rect class="sb up" x="40" y="39.8" width="31" height="12.2" rx="2"/><text class="sl" x="55.5" y="63" text-anchor="middle">24H2</text><rect class="sb zero" x="80" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="95.5" y="63" text-anchor="middle">25H1</text><rect class="sb up" x="120" y="34.9" width="31" height="17.1" rx="2"/><text class="sl" x="135.5" y="63" text-anchor="middle">25H2</text><rect class="sb up" x="160" y="12.0" width="31" height="40.0" rx="2"/><text class="sl" x="175.5" y="63" text-anchor="middle">26H1</text><rect class="sb part" x="200" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="215.5" y="63" text-anchor="middle">26H2</text></svg><span class="scap">marže po pololetích, vlastní škála</span></div>
+</div>
+<ul>
+  <li><b>Vývoj:</b> marže po pololetích (tis. Kč): 0 → 277 → 0 → 390 → 910; 2026 H2 částečně 0</li>
+  <li><b>Velikost obchodu:</b> mediánová výhra 202 tis. Kč, největší 783 tis. Kč; 6 výher z 17 uzavřených a 18 založených dealů (33,3 % konverze za celé okno)</li>
+  <li><b>Koncentrace:</b> Top 1 <b>ČEPS, a.s.</b> drží 49,7 % vyhrané marže (783 tis. Kč), Top 1+2 drží <b>75,3 %</b>; 4 klienti s výhrou z 8 oslovených organizací</li>
+  <li><b>Prohry:</b> <b>Quality</b> 4× · <b>Cancelled by client</b> 3× · <b>Silent client</b> 3× (z 11 proher)</li>
+  <li><b>Výhry 2026 H1:</b> ČEPS, a.s. 783 tis. Kč · Edwards Lifesciences Czech Republic s.r.o. 127 tis. Kč</li>
+  <li><b>Pipeline:</b> <b>1</b> otevřený deal za 400 tis. Kč marže k datu extrakce</li>
+</ul>
+<div class="call"><p><b>Závěr.</b> Marže v 2026 H1 nejvyšší za celé okno (910 tis. Kč) při pouhých 4 uzavřených dealech; 783 tis. Kč z toho je jediná výhra u ČEPS, a.s.. Za celé okno 17 uzavřených dealů, tedy méně než tři na pololetí — trend na takovém vzorku není měřitelný. Pololetní marže osciluje mezi nulou a maximem podle toho, zda v daném pololetí padl jeden velký deal.</p></div>
+
+<h3 id="p8"><span class="rank">8</span>
+  Ostatní kompetence — konzultace
+  <span class="code">CONS_OTHER</span> <span class="tb down">▼ marže klesá</span></h3>
+<div class="pgrid">
+  <div class="pk"><div class="kpis"><div class="kpi"><div class="v">121 tis. Kč</div><div class="l">marže 2026 H1</div></div><div class="kpi"><div class="v">727 tis. Kč</div><div class="l">marže 2024 H1–2026 H1</div></div><div class="kpi"><div class="v">50,0 %</div><div class="l">konverze 2026 H1 (2/4 zal.)</div></div><div class="kpi"><div class="v">31,2 %</div><div class="l">konverze za okno (5/16 zal.)</div></div></div></div>
+  <div class="ps"><svg class="spark" viewBox="0 0 246 67" width="246" height="67" role="img" aria-label="marže po pololetích"><rect class="sb zero" x="0" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="15.5" y="63" text-anchor="middle">24H1</text><rect class="sb zero" x="40" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="55.5" y="63" text-anchor="middle">24H2</text><rect class="sb up" x="80" y="25.8" width="31" height="26.2" rx="2"/><text class="sl" x="95.5" y="63" text-anchor="middle">25H1</text><rect class="sb up" x="120" y="12.0" width="31" height="40.0" rx="2"/><text class="sl" x="135.5" y="63" text-anchor="middle">25H2</text><rect class="sb down" x="160" y="38.8" width="31" height="13.2" rx="2"/><text class="sl" x="175.5" y="63" text-anchor="middle">26H1</text><rect class="sb part" x="200" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="215.5" y="63" text-anchor="middle">26H2</text></svg><span class="scap">marže po pololetích, vlastní škála</span></div>
+</div>
+<ul>
+  <li><b>Vývoj:</b> marže po pololetích (tis. Kč): 0 → 0 → 240 → 366 → 121; 2026 H2 částečně 0</li>
+  <li><b>Velikost obchodu:</b> mediánová výhra 150 tis. Kč, největší 240 tis. Kč; 5 výher z 15 uzavřených a 16 založených dealů (31,2 % konverze za celé okno)</li>
+  <li><b>Koncentrace:</b> Top 1 <b>Notino, s.r.o.</b> drží 50,4 % vyhrané marže (366 tis. Kč), Top 1+2 drží <b>83,4 %</b>; 4 klienti s výhrou z 13 oslovených organizací</li>
+  <li><b>Prohry:</b> <b>Silent client</b> 4× · <b>Cancelled by client</b> 3× · <b>Quality</b> 2× (z 10 proher)</li>
+  <li><b>Výhry 2026 H1:</b> AUTO IN s.r.o. 101 tis. Kč · Česká spořitelna, a.s. 20 tis. Kč</li>
+  <li><b>Pipeline:</b> <b>1</b> otevřený deal za 150 tis. Kč marže k datu extrakce</li>
+</ul>
+<div class="call"><p><b>Závěr.</b> Malý, ale nepřerušený produkt: výhra v každém ze tří posledních úplných pololetí, marže 240 tis. Kč → 366 tis. Kč → 121 tis. Kč. Pokles v 2026 H1 nastal při stejném počtu výher jako v 2025 H2 (2 a 2), takže jde o menší obchody, ne o méně obchodů. Dominantní důvod proher je <span class="mono">Silent client</span>, ne cena ani kvalita.</p></div>
+
+<h3 id="p9"><span class="rank">9</span>
+  Agile — konzultace
+  <span class="code">CONS_AGILE</span> <span class="tb down">▼ marže klesá</span></h3>
+<div class="pgrid">
+  <div class="pk"><div class="kpis"><div class="kpi"><div class="v">58 tis. Kč</div><div class="l">marže 2026 H1</div></div><div class="kpi"><div class="v">772 tis. Kč</div><div class="l">marže 2024 H1–2026 H1</div></div><div class="kpi"><div class="v">40,0 %</div><div class="l">konverze 2026 H1 (2/5 zal.)</div></div><div class="kpi"><div class="v">53,8 %</div><div class="l">konverze za okno (7/13 zal.)</div></div></div></div>
+  <div class="ps"><svg class="spark" viewBox="0 0 246 67" width="246" height="67" role="img" aria-label="marže po pololetích"><rect class="sb zero" x="0" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="15.5" y="63" text-anchor="middle">24H1</text><rect class="sb zero" x="40" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="55.5" y="63" text-anchor="middle">24H2</text><rect class="sb zero" x="80" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="95.5" y="63" text-anchor="middle">25H1</text><rect class="sb up" x="120" y="12.0" width="31" height="40.0" rx="2"/><text class="sl" x="135.5" y="63" text-anchor="middle">25H2</text><rect class="sb down" x="160" y="48.8" width="31" height="3.2" rx="2"/><text class="sl" x="175.5" y="63" text-anchor="middle">26H1</text><rect class="sb part" x="200" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="215.5" y="63" text-anchor="middle">26H2</text></svg><span class="scap">marže po pololetích, vlastní škála</span></div>
+</div>
+<ul>
+  <li><b>Vývoj:</b> marže po pololetích (tis. Kč): 0 → 0 → 0 → 714 → 58; 2026 H2 částečně 0</li>
+  <li><b>Velikost obchodu:</b> mediánová výhra 40 tis. Kč, největší 580 tis. Kč; 7 výher z 10 uzavřených a 13 založených dealů (53,8 % konverze za celé okno)</li>
+  <li><b>Koncentrace:</b> Top 1 <b>VIG RE zajišťovna, a.s.</b> drží 83,5 % vyhrané marže (645 tis. Kč), Top 1+2 drží <b>89,6 %</b>; 5 klientů s výhrou z 8 oslovených organizací</li>
+  <li><b>Prohry:</b> <b>Cancelled by PJM</b> 1× · <b>Quality</b> 1× · <b>Silent client</b> 1× (z 3 proher)</li>
+  <li><b>Výhry 2026 H1:</b> Edwards Lifesciences Czech Republic s.r.o. 40 tis. Kč · Market Vision s.r.o. 18 tis. Kč</li>
+  <li><b>Pipeline:</b> <b>3</b> otevřené dealy za 73 tis. Kč marže k datu extrakce</li>
+</ul>
+<div class="call"><p><b>Závěr.</b> Druhá nejvyšší konverze v portfoliu za celé okno (53,8 %, 7 výher z 13 založených dealů) při mediánové výhře 40 tis. Kč — řádově menší obchody než u outsourcingu. Všechny výhry produktu padly do 2025 H2 a 2026 H1; první dva dealy (2025 H1) se prohrály. VIG RE zajišťovna, a.s. drží 83,5 % marže produktu, takže 714 tis. Kč z 2025 H2 i 58 tis. Kč z 2026 H1 popisují hlavně jeden účet.</p></div>
+
+<h3 id="p10"><span class="rank">10</span>
+  AI — outsourcing
+  <span class="code">OUT_AI</span> <span class="tb up">▲ marže roste</span></h3>
+<div class="pgrid">
+  <div class="pk"><div class="kpis"><div class="kpi"><div class="v">41 tis. Kč</div><div class="l">marže 2026 H1</div></div><div class="kpi"><div class="v">41 tis. Kč</div><div class="l">marže 2024 H1–2026 H1</div></div><div class="kpi"><div class="v">50,0 %</div><div class="l">konverze 2026 H1 (1/2 zal.)</div></div><div class="kpi"><div class="v">25,0 %</div><div class="l">konverze za okno (1/4 zal.)</div></div></div></div>
+  <div class="ps"><svg class="spark" viewBox="0 0 246 67" width="246" height="67" role="img" aria-label="marže po pololetích"><rect class="sb zero" x="0" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="15.5" y="63" text-anchor="middle">24H1</text><rect class="sb zero" x="40" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="55.5" y="63" text-anchor="middle">24H2</text><rect class="sb zero" x="80" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="95.5" y="63" text-anchor="middle">25H1</text><rect class="sb zero" x="120" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="135.5" y="63" text-anchor="middle">25H2</text><rect class="sb up" x="160" y="12.0" width="31" height="40.0" rx="2"/><text class="sl" x="175.5" y="63" text-anchor="middle">26H1</text><rect class="sb part" x="200" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="215.5" y="63" text-anchor="middle">26H2</text></svg><span class="scap">marže po pololetích, vlastní škála</span></div>
+</div>
+<ul>
+  <li><b>Vývoj:</b> marže po pololetích (tis. Kč): 0 → 0 → 0 → 0 → 41; 2026 H2 částečně 0</li>
+  <li><b>Velikost obchodu:</b> mediánová výhra 41 tis. Kč, největší 41 tis. Kč; 1 výhra z 4 uzavřených a 4 založených dealů (25,0 % konverze za celé okno)</li>
+  <li><b>Koncentrace:</b> Top 1 <b>Edwards Lifesciences Czech Republic s.r.o.</b> drží 100,0 % vyhrané marže (41 tis. Kč), Top 1+2 drží <b>100,0 %</b>; 1 klient s výhrou z 4 oslovených organizací</li>
+  <li><b>Prohry:</b> <b>Cancelled by client</b> 2× · <b>Quality</b> 1× (z 3 proher)</li>
+  <li><b>Výhry 2026 H1:</b> Edwards Lifesciences Czech Republic s.r.o. 41 tis. Kč</li>
+  <li><b>Pipeline:</b> v pipeline není žádný otevřený deal</li>
+</ul>
+<div class="call"><p><b>Závěr.</b> Produkt existuje v datech od 2025 H2 a má jednu jedinou výhru za 41 tis. Kč (Edwards Lifesciences Czech Republic s.r.o., 2026 H1) ze 4 uzavřených dealů. Na tomhle vzorku nelze vyčíst ani trend, ani konverzi. Pro srovnání: konzultační dvojče <span class="mono">CONS_AI</span> vyhrálo za stejné okno 16 dealů za 2,17 mil. Kč.</p></div>
+
+<h3 id="p11"><span class="rank">11</span>
+  Data — konzultace
+  <span class="code">CONS_DATA</span> <span class="tb up">▲ marže roste</span></h3>
+<div class="pgrid">
+  <div class="pk"><div class="kpis"><div class="kpi"><div class="v">10 tis. Kč</div><div class="l">marže 2026 H1</div></div><div class="kpi"><div class="v">10 tis. Kč</div><div class="l">marže 2024 H1–2026 H1</div></div><div class="kpi"><div class="v">50,0 %</div><div class="l">konverze 2026 H1 (1/2 zal.)</div></div><div class="kpi"><div class="v">11,1 %</div><div class="l">konverze za okno (1/9 zal.)</div></div></div></div>
+  <div class="ps"><svg class="spark" viewBox="0 0 246 67" width="246" height="67" role="img" aria-label="marže po pololetích"><rect class="sb zero" x="0" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="15.5" y="63" text-anchor="middle">24H1</text><rect class="sb zero" x="40" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="55.5" y="63" text-anchor="middle">24H2</text><rect class="sb zero" x="80" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="95.5" y="63" text-anchor="middle">25H1</text><rect class="sb zero" x="120" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="135.5" y="63" text-anchor="middle">25H2</text><rect class="sb up" x="160" y="12.0" width="31" height="40.0" rx="2"/><text class="sl" x="175.5" y="63" text-anchor="middle">26H1</text><rect class="sb part" x="200" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="215.5" y="63" text-anchor="middle">26H2</text></svg><span class="scap">marže po pololetích, vlastní škála</span></div>
+</div>
+<ul>
+  <li><b>Vývoj:</b> marže po pololetích (tis. Kč): 0 → 0 → 0 → 0 → 10; 2026 H2 částečně 0</li>
+  <li><b>Velikost obchodu:</b> mediánová výhra 10 tis. Kč, největší 10 tis. Kč; 1 výhra z 9 uzavřených a 9 založených dealů (11,1 % konverze za celé okno)</li>
+  <li><b>Koncentrace:</b> Top 1 <b>AUTO IN s.r.o.</b> drží 100,0 % vyhrané marže (10 tis. Kč), Top 1+2 drží <b>100,0 %</b>; 1 klient s výhrou z 7 oslovených organizací</li>
+  <li><b>Prohry:</b> <b>Cancelled by client</b> 4× · <b>Cancelled by PJM</b> 2× · <b>Quality</b> 1× (z 8 proher)</li>
+  <li><b>Výhry 2026 H1:</b> AUTO IN s.r.o. 10 tis. Kč</li>
+  <li><b>Pipeline:</b> v pipeline není žádný otevřený deal</li>
+</ul>
+<div class="call"><p><b>Závěr.</b> 9 uzavřených dealů za pět a půl pololetí, z toho jedna výhra za 10 tis. Kč — nejnižší marže ze všech produktů, které vůbec něco vyhrály. Uzavřený deal padl do každého z pěti úplných pololetí, výhra přišla až v 2026 H1. Nejčastější důvod proher je <span class="mono">Cancelled by client</span> (4× z 8).</p></div>
+
+<h3 id="p12"><span class="rank">12</span>
+  Data — outsourcing
+  <span class="code">OUT_DATA</span> <span class="tb down">▼ marže klesá</span></h3>
+<div class="pgrid">
+  <div class="pk"><div class="kpis"><div class="kpi"><div class="v">0 tis. Kč</div><div class="l">marže 2026 H1</div></div><div class="kpi"><div class="v">3,81 mil. Kč</div><div class="l">marže 2024 H1–2026 H1</div></div><div class="kpi"><div class="v">0,0 %</div><div class="l">konverze 2026 H1 (0/3 zal.)</div></div><div class="kpi"><div class="v">28,6 %</div><div class="l">konverze za okno (8/28 zal.)</div></div></div></div>
+  <div class="ps"><svg class="spark" viewBox="0 0 246 67" width="246" height="67" role="img" aria-label="marže po pololetích"><rect class="sb none" x="0" y="46.7" width="31" height="5.3" rx="2"/><text class="sl" x="15.5" y="63" text-anchor="middle">24H1</text><rect class="sb zero" x="40" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="55.5" y="63" text-anchor="middle">24H2</text><rect class="sb up" x="80" y="48.8" width="31" height="3.2" rx="2"/><text class="sl" x="95.5" y="63" text-anchor="middle">25H1</text><rect class="sb up" x="120" y="12.0" width="31" height="40.0" rx="2"/><text class="sl" x="135.5" y="63" text-anchor="middle">25H2</text><rect class="sb zero" x="160" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="175.5" y="63" text-anchor="middle">26H1</text><rect class="sb part" x="200" y="47.0" width="31" height="5.0" rx="2"/><text class="sl" x="215.5" y="63" text-anchor="middle">26H2</text></svg><span class="scap">marže po pololetích, vlastní škála</span></div>
+</div>
+<ul>
+  <li><b>Vývoj:</b> marže po pololetích (tis. Kč): 418 → 0 → 250 → 3 137 → 0; 2026 H2 částečně 390</li>
+  <li><b>Velikost obchodu:</b> mediánová výhra 404 tis. Kč, největší 1,11 mil. Kč; 8 výher z 26 uzavřených a 28 založených dealů (28,6 % konverze za celé okno)</li>
+  <li><b>Koncentrace:</b> Top 1 <b>Edwards Lifesciences Czech Republic s.r.o.</b> drží 90,7 % vyhrané marže (3,81 mil. Kč), Top 1+2 drží <b>100,0 %</b>; 2 klienti s výhrou z 15 oslovených organizací</li>
+  <li><b>Prohry:</b> <b>Quality</b> 11× · <b>Cancelled by client</b> 4× · <b>Silent client</b> 2× (z 18 proher)</li>
+  
+  <li><b>Pipeline:</b> <b>2</b> otevřené dealy (marže nevyplněna) k datu extrakce</li>
+</ul>
+<div class="call"><p><b>Závěr.</b> Podle marže za celé okno (3,81 mil. Kč) je to šestý největší produkt portfolia, podle 2026 H1 až 12.: po 3 137 tis. Kč v 2025 H2 přišly v 2026 H1 dva prohrané dealy a žádná výhra, v 2026 H2 zatím žádný uzavřený deal. Veškerá marže produktu pochází od jednoho klienta (Edwards Lifesciences Czech Republic s.r.o.). Zároveň nejvyšší podíl proher s důvodem <span class="mono">Quality</span> v portfoliu — 11 z 18 (61,1 %).</p></div>
+
+<h3 id="p13"><span class="rank">13</span>
+  Byznysová analýza — konzultace
+  <span class="code">CONS_BA</span> <span class="tb none">bez signálu</span></h3>
+<div class="pgrid">
+  <div class="pk"><div class="kpis"><div class="kpi"><div class="v">0 tis. Kč</div><div class="l">marže 2026 H1</div></div><div class="kpi"><div class="v">25 tis. Kč</div><div class="l">marže 2024 H1–2026 H1</div></div><div class="kpi"><div class="v">0,0 %</div><div class="l">konverze 2026 H1 (0/3 zal.)</div></div><div class="kpi"><div class="v">28,6 %</div><div class="l">konverze za okno (2/7 zal.)</div></div></div></div>
+  <div class="ps"><svg class="spark" viewBox="0 0 246 67" width="246" height="67" role="img" aria-label="marže po pololetích"><rect class="sb zero" x="0" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="15.5" y="63" text-anchor="middle">24H1</text><rect class="sb zero" x="40" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="55.5" y="63" text-anchor="middle">24H2</text><rect class="sb up" x="80" y="41.0" width="31" height="11.0" rx="2"/><text class="sl" x="95.5" y="63" text-anchor="middle">25H1</text><rect class="sb zero" x="120" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="135.5" y="63" text-anchor="middle">25H2</text><rect class="sb zero" x="160" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="175.5" y="63" text-anchor="middle">26H1</text><rect class="sb part" x="200" y="12.0" width="31" height="40.0" rx="2"/><text class="sl" x="215.5" y="63" text-anchor="middle">26H2</text></svg><span class="scap">marže po pololetích, vlastní škála</span></div>
+</div>
+<ul>
+  <li><b>Vývoj:</b> marže po pololetích (tis. Kč): 0 → 0 → 25 → 0 → 0; 2026 H2 částečně 91</li>
+  <li><b>Velikost obchodu:</b> mediánová výhra 58 tis. Kč, největší 91 tis. Kč; 2 výhry z 7 uzavřených a 7 založených dealů (28,6 % konverze za celé okno)</li>
+  <li><b>Koncentrace:</b> Top 1 <b>Pražská energetika, a.s.</b> drží 78,4 % vyhrané marže (91 tis. Kč), Top 1+2 drží <b>100,0 %</b>; 2 klienti s výhrou z 6 oslovených organizací</li>
+  <li><b>Prohry:</b> <b>Cancelled by client</b> 2× · <b>Cancelled by PJM</b> 1× · <b>Price</b> 1× (z 5 proher)</li>
+  
+  <li><b>Pipeline:</b> v pipeline není žádný otevřený deal</li>
+</ul>
+<div class="call"><p><b>Závěr.</b> 7 uzavřených dealů, 2 výhry, 116 tis. Kč marže za celé okno. V 2026 H1 tři uzavřené dealy a žádná výhra; jediná výhra roku padla už do 2026 H2 (91 tis. Kč), tedy za hranici srovnatelného pololetí. Je to nejmenší z produktů s kompetencí BA — outsourcingové dvojče <span class="mono">OUT_BA</span> vydělalo za stejné okno 6,43 mil. Kč, tedy 55× víc.</p></div>
+
+<h3 id="p14"><span class="rank">14</span>
+  UX — konzultace
+  <span class="code">CONS_UX</span> <span class="tb down">▼ marže klesá</span></h3>
+<div class="pgrid">
+  <div class="pk"><div class="kpis"><div class="kpi"><div class="v">0 tis. Kč</div><div class="l">marže 2026 H1</div></div><div class="kpi"><div class="v">74 tis. Kč</div><div class="l">marže 2024 H1–2026 H1</div></div><div class="kpi"><div class="v">0,0 %</div><div class="l">konverze 2026 H1 (0/1 zal.)</div></div><div class="kpi"><div class="v">33,3 %</div><div class="l">konverze za okno (2/6 zal.)</div></div></div></div>
+  <div class="ps"><svg class="spark" viewBox="0 0 246 67" width="246" height="67" role="img" aria-label="marže po pololetích"><rect class="sb zero" x="0" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="15.5" y="63" text-anchor="middle">24H1</text><rect class="sb up" x="40" y="32.8" width="31" height="19.2" rx="2"/><text class="sl" x="55.5" y="63" text-anchor="middle">24H2</text><rect class="sb zero" x="80" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="95.5" y="63" text-anchor="middle">25H1</text><rect class="sb up" x="120" y="12.0" width="31" height="40.0" rx="2"/><text class="sl" x="135.5" y="63" text-anchor="middle">25H2</text><rect class="sb zero" x="160" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="175.5" y="63" text-anchor="middle">26H1</text><rect class="sb part" x="200" y="50.5" width="31" height="1.5" rx="2"/><text class="sl" x="215.5" y="63" text-anchor="middle">26H2</text></svg><span class="scap">marže po pololetích, vlastní škála</span></div>
+</div>
+<ul>
+  <li><b>Vývoj:</b> marže po pololetích (tis. Kč): 0 → 24 → 0 → 50 → 0; 2026 H2 částečně 0</li>
+  <li><b>Velikost obchodu:</b> mediánová výhra 37 tis. Kč, největší 50 tis. Kč; 2 výhry z 5 uzavřených a 6 založených dealů (33,3 % konverze za celé okno)</li>
+  <li><b>Koncentrace:</b> Top 1 <b>Shoptet, a.s.</b> drží 67,6 % vyhrané marže (50 tis. Kč), Top 1+2 drží <b>100,0 %</b>; 2 klienti s výhrou z 4 oslovených organizací</li>
+  <li><b>Prohry:</b> <b>Cancelled by client</b> 2× · <b>Silent client</b> 1× (z 3 proher)</li>
+  
+  <li><b>Pipeline:</b> <b>1</b> otevřený deal za 150 tis. Kč marže k datu extrakce</li>
+</ul>
+<div class="call"><p><b>Závěr.</b> Nejmenší produkt portfolia: 5 uzavřených dealů a 74 tis. Kč marže za pět a půl pololetí. Poslední výhra v 2025 H2 za 50 tis. Kč, v 2026 H1 dva prohrané dealy a nulová marže. Outsourcingové dvojče <span class="mono">OUT_UX</span> vydělalo za stejné okno 4,63 mil. Kč, tedy 63× víc.</p></div>
+
+</section>
+
+<div class="foot">
+  <p><strong>Zdroje.</strong>
+  <span class="mono">analysis/portfolio_halves.sql</span> — pololetní mřížka nad
+  <span class="mono">pg_deal</span> / <span class="mono">fct_deal</span> ·
+  <span class="mono">config/product_map.csv</span> — dimenze produktu ·
+  <span class="mono">config/fx_rates.csv</span> — kurz ·
+  brány kvality: <span class="mono">transform/99_checks.sql</span>.</p>
+  <p>Každé číslo v tomhle dokumentu je čteno z warehouse při renderu
+  (<span class="mono">analysis/portfolio_halves_cz_html.py</span>), žádné není přepsáno ručně.
+  Interní materiál Projectman — obsahuje marže a jména klientů.</p>
+</div>
+
+</main>
+</body>
+</html>

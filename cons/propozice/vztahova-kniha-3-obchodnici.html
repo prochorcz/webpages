@@ -1,0 +1,1728 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Obchodníci s propadem — Vztahová kniha 2026</title>
+<style>
+@font-face{font-family:Poppins;font-weight:400;font-display:swap;
+  src:url("https://www.projectman.cz/themes/custom/projectman/fonts/Poppins/Poppins-Regular.woff2") format("woff2")}
+@font-face{font-family:Poppins;font-weight:600;font-display:swap;
+  src:url("https://www.projectman.cz/themes/custom/projectman/fonts/Poppins/Poppins-SemiBold.woff2") format("woff2")}
+:root{
+  --pjm-dark:#20272F; --pjm-dark-soft:#3F4A57; --pjm-coral:#FF525F; --pjm-coral-light:#FF7580;
+  --pjm-blue:#A9C5DF; --pjm-blue-dark:#5C7894; --pjm-blue-light:#BAD1E5;
+  --pjm-grey:#878787; --pjm-bg:#F7F7F7; --pjm-bg-alt:#F0F2F5; --pjm-line:#DADADA;
+  --surface:#FFFFFF; --ink:#20272F; --ink-2:#3F4A57; --ink-muted:#878787;
+  --ok-bg:#E8F1E9; --ok-ink:#2C6B45; --warn-bg:#FDF0E3; --warn-ink:#8A5A18;
+  --bad-bg:#FDE9EA; --bad-ink:#A32B36; --row-hl:#FFF6F7;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --surface:#20272F; --ink:#FFFFFF; --ink-2:#C9D2DB; --ink-muted:#8C97A3;
+    --pjm-bg:#171D23; --pjm-bg-alt:#1C242C; --pjm-line:#333D48;
+    --ok-bg:#1D3227; --ok-ink:#8FD3A6; --warn-bg:#33281A; --warn-ink:#E5B673;
+    --bad-bg:#3A1F23; --bad-ink:#F0959D; --row-hl:#2A1F22;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--pjm-bg);color:var(--ink);
+  font:400 15px/1.6 Poppins,Helvetica,Calibri,Arial,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px 80px}
+.hero{position:relative;background:var(--pjm-dark);color:#fff;overflow:hidden}
+.hero-in{max-width:1240px;margin:0 auto;padding:52px 24px 40px;position:relative;z-index:2}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:40px}
+.logo-grid{display:grid;grid-template-columns:repeat(6,3px);gap:2.5px}
+.logo-grid i{width:3px;height:3px;background:var(--pjm-grey);border-radius:50%}
+.logo-wm{font-weight:600;font-size:19px;letter-spacing:-.01em}
+.logo-claim{font-size:9px;color:var(--pjm-grey);letter-spacing:.06em;margin-top:-2px}
+h1{font-weight:400;font-size:38px;line-height:1.16;margin:0 0 2px;color:var(--pjm-coral);max-width:26ch}
+.hero h1 span{display:block;border-bottom:1.5px solid var(--pjm-coral);padding-bottom:7px;margin-bottom:7px}
+.hero-sub{color:#C9D2DB;font-size:14px;max-width:82ch;margin-top:20px}
+.orn{position:absolute;right:-70px;top:-40px;z-index:1;opacity:.85}
+.pill{display:inline-block;font-size:9.5px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.09em;padding:4px 9px;border:1px solid var(--pjm-coral);color:var(--pjm-coral);
+  border-radius:11px;margin-bottom:18px}
+.nav{background:var(--pjm-dark-soft);margin-bottom:32px}
+.nav-in{max-width:1240px;margin:0 auto;padding:0 24px;display:flex;flex-wrap:wrap;gap:2px}
+.nav a{display:block;padding:12px 16px;font-size:12px;font-weight:600;color:#C9D2DB;
+  text-decoration:none;border-bottom:2.5px solid transparent}
+.nav a:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav a.on{color:#fff;border-bottom-color:var(--pjm-coral)}
+.nav a .n{color:var(--pjm-coral);margin-right:7px}
+.nav a.idx{margin-left:auto;color:var(--pjm-grey)}
+section{background:var(--surface);border:1px solid var(--pjm-line);padding:28px 30px 26px;margin-bottom:20px}
+h2{font-weight:600;font-size:21px;margin:0 0 6px;letter-spacing:-.01em}
+h2 em{font-style:normal;color:var(--pjm-coral)}
+h3{font-weight:600;font-size:16.5px;margin:0;letter-spacing:-.005em}
+.q{color:var(--ink-2);font-size:13.5px;margin:0 0 18px;max-width:96ch;
+  border-left:2px solid var(--pjm-blue);padding-left:12px}
+p{max-width:96ch}
+.lede{color:var(--ink-2);font-size:14px;margin:0 0 18px}
+.lede b{color:var(--ink)}
+.tldr{background:var(--pjm-bg-alt);border:none;border-left:3px solid var(--pjm-coral)}
+.tldr ol{margin:6px 0 0;padding-left:22px}
+.tldr li{margin-bottom:11px;font-size:14px;color:var(--ink-2);max-width:94ch}
+.tldr li b{color:var(--ink)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;
+  background:var(--pjm-line);margin:0 0 22px}
+.kpis>div{background:var(--surface);padding:14px 16px}
+.kpis .k{display:block;font-size:26px;font-weight:600;line-height:1.1;letter-spacing:-.02em}
+.kpis .l{display:block;font-size:11px;color:var(--ink-muted);margin-top:4px;line-height:1.4}
+.coral{color:var(--pjm-coral)}
+.tw{overflow-x:auto;margin:0 -30px;padding:0 30px}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th{text-align:left;font-weight:600;font-size:9.5px;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--ink-muted);border-bottom:1.5px solid var(--pjm-line);padding:0 10px 7px 0;
+  vertical-align:bottom;white-space:nowrap}
+td{padding:9px 10px 9px 0;border-bottom:1px solid var(--pjm-line);vertical-align:top;
+  color:var(--ink-2)}
+tbody tr:hover td{background:var(--pjm-bg-alt)}
+tr.hl td{background:var(--row-hl)}
+td.org{font-weight:600;color:var(--ink);min-width:170px}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+td.c,th.c{text-align:center;font-variant-numeric:tabular-nums}
+td.b{font-weight:600;color:var(--ink)}
+td.sm{font-size:11.5px;line-height:1.5}
+.nw{white-space:nowrap}
+.na{color:var(--ink-muted);font-size:11px}
+.neg{color:var(--pjm-coral)}
+.chip{display:inline-block;font-size:10px;font-weight:600;padding:2.5px 8px;border-radius:10px;
+  white-space:nowrap;line-height:1.4}
+.chip.ok{background:var(--ok-bg);color:var(--ok-ink)}
+.chip.warn{background:var(--warn-bg);color:var(--warn-ink)}
+.chip.bad{background:var(--bad-bg);color:var(--bad-ink)}
+.chip.neutral{background:var(--pjm-bg-alt);color:var(--ink-2)}
+.owner{border-top:1px solid var(--pjm-line);padding-top:22px;margin-top:26px}
+.owner-head{display:flex;flex-wrap:wrap;gap:14px 26px;align-items:flex-start;
+  justify-content:space-between;margin-bottom:12px}
+.tag{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;
+  padding:2px 8px;border-radius:9px;margin-left:8px;vertical-align:2px}
+.tag.gone{background:var(--bad-bg);color:var(--bad-ink)}
+.tag.here{background:var(--pjm-blue-light);color:#20272F}
+.owner-kpi{display:flex;gap:22px;flex-wrap:wrap}
+.owner-kpi .k{display:block;font-size:17px;font-weight:600;color:var(--ink);
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.owner-kpi .l{display:block;font-size:10px;color:var(--ink-muted);margin-top:1px}
+.mix{font-size:11.5px;color:var(--ink-muted);margin:0 0 9px}
+.mix b{color:var(--ink-2)}
+.onote{font-size:13px;color:var(--ink-2);margin:0 0 10px;line-height:1.62}
+.onote b{color:var(--ink)}
+.tally{font-size:11px;font-weight:600;color:var(--ink-muted);text-transform:uppercase;
+  letter-spacing:.05em;margin:0 0 12px}
+details{margin-top:14px}
+summary{cursor:pointer;font-size:12px;font-weight:600;color:var(--pjm-coral);
+  padding:7px 0;user-select:none}
+summary:hover{color:var(--pjm-coral-light)}
+.caveat{background:var(--pjm-bg-alt);border-left:3px solid var(--pjm-blue-dark);
+  padding:16px 20px;margin:18px 0 0;font-size:12.5px;color:var(--ink-2);line-height:1.62}
+.caveat b{color:var(--ink)}
+.caveat ul{margin:8px 0 0;padding-left:20px}
+.caveat li{margin-bottom:7px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;
+  background:var(--pjm-bg-alt);padding:1px 5px;border-radius:3px}
+footer{background:var(--pjm-dark);color:#fff;margin-top:34px}
+.foot-in{max-width:1240px;margin:0 auto;padding:26px 24px;display:flex;
+  justify-content:space-between;align-items:center;font-size:12px;flex-wrap:wrap;gap:8px}
+.foot-in a{color:#fff;text-decoration:none}
+.foot-in .v{color:var(--pjm-coral);font-weight:600}
+@media (max-width:720px){
+  h1{font-size:28px} .hero-in{padding:38px 20px 30px}
+  section{padding:22px 18px} .tw{margin:0 -18px;padding:0 18px}
+  .wrap{padding:0 18px 60px} .nav-in{padding:0 18px} .nav a.idx{margin-left:0}
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <svg class="orn" width="330" height="290" viewBox="0 0 330 290" aria-hidden="true">
+    <rect x="150" y="52" width="176" height="176" rx="40" fill="none" stroke="#A9C5DF" stroke-width="2"/>
+    <path d="M212 60 a86 86 0 1 1 -60 146" fill="none" stroke="#FF525F" stroke-width="2"/>
+  </svg>
+  <div class="hero-in">
+    <div class="logo">
+      <div class="logo-grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div><div class="logo-wm">projectman</div><div class="logo-claim">connecting experts</div></div>
+    </div>
+    <span class="pill">Vztahová kniha 2026 · otázka 3 ze 3 · interní</span>
+    <h1><span>Obchodníci s propadem</span>co zbylo z jejich knih</h1>
+    <p class="hero-sub">Čtyři obchodníci s poklesem ≥ 50 % YTD, jejich 92 vyhraných zakázek a osud každého účtu. Zdroj: warehouse (Pipedrive + Tracker), extrakt 16. 8. 2026, 662 zakázek, 0 nezařazených.</p>
+  </div>
+</header>
+<nav class="nav"><div class="nav-in"><a href="vztahova-kniha-1-kohorta-2025.html" class=""><span class="n">1</span>Kohorta 2025</a><a href="vztahova-kniha-2-nesoutezni-vyhry.html" class=""><span class="n">2</span>Nesoutěžní výhry</a><a href="vztahova-kniha-3-obchodnici.html" class="on"><span class="n">3</span>Obchodníci s propadem</a><a href="index.html" class="idx">← rozcestník</a></div></nav>
+<div class="wrap">
+
+  <section class="tldr">
+    <h2>TL;DR</h2>
+    <ol>
+      <li><b>Osiřelé knihy jsou reálná díra.</b> 4 obchodníci propadli
+        o ≥ 50 % (YTD proti lepšímu z 2024/25). Na jejich 32 účtech je dnes
+        <b>11 živých — a 11 převzatých, ze kterých za osm měsíců nevznikla jediná
+        zakázka, plus 8 úplně opuštěných</b>.</li>
+      <li><b>Největší „propad obchodníka" je ve skutečnosti zavřená linka.</b>
+        29 z 30 výher Terezy
+        Dvořákové bylo <b>školení</b> — a školení letos ve firmě neexistuje vůbec:
+        44 zakázek v 2024, 48 v 2025,
+        <b>0 v 2026</b>, poslední vznikla 10. 11. 2025.</li>
+      <li><b>Propad ≠ odchod.</b> Pavel Veselý spadl o 61 % v zakládání zakázek, ale knihu
+        <b>drží</b> — na 8 z 11 účtů je
+        pořád on ten, kdo s klientem mluví, a letos má 10 výher.
+        Tyhle dva propady se nesmí míchat do jednoho čísla.</li>
+      <li><b>Co s tím.</b> 11 účtů, které formálně někoho mají, ale osm měsíců z nich
+        nevznikla zakázka — tam nechybí kontakt, ale <b>zadání</b>. A 8 opuštěných účtů
+        nemá ani to.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Obchodníci, kteří <em>přestali obchodovat</em></h2>
+    <p class="q"><b>Otázka:</b> prověřit obchodníky, kteří obchodovali před rokem 2026 výrazně
+      víc než v roce 2026. U každého vypsat jeho vítězné zakázky do tabulky a ke každé uvést stav
+      vztahu v roce 2026 — kdo si kontakt převzal a co tam nyní obchodujeme?</p>
+    <p class="lede">Aby rok 2026 nebyl krácený, srovnávají se <b>stejná okna
+      1. 1. – 16. 8.</b> každého roku. Za „výrazný propad" bereme pokles
+      o ≥ 50 % proti lepšímu z let 2024/2025, při základně aspoň 5 zakázek — pod tou
+      hranicí je propad statisticky bezvýznamný (proto tabulkou propadají Radim a Lukas
+      VITEK).</p>
+    <div class="tw"><table style="min-width:760px"><thead><tr><th class="">Obchodník</th><th class="c">≤ 2023</th><th class="c">2024</th><th class="c">2025</th><th class="c">2026</th><th class="c">Změna 26 vs. peak</th><th class="c">Výher celkem</th><th class="c">Účtů</th></tr></thead><tbody>
+      <tr class="hl">
+        <td class="org">Pavel Veselý</td>
+        <td class="c">7</td><td class="c">20</td>
+        <td class="c">33</td><td class="c">13</td>
+        <td class="c b">−61 %</td>
+        <td class="c">56</td><td class="c">11</td>
+      </tr>
+      <tr class="">
+        <td class="org">Jiří Tonar</td>
+        <td class="c">7</td><td class="c">14</td>
+        <td class="c">32</td><td class="c">23</td>
+        <td class="c b">−28 %</td>
+        <td class="c">41</td><td class="c">14</td>
+      </tr>
+      <tr class="hl">
+        <td class="org">Tereza Dvořáková <span class="na">(neaktivní)</span></td>
+        <td class="c">—</td><td class="c">16</td>
+        <td class="c">27</td><td class="c">—</td>
+        <td class="c b">−100 %</td>
+        <td class="c">30</td><td class="c">20</td>
+      </tr>
+      <tr class="">
+        <td class="org">Jiří Zázvorka</td>
+        <td class="c">5</td><td class="c">13</td>
+        <td class="c">24</td><td class="c">21</td>
+        <td class="c b">−12 %</td>
+        <td class="c">19</td><td class="c">9</td>
+      </tr>
+      <tr class="">
+        <td class="org">Petr Janiš</td>
+        <td class="c">7</td><td class="c">14</td>
+        <td class="c">6</td><td class="c">9</td>
+        <td class="c b">−36 %</td>
+        <td class="c">22</td><td class="c">15</td>
+      </tr>
+      <tr class="">
+        <td class="org">Lubomir Slocik</td>
+        <td class="c">—</td><td class="c">—</td>
+        <td class="c">14</td><td class="c">17</td>
+        <td class="c b">+21 %</td>
+        <td class="c">6</td><td class="c">4</td>
+      </tr>
+      <tr class="">
+        <td class="org">Jan Procházka</td>
+        <td class="c">—</td><td class="c">10</td>
+        <td class="c">13</td><td class="c">9</td>
+        <td class="c b">−31 %</td>
+        <td class="c">25</td><td class="c">9</td>
+      </tr>
+      <tr class="">
+        <td class="org">Petr Vesely</td>
+        <td class="c">10</td><td class="c">4</td>
+        <td class="c">11</td><td class="c">8</td>
+        <td class="c b">−27 %</td>
+        <td class="c">31</td><td class="c">4</td>
+      </tr>
+      <tr class="hl">
+        <td class="org">Petr Holub <span class="na">(neaktivní)</span></td>
+        <td class="c">—</td><td class="c">9</td>
+        <td class="c">3</td><td class="c">—</td>
+        <td class="c b">−100 %</td>
+        <td class="c">4</td><td class="c">3</td>
+      </tr>
+      <tr class="">
+        <td class="org">Jan Klimíček</td>
+        <td class="c">—</td><td class="c">—</td>
+        <td class="c">7</td><td class="c">39</td>
+        <td class="c b">+457 %</td>
+        <td class="c">16</td><td class="c">9</td>
+      </tr>
+      <tr class="hl">
+        <td class="org">Veronika Pavlíková</td>
+        <td class="c">—</td><td class="c">—</td>
+        <td class="c">6</td><td class="c">—</td>
+        <td class="c b">−100 %</td>
+        <td class="c">2</td><td class="c">2</td>
+      </tr>
+      <tr class="">
+        <td class="org">Radim</td>
+        <td class="c">—</td><td class="c">4</td>
+        <td class="c">—</td><td class="c">—</td>
+        <td class="c b">−100 %</td>
+        <td class="c">2</td><td class="c">1</td>
+      </tr>
+      <tr class="">
+        <td class="org">Lukas VITEK</td>
+        <td class="c">—</td><td class="c">—</td>
+        <td class="c">1</td><td class="c">—</td>
+        <td class="c b">−100 %</td>
+        <td class="c">0</td><td class="c">0</td>
+      </tr></tbody></table></div>
+    <p class="lede" style="margin-top:18px">Zvýrazněné řádky jsou ty čtyři, které projdou
+      filtrem. Rozdíl mezi nimi je ale zásadní a čísla samotná ho neukážou: <b>dva odešli, jeden
+      je pořád tady a knihu drží, jedna letos nezaložila nic.</b> Celkem jde o
+      92 vyhraných zakázek na 32 unikátních účtech — dnes <b>11</b>
+      živých, 2 jen s pipeline, <b>11</b> převzatých bez byznysu a <b>8</b>
+      opuštěných. Tabulky u jednotlivých obchodníků mají dohromady 36 řádků, protože
+      tři účty (Edwards, Škoda Auto, WOOD) mají výhry od více obchodníků.</p>
+    <div class="caveat" style="border-left-color:var(--pjm-coral);margin-bottom:4px">
+      <b>Nejdřív ale rozdíl, který čísla samotná skrývají — a bez kterého se stránka čte
+      špatně.</b> Kniha Terezy Dvořákové byla <b>školení</b>, kniha Pavla Veselého
+      <b>outstaffing</b>. To nejsou srovnatelné propady: školení jako produktová linka letos ve
+      firmě <b>neexistuje vůbec</b> — 44 zakázek v 2024, 48
+      v 2025, <b>0 v 2026</b>, poslední vznikla
+      10. 11. 2025. Tereza držela 63 z
+      92 EDU zakázek za celou historii CRM, takže její „propad na nulu" je
+      z velké části <b>zavření linky, ne ochabnutí obchodníka</b>. U ostatních tří jde
+      o skutečný obchodní propad v živých kapsách.
+    </div>
+    
+  <div class="owner">
+    <div class="owner-head">
+      <h3>Tereza Dvořáková <span class="tag gone">odešla</span></h3>
+      <div class="owner-kpi">
+        <div><span class="k">27 → 0</span>
+             <span class="l">zakázek YTD 2025 → 2026</span></div>
+        <div><span class="k coral">−100 %</span>
+             <span class="l">proti lepšímu z 2024/25</span></div>
+        <div><span class="k">30</span><span class="l">výher celkem</span></div>
+        <div><span class="k">20</span><span class="l">účtů s výhrou</span></div>
+      </div>
+    </div>
+    <p class="mix"><b>Skladba knihy:</b> 29× školení · 1× consulting</p>
+    <p class="onote"><b>Tohle není propad obchodníka, tohle je zavřená produktová
+            linka.</b> 29 z jejích 30 výher je
+            <b>školení (EDU)</b>, ne outstaffing — a školení jako celek letos ve firmě
+            neexistuje: 44 zakázek v 2024, 48 v 2025,
+            <b>0 v 2026</b>. Poslední EDU zakázka jakéhokoli obchodníka vznikla
+            10. 11. 2025. Držela 63 z 92
+            EDU zakázek celé historie CRM, takže s ní odešla i většina linky.
+            Pozor na čtení tabulky: účty označené „živé" žijí <b>na jiné kompetenci a jiném
+            obchodníkovi</b> (Škoda Auto na Petru Veselym, Raiffeisenbank / WOOD / RETIA na
+            Janu Klimíčkovi) — <b>ani jeden z nich nekoupil školení</b>. Osm účtů má někoho
+            přiřazeného, ale za osm měsíců z nich nevznikla žádná zakázka; čtyři neoslovil
+            nikdo.</p>
+    <p class="tally">8× převzato, bez byznysu · 6× živé — čerpáme · 4× opuštěno · 2× převzato, jen pipeline</p>
+    <div class="tw"><table style="min-width:1080px"><thead><tr><th class="">Klient</th><th class="c">Výher</th><th class="">Poslední výhra</th><th class="r">Marže (tis. Kč)</th><th class="">Co jsme tam vyhráli</th><th class="">Kdo drží 2026</th><th class="">Osud účtu</th><th class="">Co tam je dnes</th></tr></thead><tbody>
+        <tr>
+          <td class="org">Ernst &amp; Young, s.r.o.</td>
+          <td class="c">3</td>
+          <td class="nw sm">19. 11. 2025</td>
+          <td class="r">100</td>
+          <td class="sm">EDU_PM, EDU_AGILE</td>
+          <td class="sm nw">Petr Janiš</td>
+          <td><span class="chip warn">převzato, jen pipeline</span></td>
+          <td class="sm">1× nová poptávka (CONS_PM)</td>
+        </tr>
+        <tr>
+          <td class="org">Beanz s.r.o.</td>
+          <td class="c">1</td>
+          <td class="nw sm">4. 11. 2025</td>
+          <td class="r">30</td>
+          <td class="sm">CONS_AI</td>
+          <td class="sm nw">Jiří Tonar</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+          <td class="sm">1× prohra</td>
+        </tr>
+        <tr>
+          <td class="org">Letiště Praha, a. s.</td>
+          <td class="c">1</td>
+          <td class="nw sm">1. 10. 2025</td>
+          <td class="r">41</td>
+          <td class="sm">EDU_AI</td>
+          <td class="sm nw">Jiří Zázvorka</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+          <td class="sm">2× kontakt, posl. 25. 2. 2026</td>
+        </tr>
+        <tr>
+          <td class="org">Česká tisková kancelář</td>
+          <td class="c">1</td>
+          <td class="nw sm">27. 8. 2025</td>
+          <td class="r">47</td>
+          <td class="sm">EDU_PM</td>
+          <td class="sm nw">nikdo</td>
+          <td><span class="chip bad">opuštěno</span></td>
+          <td class="sm">1× prohra</td>
+        </tr>
+        <tr>
+          <td class="org">ADASTRA, s.r.o.</td>
+          <td class="c">1</td>
+          <td class="nw sm">18. 8. 2025</td>
+          <td class="r">15</td>
+          <td class="sm">EDU_OTHER</td>
+          <td class="sm nw">nikdo</td>
+          <td><span class="chip bad">opuštěno</span></td>
+          <td class="sm">1× prohra</td>
+        </tr>
+        <tr>
+          <td class="org">Univerzita Karlova</td>
+          <td class="c">1</td>
+          <td class="nw sm">1. 7. 2025</td>
+          <td class="r">28</td>
+          <td class="sm">EDU_PM</td>
+          <td class="sm nw">Jan Klimíček</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+          <td class="sm">2× kontakt, posl. 25. 6. 2026</td>
+        </tr>
+        <tr>
+          <td class="org">IKEA Česká republika, s.r.o.</td>
+          <td class="c">2</td>
+          <td class="nw sm">23. 6. 2025</td>
+          <td class="r">93</td>
+          <td class="sm">EDU_OTHER</td>
+          <td class="sm nw">Jiří Tonar</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+          <td class="sm">2× kontakt, posl. 2. 6. 2026</td>
+        </tr>
+        <tr>
+          <td class="org">RETIA, a.s.</td>
+          <td class="c">1</td>
+          <td class="nw sm">3. 6. 2025</td>
+          <td class="r">81</td>
+          <td class="sm">EDU_AGILE</td>
+          <td class="sm nw">Jan Klimíček</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+          <td class="sm">výhra 2026: CONS_PM; 2× nová poptávka (OUT_OTHER)</td>
+        </tr>
+        <tr>
+          <td class="org">Škoda Auto a.s.</td>
+          <td class="c">5</td>
+          <td class="nw sm">23. 5. 2025</td>
+          <td class="r">514</td>
+          <td class="sm">EDU_OTHER</td>
+          <td class="sm nw">Petr Vesely</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+          <td class="sm">3× PM obsazení běží; 13× jiná kompetence běží (OUT_BA, OUT_AGILE, OUT_PM, OUT_OTHER, OUT_UX); výhra 2026: OUT_UX; 2× nová poptávka (OUT_UX)</td>
+        </tr>
+        <tr>
+          <td class="org">WOOD &amp; Company Financial Services, a.s.</td>
+          <td class="c">1</td>
+          <td class="nw sm">11. 4. 2025</td>
+          <td class="r">26</td>
+          <td class="sm">EDU_PM</td>
+          <td class="sm nw">Jan Klimíček</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+          <td class="sm">1× PM obsazení běží; výhra 2026: CONS_PM; 1× nová poptávka (CONS_PM); 1× prohra</td>
+        </tr>
+        <tr>
+          <td class="org">CETIN a.s.</td>
+          <td class="c">2</td>
+          <td class="nw sm">24. 3. 2025</td>
+          <td class="r">87</td>
+          <td class="sm">EDU_OTHER</td>
+          <td class="sm nw">Jiří Tonar</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+          <td class="sm">1× kontakt, posl. 27. 1. 2026</td>
+        </tr>
+        <tr>
+          <td class="org">Actum, s.r.o.</td>
+          <td class="c">1</td>
+          <td class="nw sm">7. 2. 2025</td>
+          <td class="r">20</td>
+          <td class="sm">EDU_PM</td>
+          <td class="sm nw">nikdo</td>
+          <td><span class="chip bad">opuštěno</span></td>
+          <td class="sm">nic — žádná zakázka, žádný kontakt</td>
+        </tr>
+        <tr>
+          <td class="org">J&amp;T BANKA, a.s.</td>
+          <td class="c">1</td>
+          <td class="nw sm">5. 2. 2025</td>
+          <td class="r">33</td>
+          <td class="sm">EDU_BA</td>
+          <td class="sm nw">Jiří Zázvorka</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+          <td class="sm">4× kontakt, posl. 12. 8. 2026</td>
+        </tr>
+        <tr>
+          <td class="org">Raiffeisenbank a.s.</td>
+          <td class="c">1</td>
+          <td class="nw sm">28. 11. 2024</td>
+          <td class="r">30</td>
+          <td class="sm">EDU_PM</td>
+          <td class="sm nw">Jan Klimíček</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+          <td class="sm">2× PM obsazení běží; 4× jiná kompetence běží (OUT_PM, OUT_OTHER, OUT_BA); výhra 2026: OUT_OTHER; 8× nová poptávka (OUT_AGILE, OUT_OTHER, OUT_PM, OUT_BA, OUT_AI); 8× prohra</td>
+        </tr>
+        <tr>
+          <td class="org">Top Partners International, s.r.o.</td>
+          <td class="c">2</td>
+          <td class="nw sm">24. 11. 2024</td>
+          <td class="r">30</td>
+          <td class="sm">EDU_PM</td>
+          <td class="sm nw">Petr Janiš</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+          <td class="sm">výhra 2026: CONS_PM; 1× nová poptávka (CONS_PM)</td>
+        </tr>
+        <tr>
+          <td class="org">Generali Česká pojišťovna a.s.</td>
+          <td class="c">2</td>
+          <td class="nw sm">14. 11. 2024</td>
+          <td class="r">59</td>
+          <td class="sm">EDU_BA, EDU_UX</td>
+          <td class="sm nw">Jan Klimíček</td>
+          <td><span class="chip warn">převzato, jen pipeline</span></td>
+          <td class="sm">2× nová poptávka (CONS_PM, OUT_PM); 2× prohra</td>
+        </tr>
+        <tr>
+          <td class="org">ROCHE s.r.o.</td>
+          <td class="c">1</td>
+          <td class="nw sm">31. 10. 2024</td>
+          <td class="r">27</td>
+          <td class="sm">EDU_PM</td>
+          <td class="sm nw">nikdo</td>
+          <td><span class="chip bad">opuštěno</span></td>
+          <td class="sm">nic — žádná zakázka, žádný kontakt</td>
+        </tr>
+        <tr>
+          <td class="org">MIBCON a.s.</td>
+          <td class="c">1</td>
+          <td class="nw sm">30. 10. 2024</td>
+          <td class="r">11</td>
+          <td class="sm">EDU_PM</td>
+          <td class="sm nw">Jiří Tonar</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+          <td class="sm">1× kontakt, posl. 24. 6. 2026</td>
+        </tr>
+        <tr>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="c">1</td>
+          <td class="nw sm">30. 8. 2024</td>
+          <td class="r"><span class="neg">−8</span></td>
+          <td class="sm">EDU_OTHER</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+          <td class="sm">2× PM obsazení běží; 10× jiná kompetence běží (OUT_AGILE, OUT_AI, OUT_UX, OUT_OTHER, OUT_DATA, OUT_PM); výhra 2026: CONS_AGILE, OUT_AGILE, OUT_OTHER, OUT_AI; 5× nová poptávka (OUT_OTHER, CONS_AGILE, OUT_AGILE, OUT_AI); 1× prohra</td>
+        </tr>
+        <tr>
+          <td class="org">EG.D, a.s.</td>
+          <td class="c">1</td>
+          <td class="nw sm">1. 7. 2024</td>
+          <td class="r">52</td>
+          <td class="sm">EDU_BA</td>
+          <td class="sm nw">Jiří Zázvorka</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+          <td class="sm">3× kontakt, posl. 12. 5. 2026</td>
+        </tr></tbody></table></div>
+    <details>
+      <summary>Všech 30 vyhraných zakázek — po jedné</summary>
+      <div class="tw"><table style="min-width:1120px"><thead><tr><th class="">Vyhráno</th><th class="">Klient</th><th class="">Zakázka</th><th class="">Kapsa</th><th class="r">Marže</th><th class="">Obsazení</th><th class="">Kdo drží 2026</th><th class="">Osud účtu</th></tr></thead><tbody>
+        <tr>
+          <td class="sm nw">19. 11. 2025</td>
+          <td class="org">Ernst &amp; Young, s.r.o.</td>
+          <td class="sm">Ernst &amp; Young, s.r.o. - PRINCE2® Foundation 7th edition (zkouška v ČJ)</td>
+          <td class="sm nw">EDU_PM</td>
+          <td class="r">15</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Petr Janiš</td>
+          <td><span class="chip warn">převzato, jen pipeline</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">4. 11. 2025</td>
+          <td class="org">Beanz s.r.o.</td>
+          <td class="sm">Beanz, s.r.o. - 2×0,5denní interaktivní workshopy AI pro projektové manažery (přeprodej)</td>
+          <td class="sm nw">CONS_AI</td>
+          <td class="r">30</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Jiří Tonar</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">1. 10. 2025</td>
+          <td class="org">Letiště Praha, a. s.</td>
+          <td class="sm">Letiště Praha, a. s. - AI Hackathon</td>
+          <td class="sm nw">EDU_AI</td>
+          <td class="r">41</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Jiří Zázvorka</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">27. 8. 2025</td>
+          <td class="org">Česká tisková kancelář</td>
+          <td class="sm">Česká tisková kancelář - Interaktivní workshop projektového řízení pro vedení ČTK</td>
+          <td class="sm nw">EDU_PM</td>
+          <td class="r">47</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">nikdo</td>
+          <td><span class="chip bad">opuštěno</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">18. 8. 2025</td>
+          <td class="org">ADASTRA, s.r.o.</td>
+          <td class="sm">ADASTRA, s.r.o. - High-Performance Stress Management: Jak uspět bez vyhoření</td>
+          <td class="sm nw">EDU_OTHER</td>
+          <td class="r">15</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">nikdo</td>
+          <td><span class="chip bad">opuštěno</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">1. 7. 2025</td>
+          <td class="org">Univerzita Karlova</td>
+          <td class="sm">Univerzita Karlova - Úvod do projektového řízení</td>
+          <td class="sm nw">EDU_PM</td>
+          <td class="r">28</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Jan Klimíček</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">23. 6. 2025</td>
+          <td class="org">IKEA Česká republika, s.r.o.</td>
+          <td class="sm">IKEA - Komunikační dovednosti (AJ)</td>
+          <td class="sm nw">EDU_OTHER</td>
+          <td class="r">54</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Jiří Tonar</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">23. 6. 2025</td>
+          <td class="org">IKEA Česká republika, s.r.o.</td>
+          <td class="sm">IKEA - Change Management: Praktické nástroje pro úspěšné změny (AJ)</td>
+          <td class="sm nw">EDU_OTHER</td>
+          <td class="r">39</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Jiří Tonar</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">3. 6. 2025</td>
+          <td class="org">RETIA, a.s.</td>
+          <td class="sm">RETIA, a.s. - Teoretické seznámení se Scrum, Praktická implementace pro SW Development s ohledem na potřebu hybridního řízení</td>
+          <td class="sm nw">EDU_AGILE</td>
+          <td class="r">81</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Jan Klimíček</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">23. 5. 2025</td>
+          <td class="org">Škoda Auto a.s.</td>
+          <td class="sm">Škoda Auto a.s. - Tendr: Školení connectivity na období 05/2025 – 04/2028</td>
+          <td class="sm nw">EDU_OTHER</td>
+          <td class="r">371</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Petr Vesely</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">11. 4. 2025</td>
+          <td class="org">WOOD &amp; Company Financial Services, a.s.</td>
+          <td class="sm">WOOD &amp; Company Financial Services, a.s. - Umění týmové spolupráce</td>
+          <td class="sm nw">EDU_PM</td>
+          <td class="r">26</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Jan Klimíček</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">24. 3. 2025</td>
+          <td class="org">CETIN a.s.</td>
+          <td class="sm">CETIN a.s. - Stakeholder Management a zdravé vztahy ve firmě (3x1,5 h webinář + 3x nahrávka)</td>
+          <td class="sm nw">EDU_OTHER</td>
+          <td class="r">41</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Jiří Tonar</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">7. 2. 2025</td>
+          <td class="org">Actum, s.r.o.</td>
+          <td class="sm">Projektové řízení pro členy projektového týmu - trénink</td>
+          <td class="sm nw">EDU_PM</td>
+          <td class="r">20</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">nikdo</td>
+          <td><span class="chip bad">opuštěno</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">5. 2. 2025</td>
+          <td class="org">J&amp;T BANKA, a.s.</td>
+          <td class="sm">J&amp;T BANKA, a.s. - Integrace v praxi</td>
+          <td class="sm nw">EDU_BA</td>
+          <td class="r">33</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Jiří Zázvorka</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">5. 2. 2025</td>
+          <td class="org">Ernst &amp; Young, s.r.o.</td>
+          <td class="sm">Ernst &amp; Young, s.r.o. - Scrum Master I</td>
+          <td class="sm nw">EDU_AGILE</td>
+          <td class="r">40</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Petr Janiš</td>
+          <td><span class="chip warn">převzato, jen pipeline</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">20. 1. 2025</td>
+          <td class="org">Škoda Auto a.s.</td>
+          <td class="sm">Škoda Auto a.s. - školení Konektivity I.</td>
+          <td class="sm nw">EDU_OTHER</td>
+          <td class="r">11</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Petr Vesely</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">20. 1. 2025</td>
+          <td class="org">Škoda Auto a.s.</td>
+          <td class="sm">Škoda Auto a.s. - školení Konektivity II.</td>
+          <td class="sm nw">EDU_OTHER</td>
+          <td class="r">22</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Petr Vesely</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">28. 11. 2024</td>
+          <td class="org">Raiffeisenbank a.s.</td>
+          <td class="sm">Raiffeisenbank - Hybridní projektové řízení</td>
+          <td class="sm nw">EDU_PM</td>
+          <td class="r">30</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Jan Klimíček</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">24. 11. 2024</td>
+          <td class="org">Top Partners International, s.r.o.</td>
+          <td class="sm">Úvod do projektového řízení pro Edhouse</td>
+          <td class="sm nw">EDU_PM</td>
+          <td class="r">15</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Petr Janiš</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">14. 11. 2024</td>
+          <td class="org">Generali Česká pojišťovna a.s.</td>
+          <td class="sm">Generali Česká Pojišťovna - WS pro byznys analytiky z útvaru likvidace</td>
+          <td class="sm nw">EDU_BA</td>
+          <td class="r">45</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Jan Klimíček</td>
+          <td><span class="chip warn">převzato, jen pipeline</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">31. 10. 2024</td>
+          <td class="org">ROCHE s.r.o.</td>
+          <td class="sm">Roche - Úvod do projektového řízení</td>
+          <td class="sm nw">EDU_PM</td>
+          <td class="r">27</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">nikdo</td>
+          <td><span class="chip bad">opuštěno</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">30. 10. 2024</td>
+          <td class="org">MIBCON a.s.</td>
+          <td class="sm">Mibcon - Osobní produktivita pro PM s Chat GPT 4o</td>
+          <td class="sm nw">EDU_PM</td>
+          <td class="r">11</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Jiří Tonar</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">1. 9. 2024</td>
+          <td class="org">CETIN a.s.</td>
+          <td class="sm">CETIN - Stakeholder management</td>
+          <td class="sm nw">EDU_OTHER</td>
+          <td class="r">46</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Jiří Tonar</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">30. 8. 2024</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Edwards Lifesciences - Soft skills training - presentation skills and communication with leadership</td>
+          <td class="sm nw">EDU_OTHER</td>
+          <td class="r"><span class="neg">−8</span></td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">25. 7. 2024</td>
+          <td class="org">Generali Česká pojišťovna a.s.</td>
+          <td class="sm">Generali Česká Pojišťovna - Design Thinking pro produktové manažery</td>
+          <td class="sm nw">EDU_UX</td>
+          <td class="r">14</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Jan Klimíček</td>
+          <td><span class="chip warn">převzato, jen pipeline</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">24. 7. 2024</td>
+          <td class="org">Top Partners International, s.r.o.</td>
+          <td class="sm">Školení IT tým leaderů EdHouse</td>
+          <td class="sm nw">EDU_PM</td>
+          <td class="r">15</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Petr Janiš</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">1. 7. 2024</td>
+          <td class="org">EG.D, a.s.</td>
+          <td class="sm">EG.D, a.s. - Procesní modelování v BPMN 2.0</td>
+          <td class="sm nw">EDU_BA</td>
+          <td class="r">52</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Jiří Zázvorka</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">5. 4. 2024</td>
+          <td class="org">Škoda Auto a.s.</td>
+          <td class="sm">Škoda Auto a.s. - školení Konektivity I. + školení Konektivity II.</td>
+          <td class="sm nw">EDU_OTHER</td>
+          <td class="r">55</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Petr Vesely</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">5. 4. 2024</td>
+          <td class="org">Ernst &amp; Young, s.r.o.</td>
+          <td class="sm">EY - certifikační školení</td>
+          <td class="sm nw">EDU_PM</td>
+          <td class="r">45</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Petr Janiš</td>
+          <td><span class="chip warn">převzato, jen pipeline</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">5. 4. 2024</td>
+          <td class="org">Škoda Auto a.s.</td>
+          <td class="sm">Škoda Auto a.s. - školení Konektivity I. + školení Konektivity II.</td>
+          <td class="sm nw">EDU_OTHER</td>
+          <td class="r">55</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Petr Vesely</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr></tbody></table></div>
+    </details>
+  </div>
+  <div class="owner">
+    <div class="owner-head">
+      <h3>Pavel Veselý <span class="tag here">aktivní</span></h3>
+      <div class="owner-kpi">
+        <div><span class="k">33 → 13</span>
+             <span class="l">zakázek YTD 2025 → 2026</span></div>
+        <div><span class="k coral">−61 %</span>
+             <span class="l">proti lepšímu z 2024/25</span></div>
+        <div><span class="k">56</span><span class="l">výher celkem</span></div>
+        <div><span class="k">11</span><span class="l">účtů s výhrou</span></div>
+      </div>
+    </div>
+    <p class="mix"><b>Skladba knihy:</b> 48× outstaffing · 6× consulting · 2× školení</p>
+    <p class="onote">Jediný z propadlých, kdo <b>ve firmě zůstal — a knihu drží</b>.
+            Jeho kniha je na rozdíl od Terezy <b>outstaffingová</b> (48 z
+            56 výher), takže je to skutečně srovnatelný obchodní propad — a i tak
+            je mírnější, než vypadá: propad je v zakládání nových zakázek
+            (33 → 13 YTD), ne ve vztazích. Na <b>8 z
+            11 účtů</b> je pořád on ten, kdo s klientem mluví, a letos má
+            <b>10 výher</b>. Edwards a Novo Nordisk jsou dnes nejhustší účty ve
+            firmě. Vyhaslé jsou dva okrajové (Revolgy, European Housing Services),
+            Škoda Auto přešla na Petra Veselyho.</p>
+    <p class="tally">7× živé — čerpáme · 2× opuštěno · 2× převzato, bez byznysu</p>
+    <div class="tw"><table style="min-width:1080px"><thead><tr><th class="">Klient</th><th class="c">Výher</th><th class="">Poslední výhra</th><th class="r">Marže (tis. Kč)</th><th class="">Co jsme tam vyhráli</th><th class="">Kdo drží 2026</th><th class="">Osud účtu</th><th class="">Co tam je dnes</th></tr></thead><tbody>
+        <tr>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="c">29</td>
+          <td class="nw sm">8. 6. 2026</td>
+          <td class="r">7 491</td>
+          <td class="sm">OUT_OTHER, OUT_DATA, OUT_PM, CONS_AGILE, OUT_AGILE, EDU_AGILE, OUT_UX, OUT_BA, OUT_AI</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+          <td class="sm">2× PM obsazení běží; 10× jiná kompetence běží (OUT_AGILE, OUT_AI, OUT_UX, OUT_OTHER, OUT_DATA, OUT_PM); výhra 2026: CONS_AGILE, OUT_AGILE, OUT_OTHER, OUT_AI; 5× nová poptávka (OUT_OTHER, CONS_AGILE, OUT_AGILE, OUT_AI); 1× prohra</td>
+        </tr>
+        <tr>
+          <td class="org">Novo Nordisk Production Czech s.r.o.</td>
+          <td class="c">11</td>
+          <td class="nw sm">18. 5. 2026</td>
+          <td class="r">5 733</td>
+          <td class="sm">OUT_OTHER, CONS_PM, OUT_PM</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+          <td class="sm">4× PM obsazení běží; 6× jiná kompetence běží (OUT_OTHER, OUT_PM); výhra 2026: OUT_OTHER; 3× nová poptávka (OUT_OTHER)</td>
+        </tr>
+        <tr>
+          <td class="org">FLEISHMAN - HILLARD, s.r.o.</td>
+          <td class="c">1</td>
+          <td class="nw sm">15. 4. 2026</td>
+          <td class="r">5</td>
+          <td class="sm">CONS_PM</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+          <td class="sm">výhra 2026: CONS_PM; 1× nová poptávka (CONS_PM)</td>
+        </tr>
+        <tr>
+          <td class="org">Deutsche Börse Prague Branch</td>
+          <td class="c">1</td>
+          <td class="nw sm">7. 1. 2026</td>
+          <td class="r">311</td>
+          <td class="sm">OUT_BA</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+          <td class="sm">1× jiná kompetence běží (OUT_BA); výhra 2026: OUT_BA</td>
+        </tr>
+        <tr>
+          <td class="org">Revolgy Business Solutions a.s.</td>
+          <td class="c">1</td>
+          <td class="nw sm">17. 10. 2025</td>
+          <td class="r">23</td>
+          <td class="sm">OUT_PM</td>
+          <td class="sm nw">nikdo</td>
+          <td><span class="chip bad">opuštěno</span></td>
+          <td class="sm">nic — žádná zakázka, žádný kontakt</td>
+        </tr>
+        <tr>
+          <td class="org">W.A.G. payment solutions, a.s.</td>
+          <td class="c">6</td>
+          <td class="nw sm">13. 10. 2025</td>
+          <td class="r">1 325</td>
+          <td class="sm">OUT_PM, OUT_AGILE, CONS_AGILE, EDU_AGILE, OUT_BA</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+          <td class="sm">1× PM obsazení běží; 3× jiná kompetence běží (OUT_BA, OUT_PM, OUT_AGILE); 3× nová poptávka (OUT_OTHER, OUT_DATA, OUT_AGILE); 2× prohra</td>
+        </tr>
+        <tr>
+          <td class="org">ČD - Telematika a.s.</td>
+          <td class="c">2</td>
+          <td class="nw sm">30. 6. 2025</td>
+          <td class="r">1 499</td>
+          <td class="sm">OUT_PM, OUT_OTHER</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+          <td class="sm">1× PM obsazení běží; 1× jiná kompetence běží (OUT_OTHER, OUT_PM); 1× prohra</td>
+        </tr>
+        <tr>
+          <td class="org">Škoda Auto a.s.</td>
+          <td class="c">1</td>
+          <td class="nw sm">29. 5. 2025</td>
+          <td class="r">254</td>
+          <td class="sm">OUT_PM</td>
+          <td class="sm nw">Petr Vesely</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+          <td class="sm">3× PM obsazení běží; 13× jiná kompetence běží (OUT_BA, OUT_AGILE, OUT_PM, OUT_OTHER, OUT_UX); výhra 2026: OUT_UX; 2× nová poptávka (OUT_UX)</td>
+        </tr>
+        <tr>
+          <td class="org">Groupon Management, LLC - Czech Branch</td>
+          <td class="c">2</td>
+          <td class="nw sm">22. 11. 2024</td>
+          <td class="r">485</td>
+          <td class="sm">CONS_PM</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+          <td class="sm">1× kontakt, posl. 29. 4. 2026</td>
+        </tr>
+        <tr>
+          <td class="org">SPORTISIMO s.r.o.</td>
+          <td class="c">1</td>
+          <td class="nw sm">28. 8. 2024</td>
+          <td class="r">763</td>
+          <td class="sm">OUT_PM</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+          <td class="sm">1× kontakt, posl. 6. 2. 2026</td>
+        </tr>
+        <tr>
+          <td class="org">European Housing Services s.r.o.</td>
+          <td class="c">1</td>
+          <td class="nw sm">6. 3. 2024</td>
+          <td class="r">552</td>
+          <td class="sm">OUT_PM</td>
+          <td class="sm nw">nikdo</td>
+          <td><span class="chip bad">opuštěno</span></td>
+          <td class="sm">nic — žádná zakázka, žádný kontakt</td>
+        </tr></tbody></table></div>
+    <details>
+      <summary>Všech 56 vyhraných zakázek — po jedné</summary>
+      <div class="tw"><table style="min-width:1120px"><thead><tr><th class="">Vyhráno</th><th class="">Klient</th><th class="">Zakázka</th><th class="">Kapsa</th><th class="r">Marže</th><th class="">Obsazení</th><th class="">Kdo drží 2026</th><th class="">Osud účtu</th></tr></thead><tbody>
+        <tr>
+          <td class="sm nw">8. 6. 2026</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">AI trainer for Edwards</td>
+          <td class="sm nw">OUT_AI</td>
+          <td class="r">41</td>
+          <td class="sm nw">4. 5. 2026 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">8. 6. 2026</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Školení PO (Smutný) pro EDW</td>
+          <td class="sm nw">CONS_AGILE</td>
+          <td class="r">40</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">25. 5. 2026</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Agile Coach pro EDW</td>
+          <td class="sm nw">OUT_AGILE</td>
+          <td class="r">127</td>
+          <td class="sm nw">11. 5. 2026 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">18. 5. 2026</td>
+          <td class="org">Novo Nordisk Production Czech s.r.o.</td>
+          <td class="sm">Přeprodej - procesní inženýr do NN (Marek Scholz)</td>
+          <td class="sm nw">OUT_OTHER</td>
+          <td class="r">157</td>
+          <td class="sm nw">1. 7. 2026 → 30. 6. 2027</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">15. 4. 2026</td>
+          <td class="org">FLEISHMAN - HILLARD, s.r.o.</td>
+          <td class="sm">PM mentoring pro Fleishman-Hillard</td>
+          <td class="sm nw">CONS_PM</td>
+          <td class="r">5</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">9. 2. 2026</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">HR Consultant pro EDW</td>
+          <td class="sm nw">OUT_OTHER</td>
+          <td class="r">166</td>
+          <td class="sm nw">2. 2. 2026 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">20. 1. 2026</td>
+          <td class="org">Novo Nordisk Production Czech s.r.o.</td>
+          <td class="sm">OT expert pro Novo Nordisk - Nazim Aghayev</td>
+          <td class="sm nw">OUT_OTHER</td>
+          <td class="r">777</td>
+          <td class="sm nw">5. 1. 2026 → 31. 5. 2027</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">20. 1. 2026</td>
+          <td class="org">Novo Nordisk Production Czech s.r.o.</td>
+          <td class="sm">OT expert pro Novo Nordisk - Jerzy Walenda</td>
+          <td class="sm nw">OUT_OTHER</td>
+          <td class="r">777</td>
+          <td class="sm nw">5. 1. 2026 → 31. 5. 2027</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">13. 1. 2026</td>
+          <td class="org">Novo Nordisk Production Czech s.r.o.</td>
+          <td class="sm">Process Automation Consultant pro Novo Nordisk Production</td>
+          <td class="sm nw">OUT_OTHER</td>
+          <td class="r">374</td>
+          <td class="sm nw">2. 3. 2026 → 31. 1. 2027</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">7. 1. 2026</td>
+          <td class="org">Deutsche Börse Prague Branch</td>
+          <td class="sm">Functional Analyst for DBG</td>
+          <td class="sm nw">OUT_BA</td>
+          <td class="r">311</td>
+          <td class="sm nw">5. 1. 2026 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">11. 11. 2025</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Streamlit Developer Junior/Medior for Edwards</td>
+          <td class="sm nw">OUT_DATA</td>
+          <td class="r">187</td>
+          <td class="sm nw">20. 10. 2025 → 31. 3. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">17. 10. 2025</td>
+          <td class="org">Revolgy Business Solutions a.s.</td>
+          <td class="sm">PM pro Cloud AI Platform implementation</td>
+          <td class="sm nw">OUT_PM</td>
+          <td class="r">23</td>
+          <td class="sm nw">10. 10. 2025 → 22. 10. 2025</td>
+          <td class="sm nw">nikdo</td>
+          <td><span class="chip bad">opuštěno</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">16. 10. 2025</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Fit4Future Agile Implementation &amp; PO Documentation Integration</td>
+          <td class="sm nw">EDU_AGILE</td>
+          <td class="r">74</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">13. 10. 2025</td>
+          <td class="org">W.A.G. payment solutions, a.s.</td>
+          <td class="sm">PO pro W.A.G. (Toll)</td>
+          <td class="sm nw">OUT_AGILE</td>
+          <td class="r">390</td>
+          <td class="sm nw">1. 10. 2025 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">6. 10. 2025</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Data Analyst, App developer (Pivovarník)</td>
+          <td class="sm nw">OUT_DATA</td>
+          <td class="r">187</td>
+          <td class="sm nw">15. 9. 2025 → 31. 12. 2025</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">6. 10. 2025</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Power BI Analyst for Edwards (Hanzálek)</td>
+          <td class="sm nw">OUT_DATA</td>
+          <td class="r">1 044</td>
+          <td class="sm nw">1. 10. 2025 → 30. 9. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">29. 9. 2025</td>
+          <td class="org">W.A.G. payment solutions, a.s.</td>
+          <td class="sm">BA2 (Bláha) pro W.A.G. (Toll)</td>
+          <td class="sm nw">OUT_BA</td>
+          <td class="r">391</td>
+          <td class="sm nw">15. 9. 2025 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">29. 9. 2025</td>
+          <td class="org">W.A.G. payment solutions, a.s.</td>
+          <td class="sm">BA1 (Balog) pro W.A.G. (Toll)</td>
+          <td class="sm nw">OUT_BA</td>
+          <td class="r">391</td>
+          <td class="sm nw">15. 9. 2025 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">25. 9. 2025</td>
+          <td class="org">Novo Nordisk Production Czech s.r.o.</td>
+          <td class="sm">PMO metodika Novo Nordisk Production Czech</td>
+          <td class="sm nw">CONS_PM</td>
+          <td class="r"><span class="na" title="marže v CRM nevyplněna">neuvedeno</span></td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">23. 9. 2025</td>
+          <td class="org">Novo Nordisk Production Czech s.r.o.</td>
+          <td class="sm">Pilot Scientist for NN - Pavel Švec</td>
+          <td class="sm nw">OUT_OTHER</td>
+          <td class="r">384</td>
+          <td class="sm nw">6. 10. 2025 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">23. 9. 2025</td>
+          <td class="org">Novo Nordisk Production Czech s.r.o.</td>
+          <td class="sm">Pilot Scientist for NN - Zora Jinoch</td>
+          <td class="sm nw">OUT_OTHER</td>
+          <td class="r">390</td>
+          <td class="sm nw">1. 10. 2025 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">16. 9. 2025</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">SF.com Consultant for EDW</td>
+          <td class="sm nw">OUT_OTHER</td>
+          <td class="r">261</td>
+          <td class="sm nw">1. 8. 2025 → 28. 2. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">26. 8. 2025</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Business Data Analyst for HCP Data Management project</td>
+          <td class="sm nw">OUT_DATA</td>
+          <td class="r">611</td>
+          <td class="sm nw">1. 9. 2025 → 31. 12. 2025</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">18. 8. 2025</td>
+          <td class="org">Novo Nordisk Production Czech s.r.o.</td>
+          <td class="sm">OT PM pro NN</td>
+          <td class="sm nw">OUT_PM</td>
+          <td class="r">621</td>
+          <td class="sm nw">15. 9. 2025 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">29. 7. 2025</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">PowerBI developer pro EDW</td>
+          <td class="sm nw">OUT_DATA</td>
+          <td class="r">1 108</td>
+          <td class="sm nw">9. 6. 2025 → 31. 3. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">29. 7. 2025</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">SF.com architekt pro EDW</td>
+          <td class="sm nw">OUT_BA</td>
+          <td class="r">148</td>
+          <td class="sm nw">9. 6. 2025 → 31. 3. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">25. 7. 2025</td>
+          <td class="org">Novo Nordisk Production Czech s.r.o.</td>
+          <td class="sm">IT PM pro NN</td>
+          <td class="sm nw">OUT_PM</td>
+          <td class="r">830</td>
+          <td class="sm nw">4. 8. 2025 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">22. 7. 2025</td>
+          <td class="org">Novo Nordisk Production Czech s.r.o.</td>
+          <td class="sm">PM pro oblast Quality Assurance</td>
+          <td class="sm nw">OUT_PM</td>
+          <td class="r">355</td>
+          <td class="sm nw">14. 7. 2025 → 27. 2. 2027</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">3. 7. 2025</td>
+          <td class="org">W.A.G. payment solutions, a.s.</td>
+          <td class="sm">PO Koučing &amp; Mentoring - WAG</td>
+          <td class="sm nw">CONS_AGILE</td>
+          <td class="r">47</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">30. 6. 2025</td>
+          <td class="org">ČD - Telematika a.s.</td>
+          <td class="sm">Project Coordinator</td>
+          <td class="sm nw">OUT_PM</td>
+          <td class="r">709</td>
+          <td class="sm nw">1. 8. 2025 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">16. 6. 2025</td>
+          <td class="org">ČD - Telematika a.s.</td>
+          <td class="sm">ITSM Specialista</td>
+          <td class="sm nw">OUT_OTHER</td>
+          <td class="r">790</td>
+          <td class="sm nw">11. 6. 2025 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">29. 5. 2025</td>
+          <td class="org">Škoda Auto a.s.</td>
+          <td class="sm">PM Admin - FIG/2 (security log management)</td>
+          <td class="sm nw">OUT_PM</td>
+          <td class="r">254</td>
+          <td class="sm nw">1. 6. 2025 → 30. 4. 2027</td>
+          <td class="sm nw">Petr Vesely</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">5. 5. 2025</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">SF developer pro EDW</td>
+          <td class="sm nw">OUT_OTHER</td>
+          <td class="r">218</td>
+          <td class="sm nw">7. 4. 2025 → 30. 4. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">28. 4. 2025</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Pricing analyst pro EDW (PP)</td>
+          <td class="sm nw">OUT_OTHER</td>
+          <td class="r">47</td>
+          <td class="sm nw">14. 4. 2025 → 31. 3. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">25. 4. 2025</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Informatica Developer pro EDW</td>
+          <td class="sm nw">OUT_DATA</td>
+          <td class="r">250</td>
+          <td class="sm nw">1. 1. 2025 → 31. 3. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">11. 4. 2025</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Edwards - SF.com tester - Razaronová</td>
+          <td class="sm nw">OUT_OTHER</td>
+          <td class="r">327</td>
+          <td class="sm nw">3. 3. 2025 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">14. 2. 2025</td>
+          <td class="org">Novo Nordisk Production Czech s.r.o.</td>
+          <td class="sm">Novavax CZ -  Access Control  PM</td>
+          <td class="sm nw">OUT_PM</td>
+          <td class="r">1 068</td>
+          <td class="sm nw">18. 2. 2025 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">14. 1. 2025</td>
+          <td class="org">W.A.G. payment solutions, a.s.</td>
+          <td class="sm">EUROWAG - Professional Scrum Product Owner™ (PSPO-I)</td>
+          <td class="sm nw">EDU_AGILE</td>
+          <td class="r">40</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">22. 11. 2024</td>
+          <td class="org">Groupon Management, LLC - Czech Branch</td>
+          <td class="sm">Navýšení kapacity Lukáše Vítka</td>
+          <td class="sm nw">CONS_PM</td>
+          <td class="r">211</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">7. 11. 2024</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Martin Valenta na pozici PO</td>
+          <td class="sm nw">OUT_AGILE</td>
+          <td class="r">277</td>
+          <td class="sm nw">7. 11. 2024 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">13. 9. 2024</td>
+          <td class="org">Groupon Management, LLC - Czech Branch</td>
+          <td class="sm">Senior PM konzultant pro Groupon - Lukáš Vítek</td>
+          <td class="sm nw">CONS_PM</td>
+          <td class="r">274</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">29. 8. 2024</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Scrum master do Edwards - náhrada za Vláďu Šedivýho</td>
+          <td class="sm nw">OUT_AGILE</td>
+          <td class="r"><span class="na" title="marže v CRM nevyplněna">neuvedeno</span></td>
+          <td class="sm nw">9. 9. 2024 → 31. 12. 2025</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">28. 8. 2024</td>
+          <td class="org">SPORTISIMO s.r.o.</td>
+          <td class="sm">PM pro WMS implementaci (náhrada Peláka)</td>
+          <td class="sm nw">OUT_PM</td>
+          <td class="r">763</td>
+          <td class="sm nw">1. 9. 2024 → 31. 1. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">4. 6. 2024</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Data Governance Expert</td>
+          <td class="sm nw">OUT_DATA</td>
+          <td class="r">418</td>
+          <td class="sm nw">10. 6. 2024 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">6. 3. 2024</td>
+          <td class="org">European Housing Services s.r.o.</td>
+          <td class="sm">PM pro EHS - automatické vypořádání realitních transakcí</td>
+          <td class="sm nw">OUT_PM</td>
+          <td class="r">552</td>
+          <td class="sm nw">10. 3. 2024 → 31. 12. 2024</td>
+          <td class="sm nw">nikdo</td>
+          <td><span class="chip bad">opuštěno</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">3. 3. 2024</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Senior PM pro novou entitu</td>
+          <td class="sm nw">OUT_PM</td>
+          <td class="r"><span class="na" title="marže v CRM nevyplněna">neuvedeno</span></td>
+          <td class="sm nw">1. 4. 2024 → 30. 6. 2025</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">30. 1. 2024</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Talent Aquisition Consultant - přeprodej</td>
+          <td class="sm nw">OUT_OTHER</td>
+          <td class="r"><span class="na" title="marže v CRM nevyplněna">neuvedeno</span></td>
+          <td class="sm nw">5. 2. 2024 → 31. 12. 2025</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">15. 1. 2024</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Martin Matějovský - přeprodej</td>
+          <td class="sm nw">OUT_PM</td>
+          <td class="r"><span class="na" title="marže v CRM nevyplněna">neuvedeno</span></td>
+          <td class="sm nw">30. 9. 2023 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">30. 8. 2023</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">UX / UI Analyst - team Marie Mas (pozice jako terka)</td>
+          <td class="sm nw">OUT_UX</td>
+          <td class="r">1 126</td>
+          <td class="sm nw">28. 8. 2023 → 30. 9. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">23. 7. 2023</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Procurement assistent - dočasný přeprodej - David Vašek</td>
+          <td class="sm nw">OUT_OTHER</td>
+          <td class="r">100</td>
+          <td class="sm nw">19. 6. 2023 → 28. 2. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">29. 1. 2023</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Procurement consultant - přeprodej</td>
+          <td class="sm nw">OUT_OTHER</td>
+          <td class="r">8</td>
+          <td class="sm nw">1. 2. 2023 → 23. 11. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">22. 12. 2022</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Part time PM pro Martina Wolfa</td>
+          <td class="sm nw">OUT_PM</td>
+          <td class="r"><span class="na" title="marže v CRM nevyplněna">neuvedeno</span></td>
+          <td class="sm nw">2. 1. 2023 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">29. 6. 2022</td>
+          <td class="org">W.A.G. payment solutions, a.s.</td>
+          <td class="sm">Předprodej - Tomáš Střída - WAG</td>
+          <td class="sm nw">OUT_PM</td>
+          <td class="r">66</td>
+          <td class="sm nw">1. 7. 2022 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">15. 5. 2022</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Process manager pro Edwards</td>
+          <td class="sm nw">OUT_BA</td>
+          <td class="r">120</td>
+          <td class="sm nw">16. 5. 2022 → 31. 12. 2025</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">30. 5. 2021</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">UX SFDC za Sandru</td>
+          <td class="sm nw">OUT_UX</td>
+          <td class="r">456</td>
+          <td class="sm nw">7. 7. 2021 → 31. 12. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">18. 5. 2017</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">Marketo konzultant</td>
+          <td class="sm nw">OUT_OTHER</td>
+          <td class="r">150</td>
+          <td class="sm nw">19. 5. 2017 → 28. 2. 2026</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr></tbody></table></div>
+    </details>
+  </div>
+  <div class="owner">
+    <div class="owner-head">
+      <h3>Petr Holub <span class="tag gone">odešel</span></h3>
+      <div class="owner-kpi">
+        <div><span class="k">3 → 0</span>
+             <span class="l">zakázek YTD 2025 → 2026</span></div>
+        <div><span class="k coral">−100 %</span>
+             <span class="l">proti lepšímu z 2024/25</span></div>
+        <div><span class="k">4</span><span class="l">výher celkem</span></div>
+        <div><span class="k">3</span><span class="l">účtů s výhrou</span></div>
+      </div>
+    </div>
+    <p class="mix"><b>Skladba knihy:</b> 3× outstaffing · 1× consulting</p>
+    <p class="onote">Malá kniha — 3 účty, 4 výhry.
+            Edwards po něm převzal Pavel Veselý a je z něj dnes nejhustší účet firmy; tenhle
+            přechod vyšel. UNIQA pojišťovna naopak <b>nemá v 2026 ani zakázku, ani
+            kontakt</b>.</p>
+    <p class="tally">1× živé — čerpáme · 1× opuštěno · 1× převzato, bez byznysu</p>
+    <div class="tw"><table style="min-width:1080px"><thead><tr><th class="">Klient</th><th class="c">Výher</th><th class="">Poslední výhra</th><th class="r">Marže (tis. Kč)</th><th class="">Co jsme tam vyhráli</th><th class="">Kdo drží 2026</th><th class="">Osud účtu</th><th class="">Co tam je dnes</th></tr></thead><tbody>
+        <tr>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="c">2</td>
+          <td class="nw sm">31. 10. 2024</td>
+          <td class="r">405</td>
+          <td class="sm">OUT_OTHER, OUT_PM</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+          <td class="sm">2× PM obsazení běží; 10× jiná kompetence běží (OUT_AGILE, OUT_AI, OUT_UX, OUT_OTHER, OUT_DATA, OUT_PM); výhra 2026: CONS_AGILE, OUT_AGILE, OUT_OTHER, OUT_AI; 5× nová poptávka (OUT_OTHER, CONS_AGILE, OUT_AGILE, OUT_AI); 1× prohra</td>
+        </tr>
+        <tr>
+          <td class="org">UNIQA pojištovna, a.s.</td>
+          <td class="c">1</td>
+          <td class="nw sm">26. 8. 2024</td>
+          <td class="r"><span class="na" title="marže v CRM nevyplněna">neuvedeno</span></td>
+          <td class="sm">OUT_PM</td>
+          <td class="sm nw">nikdo</td>
+          <td><span class="chip bad">opuštěno</span></td>
+          <td class="sm">nic — žádná zakázka, žádný kontakt</td>
+        </tr>
+        <tr>
+          <td class="org">Global Payments Europe, s.r.o.</td>
+          <td class="c">1</td>
+          <td class="nw sm">9. 5. 2024</td>
+          <td class="r"><span class="na" title="marže v CRM nevyplněna">neuvedeno</span></td>
+          <td class="sm">CONS_PM</td>
+          <td class="sm nw">Jan Klimíček</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+          <td class="sm">2× kontakt, posl. 24. 6. 2026</td>
+        </tr></tbody></table></div>
+    <details>
+      <summary>Všech 4 vyhraných zakázek — po jedné</summary>
+      <div class="tw"><table style="min-width:1120px"><thead><tr><th class="">Vyhráno</th><th class="">Klient</th><th class="">Zakázka</th><th class="">Kapsa</th><th class="r">Marže</th><th class="">Obsazení</th><th class="">Kdo drží 2026</th><th class="">Osud účtu</th></tr></thead><tbody>
+        <tr>
+          <td class="sm nw">31. 10. 2024</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">SF SNr developer od Enehana</td>
+          <td class="sm nw">OUT_OTHER</td>
+          <td class="r">45</td>
+          <td class="sm nw">29. 10. 2024 → 28. 2. 2025</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">26. 8. 2024</td>
+          <td class="org">UNIQA pojištovna, a.s.</td>
+          <td class="sm">Senior PM pro migrační projekt a nový vývoj</td>
+          <td class="sm nw">OUT_PM</td>
+          <td class="r"><span class="na" title="marže v CRM nevyplněna">neuvedeno</span></td>
+          <td class="sm nw">28. 8. 2024 → 31. 12. 2024</td>
+          <td class="sm nw">nikdo</td>
+          <td><span class="chip bad">opuštěno</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">9. 5. 2024</td>
+          <td class="org">Global Payments Europe, s.r.o.</td>
+          <td class="sm">GPE - konzultace v oblasti PM  - 2. fáze</td>
+          <td class="sm nw">CONS_PM</td>
+          <td class="r"><span class="na" title="marže v CRM nevyplněna">neuvedeno</span></td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Jan Klimíček</td>
+          <td><span class="chip warn">převzato, bez byznysu</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">27. 2. 2020</td>
+          <td class="org">Edwards Lifesciences Czech Republic s.r.o.</td>
+          <td class="sm">PM Edwards</td>
+          <td class="sm nw">OUT_PM</td>
+          <td class="r">360</td>
+          <td class="sm nw">5. 3. 2020 → 31. 7. 2025</td>
+          <td class="sm nw">Pavel Veselý</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr></tbody></table></div>
+    </details>
+  </div>
+  <div class="owner">
+    <div class="owner-head">
+      <h3>Veronika Pavlíková <span class="tag here">bez zakázek 2026</span></h3>
+      <div class="owner-kpi">
+        <div><span class="k">6 → 0</span>
+             <span class="l">zakázek YTD 2025 → 2026</span></div>
+        <div><span class="k coral">−100 %</span>
+             <span class="l">proti lepšímu z 2024/25</span></div>
+        <div><span class="k">2</span><span class="l">výher celkem</span></div>
+        <div><span class="k">2</span><span class="l">účtů s výhrou</span></div>
+      </div>
+    </div>
+    <p class="mix"><b>Skladba knihy:</b> 2× consulting</p>
+    <p class="onote">2 účty z roku 2025 — obojí consulting.
+        WOOD &amp; Company převzal Jan Klimíček a PM tam běží dál. Logio je od prosince
+        2025 bez jakéhokoli dotyku.</p>
+    <p class="tally">1× opuštěno · 1× živé — čerpáme</p>
+    <div class="tw"><table style="min-width:1080px"><thead><tr><th class="">Klient</th><th class="c">Výher</th><th class="">Poslední výhra</th><th class="r">Marže (tis. Kč)</th><th class="">Co jsme tam vyhráli</th><th class="">Kdo drží 2026</th><th class="">Osud účtu</th><th class="">Co tam je dnes</th></tr></thead><tbody>
+        <tr>
+          <td class="org">Logio s.r.o.</td>
+          <td class="c">1</td>
+          <td class="nw sm">17. 12. 2025</td>
+          <td class="r">10</td>
+          <td class="sm">CONS_AI</td>
+          <td class="sm nw">nikdo</td>
+          <td><span class="chip bad">opuštěno</span></td>
+          <td class="sm">nic — žádná zakázka, žádný kontakt</td>
+        </tr>
+        <tr>
+          <td class="org">WOOD &amp; Company Financial Services, a.s.</td>
+          <td class="c">1</td>
+          <td class="nw sm">17. 7. 2025</td>
+          <td class="r">21</td>
+          <td class="sm">CONS_PM</td>
+          <td class="sm nw">Jan Klimíček</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+          <td class="sm">1× PM obsazení běží; výhra 2026: CONS_PM; 1× nová poptávka (CONS_PM); 1× prohra</td>
+        </tr></tbody></table></div>
+    <details>
+      <summary>Všech 2 vyhraných zakázek — po jedné</summary>
+      <div class="tw"><table style="min-width:1120px"><thead><tr><th class="">Vyhráno</th><th class="">Klient</th><th class="">Zakázka</th><th class="">Kapsa</th><th class="r">Marže</th><th class="">Obsazení</th><th class="">Kdo drží 2026</th><th class="">Osud účtu</th></tr></thead><tbody>
+        <tr>
+          <td class="sm nw">17. 12. 2025</td>
+          <td class="org">Logio s.r.o.</td>
+          <td class="sm">Vyškolit 2 PM v oblasti AI</td>
+          <td class="sm nw">CONS_AI</td>
+          <td class="r">10</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">nikdo</td>
+          <td><span class="chip bad">opuštěno</span></td>
+        </tr>
+        <tr>
+          <td class="sm nw">17. 7. 2025</td>
+          <td class="org">WOOD &amp; Company Financial Services, a.s.</td>
+          <td class="sm">Mentoring teamu Infrastruktura</td>
+          <td class="sm nw">CONS_PM</td>
+          <td class="r">21</td>
+          <td class="sm nw">— → —</td>
+          <td class="sm nw">Jan Klimíček</td>
+          <td><span class="chip ok">živé — čerpáme</span></td>
+        </tr></tbody></table></div>
+    </details>
+  </div>
+    <div class="caveat"><b>Jak se určuje „kdo si kontakt převzal".</b> Bere se majitel letošní
+      zakázky, a když žádná není, ten, kdo s klientem v 2026 <b>reálně mluvil</b> — typy
+      <code>task</code> a <code>deadline</code> se nepočítají, protože to jsou interní
+      připomínky, ne dotyk s klientem. Majitel org záznamu v CRM se pro tohle záměrně
+      nepoužívá: u odešlých lidí zůstává neaktualizovaný a tvrdil by převzetí, které nenastalo.
+      „Opuštěno" tedy znamená <b>žádná zakázka a žádný skutečný kontakt</b> za osm měsíců.</div>
+  </section>
+
+  <section>
+    <h2>Co těmto číslům <em>věřit</em> a co ne</h2>
+    <div class="caveat" style="border-left-color:var(--pjm-coral)">
+      <ul>
+        <li><b>Marže není vyplněná všude.</b> Fill na vyhraných zakázkách je
+          96.5 %, ale 4 ze 14 výher OUT_PM z roku 2024 mají v CRM
+          nulu. Kde je „neuvedeno", jde o tohle — ne o nulovou marži. Součty marží jsou
+          <b>spodní hranice</b>.</li>
+        <li><b>Aktivity mají kratší historii než zakázky.</b> Záznamy aktivit v CRM začínají
+          23. 10. 2024 (zakázky od 2017). Pro rok 2026 je pokrytí plné,
+          takže výroky „kdo se letos ozval" jsou v pořádku; <b>historické srovnání dotyků mezi
+          roky ne</b>. Na příznak „dokončeno" se nefiltruje: z 1 232 kontaktních aktivit
+          2026 je jen 23 nedokončených a žádný verdikt se tím nemění.</li>
+        <li><b>„Petr Vesely" a „Pavel Veselý" jsou dva různí lidé</b> — dva záznamy vlastníka
+          v CRM. Nikdy je nesjednocovat; objevují se tu oba a Škoda Auto přešla z Pavla
+          na Petra.</li>
+        <li><b>Rok 2026 je neúplný.</b> Všechna srovnání jsou proto YTD do
+          16. 8. 2026, ne celoroční. Roční čísla za 2026 nikde netvrdíme.</li>
+        <li><b>Kontrola integrity proběhla</b> v téže session: <code>99_checks.sql</code> hlásí
+          0 orphanů a 0 nezařazených zakázek.</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+<footer>
+  <div class="foot-in">
+    <div>Projectman.cz, s.r.o | <a href="https://www.projectman.cz">www.projectman.cz</a></div>
+    <div class="v">interní · data k 16. 8. 2026</div>
+  </div>
+</footer>
+
+</body>
+</html>

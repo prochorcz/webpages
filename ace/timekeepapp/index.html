@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Workshop Timekeeper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --color-red:#FF525F;
+    --color-blue:#A9C5DF;
+    --color-white:#ffffff;
+    --color-light-surf:#f4f7fa;
+    --color-body-text:#626567;
+    --color-muted:#9aa3b0;
+    --color-dark:#1a1a1a;
+    --font-main:'Poppins',sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    font-family:var(--font-main);
+    color:var(--color-body-text);
+    background:var(--color-light-surf);
+    overflow:hidden;
+  }
+  #app{height:100vh;display:flex;flex-direction:column;}
+
+  /* ---- top bar ---- */
+  #topbar{
+    background:var(--color-dark);
+    color:var(--color-white);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:8px 20px;
+    border-bottom:3px solid var(--color-red);
+    flex:0 0 auto;
+    gap:16px;
+  }
+  #topbar .tb-left{display:flex;align-items:center;gap:12px;min-width:0;}
+  #topbar img{height:26px;width:auto;flex:0 0 auto;}
+  #topbar h1{font-size:15px;font-weight:600;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  #topbar .tb-right{display:flex;align-items:center;gap:14px;flex:0 0 auto;}
+  #driftBadge{font-size:12.5px;font-weight:500;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,0.08);color:var(--color-blue);white-space:nowrap;}
+  #driftBadge.over{color:var(--color-red);background:rgba(255,82,95,0.15);}
+
+  .timectrl{display:flex;align-items:center;gap:6px;}
+  .timectrl .hbtn{
+    width:34px;height:26px;border-radius:5px;border:1px solid rgba(255,255,255,0.25);
+    background:transparent;color:var(--color-white);font-family:var(--font-main);font-size:11.5px;font-weight:600;cursor:pointer;
+  }
+  .timectrl .hbtn:hover{border-color:var(--color-blue);color:var(--color-blue);}
+  #clockNow{font-size:19px;font-weight:600;letter-spacing:0.5px;min-width:82px;text-align:center;}
+  #clockNow.sim{color:var(--color-red);}
+  #simTag{font-size:10.5px;font-weight:600;color:var(--color-red);letter-spacing:0.5px;display:none;white-space:nowrap;}
+  #realtimeBtn{
+    display:none;background:var(--color-red);color:var(--color-white);border:none;
+    border-radius:6px;padding:6px 10px;font-family:var(--font-main);font-size:11.5px;font-weight:600;cursor:pointer;
+  }
+
+  #resetBtn{
+    background:transparent;color:var(--color-blue);border:1px solid var(--color-blue);
+    border-radius:6px;padding:6px 12px;font-family:var(--font-main);font-size:12px;cursor:pointer;white-space:nowrap;
+  }
+  #resetBtn:hover{background:rgba(169,197,223,0.15);}
+
+  /* ---- layout: nowPane (left, narrower) | agendaPane (right, wider) ---- */
+  #layout{flex:1 1 auto;display:flex;min-height:0;}
+  #nowPane{flex:1 1 46%;max-width:480px;border-right:1px solid #e2e7ec;background:var(--color-white);padding:18px 20px;overflow-y:auto;}
+  #agendaPane{flex:1 1 54%;overflow-y:auto;padding:14px 14px 40px;min-width:0;font-size:0.94em;}
+
+  /* ---- agenda list (compact rows) ---- */
+  .mainblock{background:var(--color-white);border-radius:7px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,0.06);overflow:hidden;}
+  .mainblock.active{box-shadow:0 0 0 2px var(--color-red);}
+  .mainblock.break{background:var(--color-light-surf);}
+  .mh{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid #eef1f4;}
+  .mainblock.break .mh{border-bottom:none;}
+  .mh .titlewrap{flex:1 1 auto;min-width:0;}
+  .mh .mtitle{font-weight:600;color:var(--color-dark);font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .mh .mtime{font-size:11px;color:var(--color-muted);margin-top:1px;}
+  .avatar{
+    flex:0 0 auto;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--color-blue);
+    color:var(--color-dark);font-size:9.5px;font-weight:600;display:flex;align-items:center;justify-content:center;white-space:nowrap;
+  }
+  .active .avatar{background:var(--color-red);color:var(--color-white);}
+  .durbadge{font-size:11px;color:var(--color-body-text);background:var(--color-light-surf);border-radius:5px;padding:2px 7px;flex:0 0 auto;}
+  .tagicons{flex:0 0 auto;display:flex;gap:2px;font-size:12px;line-height:1;}
+  .tagicon{cursor:default;}
+  .tagicon.big{display:inline-flex;align-items:center;gap:5px;font-size:15px;background:var(--color-light-surf);border-radius:6px;padding:4px 9px;}
+  .tagicon.big .tagtext{font-size:12px;color:var(--color-body-text);font-weight:500;}
+  .btnrow{display:flex;gap:3px;flex:0 0 auto;}
+  .adjbtn{
+    width:23px;height:23px;border-radius:5px;border:1px solid #dde3e9;background:var(--color-white);
+    color:var(--color-body-text);font-size:12px;font-weight:600;cursor:pointer;line-height:1;
+  }
+  .adjbtn:hover{border-color:var(--color-red);color:var(--color-red);}
+  .donecheck{flex:0 0 auto;width:47px;text-align:center;color:var(--color-muted);font-size:13px;}
+
+  .mainblock.done{opacity:0.55;}
+  .sublist{padding:0 12px 6px 12px;}
+  .subrow{display:flex;align-items:center;gap:8px;padding:4px 6px;border-radius:6px;}
+  .subrow.active{background:rgba(255,82,95,0.07);}
+  .subrow.next{box-shadow:inset 0 0 0 1px var(--color-blue);}
+  .subrow.done{opacity:0.5;}
+  .subrow.embbreak{background:var(--color-light-surf);}
+  .subrow.embbreak .stitle{color:var(--color-body-text);}
+  .subrow .stitle{flex:1 1 auto;font-size:12.5px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .subrow .stime{font-size:11px;color:var(--color-muted);flex:0 0 auto;width:88px;}
+  .subrow.active .stitle{color:var(--color-dark);font-weight:600;}
+  .avatar.sm{min-width:17px;height:17px;padding:0 4px;font-size:8.5px;}
+  .nexttag{font-size:9.5px;color:var(--color-blue);border:1px solid var(--color-blue);border-radius:4px;padding:1px 5px;flex:0 0 auto;}
+
+  /* ---- now pane (left) ---- */
+  .np-label{font-size:11px;text-transform:uppercase;letter-spacing:0.6px;color:var(--color-muted);margin-bottom:4px;}
+  .np-current-main{font-size:12.5px;color:var(--color-red);font-weight:600;margin-bottom:2px;}
+  .np-current-title{font-size:19px;font-weight:600;color:var(--color-dark);margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+  .np-longdesc{font-size:12.5px;color:var(--color-body-text);line-height:1.45;margin-bottom:10px;}
+  .np-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
+  #ringWrap{display:flex;justify-content:center;margin:6px 0 10px;position:relative;}
+  #ringWrap svg{transform:rotate(-90deg);}
+  .ring-center{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .ring-time{font-size:25px;font-weight:700;color:var(--color-dark);}
+  .ring-time.over{color:var(--color-red);}
+  .ring-sub{font-size:11.5px;color:var(--color-muted);margin-top:2px;}
+  .np-range{text-align:center;font-size:12px;color:var(--color-muted);margin-bottom:14px;}
+  .bigbtns{display:flex;gap:8px;justify-content:center;margin-bottom:10px;}
+  .bigbtn{
+    flex:1 1 0;padding:11px 0;border-radius:8px;border:none;background:var(--color-dark);color:var(--color-white);
+    font-family:var(--font-main);font-size:14px;font-weight:600;cursor:pointer;
+  }
+  .bigbtn.plus{background:var(--color-red);}
+  .bigbtn:hover{opacity:0.85;}
+
+  .donebtn{
+    display:block;width:100%;padding:12px 0;margin-bottom:8px;border-radius:8px;border:none;
+    background:var(--color-dark);color:var(--color-white);font-family:var(--font-main);font-size:14.5px;font-weight:600;cursor:pointer;
+  }
+  .donebtn:hover{opacity:0.85;}
+  .backbtn{
+    display:block;margin:0 auto 18px;background:transparent;border:none;color:var(--color-muted);
+    font-family:var(--font-main);font-size:12px;cursor:pointer;text-decoration:underline;
+  }
+  .backbtn:hover{color:var(--color-red);}
+
+  .idle-msg{text-align:center;color:var(--color-body-text);font-size:14px;padding:10px 4px 4px;}
+  .idle-plan{text-align:center;color:var(--color-muted);font-size:12.5px;margin-bottom:16px;}
+  .startbtn{
+    display:block;width:100%;padding:14px 0;margin-bottom:20px;border-radius:8px;border:none;
+    background:var(--color-red);color:var(--color-white);font-family:var(--font-main);font-size:15px;font-weight:600;cursor:pointer;
+  }
+  .startbtn:hover{opacity:0.85;}
+
+  .divider{height:1px;background:#eef1f4;margin:16px 0;}
+  .np-overview{font-size:12.5px;color:var(--color-body-text);}
+  .np-overview b{color:var(--color-dark);}
+
+  /* ---- narrower windows: drop the least essential columns before anything truncates ---- */
+  @media (max-width: 1000px){
+    .subrow .stime{display:none;}
+    .nexttag{font-size:0;padding:0;width:8px;height:8px;border-radius:50%;background:var(--color-blue);border:none;}
+  }
+  @media (max-width: 760px){
+    .durbadge{display:none;}
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <header id="topbar">
+    <div class="tb-left">
+      <img src="assets/logo_negativ.png" alt="Projectman">
+      <h1 id="wsTitle">Workshop</h1>
+    </div>
+    <div class="tb-right">
+      <span id="driftBadge"></span>
+      <div class="timectrl">
+        <button class="hbtn" id="hourMinus" title="Simulovat čas -1h">−1h</button>
+        <span id="clockNow"></span>
+        <button class="hbtn" id="hourPlus" title="Simulovat čas +1h">+1h</button>
+      </div>
+      <span id="simTag">⚠ SIMULACE</span>
+      <button id="realtimeBtn" title="Zrušit simulaci a vrátit se k reálnému času">⟳ realtime</button>
+      <button id="resetBtn" title="Zahodí všechny úpravy a vrátí výchozí agendu i průběh">Reset agendy</button>
+    </div>
+  </header>
+  <main id="layout">
+    <aside id="nowPane"><div id="nowContent"></div></aside>
+    <section id="agendaPane"><div id="agendaList"></div></section>
+  </main>
+</div>
+
+<script src="agenda.config.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  var CONFIG = window.AGENDA_CONFIG;
+  var STORAGE_KEY = "timekeep_state_v2";
+  var MIN_DURATION = 5;
+  var MIN_CLOSE_DURATION = 1;
+
+  function loadState(){
+    var raw = null;
+    try{ raw = JSON.parse(localStorage.getItem(STORAGE_KEY)); }catch(e){}
+    if (!raw) return { overrides:{}, activeId:null };
+    if (!raw.hasOwnProperty("overrides")) return { overrides: raw, activeId:null }; // migrate old flat format
+    return { overrides: raw.overrides||{}, activeId: raw.activeId||null };
+  }
+  function saveState(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+  var state = loadState();
+
+  // ---- debug time travel (in-memory only, resets on reload for safety) ----
+  var timeOffsetMs = 0;
+  function effectiveNow(){ return new Date(Date.now() + timeOffsetMs); }
+
+  function initials(name){ return (name||"").trim(); }
+  function pad(n){ return n<10 ? "0"+n : ""+n; }
+  function fmtTime(d){ return pad(d.getHours())+":"+pad(d.getMinutes()); }
+  function fmtClock(d){ return pad(d.getHours())+":"+pad(d.getMinutes())+":"+pad(d.getSeconds()); }
+  function fmtMinSec(totalSeconds){
+    var s = Math.abs(Math.round(totalSeconds));
+    var m = Math.floor(s/60);
+    var sec = s%60;
+    return m + ":" + pad(sec);
+  }
+  function parseTimeToDate(hhmm, base){
+    var parts = hhmm.split(":");
+    var d = new Date(base);
+    d.setHours(parseInt(parts[0],10), parseInt(parts[1],10), 0, 0);
+    return d;
+  }
+
+  function baseDurationOf(id){
+    for (var i=0;i<CONFIG.blocks.length;i++){
+      var b = CONFIG.blocks[i];
+      if (b.type==="break" && b.id===id) return b.duration;
+      if (b.type==="main"){
+        if (b.subblocks && b.subblocks.length){
+          for (var j=0;j<b.subblocks.length;j++){
+            if (b.subblocks[j].id===id) return b.subblocks[j].duration;
+          }
+        } else if (b.id===id){
+          return b.duration; // atomic main block (no subblocks)
+        }
+      }
+    }
+    return MIN_DURATION;
+  }
+  function durationOf(id){
+    return state.overrides.hasOwnProperty(id) ? state.overrides[id] : baseDurationOf(id);
+  }
+
+  function buildLeaves(){
+    var leaves = [];
+    CONFIG.blocks.forEach(function(block){
+      if (block.type==="main"){
+        if (block.subblocks && block.subblocks.length){
+          block.subblocks.forEach(function(sb){
+            leaves.push({
+              id: sb.id, kind:"sub", title: sb.title, owner: sb.owner,
+              isBreak: !!sb.break, longDesc: sb.longDesc||"", tags: sb.tags||[],
+              mainId: block.id, mainTitle: block.title,
+              duration: durationOf(sb.id)
+            });
+          });
+        } else {
+          // atomic main block: no finer breakdown, the block itself is the only leaf
+          leaves.push({
+            id: block.id, kind:"sub", title: block.title, owner: block.owner,
+            isBreak: false, longDesc: block.longDesc||"", tags: block.tags||[],
+            mainId: block.id, mainTitle: null,
+            duration: durationOf(block.id)
+          });
+        }
+      } else if (block.type==="break"){
+        leaves.push({
+          id: block.id, kind:"break", title: block.title, owner: block.owner,
+          isBreak: true, longDesc: block.longDesc||"", tags: block.tags||[],
+          mainId: null, mainTitle: null,
+          duration: durationOf(block.id)
+        });
+      }
+    });
+    return leaves;
+  }
+
+  function computeSchedule(leaves, startDate){
+    var cursor = new Date(startDate);
+    return leaves.map(function(leaf){
+      var start = new Date(cursor);
+      var end = new Date(cursor.getTime() + leaf.duration*60000);
+      cursor = end;
+      var out = {};
+      for (var k in leaf) out[k]=leaf[k];
+      out.start = start; out.end = end;
+      return out;
+    });
+  }
+
+  function groupForDisplay(scheduled){
+    var byMain = {};
+    scheduled.forEach(function(s){
+      if (s.kind==="sub"){ (byMain[s.mainId]=byMain[s.mainId]||[]).push(s); }
+    });
+    return CONFIG.blocks.map(function(block){
+      if (block.type==="main"){
+        var subs = byMain[block.id] || [];
+        var duration = subs.reduce(function(a,s){return a+s.duration;},0);
+        return {
+          type:"main", id:block.id, title:block.title, owner:block.owner,
+          atomic: !(block.subblocks && block.subblocks.length),
+          subs:subs, start: subs.length?subs[0].start:null, end: subs.length?subs[subs.length-1].end:null,
+          duration:duration
+        };
+      } else {
+        var leaf = scheduled.filter(function(s){return s.id===block.id;})[0];
+        return {type:"break", id:block.id, title:block.title, owner:block.owner,
+          start:leaf.start, end:leaf.end, duration:leaf.duration};
+      }
+    });
+  }
+
+  // ---- active block is driven by explicit facilitator action, NOT the clock ----
+  function getActiveInfo(scheduled){
+    if (state.activeId === "__END__") return { special:"done" };
+    if (!state.activeId) return { special:"idle" };
+    var found = scheduled.filter(function(s){ return s.id===state.activeId; })[0];
+    if (!found) return { special:"idle" };
+    return { leaf: found };
+  }
+
+  function adjustLeaf(id, delta){
+    var cur = durationOf(id);
+    var next = Math.max(MIN_DURATION, cur + delta);
+    state.overrides[id] = next;
+    saveState();
+    render();
+  }
+
+  function adjustMain(mainId, delta, scheduled, activeLeaf){
+    var targetId;
+    if (activeLeaf && activeLeaf.kind==="sub" && activeLeaf.mainId===mainId && !activeLeaf.isBreak){
+      targetId = activeLeaf.id;
+    } else {
+      var subs = scheduled.filter(function(s){return s.kind==="sub" && s.mainId===mainId;});
+      var nonBreak = subs.filter(function(s){return !s.isBreak;});
+      var pick = nonBreak.length ? nonBreak : subs;
+      targetId = pick.length ? pick[pick.length-1].id : null;
+    }
+    if (targetId) adjustLeaf(targetId, delta);
+  }
+
+  function startWorkshop(){
+    var scheduled = latestScheduled;
+    if (!scheduled.length) return;
+    state.activeId = scheduled[0].id;
+    saveState();
+    render();
+  }
+
+  function completeAndAdvance(){
+    var scheduled = latestScheduled;
+    var info = getActiveInfo(scheduled);
+    if (!info.leaf) return;
+    var elapsedMin = Math.max(MIN_CLOSE_DURATION, Math.round((effectiveNow() - info.leaf.start)/60000));
+    state.overrides[info.leaf.id] = elapsedMin;
+    var idx = scheduled.findIndex(function(s){ return s.id===info.leaf.id; });
+    var next = scheduled[idx+1];
+    state.activeId = next ? next.id : "__END__";
+    saveState();
+    render();
+  }
+
+  function goBack(){
+    var scheduled = latestScheduled;
+    var info = getActiveInfo(scheduled);
+    var idx;
+    if (info.special==="done") idx = scheduled.length;
+    else if (info.leaf) idx = scheduled.findIndex(function(s){ return s.id===info.leaf.id; });
+    else return;
+    if (idx<=0){ state.activeId = null; }
+    else { state.activeId = scheduled[idx-1].id; }
+    saveState();
+    render();
+  }
+
+  function el(tag, cls, html){
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html!==undefined) e.innerHTML = html;
+    return e;
+  }
+  function escapeHtml(str){
+    return (str||"").replace(/[&<>"]/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];
+    });
+  }
+  function avatarHtml(owner, extraCls){
+    if (!owner) return "";
+    return '<span class="avatar '+(extraCls||"")+'">'+escapeHtml(initials(owner))+'</span>';
+  }
+
+  var latestScheduled = [];
+
+  function mainClickHandler(mainId, delta){
+    var info = getActiveInfo(latestScheduled);
+    adjustMain(mainId, delta, latestScheduled, info.leaf);
+  }
+
+  function makeAdjBtns(scope, id){
+    var wrap = el("span","btnrow");
+    var minus = el("button","adjbtn","−");
+    var plus = el("button","adjbtn","+");
+    minus.title = "-5 min";
+    plus.title = "+5 min";
+    minus.addEventListener("click", function(ev){
+      ev.stopPropagation();
+      if (scope==="main") mainClickHandler(id, -5); else adjustLeaf(id, -5);
+    });
+    plus.addEventListener("click", function(ev){
+      ev.stopPropagation();
+      if (scope==="main") mainClickHandler(id, 5); else adjustLeaf(id, 5);
+    });
+    wrap.appendChild(minus);
+    wrap.appendChild(plus);
+    return wrap;
+  }
+
+  function makeDoneCheck(){
+    return el("span","donecheck","✓");
+  }
+
+  function tagMetaOf(code){
+    var map = CONFIG.tagMeta || {};
+    return map[code] || { icon:"🏷️", label: code };
+  }
+
+  function tagIconsHtml(tags, big){
+    if (!tags || !tags.length) return "";
+    return tags.map(function(t){
+      var meta = tagMetaOf(t);
+      return '<span class="tagicon'+(big?" big":"")+'" title="'+escapeHtml(meta.label)+'">'+meta.icon+
+        (big?'<span class="tagtext">'+escapeHtml(meta.label)+'</span>':'')+'</span>';
+    }).join("");
+  }
+
+  function renderAgenda(grouped, activeLeaf, nextLeafId, doneIds){
+    var list = document.getElementById("agendaList");
+    list.innerHTML = "";
+    grouped.forEach(function(g){
+      var isMainActive = activeLeaf && ((g.type==="main" && activeLeaf.kind==="sub" && activeLeaf.mainId===g.id) || (g.type==="break" && activeLeaf.id===g.id));
+      var isMainDone = g.type==="main" ? (g.subs.length>0 && g.subs.every(function(s){return !!doneIds[s.id];})) : !!doneIds[g.id];
+      var box = el("div","mainblock"+(g.type==="break"?" break":"")+(isMainActive?" active":"")+(isMainDone?" done":""));
+
+      var mh = el("div","mh");
+      var titlewrap = el("div","titlewrap");
+      var mtitle = el("div","mtitle", (g.type==="break"?"☕ ":"") + escapeHtml(g.title));
+      var mtime = el("div","mtime", g.start? (fmtTime(g.start)+"–"+fmtTime(g.end)) : "");
+      titlewrap.appendChild(mtitle);
+      titlewrap.appendChild(mtime);
+
+      mh.appendChild(titlewrap);
+      if (g.type==="main" && g.atomic && g.subs[0] && g.subs[0].tags.length){
+        mh.appendChild(el("span","tagicons", tagIconsHtml(g.subs[0].tags)));
+      }
+      if (g.owner) mh.appendChild(el("span","avatar", escapeHtml(initials(g.owner))));
+      mh.appendChild(el("span","durbadge", g.duration+" min"));
+      mh.appendChild(isMainDone ? makeDoneCheck() : makeAdjBtns("main", g.id));
+      box.appendChild(mh);
+
+      if (g.type==="main" && !g.atomic){
+        var sl = el("div","sublist");
+        g.subs.forEach(function(s){
+          var isActive = activeLeaf && activeLeaf.id===s.id;
+          var isNext = s.id===nextLeafId;
+          var isDone = !!doneIds[s.id];
+          var row = el("div","subrow"+(isActive?" active":"")+(isNext?" next":"")+(isDone?" done":"")+(s.isBreak?" embbreak":""));
+          row.appendChild(el("span","stitle", (s.isBreak?"☕ ":"") + escapeHtml(s.title)));
+          if (isNext) row.appendChild(el("span","nexttag","další"));
+          if (s.tags.length) row.appendChild(el("span","tagicons", tagIconsHtml(s.tags)));
+          row.appendChild(el("span","stime", fmtTime(s.start)+"–"+fmtTime(s.end)));
+          if (s.owner) row.appendChild(el("span","avatar sm", escapeHtml(initials(s.owner))));
+          row.appendChild(el("span","durbadge", s.duration+" min"));
+          row.appendChild(isDone ? makeDoneCheck() : makeAdjBtns("sub", s.id));
+          sl.appendChild(row);
+        });
+        box.appendChild(sl);
+      } else if (g.id===nextLeafId){
+        box.classList.add("next");
+      }
+      list.appendChild(box);
+    });
+  }
+
+  var RING_R = 74;
+  var RING_C = 2*Math.PI*RING_R;
+  function renderRing(fraction){
+    var offset = RING_C * (1 - Math.min(Math.max(fraction,0),1));
+    return '<svg width="170" height="170" viewBox="0 0 170 170">'+
+      '<circle cx="85" cy="85" r="'+RING_R+'" fill="none" stroke="var(--color-blue)" stroke-opacity="0.35" stroke-width="11"/>'+
+      '<circle cx="85" cy="85" r="'+RING_R+'" fill="none" stroke="var(--color-red)" stroke-width="11" '+
+        'stroke-dasharray="'+RING_C+'" stroke-dashoffset="'+offset+'" stroke-linecap="round"/>'+
+      '</svg>';
+  }
+
+  function sumDurations(scheduled){
+    return scheduled.reduce(function(a,s){return a+s.duration;},0);
+  }
+
+  function overviewBlock(){
+    var now = effectiveNow();
+    var totalPlanned = sumDurations(latestScheduled);
+    var startDate = parseTimeToDate(CONFIG.startTime, now);
+    var targetEnd = parseTimeToDate(CONFIG.endTimeTarget, now);
+    var projectedEnd = new Date(startDate.getTime() + totalPlanned*60000);
+    var box = el("div","np-overview");
+    box.innerHTML =
+      "<div class='np-label'>Přehled dne</div>" +
+      "Plán start: <b>"+fmtTime(startDate)+"</b> · Cílový konec: <b>"+fmtTime(targetEnd)+"</b><br>" +
+      "Odhad konce dle aktuální agendy: <b>"+fmtTime(projectedEnd)+"</b>";
+    return box;
+  }
+
+  function renderNow(info){
+    var wrap = document.getElementById("nowContent");
+    wrap.innerHTML = "";
+    var now = effectiveNow();
+
+    if (info.special==="idle"){
+      var first = latestScheduled[0];
+      wrap.appendChild(el("div","idle-msg","Workshop ještě nezačal"));
+      if (first) wrap.appendChild(el("div","idle-plan","Plánovaný start: "+fmtTime(first.start)));
+      var startBtn = el("button","startbtn","▶ Zahájit workshop");
+      startBtn.addEventListener("click", startWorkshop);
+      wrap.appendChild(startBtn);
+      wrap.appendChild(el("div","divider"));
+      wrap.appendChild(overviewBlock());
+      return;
+    }
+
+    if (info.special==="done"){
+      wrap.appendChild(el("div","idle-msg","🏁 Program agendy je u konce"));
+      var back1 = el("button","backbtn","◀ zpět o blok (oprava překlepu)");
+      back1.addEventListener("click", goBack);
+      wrap.appendChild(back1);
+      wrap.appendChild(el("div","divider"));
+      wrap.appendChild(overviewBlock());
+      return;
+    }
+
+    var active = info.leaf;
+    var elapsedSec = (now - active.start)/1000;
+    var durationSec = active.duration*60;
+    var fraction = elapsedSec/durationSec;
+    var remainingSec = durationSec - elapsedSec;
+    var overtime = remainingSec < 0;
+
+    var eyebrow = active.isBreak ? "☕ Přestávka"+(active.mainTitle?" ("+escapeHtml(active.mainTitle)+")":"") : (active.mainTitle ? escapeHtml(active.mainTitle) : "");
+    if (eyebrow) wrap.appendChild(el("div","np-current-main", eyebrow));
+    wrap.appendChild(el("div","np-current-title", escapeHtml(active.title) + avatarHtml(active.owner)));
+    if (active.longDesc) wrap.appendChild(el("div","np-longdesc", escapeHtml(active.longDesc)));
+    if (active.tags && active.tags.length) wrap.appendChild(el("div","np-tags", tagIconsHtml(active.tags, true)));
+
+    var ringWrap = el("div","","");
+    ringWrap.id = "ringWrap";
+    ringWrap.innerHTML = renderRing(fraction) +
+      '<div class="ring-center">' +
+        '<div class="ring-time'+(overtime?" over":"")+'">'+(overtime?"+":"")+fmtMinSec(Math.abs(remainingSec))+'</div>' +
+        '<div class="ring-sub">'+(overtime ? "přes čas" : "zbývá")+'</div>' +
+      '</div>';
+    wrap.appendChild(ringWrap);
+    wrap.appendChild(el("div","np-range", fmtTime(active.start)+" – "+fmtTime(active.end)+" · dotace "+active.duration+" min"));
+
+    var btns = el("div","bigbtns");
+    var minus = el("button","bigbtn minus","−5 min");
+    var plus = el("button","bigbtn plus","+5 min");
+    minus.addEventListener("click", function(){ adjustLeaf(active.id, -5); });
+    plus.addEventListener("click", function(){ adjustLeaf(active.id, 5); });
+    btns.appendChild(minus); btns.appendChild(plus);
+    wrap.appendChild(btns);
+
+    var doneBtn = el("button","donebtn","✓ Hotovo → další blok");
+    doneBtn.addEventListener("click", completeAndAdvance);
+    wrap.appendChild(doneBtn);
+
+    var backBtn = el("button","backbtn","◀ zpět o blok (oprava překlepu)");
+    backBtn.addEventListener("click", goBack);
+    wrap.appendChild(backBtn);
+
+    wrap.appendChild(el("div","divider"));
+    wrap.appendChild(overviewBlock());
+  }
+
+  function updateTopbar(){
+    var now = effectiveNow();
+    var clockEl = document.getElementById("clockNow");
+    clockEl.textContent = fmtClock(now);
+    clockEl.className = timeOffsetMs !== 0 ? "sim" : "";
+    document.getElementById("simTag").style.display = timeOffsetMs !== 0 ? "inline" : "none";
+    document.getElementById("realtimeBtn").style.display = timeOffsetMs !== 0 ? "inline-block" : "none";
+
+    var startDate = parseTimeToDate(CONFIG.startTime, now);
+    var targetEnd = parseTimeToDate(CONFIG.endTimeTarget, now);
+    var targetMinutes = (targetEnd - startDate)/60000;
+    var totalMinutes = sumDurations(latestScheduled);
+    var delta = Math.round(totalMinutes - targetMinutes);
+    var badge = document.getElementById("driftBadge");
+    if (delta > 0){
+      badge.textContent = "Odhad konce +" + delta + " min oproti plánu";
+      badge.className = "over";
+    } else if (delta < 0){
+      badge.textContent = "Odhad konce " + delta + " min (rezerva)";
+      badge.className = "";
+    } else {
+      badge.textContent = "Odhad konce přesně dle plánu";
+      badge.className = "";
+    }
+  }
+
+  function computeDoneIds(scheduled, info){
+    var ids = {};
+    if (info.special==="done"){
+      scheduled.forEach(function(s){ ids[s.id]=true; });
+    } else if (info.leaf){
+      var idx = scheduled.findIndex(function(s){ return s.id===info.leaf.id; });
+      for (var i=0;i<idx;i++) ids[scheduled[i].id]=true;
+    }
+    return ids;
+  }
+
+  function render(){
+    var now = effectiveNow();
+    var startDate = parseTimeToDate(CONFIG.startTime, now);
+    var leaves = buildLeaves();
+    var scheduled = computeSchedule(leaves, startDate);
+    latestScheduled = scheduled;
+
+    var info = getActiveInfo(scheduled);
+    var nextLeafId = null;
+    if (info.special==="idle"){ nextLeafId = scheduled.length ? scheduled[0].id : null; }
+    else if (info.leaf){
+      var idx = scheduled.findIndex(function(s){ return s.id===info.leaf.id; });
+      nextLeafId = scheduled[idx+1] ? scheduled[idx+1].id : null;
+    }
+    var doneIds = computeDoneIds(scheduled, info);
+
+    var grouped = groupForDisplay(scheduled);
+    renderAgenda(grouped, info.leaf, nextLeafId, doneIds);
+    renderNow(info);
+    updateTopbar();
+  }
+
+  document.getElementById("wsTitle").textContent = CONFIG.title;
+  document.getElementById("resetBtn").addEventListener("click", function(){
+    if (confirm("Zahodit všechny úpravy časů i průběh a vrátit se k výchozí agendě?")){
+      state = { overrides:{}, activeId:null };
+      saveState();
+      render();
+    }
+  });
+  document.getElementById("hourMinus").addEventListener("click", function(){ timeOffsetMs -= 3600000; render(); });
+  document.getElementById("hourPlus").addEventListener("click", function(){ timeOffsetMs += 3600000; render(); });
+  document.getElementById("realtimeBtn").addEventListener("click", function(){ timeOffsetMs = 0; render(); });
+
+  render();
+  setInterval(render, 1000);
+})();
+</script>
+</body>
+</html>

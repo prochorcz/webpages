@@ -1,0 +1,345 @@
+<title>Projectman CARE 3.0 — Model L1–L3</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-red: #FF525F;
+    --color-blue: #A9C5DF;
+    --font-main: 'Poppins', 'Segoe UI', sans-serif;
+ 
+    --bg: #f4f7fa;
+    --surface: #ffffff;
+    --surface-alt: #f4f7fa;
+    --surface-raised: #ffffff;
+    --text: #4b4e50;
+    --text-strong: #1a1a1a;
+    --text-muted: #8b93a0;
+    --border: #e5e9ee;
+    --border-soft: #eceff2;
+    --dark-bg: #1a1a1a;
+    --dark-text: #ffffff;
+    --dark-caption: var(--color-blue);
+    --shadow: 0 1px 3px rgba(20,20,30,0.06);
+    --tbd-bg: #fff4e8;
+    --tbd-border: #e8a24d;
+    --tbd-text: #8a5a1e;
+  }
+ 
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15171a;
+      --surface: #1e2126;
+      --surface-alt: #1a1d22;
+      --surface-raised: #24272d;
+      --text: #c2c7cf;
+      --text-strong: #f5f6f8;
+      --text-muted: #7d8590;
+      --border: #33373e;
+      --border-soft: #2a2d33;
+      --shadow: 0 1px 3px rgba(0,0,0,0.35);
+      --tbd-bg: #2e2617;
+      --tbd-border: #c98a3a;
+      --tbd-text: #f0c284;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15171a;
+    --surface: #1e2126;
+    --surface-alt: #1a1d22;
+    --surface-raised: #24272d;
+    --text: #c2c7cf;
+    --text-strong: #f5f6f8;
+    --text-muted: #7d8590;
+    --border: #33373e;
+    --border-soft: #2a2d33;
+    --shadow: 0 1px 3px rgba(0,0,0,0.35);
+    --tbd-bg: #2e2617;
+    --tbd-border: #c98a3a;
+    --tbd-text: #f0c284;
+  }
+ 
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-main); background: var(--bg); color: var(--text); line-height: 1.55; }
+ 
+  .page { max-width: 1080px; margin: 0 auto; background: var(--surface); }
+ 
+  .cover {
+    background: var(--dark-bg); color: var(--dark-text);
+    padding: 44px 56px 36px; position: relative; overflow: hidden;
+  }
+  .cover::after {
+    content: ""; position: absolute; right: -60px; top: -60px; width: 260px; height: 260px;
+    border-radius: 50%; background: radial-gradient(circle, rgba(255,82,95,0.20) 0%, rgba(255,82,95,0) 70%);
+  }
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,82,95,0.15); border: 1px solid rgba(255,82,95,0.5);
+    color: #ffb3ba; font-size: 11px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 20px; margin-bottom: 16px;
+  }
+  .cover-tag { display: block; color: var(--color-blue); font-weight: 500; font-size: 12.5px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
+  .cover h1 { font-weight: 700; font-size: 32px; line-height: 1.22; margin-bottom: 10px; letter-spacing: -0.3px; }
+  .accent-line { width: 56px; height: 4px; background: var(--color-red); border-radius: 2px; margin: 14px 0 16px; }
+  .cover p.lead { color: var(--color-blue); font-size: 14px; max-width: 680px; }
+  .cover .meta { margin-top: 22px; display: flex; gap: 26px; flex-wrap: wrap; font-size: 12px; color: #b9c2cc; }
+  .cover .meta b { color: #fff; font-weight: 600; display: block; margin-bottom: 2px; }
+ 
+  section { padding: 32px 56px; border-bottom: 1px solid var(--border-soft); }
+  section:last-of-type { border-bottom: none; }
+  h2.section-title { font-weight: 700; font-size: 19px; color: var(--text-strong); margin-bottom: 4px; display: flex; align-items: center; gap: 10px; }
+  h2.section-title .num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--color-red); color: #fff; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  p.section-sub { color: var(--text-muted); font-size: 12.5px; margin-bottom: 20px; max-width: 720px; }
+ 
+  /* open question / TBD callout */
+  .tbd { background: var(--tbd-bg); border-left: 3px solid var(--tbd-border); color: var(--tbd-text); font-size: 12px; padding: 10px 14px; border-radius: 0 6px 6px 0; margin-top: 10px; display: flex; gap: 8px; }
+  .tbd b { font-weight: 700; }
+  .source-tag { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: .3px; color: var(--color-blue); background: rgba(169,197,223,0.15); border: 1px solid rgba(169,197,223,0.4); padding: 2px 8px; border-radius: 20px; margin-top: 6px; }
+ 
+  /* ladder */
+  .ladder { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .level { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+  .level .lvl-head { display: flex; align-items: center; gap: 10px; }
+  .level .lvl-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--color-red); color: #fff; font-size: 12.5px; font-weight: 700; flex-shrink: 0; }
+  .level h4 { font-size: 14.5px; font-weight: 700; color: var(--text-strong); }
+  .level .lvl-sub { font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .4px; font-weight: 600; }
+  .level .blk-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--color-blue); margin-top: 4px; }
+  .level ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .level li { font-size: 12px; color: var(--text); padding-left: 14px; position: relative; }
+  .level li::before { content: ""; position: absolute; left: 0; top: 6px; width: 5px; height: 5px; border-radius: 50%; background: var(--color-red); }
+  .level .principle { font-size: 11.5px; font-style: italic; color: var(--text-muted); border-top: 1px dashed var(--border); padding-top: 8px; margin-top: 2px; }
+ 
+  /* delivery grid */
+  .delivery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .delivery-card { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+  .delivery-card h4 { font-size: 13.5px; font-weight: 700; color: var(--text-strong); margin-bottom: 10px; }
+  .fmt-row { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; border-top: 1px solid var(--border-soft); }
+  .fmt-row:first-of-type { border-top: none; }
+  .fmt-icon { width: 20px; height: 20px; border-radius: 5px; background: var(--surface-alt); border: 1px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10.5px; color: var(--color-red); font-weight: 700; margin-top: 1px; }
+  .fmt-txt b { display: block; font-size: 12px; color: var(--text-strong); font-weight: 600; }
+  .fmt-txt span { font-size: 11px; color: var(--text-muted); }
+ 
+  /* checklist */
+  .badge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .badge-card { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--surface-raised); }
+  .badge-card .badge-top { background: var(--dark-bg); color: #fff; padding: 14px 16px; display: flex; align-items: center; gap: 10px; }
+  .badge-icon { width: 34px; height: 34px; border-radius: 50%; background: var(--color-red); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+  .badge-top div b { display: block; font-size: 13px; }
+  .badge-top div span { font-size: 10.5px; color: var(--color-blue); }
+  .badge-body { padding: 14px 16px; }
+  .check-item { display: flex; gap: 8px; font-size: 11.5px; padding: 6px 0; border-top: 1px dashed var(--border-soft); align-items: flex-start; }
+  .check-item:first-child { border-top: none; }
+  .check-mark { width: 15px; height: 15px; border-radius: 4px; border: 1.5px solid var(--color-red); flex-shrink: 0; margin-top: 1px; }
+  .badge-note { font-size: 10.5px; color: var(--text-muted); margin-top: 10px; border-top: 1px solid var(--border-soft); padding-top: 8px; }
+ 
+  /* pricing */
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  thead th { background: var(--color-blue); color: #1a1a1a; text-align: left; font-weight: 700; padding: 8px 11px; font-size: 11px; }
+  tbody td { padding: 8px 11px; border-bottom: 1px solid var(--border-soft); color: var(--text); }
+  tbody tr:nth-child(even) { background: var(--surface-alt); }
+  tbody tr.total td { font-weight: 700; color: var(--text-strong); border-top: 2px solid var(--text-strong); border-bottom: none; }
+  .cost-block { margin-bottom: 18px; }
+  .cost-block h4 { font-size: 12.5px; font-weight: 700; color: var(--text-strong); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .cost-block h4 .tag { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; background: var(--surface-alt); border: 1px solid var(--border); color: var(--text-muted); padding: 2px 7px; border-radius: 20px; }
+ 
+  .qa-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px; }
+  .qa-item { background: var(--surface-alt); border-radius: 8px; padding: 13px 16px; font-size: 12px; display: flex; gap: 10px; border: 1px solid var(--border-soft); }
+  .qa-item .q-mark { color: #fff; background: var(--color-blue); font-weight: 700; border-radius: 50%; width: 19px; height: 19px; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
+  .qa-item.qa-full { grid-column: 1 / -1; }
+ 
+  footer { padding: 18px 56px 28px; font-size: 10.5px; color: var(--text-muted); display: flex; justify-content: space-between; }
+ 
+  @media (max-width: 760px) {
+    section, .cover, footer { padding-left: 22px; padding-right: 22px; }
+    .ladder, .delivery-grid, .badge-grid, .qa-list { grid-template-columns: 1fr; }
+  }
+</style>
+ 
+<div class="page">
+ 
+  <div class="cover">
+    <span class="status-pill">● Pracovní draft · k diskuzi, ne finální verze</span>
+    <span class="cover-tag">CARE 3.0 · Navazuje na brainstorming onepager</span>
+    <h1>Model: co přesně znamená L1, L2, L3</h1>
+    <div class="accent-line"></div>
+  </div>
+ 
+  <!-- OBSAH -->
+  <section>
+    <h2 class="section-title"><span class="num">1</span>Obsahová část L1–L3</h2>
+    <p class="section-sub">Nástřel témat, nástrojů a principů — ne hotová agenda. L1/L2/L3 = certifikační žebříček pro K1.</p>
+ 
+    <div class="ladder">
+      <div class="level">
+        <div class="lvl-head"><span class="lvl-num">1</span><div><h4>Awareness</h4><span class="lvl-sub">self-paced, bez zátěže na kapacitu</span></div></div>
+        <div class="blk-label">Témata</div>
+        <ul>
+          <li>Co je genAI a LLM — slovníček (prompt, token, halucinace, agent)</li>
+          <li>Nástrojová orientace: ChatGPT, Gemini, Claude, NotebookLM, Copilot — kdy který</li>
+          <li>Základy promptování: role, kontext, cíl, formát odpovědi</li>
+          <li>Osobní produktivita: e-maily, zápisy z meetingů, rešerše, agendy</li>
+          <li>Bezpečnost: co nepatří do promptu, shadow AI, GDPR základ</li>
+        </ul>
+        <div class="blk-label">Nástroje</div>
+        <ul><li>ChatGPT / Gemini / NotebookLM (základní účty)</li></ul>
+        <div class="principle">Princip: „AI se ptám jako prvního kroku, kritické myšlení zůstává na mně.“</div>
+        <span class="source-tag">Recyklováno z existujících PJM školicích materiálů</span>
+      </div>
+ 
+      <div class="level">
+        <div class="lvl-head"><span class="lvl-num">2</span><div><h4>Applied</h4><span class="lvl-sub">modul + 30min ověřovací call</span></div></div>
+        <div class="blk-label">Témata</div>
+        <ul>
+          <li>Scénáře podle vlastní role — obecně, ne jeden konkrétní obor</li>
+          <li>Práce s větším kontextem: víc zdrojů/dokumentů najednou, delší vlákna</li>
+          <li>Tvorba různých typů výstupů — prezentace, weby/stránky, tabulky</li>
+          <li>Reporting a zápisy ze schůzek</li>
+          <li>Iterace promptu — jak zadání vylepšovat, ne přijmout první odpověď</li>
+        </ul>
+        <div class="blk-label">Nástroje</div>
+        <ul><li>Deep Research, Asistenti, Agenti, Skilly (obecně, ne konkrétní platforma)</li></ul>
+        <div class="principle">Princip: „AI pouze doporučuje a konzultuje, já rozhoduji.“</div>
+        <span class="source-tag">Recyklováno z interního nástrojového stacku</span>
+      </div>
+ 
+      <div class="level">
+        <div class="lvl-head"><span class="lvl-num">3</span><div><h4>Certified</h4><span class="lvl-sub">kvartální týmový workshop + praktický výstup</span></div></div>
+        <div class="blk-label">Témata</div>
+        <ul>
+          <li>AI adopce mechaniky — jak rozjet AI v týmu/u klienta (cíl → nadšenci → pilot → sdílení, model, který PJM sama používá interně)</li>
+          <li>Identifikace a prioritizace use casů u klienta (value vs. effort, quick wins vs. strategické sázky)</li>
+          <li>Komplexní zadání s ověřením — „AI proti AI": výstup jednoho modelu/promptu ověřím druhým, nespoléhám na první odpověď</li>
+          <li>Rychlá tvorba hotových výstupů na téma — v řádu hodin, kombinací víc nástrojů/agentů</li>
+          <li>Peer mentoring: use case zapsaný a předaný dál</li>
+        </ul>
+        <div class="blk-label">Nástroje</div>
+        <ul><li>Kombinace víc nástrojů/agentů podle use case</li></ul>
+        <div class="principle">Princip: „Neumím jen scénář provést — umím ho ověřit, zabalit a předat dál.“</div>
+        <span class="source-tag" style="background:rgba(255,82,95,0.1);border-color:rgba(255,82,95,0.4);color:var(--color-red);">Nový návrh — syntéza z diskuze, ne recyklace</span>
+      </div>
+    </div>
+    <div class="tbd"><span>⚠</span><div><b>K doladění:</b> situační mentoring (firmou hrazený, mimo L1–L3 pool) zůstává samostatný — v onepageru už je, sem ho zatím nekopíruji, ať se ladder nepřeplní.</div></div>
+  </section>
+ 
+  <!-- DELIVERY -->
+  <section>
+    <h2 class="section-title"><span class="num">2</span>Way of delivery</h2>
+    <p class="section-sub">Vše jde přes extranet, nikde jinde. A jdeme příkladem: ke každému levelu K1 dostane <b>AI kouče</b> (prompt/asistent/skill, stejné jméno napříč L1–L3) na danou práci — forma se teprve doladí, princip je daný. Živé touchpointy (L2 call, L3 workshop) zůstávají živé, AI kouč je podpora mezi nimi, ne náhrada.</p>
+ 
+    <div class="delivery-grid">
+      <div class="delivery-card">
+        <h4>L1 · Awareness</h4>
+        <div class="fmt-row"><div class="fmt-icon">▤</div><div class="fmt-txt"><b>E-learning modul</b><span>vlastní subpage na extranetu — zadání, odkazy, prezentace, videa; self-paced</span></div></div>
+        <div class="fmt-row"><div class="fmt-icon">✦</div><div class="fmt-txt"><b>AI kouč</b><span>prompt/asistent na cvičnou úlohu — forma TBD, princip: učíme AI použitím AI</span></div></div>
+      </div>
+      <div class="delivery-card">
+        <h4>L2 · Applied</h4>
+        <div class="fmt-row"><div class="fmt-icon">▤</div><div class="fmt-txt"><b>E-learning modul</b><span>vlastní subpage — zadání, odkazy, prezentace, videa; self-paced; sada úkolů na vlastní agendě</span></div></div>
+        <div class="fmt-row"><div class="fmt-icon">✦</div><div class="fmt-txt"><b>AI kouč</b><span>o úroveň pokročilejší než na L1 — pomáhá se scénářem, ne s calls</span></div></div>
+        <div class="fmt-row"><div class="fmt-icon">☎</div><div class="fmt-txt"><b>Ověřovací call</b><span>30 min, živě s konzultantem</span></div></div>
+      </div>
+      <div class="delivery-card">
+        <h4>L3 · Certified</h4>
+        <div class="fmt-row"><div class="fmt-icon">▤</div><div class="fmt-txt"><b>E-learning modul</b><span>vlastní subpage — zadání, odkazy, prezentace, videa; self-paced; sada úkolů na vlastní agendě</span></div></div>
+        <div class="fmt-row"><div class="fmt-icon">✦</div><div class="fmt-txt"><b>AI kouč</b><span>podpora během samostatné stavby capstonu, mezi workshopy</span></div></div>
+        <div class="fmt-row"><div class="fmt-icon">◆</div><div class="fmt-txt"><b>Týmový workshop</b><span>hromadně, kvartálně — počkáme na dostatek zájemců; zadání, průběžná konzultace i finální schválení capstonu (skill/mini-projekt/automatizace, se zapojením aplikací) v rámci workshopu, ne přes 1:1 calls. Škáluje mentorskou kapacitu.</span></div></div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- CHECKLIST / BADGE -->
+  <section>
+    <h2 class="section-title"><span class="num">3</span>Checklist za odznak</h2>
+    <p class="section-sub">Takto ověříme, že K1 na daný odznak skutečně dosáhl — ne že jen proklikal modul.</p>
+ 
+    <div class="badge-grid">
+      <div class="badge-card">
+        <div class="badge-top"><div class="badge-icon">1</div><div><b>Awareness badge</b><span>lehké, škáluje na všech ~90 K1</span></div></div>
+        <div class="badge-body">
+          <div class="check-item"><div class="check-mark"></div>Dokončené všechny části e-learning modulu</div>
+          <div class="check-item"><div class="check-mark"></div>Krátký kvíz (8–10 otázek, práh cca 70 %)</div>
+          <div class="check-item"><div class="check-mark"></div>Summary onepager k tématu — K1 si ho nechá vygenerovat AI koučem, jen zkontroluje</div>
+          <div class="badge-note">Bez lidské kapacity — plně automatizovatelné.</div>
+        </div>
+      </div>
+      <div class="badge-card">
+        <div class="badge-top"><div class="badge-icon">2</div><div><b>Applied badge</b><span>lehké ověření lidmi</span></div></div>
+        <div class="badge-body">
+          <div class="check-item"><div class="check-mark"></div>Awareness badge hotový</div>
+          <div class="check-item"><div class="check-mark"></div>Doložený scénář/prompt použitý na reálném úkolu</div>
+          <div class="check-item"><div class="check-mark"></div>Summary onepager k odučenému scénáři</div>
+          <div class="check-item"><div class="check-mark"></div>30min call — konzultant potvrdí pochopení</div>
+          <div class="badge-note">~0,5 h kapacity konzultanta na osobu.</div>
+        </div>
+      </div>
+      <div class="badge-card">
+        <div class="badge-top"><div class="badge-icon">3</div><div><b>Certified badge</b><span>přirozeně limitované, prestižní</span></div></div>
+        <div class="badge-body">
+          <div class="check-item"><div class="check-mark"></div>Applied badge hotový</div>
+          <div class="check-item"><div class="check-mark"></div>Účast na týmovém L3 workshopu — zadání, průběžná konzultace i finální schválení capstonu (skill/mini-projekt/automatizace, se zapojením aplikací)</div>
+          <div class="check-item"><div class="check-mark"></div>Summary onepager k use casu → zapsán do sdílené knihovny (give-back)</div>
+          <div class="badge-note">~1,5 h ekvivalent kapacity konzultanta na osobu, sdíleno v rámci kvartálního týmového workshopu (víc lidí najednou = nižší reálná zátěž na osobu). Mentoring navíc nad rámec workshopu jde z osobních kreditů K1, ne z tohoto rozpočtu.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- CENOVKA -->
+  <section>
+    <h2 class="section-title"><span class="num">4</span>Hrubá cenovka</h2>
+    <p class="section-sub">Rozpad na výrobu (jednorázově), zprovoznění a provoz (per K1/rok). Výroba a zprovoznění: interní sazba PJM 6 000 Kč/MD (1 MD = 8 h). Provoz a mentoring: dohodnuté paušály, viz níže.</p>
+ 
+    <div class="cost-block">
+      <h4>Výroba obsahu <span class="tag">jednorázově</span></h4>
+      <table>
+        <thead><tr><th>Položka</th><th>Odhad MD</th><th>Kč (6 000 Kč/MD)</th></tr></thead>
+        <tbody>
+          <tr><td>L1 e-learning modul (obsah, subpage, existující sylabus jako základ)</td><td>1–2 MD</td><td>6–12 tis.</td></tr>
+          <tr><td>L2 e-learning modul + ověřovací framework</td><td>1–2 MD</td><td>6–12 tis.</td></tr>
+          <tr><td>L3 metodika capstonu + hodnoticí šablony</td><td>1–2 MD</td><td>6–12 tis.</td></tr>
+          <tr><td>AI kouč — nastavení a otestování (jeden koncept pro L1–L3)</td><td>1–2 MD</td><td>6–12 tis.</td></tr>
+          <tr class="total"><td>Celkem výroba</td><td>4–8 MD</td><td>~24–48 tis. Kč</td></tr>
+        </tbody>
+      </table>
+    </div>
+ 
+    <div class="cost-block">
+      <h4>Zprovoznění <span class="tag">per launch</span></h4>
+      <table>
+        <thead><tr><th>Položka</th><th>Odhad MD</th><th>Kč (6 000 Kč/MD)</th><th>Poznámka</th></tr></thead>
+        <tbody>
+          <tr><td>Extranet/CMS — katalog L1–L3, subpage per level, dlaždice pro mentoring</td><td>1–2 MD</td><td>6–12 tis.</td><td>vlastní CMS, kliká Anička (Marketing) nebo Verča — interní kapacita, ne dodavatel</td></tr>
+          <tr><td>Launch komunikace (K1 + interní konzultanti)</td><td>1,5–2 MD</td><td>9–12 tis.</td><td>navazuje na schválenou komunikaci variantu A z onepageru</td></tr>
+          <tr class="total"><td>Celkem zprovoznění</td><td>2,5–4 MD</td><td>~15–24 tis. Kč</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+ 
+    <div class="cost-block">
+      <h4>Provoz <span class="tag">per K1 / rok</span></h4>
+      <table>
+        <thead><tr><th>Prvek</th><th>Hodiny</th><th>Kč</th></tr></thead>
+        <tbody>
+          <tr><td>L1 Awareness (self-paced + kvíz + onepager)</td><td>0 h</td><td>0 Kč</td></tr>
+          <tr><td>L2 Applied (1× 30min call)</td><td>0,5 h</td><td>750 Kč</td></tr>
+          <tr><td>L3 Certified (kvartální týmový workshop, 1,5 h ekv./os.)</td><td>1,5 h</td><td>3 000 Kč</td></tr>
+          <tr class="total"><td>Certifikační cesta L1–L3</td><td>2 h</td><td>3 750 Kč</td></tr>
+          <tr><td>Situační mentoring (hradí firma, mimo pool)</td><td>6 h</td><td>9 000 Kč</td></tr>
+          <tr class="total"><td>Součet na jednoho K1</td><td>8 h</td><td>12 750 Kč</td></tr>
+        </tbody>
+      </table>
+      <div class="tbd"><span>⚠</span><div><b>Pozn.:</b> L3 = 3 000 Kč za 1,5 h mentoringu dohodnuto s Radimem — K1 má tuto částku staženou z poolu, náklad PJM je shodný (externí rate PJM, ne interní/tržní rozlišení). Zbývá dořešit, jak se to přepočítává na kredity.</div></div>
+ 
+      <table style="margin-top:14px;">
+        <thead><tr><th>Odhad ročního nákladu při ~25 aktivních K1 (z 90 celkem)</th><th>Kč</th></tr></thead>
+        <tbody>
+          <tr class="total"><td>25 × součet na jednoho K1</td><td>~319 000 Kč</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+ 
+  <footer>
+    <span>Projectman.cz · CARE 3.0 — pracovní draft</span>
+    <span>Interní materiál — nesdílet mimo firmu</span>
+  </footer>
+ 
+</div>

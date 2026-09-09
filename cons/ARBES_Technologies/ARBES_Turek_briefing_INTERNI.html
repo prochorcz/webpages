@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>INTERNÍ BRIEFING — ARBES Technologies / Petr Turek</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--red:#FF525F;--blue:#A9C5DF;--white:#fff;--surf:#f4f7fa;--body:#626567;--muted:#9aa3b0;--dark:#1a1a1a;--font:'Poppins',sans-serif;--line:#e7ecf2;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);color:var(--body);background:var(--surf);line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.topband{width:100%;background:var(--dark)}
+.tb-inner{max-width:1000px;margin:0 auto;padding:18px 22px 30px}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:4px 0 22px}
+.nav img{height:38px;width:auto}
+.nav .meta{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);font-weight:600}
+.accent{width:54px;height:4px;background:var(--red);border-radius:2px;margin:0 0 16px}
+h1{font-weight:600;font-size:30px;letter-spacing:-.01em;color:#fff}
+h1 span{color:var(--red)}
+.sub{color:var(--blue);font-weight:500;margin-top:7px;font-size:15px}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.facts .f{background:rgba(255,255,255,.07);border:1px solid rgba(169,197,223,.28);border-radius:20px;padding:5px 14px;font-size:12px;color:#e6eaee}
+.facts .f b{color:#fff;font-weight:600}
+.wrap{max-width:1000px;margin:0 auto;padding:26px 22px 90px}
+h2{font-size:13px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--dark);margin:36px 0 4px}
+h2 .n{color:var(--red);margin-right:9px}
+.h2sub{font-size:12.5px;color:var(--muted);margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+.card.acc{border-top:3px solid var(--red)}
+.card h3{font-size:14px;font-weight:600;color:var(--dark);margin-bottom:9px}
+.kv{display:grid;grid-template-columns:112px 1fr;gap:6px 10px;font-size:12.5px}
+.kv .k{color:var(--muted);font-weight:500}
+.kv .v{color:var(--body)}
+ul.clean{list-style:none}
+ul.clean li{position:relative;padding:6px 0 6px 17px;font-size:13px;border-bottom:1px solid var(--line)}
+ul.clean li:last-child{border-bottom:none}
+ul.clean li:before{content:"";position:absolute;left:2px;top:13px;width:6px;height:6px;border-radius:50%;background:var(--blue)}
+ul.clean li b{color:var(--dark);font-weight:600}
+.tag{display:inline-block;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;padding:3px 9px;border-radius:11px;background:var(--blue);color:var(--dark)}
+.tag.red{background:var(--red);color:#fff}
+.tag.grey{background:var(--surf);color:var(--muted);border:1px solid var(--line)}
+.impact{background:var(--dark);color:#fff;border-radius:9px;padding:22px 24px}
+.impact h3{color:#fff;font-size:19px;font-weight:600;margin-bottom:4px}
+.impact .verdict{display:inline-block;background:var(--red);color:#fff;font-weight:600;font-size:12px;letter-spacing:.09em;text-transform:uppercase;padding:5px 13px;border-radius:13px;margin-bottom:13px}
+.impact p{font-size:13.5px;color:#dfe3e7;margin-bottom:10px}
+.impact .cols{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:14px}
+.impact .cols h4{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);font-weight:600;margin-bottom:7px}
+.impact .cols li{font-size:12.5px;color:#dfe3e7;padding:4px 0 4px 15px;position:relative;list-style:none}
+.impact .cols li:before{content:"";position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--red)}
+.quis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:10px}
+.qbtn{background:#fff;border:1px solid var(--line);border-top:3px solid var(--line);border-radius:8px;padding:12px 14px}
+.qbtn.on{border-top-color:var(--red)}
+.qbtn .l{font-size:22px;font-weight:600;color:var(--red);line-height:1}
+.qbtn .t{font-size:13px;font-weight:600;color:var(--dark);margin-top:4px}
+.qbtn .d{font-size:11.5px;color:var(--muted);margin-top:2px}
+.sicv{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.sicv .card{border-left:3px solid var(--blue)}
+.sicv .card.c3{border-left-color:var(--red)}
+.sicv .card .step{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sicv ol{margin:8px 0 0 17px;font-size:13px}
+.sicv ol li{padding:5px 0;color:var(--dark)}
+.topic{border-left:2px solid var(--blue);padding:3px 0 3px 15px;margin:16px 0}
+.topic .lab{display:inline-block;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:2px 9px;margin-bottom:7px}
+.topic .q{font-size:14px;color:var(--dark);font-weight:500;padding:4px 0 4px 16px;position:relative}
+.topic .q:before{content:"›";position:absolute;left:0;top:3px;color:var(--red);font-weight:600}
+.playback{background:var(--dark);color:#fff;border-radius:8px;padding:15px 18px;font-size:13.5px;font-style:italic;margin-top:14px;border-left:3px solid var(--red)}
+.playback .lb{display:block;font-style:normal;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--blue);font-weight:600;margin-bottom:5px}
+.why{background:#fff5f6;border-left:3px solid var(--red);border-radius:7px;padding:14px 17px;font-size:13.5px;color:#5f5257;margin-bottom:6px}
+.why b{color:var(--dark)}
+.refs{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px}
+.ref{background:#fff;border:1px solid var(--line);border-radius:8px;padding:15px 17px;border-top:3px solid var(--blue)}
+.ref .src{float:right;font-size:9px;letter-spacing:.07em;text-transform:uppercase;font-weight:600;color:var(--muted);background:var(--surf);border-radius:9px;padding:2px 8px}
+.ref .rrow{display:grid;grid-template-columns:112px 1fr;gap:5px 10px;font-size:12.5px;padding:5px 0;border-bottom:1px solid var(--line)}
+.ref .rrow:last-child{border-bottom:none}
+.ref .rk{font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;padding-top:2px}
+.ref .rv{color:var(--body)}
+.ref .rv b{color:var(--dark)}
+.action{background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 18px;margin-top:16px}
+.action .arow{display:grid;grid-template-columns:130px 1fr;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}
+.action .arow:last-child{border-bottom:none}
+.action .ak{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--red);font-weight:600;padding-top:2px}
+.warn{background:var(--surf);border:1px dashed var(--muted);border-radius:7px;padding:12px 15px;font-size:12.5px;color:var(--muted);margin-top:18px}
+.warn b{color:var(--body)}
+.foot{text-align:center;font-size:11px;color:var(--muted);margin-top:34px;line-height:1.7}
+@media(max-width:820px){.grid,.grid2,.sicv,.refs,.quis,.impact .cols{grid-template-columns:1fr}}
+@media print{.card,.ref{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<header class="topband">
+  <div class="tb-inner">
+    <div class="nav">
+      <img src="data:image/png;base64,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" alt="Projectman">
+      <span class="meta">Interní příprava · neukazovat klientovi</span>
+    </div>
+    <div class="accent"></div>
+    <h1>ARBES Technologies <span>×</span> Projectman</h1>
+    <div class="sub">Petr Turek — IT Manager · první schůzka (nový klient)</div>
+    <div class="facts">
+      <span class="f">Připraveno <b>2. 9. 2026</b></span>
+      <span class="f">Pipedrive org <b>306</b></span>
+      <span class="f">Priorita <b>2 Opportunity</b></span>
+      <span class="f">Decision power <b>Influences Decision</b></span>
+      <span class="f">Metodika <b>QUIS™ + SICV</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<h2><span class="n">01</span>Snapshot klienta</h2>
+<div class="h2sub">Firmografie, lidé a to, co v accountu už proběhlo. Data z Pipedrive (čerstvá) + veřejné zdroje.</div>
+
+<div class="grid">
+  <div class="card acc">
+    <h3>Firma</h3>
+    <div class="kv">
+      <span class="k">Název</span><span class="v">ARBES Technologies, a.s.</span>
+      <span class="k">IČO</span><span class="v">42192889</span>
+      <span class="k">Sídlo</span><span class="v">Plzeňská 345/5, Praha 5 – Anděl</span>
+      <span class="k">Odvětví</span><span class="v">Technologie / SW pro banky a kapitálové trhy</span>
+      <span class="k">Založeno</span><span class="v">1991</span>
+      <span class="k">Vlastník</span><span class="v">100 % EXPANDIA Digital (holding od 2023)</span>
+      <span class="k">Velikost</span><span class="v">200+ odborníků, 80+ zákazníků (veřejný údaj)</span>
+    </div>
+  </div>
+  <div class="card acc">
+    <h3>Osoba na schůzce</h3>
+    <div class="kv">
+      <span class="k">Jméno</span><span class="v"><b>Petr Turek</b></span>
+      <span class="k">Pozice</span><span class="v">IT Manager (Pipedrive)</span>
+      <span class="k">E-mail</span><span class="v">petr.turek@arbes.com</span>
+      <span class="k">Decision power</span><span class="v"><span class="tag red">Influences Decision</span></span>
+      <span class="k">PJM relation</span><span class="v"><span class="tag grey">nevyplněno — doplnit po schůzce</span></span>
+      <span class="k">Vzdělání</span><span class="v">Ing., systémové inženýrství, VŠB-TU Ostrava (2012–2014)</span>
+      <span class="k">Předtím</span><span class="v">Metropolnet, Lostr, BIS Czech (veřejný profil)</span>
+    </div>
+  </div>
+  <div class="card acc">
+    <h3>Druhý kontakt v Pipedrive</h3>
+    <div class="kv">
+      <span class="k">Jméno</span><span class="v"><b>Michal Houštecký</b></span>
+      <span class="k">Role</span><span class="v">CEO a člen představenstva ARBES (veřejné zdroje; v Pipedrive job title nevyplněn)</span>
+      <span class="k">E-mail</span><span class="v">michal.houstecky@arbes.com</span>
+      <span class="k">Vazba</span><span class="v">kontakt na prohraném dealu #415</span>
+      <span class="k">Owner</span><span class="v">Jan Procházka</span>
+    </div>
+    <ul class="clean" style="margin-top:10px">
+      <li>Účelově: přes Turka se dá dostat zpět k Houšteckému — ale <b>ne na první schůzce</b>.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="grid2" style="margin-top:14px">
+  <div class="card">
+    <h3>Historie accountu <span class="tag grey" style="float:right">1 deal, prohraný</span></h3>
+    <ul class="clean">
+      <li><b>Deal #415 „ARBES PM outsourcing"</b> — 500 000 Kč, pipeline OUT, stage NEW, <b>status lost</b>. Kontakt: Michal Houštecký. Owner: Jan Procházka.</li>
+      <li>Poptávka byla na <b>PM na pomezí projektového a IT delivery manažera</b> do sekce/produktu <b>TA</b> (Transfer Agency) — klíčový produkt ARBESu pro svět investic; ~80 % projektů TA týmu je pro <b>Amundi</b>. Direct report by byl <b>Ivan Čopák</b>, šéf TA týmu.</li>
+      <li>Model: 6+ měsíců přes naše IČO, pak <b>odkup do interního stavu</b> za dohodnuté fee. Onsite Anděl Út–Čt, IT prostředky od ARBESu kvůli security a přístupům do klientských systémů.</li>
+      <li>Průběh: 4/2025 dohoda „parkujeme, 12. 5. si řekneme, jak dál" (Jiří Tonar) → 7/2025 uzavřeno s poznámkou <b>„ani jsme nedokázali rozjet řeč"</b> (Jan Procházka).</li>
+      <li><b>Čtěte to takto:</b> nešlo o prohru na ceně ani na kvalitě kandidáta — nerozjela se konverzace. To je dobrá zpráva; jde o nový vstup, ne o obhajobu minulé nabídky.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Veřejné signály o firmě</h3>
+    <ul class="clean">
+      <li><b>Čtyři akvizice v řadě</b> — Finamis (SK), INBRAIT, Crede Experto (2021), SC Servis SfIB (2022); pod holdingem navíc podíl v Ackee (2023). Deklarovaný důvod: růst a doplnění expertízy.</li>
+      <li><b>Klienti a produkty</b>: Amundi Czech Republic (modul Workflow), Air Bank (investování do akcií z mobilu), VÚB Banka (ESG modul v leasingu, přes ARBES Slovakia).</li>
+      <li><b>Regulatorní vlna 2026</b> — jejich vlastní blog otevírá přechod na strukturovanější data v platebním styku po ISO 20022, instantní platby a ověřování příjemce.</li>
+      <li><b>Arbes Digital Platform</b> — modularizace legacy systémů do mikroslužeb, inkrementální vývoj komponent v heterogenním prostředí.</li>
+      <li><b>Nábor</b> — nová kategorie juniorních pozic „Associate"; mezi rolemi PM, Delivery Manager, BA, Tester, Java/PL-SQL. Na kariérním webu je publikovaná pozice <b>Project Manager (TA)</b> — <b>ověřit na schůzce, zda je stále otevřená</b>.</li>
+      <li><b>Turek osobně</b> — jediná veřejná stopa je citace v case study dodavatele zálohovacího řešení (2019): zkrácení obnovy databází ze 48 na 4 hodiny. Svět infrastruktury, zálohování a obnovy, ne produktového delivery.</li>
+    </ul>
+  </div>
+</div>
+
+<h2><span class="n">02</span>Kvalifikace příležitosti</h2>
+<div class="h2sub">Nový account bez rozhodnutí, jestli do něj investovat čas. Střízlivý verdikt.</div>
+
+<div class="impact">
+  <span class="verdict">GO — ale s jinou tezí než v roce 2025</span>
+  <h3>Vstupujeme jinými dveřmi než minule</h3>
+  <p>V dubnu 2025 jsme šli na ARBES přes HR s nabídkou PM do produktového týmu TA a konverzace se nerozjela. Petr Turek <b>není</b> buyer téže věci — jako IT Manager sedí nad interním IT a infrastrukturou, ne nad delivery pro Amundi. To je příležitost, ne handicap: má vlastní projekty (konsolidace IT po čtyřech akvizicích, regulatorika, provoz), vlastní bolest s kapacitou a zároveň je bránou k externistům, kteří do ARBESu vstupují. Cíl schůzky není prodat roli — je pochopit jeho svět a získat druhé kolo s ním nebo s tím, koho označí.</p>
+  <div class="cols">
+    <div>
+      <h4>Pro</h4>
+      <ul>
+        <li>Sedí do ICP: 200+ lidí, Praha, projektové prostředí, finanční sektor (byť jako jeho dodavatel).</li>
+        <li>Čtyři akvizice = reálná konsolidační agenda, kterou někdo musí odřídit.</li>
+        <li>Regulatorní termíny (ISO 20022, instantní platby, ověřování příjemce) tlačí plán, který si firma nevybrala.</li>
+        <li>Otevřené PM a Delivery Manager role → potřeba kapacity je doložená, ne domnělá.</li>
+        <li>V Pipedrive vedeno jako <b>2 Opportunity</b>, historie s CEO existuje.</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Proti / hlídat</h4>
+      <ul>
+        <li>Turek má <b>Influences Decision</b>, ne rozhodovací pravomoc — bez cesty výš (Houštecký, Čopák) to neuzavřeme.</li>
+        <li>ARBES je sám IT dodavatel — má vlastní PM a bude porovnávat sazby se svými náklady (interně počítali 120–140 tis. na HPP).</li>
+        <li>Očekávají model s <b>odkupem člověka do interního stavu</b> — to musíme mít vyřešené s kandidátem od začátku.</li>
+        <li>Minule se konverzace nerozjela — riziko, že se opakuje, když půjdeme znovu s obecnou nabídkou.</li>
+        <li>Data v Pipedrive jsou tenká (u Turka prázdné PJM relation, žádné aktivity) — hodně musíme zjistit na místě.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<h2><span class="n">03</span>Plán schůzky — QUIS™</h2>
+<div class="h2sub">Question → Understand → Influence → Solidify. Otázky vedou klienta k vlastnímu uvědomění; závěr za něj neformulujeme.</div>
+
+<div class="quis">
+  <div class="qbtn on"><div class="l">Q</div><div class="t">Question</div><div class="d">SICV žebřík — rozmluvit</div></div>
+  <div class="qbtn on"><div class="l">U</div><div class="t">Understand</div><div class="d">ověřit hypotézy, přehrát zpět</div></div>
+  <div class="qbtn on"><div class="l">I</div><div class="t">Influence</div><div class="d">proč my + reference</div></div>
+  <div class="qbtn on"><div class="l">S</div><div class="t">Solidify</div><div class="d">zafixovat další krok</div></div>
+</div>
+
+<h2 style="margin-top:24px"><span class="n">Q</span>Otázky podle SICV</h2>
+<div class="h2sub">Status → Issue → Consequence → Value. Neptejte se na všechno — vyberte podle toho, kam se rozhovor stočí.</div>
+
+<div class="sicv">
+  <div class="card">
+    <span class="step">Status — kde stojí</span>
+    <ol>
+      <li>ARBES za posledních pár let pohltil Finamis, INBRAIT, Crede Experto i SC Servis. Jak dnes vypadá IT krajina po těch akvizicích — máte jeden stack, nebo pořád běží několik vedle sebe?</li>
+      <li>Kde je hranice vaší odpovědnosti proti produktovým a delivery týmům? Co všechno spadá pod IT Managera v ARBESu?</li>
+      <li>Kolik lidí máte v IT týmu a kolik z nich je interních versus externích?</li>
+      <li>Jak u vás vzniká interní IT projekt — kdo ho vede, kdo ho schvaluje a jak se prioritizuje proti produktovému vývoji pro klienty?</li>
+      <li>Když k vám nastoupí externista nebo dodavatel, co všechno leží na vás, než se dostane k prostředkům a přístupům?</li>
+    </ol>
+  </div>
+  <div class="card">
+    <span class="step">Issue — kde to drhne</span>
+    <ol>
+      <li>Před lety jste veřejně mluvil o zálohování a obnově databází. Kde vás dnes infrastruktura brzdí nejvíc — je to pořád tahle oblast, nebo se těžiště přesunulo jinam?</li>
+      <li>Když se sejde konsolidace po akvizicích, regulatorika kolem plateb a běžný provoz — co z toho vám nejčastěji spadne pod stůl?</li>
+      <li>Kdo vám v interních IT projektech dělá projektového manažera? Vy sám vedle své role, nebo si půjčujete někoho z delivery?</li>
+      <li>ARBES prodává klientům řízené dodávky. Používáte stejnou disciplínu na interní projekty, nebo to uvnitř běží jinak?</li>
+      <li>Kde je největší tření mezi tím, co potřebuje vaše IT, a tím, co má prioritu pro Amundi a další key accounty?</li>
+    </ol>
+  </div>
+  <div class="card c3">
+    <span class="step">Consequence — co to stojí</span>
+    <ol>
+      <li>Když interní IT projekt uvázne, kdo to pocítí první — a projeví se to i navenek vůči klientům?</li>
+      <li>Kolik z vašeho vlastního týdne sežere řízení a administrativa projektů místo práce IT manažera?</li>
+      <li>Co se stane, když regulatorní termín narazí na akviziční konsolidaci a nemáte volnou kapacitu? Který z těch dvou ustoupí?</li>
+      <li>Jak dlouho dnes trvá, než je nový člověk — interní i externí — plně produktivní? A co ten rozjezd stojí?</li>
+      <li>Kdyby vám z IT odešel jeden klíčový člověk, jak dlouho by to bolelo a co by se odložilo?</li>
+    </ol>
+  </div>
+  <div class="card c3">
+    <span class="step">Value — kolik to má cenu</span>
+    <ol>
+      <li>Kdyby se interní IT projekty daly řídit tak, že vám na stole nezůstane administrativa — kolik dní v měsíci byste získal a co byste s nimi udělal?</li>
+      <li>Jakou hodnotu má pro ARBES to, když se konsolidace po akvizici stihne o kvartál dřív?</li>
+      <li>Kdyby se rozjezd externisty zkrátil ze čtyř týdnů na jeden — co to znamená pro fakturovatelnost a pro delivery?</li>
+      <li>Co je pro vás dražší: nechat projekt čekat na kapacitu, nebo si na půl roku půjčit externího projekťáka?</li>
+      <li>Jak byste za půl roku poznal, že spolupráce dávala smysl? Co konkrétně by muselo být jinak?</li>
+    </ol>
+  </div>
+</div>
+
+<h2><span class="n">U</span>Understand — hypotézy k ověření</h2>
+<div class="h2sub">Hypotéza je jen štítek. Na schůzce zazní otázka, ne teze.</div>
+
+<div class="card">
+  <div class="topic">
+    <span class="lab">Hypotéza: IT po čtyřech akvizicích není sjednocené</span>
+    <div class="q">Které systémy nebo agendy se vám po akvizicích ještě nepovedlo sjednotit?</div>
+    <div class="q">Kdo za tu konsolidaci nese odpovědnost — vy, nebo se to řídí z holdingu?</div>
+  </div>
+  <div class="topic">
+    <span class="lab">Hypotéza: projektové řízení interních věcí dělá Turek navrch ke své roli</span>
+    <div class="q">Kdo naposledy vedl u vás větší IT projekt a jak to dopadlo časově?</div>
+    <div class="q">Kolik věcí máte rozjetých najednou a podle čeho se rozhodujete, co pustíte první?</div>
+  </div>
+  <div class="topic">
+    <span class="lab">Hypotéza: regulatorní termíny určují plán, který si firma nevybrala</span>
+    <div class="q">Které termíny vám teď nejvíc drží kalendář — a jsou to vaše, nebo klientské?</div>
+    <div class="q">Máte na ně vyhrazenou kapacitu, nebo se to dělá vedle běžného provozu?</div>
+  </div>
+  <div class="topic">
+    <span class="lab">Hypotéza: každý externista prochází jeho rukama (security, prostředky, přístupy)</span>
+    <div class="q">Jak dnes vypadá onboarding externisty na vaší straně, krok po kroku?</div>
+    <div class="q">Co by vám ušetřilo nejvíc práce, kdyby to dodavatel uměl vyřešit za vás?</div>
+  </div>
+  <div class="playback">
+    <span class="lb">Play back — jak mu to přehrát zpět</span>
+    „Když to shrnu: máte na sobě zároveň provoz, konsolidaci po čtyřech akvizicích a termíny, které vám nastavil regulátor a klienti — a projektové řízení těch interních věcí děláte v podstatě vy sám navíc ke své roli. Chápu to správně?"
+  </div>
+</div>
+
+<h2><span class="n">I</span>Influence — proč my</h2>
+<div class="h2sub">Externí experti do týmů + konzultace na procesy a know-how. Formulováno tak, aby to nezavánělo konkurencí.</div>
+
+<div class="why">
+  <b>Úhel pro Turka:</b> ARBES si vývojáře umí udělat sám — proto mu vývojáře neprodáváme a nejsme jeho konkurence. Přinášíme lidi a know-how <b>kolem</b> vývoje: projektové a delivery manažery, business analytiky, Scrum Mastery, datové a AI experty. A umíme to v jeho specifické situaci — <b>sedět uvnitř týmu softwarového dodavatele a dodávat jeho koncovému klientovi</b>, se vším, co to obnáší (security, přístupy, prostředky od dodavatele, dvojí stakeholdeři). Dvě formy, které se dají kombinovat: externisté do týmu <b>(OUT)</b> a konzultace na procesy a know-how <b>(CONS)</b>. A protože pro ARBES bude nejspíš klíčová i otázka „a co když si ho pak chceme vzít k sobě" — ten model umíme, dělali jsme ho, řeší se s kandidátem od začátku.
+</div>
+
+<div class="card" style="margin-top:14px">
+  <div class="topic">
+    <span class="lab">Fit řešení — kam externího člověka vůbec posadit</span>
+    <div class="q">Kdyby u vás měl sedět externí projekťák — má být nad interním IT, nebo nad zakázkou pro klienta?</div>
+    <div class="q">Co by musel umět, aby ho vaši vývojáři brali vážně? Kde přesně je ta laťka?</div>
+  </div>
+  <div class="topic">
+    <span class="lab">Priorita — kapacita, nebo nejdřív proces</span>
+    <div class="q">Dávalo by vám větší smysl začít krátkou diagnostikou toho, jak vám interní projekty běží, než budeme řešit konkrétní lidi?</div>
+    <div class="q">Kdo by u vás takový výstup četl a komu by musel dávat smysl?</div>
+  </div>
+  <div class="topic">
+    <span class="lab">AI a automatizace — je to u vás produktové, nebo interní téma</span>
+    <div class="q">Máte v ARBESu nějakou AI iniciativu — a je to spíš produktová věc směrem ke klientům, nebo interní produktivita?</div>
+    <div class="q">Kdo to vlastní? A dotýká se to i vašeho IT, nebo jde mimo vás?</div>
+  </div>
+</div>
+
+<div class="refs">
+  <div class="ref">
+    <span class="src">Pipedrive · won</span>
+    <div class="rrow"><span class="rk">Tématika</span><span class="rv"><b>Implementace a integrace Asset Management systému</b> v investičním bankovnictví — rozšíření integrace AMS, napojení na datové sklady a klientský systém</span></div>
+    <div class="rrow"><span class="rk">Klient</span><span class="rv">WOOD &amp; Company Financial Services, a.s.</span></div>
+    <div class="rrow"><span class="rk">Styl spolupráce</span><span class="rv">Interim senior PM jako externista v týmu klienta (outsourcing, dlouhodobá alokace)</span></div>
+    <div class="rrow"><span class="rk">Jak jsme doručili</span><span class="rv">Dodali jsme seniorního PM se zkušeností z implementací systémů a znalostí finančních trhů; řídil deadliny, tým a subdodavatele. Objem zakázky <b>3,75 mil. Kč</b>.</span></div>
+  </div>
+  <div class="ref">
+    <span class="src">Pipedrive · won</span>
+    <div class="rrow"><span class="rk">Tématika</span><span class="rv"><b>Expert do delivery týmu softwarového dodavatele</b> — agilní vývoj, rozbíjení monolitu do mikroslužeb, selfcare zóna pro koncového zákazníka</span></div>
+    <div class="rrow"><span class="rk">Klient</span><span class="rv">Lundegaard a.s. (dodávka pro PREdistribuce)</span></div>
+    <div class="rrow"><span class="rk">Styl spolupráce</span><span class="rv">Externí business analytik dosazený do týmu dodavatele, pracující pro jeho koncového klienta</span></div>
+    <div class="rrow"><span class="rk">Jak jsme doručili</span><span class="rv">BA, který s Product Ownerem z businessu krájel velká zadání na sprintovatelné celky a držel komunikaci s vývojem. Objem zakázky <b>2,275 mil. Kč</b>. <b>Nejbližší analogie k situaci ARBESu.</b></span></div>
+  </div>
+  <div class="ref">
+    <span class="src">Pipedrive · won</span>
+    <div class="rrow"><span class="rk">Tématika</span><span class="rv"><b>Delivery management na AI projektech</b> ve finanční instituci</span></div>
+    <div class="rrow"><span class="rk">Klient</span><span class="rv">Kooperativa pojišťovna, a.s. (Vienna Insurance Group)</span></div>
+    <div class="rrow"><span class="rk">Styl spolupráce</span><span class="rv">Interim delivery manager jako externista</span></div>
+    <div class="rrow"><span class="rk">Jak jsme doručili</span><span class="rv">Dodali jsme delivery managera na AI projekty; smlouva podepsána, objednávka 4/2026. Objem zakázky <b>2 mil. Kč</b>.</span></div>
+  </div>
+  <div class="ref">
+    <span class="src">Pipedrive · won</span>
+    <div class="rrow"><span class="rk">Tématika</span><span class="rv"><b>Adopce AI</b> — workshop plus mentoring týmu ambasadorů napříč PMO, inovacemi a digitalizací</span></div>
+    <div class="rrow"><span class="rk">Klient</span><span class="rv">ČEPS, a.s.</span></div>
+    <div class="rrow"><span class="rk">Styl spolupráce</span><span class="rv">Consulting — workshop + navazující konzultace a mentoring, ne jednorázové školení</span></div>
+    <div class="rrow"><span class="rk">Jak jsme doručili</span><span class="rv">Program adopce postavený na reálných projektových datech klienta, s vlastnictvím know-how na jejich straně. Objem zakázky <b>353 tis. Kč</b>.</span></div>
+  </div>
+</div>
+
+<h2><span class="n">S</span>Solidify — zafixovat další krok</h2>
+<div class="h2sub">Otázkami, ne prohlášením. Ze schůzky odcházíme s konkrétním jménem a konkrétním datem.</div>
+
+<div class="card">
+  <div class="topic">
+    <span class="lab">Kdo další — mapa stakeholderů</span>
+    <div class="q">Kdo kromě vás by u toho měl být, když se bavíme o projektovém řízení — spíš lidé kolem TA, nebo vedení firmy?</div>
+    <div class="q">Dává smysl, abych vám poslal shrnutí v takové podobě, že ho můžete poslat dál?</div>
+  </div>
+  <div class="topic">
+    <span class="lab">Pilot — jeden konkrétní projekt</span>
+    <div class="q">Kdybychom to měli zkusit na jednom projektu jako pilot, který by to byl?</div>
+    <div class="q">Do kdy byste realisticky potřeboval mít člověka na místě?</div>
+  </div>
+  <div class="topic">
+    <span class="lab">Formát dalšího kroku</span>
+    <div class="q">Chcete raději nejdřív profily lidí, nebo půldenní diagnostiku toho, jak vám interní projekty běží?</div>
+    <div class="q">Kdo to u vás musí odsouhlasit a jak dlouho takové schválení obvykle trvá?</div>
+  </div>
+</div>
+
+<div class="action">
+  <div class="arow"><span class="ak">Play back</span><span>Shrnout Turkovi jeho vlastními slovy, co ho nejvíc tlačí — konsolidace, termíny, kapacita — a nechat ho to potvrdit.</span></div>
+  <div class="arow"><span class="ak">Akce na místě</span><span>Získat jméno druhého člověka, kterého se to týká, a souhlas s tím, že mu shrnutí pošlete.</span></div>
+  <div class="arow"><span class="ak">Další krok</span><span>Do 3 pracovních dnů poslat zápis + jednu z variant: 2–3 profily, nebo návrh půldenní diagnostiky. Follow-up call domluvit na místě, do 14 dnů.</span></div>
+  <div class="arow"><span class="ak">Follow-up interně</span><span>Doplnit Pipedrive: PJM relation u Turka, job title u Houšteckého, nový deal na org 306. Probrat s Prochorem (vlastník historie accountu) a s Jiřím Tonarem, který v 4/2025 rozhodoval o parkování.</span></div>
+  <div class="arow"><span class="ak">Nedělat</span><span>Nevytahovat prohranou nabídku z roku 2025 jako otevřené téma. Neslibovat sazbu. Nemluvit za Turka o tom, co ušetří.</span></div>
+</div>
+
+<div class="warn">
+  <b>Poznámka k přípravě:</b> skill odkazuje na <code>references/quis-sicv.md</code> jako zdroj pravdy pro strukturu QUIS oblouku a SICV žebříku, ale tento soubor v balíčku skillu chybí (přítomné jsou jen <code>client-workspace.md</code>, <code>company-profile.md</code> a <code>ntabo.md</code>). Struktura výše proto stojí na definici z popisu skillu — Question → Understand → Influence → Solidify a Status → Issue → Consequence → Value. Stojí za to soubor doplnit, ať jsou příště otázky stavěné přesně podle metodiky.<br><br>
+  <b>Data, která chybí a je třeba je zjistit na schůzce:</b> velikost a složení IT týmu, rozdělení odpovědností proti delivery, aktuálnost otevřené pozice Project Manager (TA), rozpočtový rámec, kdo schvaluje externisty.
+</div>
+
+<div class="foot">
+  Interní příprava Projectman.cz — nesdílet s klientem.<br>
+  Sestaveno z čerstvých dat Pipedrive (org 306, deal 415, kontakty 1600 a 814), znalostní báze PM Kompetence a veřejných zdrojů.<br>
+  Projectman.cz — connecting experts
+</div>
+
+</div>
+</body>
+</html>

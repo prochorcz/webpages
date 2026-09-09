@@ -1,0 +1,910 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PM Tracker — recruitment funnel × win/loss</title>
+<style>
+
+@font-face{font-family:Poppins;font-weight:400;font-display:swap;
+  src:url("https://www.projectman.cz/themes/custom/projectman/fonts/Poppins/Poppins-Regular.woff2") format("woff2")}
+@font-face{font-family:Poppins;font-weight:600;font-display:swap;
+  src:url("https://www.projectman.cz/themes/custom/projectman/fonts/Poppins/Poppins-SemiBold.woff2") format("woff2")}
+:root{
+  --pjm-dark:#20272F; --pjm-coral:#FF525F; --pjm-blue:#A9C5DF; --pjm-blue-dark:#5C7894;
+  --pjm-grey:#878787; --pjm-bg:#F7F7F7; --pjm-bg-alt:#F0F2F5; --pjm-line:#DADADA;
+  --surface:#FFFFFF; --ink:#20272F; --ink-2:#3F4A57; --ink-muted:#878787; --grid:#E8E8E8;
+  --c-win:#2B72B8; --c-loss:#DC2F3C; --c-neutral:#9AA3B0; --c-open:#C4CAD1;
+}
+@media (prefers-color-scheme:dark){
+  :root{--surface:#20272F; --ink:#FFFFFF; --ink-2:#C9D2DB; --ink-muted:#8C97A3;
+    --pjm-bg:#171D23; --pjm-bg-alt:#1C242C; --pjm-line:#333D48; --grid:#333D48;
+    --c-win:#4E97DC; --c-loss:#F0555F; --c-neutral:#7C8794; --c-open:#4A5561;}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--pjm-bg);color:var(--ink);
+  font:400 15px/1.62 Poppins,Helvetica,Calibri,Arial,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px 80px}
+h1{font-weight:400;font-size:38px;line-height:1.16;margin:0;color:var(--pjm-coral);max-width:26ch}
+h1 span{display:block;border-bottom:1.5px solid var(--pjm-coral);padding-bottom:7px;margin-bottom:7px}
+h2{font-weight:600;font-size:20px;margin:0 0 4px;letter-spacing:-.01em}
+h3{font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--pjm-coral);
+  margin:28px 0 6px;padding-top:14px;border-top:1px solid var(--grid)}
+.layer:first-child h3{border-top:0;margin-top:8px;padding-top:0}
+p{max-width:88ch}
+.hero{position:relative;background:var(--pjm-dark);color:#fff;overflow:hidden;margin-bottom:34px}
+.hero-in{max-width:1180px;margin:0 auto;padding:50px 24px 44px;position:relative;z-index:2}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:36px}
+.logo-grid{display:grid;grid-template-columns:repeat(6,3px);gap:2.5px}
+.logo-grid i{width:3px;height:3px;background:var(--pjm-grey);border-radius:50%}
+.logo-wm{font-weight:600;font-size:19px;letter-spacing:-.01em}
+.logo-claim{font-size:9px;color:var(--pjm-grey);letter-spacing:.06em;margin-top:-2px}
+.hero-sub{color:#C9D2DB;font-size:14.5px;max-width:76ch;margin-top:18px}
+.pill{display:inline-block;font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;
+  padding:4px 9px;border:1px solid var(--pjm-coral);color:var(--pjm-coral);border-radius:11px;margin-bottom:18px}
+section{background:var(--surface);border:1px solid var(--pjm-line);padding:26px 28px 30px;margin-bottom:20px}
+.lede{color:var(--ink-2);font-size:14px;margin:0 0 18px;max-width:88ch}
+.note{color:var(--ink-muted);font-size:12.5px;margin:6px 0 0;max-width:80ch}
+.snum{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;
+  background:var(--pjm-coral);color:#fff;font-size:11px;font-weight:600;margin-right:9px;vertical-align:2px}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:2px;margin:0 0 20px}
+.kpi{background:var(--pjm-bg-alt);padding:15px 17px 14px}
+.kpi .k{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted)}
+.kpi .row{margin-top:6px}
+.kpi .v{font-size:25px;font-weight:600;line-height:1.05;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kpi .n{font-size:11px;color:var(--ink-muted);line-height:1.42;margin-top:5px}
+
+/* win/loss bars */
+.wl-legend{display:flex;gap:18px;font-size:11.5px;color:var(--ink-muted);margin-bottom:14px}
+.wl-legend .sw{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px}
+.sw.won{background:var(--c-win)} .sw.lost{background:var(--c-loss)} .sw.open{background:var(--c-open)}
+.wl-row{display:grid;grid-template-columns:170px 1fr 90px;gap:14px;align-items:center;margin-bottom:10px}
+.wl-label{font-size:13px;font-weight:600}
+.wl-n{display:block;font-size:10.5px;font-weight:400;color:var(--ink-muted)}
+.wl-bar{display:flex;height:24px;background:var(--grid);border-radius:2px;overflow:hidden}
+.wl-seg{height:100%}
+.wl-seg.won{background:var(--c-win)} .wl-seg.lost{background:var(--c-loss)} .wl-seg.open{background:var(--c-open)}
+.wl-rate{font-size:15px;font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.wl-rate span{display:block;font-size:9.5px;font-weight:400;color:var(--ink-muted);text-transform:uppercase}
+
+/* funnel ladder */
+.lvl{padding:14px 0;border-bottom:1px solid var(--grid)}
+.lvl:last-child{border-bottom:0}
+.lvl-h{display:flex;align-items:baseline;gap:9px;margin-bottom:3px}
+.lvl-n{font-size:9.5px;font-weight:600;letter-spacing:.09em;color:var(--pjm-coral);text-transform:uppercase;min-width:16px}
+.lvl-t{font-size:14.5px;font-weight:600}
+.lvl-d{font-size:12px;color:var(--ink-muted);margin-bottom:10px}
+.rate-row{display:grid;grid-template-columns:78px 1fr 150px;gap:14px;align-items:center}
+.rate-big{font-size:22px;font-weight:600;font-variant-numeric:tabular-nums}
+.rate-bar{height:14px;background:var(--grid);border-radius:2px;overflow:hidden}
+.rate-fill{height:100%;background:var(--pjm-blue-dark)}
+.rate-frac{font-size:12px;color:var(--ink-muted);font-variant-numeric:tabular-nums}
+.rate-frac span{display:block;font-size:10.5px}
+.bignum{font-size:32px;font-weight:600;font-variant-numeric:tabular-nums}
+.bignum-cap{font-size:12px;color:var(--ink-muted);margin-top:2px}
+
+/* correlation table */
+
+/* exit attribution */
+.ex-row{display:grid;grid-template-columns:190px 1fr 1fr;gap:14px;align-items:center;margin-bottom:12px}
+.ex-label{font-size:13px;font-weight:600}
+.ex-n{display:block;font-size:11px;font-weight:400;color:var(--ink-muted)}
+.ex-bar{height:16px;background:var(--grid);border-radius:2px;overflow:hidden}
+.ex-fill{height:100%}
+.ex-detail{font-size:11.5px;color:var(--ink-muted)}
+
+/* caveats table */
+table.mx{width:100%;border-collapse:collapse;font-size:12.5px}
+table.mx td{padding:10px 12px;vertical-align:top;border-bottom:1px solid var(--grid)}
+table.mx td.h{font-weight:600;width:220px;color:var(--ink)}
+
+/* ---- executive summary ---- */
+#summary{border:0;background:transparent;padding:0;margin-bottom:6px}
+#summary h2{font-size:22px;margin-bottom:14px}
+.tip{background:var(--pjm-bg-alt);border-left:3px solid var(--pjm-coral);padding:16px 19px 17px;margin-top:16px}
+.tip-h{font-size:13px;font-weight:600;margin-bottom:9px}
+.tip-h span{font-weight:400;color:var(--ink-muted);text-transform:none;letter-spacing:0}
+.tip ol{margin:0;padding-left:19px;display:flex;flex-direction:column;gap:7px}
+.tip li{font-size:12.5px;line-height:1.55;color:var(--ink-2)}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2px}
+.sum-card{background:var(--surface);border:1px solid var(--pjm-line);border-top:3px solid var(--pjm-blue-dark);
+  padding:18px 19px 20px}
+.sum-card.hi{border-top-color:var(--pjm-coral)}
+.sum-card.warn{border-top-color:var(--c-neutral)}
+.sum-n{font-size:30px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;
+  color:var(--pjm-coral)}
+.sum-card.warn .sum-n{color:var(--ink-2)}
+.sum-h{font-size:14px;font-weight:600;margin:4px 0 8px}
+.sum-t{font-size:12px;line-height:1.55;color:var(--ink-2)}
+
+/* ---- funnel cascade ---- */
+h3.cs{margin-top:20px}
+.casc-ctl{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:0 0 12px}
+.casc-ctl-t{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;
+  color:var(--ink-muted)}
+#casc-toggle{display:inline-flex;gap:6px}
+#casc-toggle button{font:600 11px Poppins,Arial,sans-serif;padding:5px 11px;cursor:pointer;
+  border:1px solid var(--pjm-line);background:var(--surface);color:var(--ink-muted);border-radius:11px}
+#casc-toggle button[aria-pressed=true]{background:var(--pjm-dark);border-color:var(--pjm-dark);color:#fff}
+#casc-toggle button:hover:not([aria-pressed=true]){border-color:var(--pjm-coral);color:var(--pjm-coral)}
+.casc{display:flex;flex-direction:column;gap:2px;margin-bottom:6px}
+.casc-row{display:grid;grid-template-columns:150px 1fr 190px;gap:14px;align-items:center;
+  padding:6px 0}
+.casc-l{font-size:12.5px;font-weight:600;color:var(--ink-2)}
+.casc-bar-wrap{background:var(--grid);border-radius:2px;height:22px;overflow:hidden}
+.casc-bar{height:100%;background:linear-gradient(90deg,var(--pjm-blue-dark),var(--pjm-coral));
+  border-radius:2px 0 0 2px}
+.casc-v{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;text-align:right}
+.casc-v i{display:block;font-style:normal;font-weight:400;font-size:10px;color:var(--ink-muted)}
+table.casc-mtx td{padding:6px 10px}
+.casc-mbar{height:16px;background:var(--grid);border-radius:2px;overflow:hidden;margin-bottom:2px}
+.casc-mfill{height:100%;background:linear-gradient(90deg,var(--pjm-blue-dark),var(--pjm-coral))}
+table.casc-mtx td b{font-size:11.5px;font-weight:600}
+
+/* ---- global year filter ---- */
+.yf{display:flex;flex-wrap:wrap;align-items:center;gap:12px;background:var(--pjm-dark);
+  color:#fff;padding:12px 18px;margin:0 0 20px}
+.yf-t{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#C9D2DB}
+#year-filter{display:inline-flex;gap:2px}
+#year-filter button{font:600 12px Poppins,Arial,sans-serif;padding:5px 13px;cursor:pointer;
+  border:1px solid #445162;background:transparent;color:#C9D2DB;border-radius:2px}
+#year-filter button[aria-pressed=true]{background:var(--pjm-coral);border-color:var(--pjm-coral);color:#fff}
+#year-filter button:hover:not([aria-pressed=true]){border-color:var(--pjm-coral);color:#fff}
+
+/* ---- period toggle ---- */
+.seg{display:inline-flex;border:1px solid var(--pjm-line);border-radius:2px;overflow:hidden;
+  background:var(--surface);margin:0 0 18px}
+.seg button{font:600 11.5px Poppins,Arial,sans-serif;padding:7px 14px;background:transparent;
+  color:var(--ink-2);border:0;cursor:pointer}
+.seg button+button{border-left:1px solid var(--pjm-line)}
+.seg button[aria-pressed=true]{background:var(--pjm-dark);color:#fff}
+.seg button:hover:not([aria-pressed=true]){color:var(--pjm-coral)}
+b.im{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;
+  color:var(--pjm-coral);cursor:help}
+
+/* ---- per-period mini bars inside a funnel step ---- */
+.mini-wrap{display:flex;flex-direction:column;gap:5px;margin-top:4px}
+.mini{display:grid;grid-template-columns:74px 1fr 156px;gap:12px;align-items:center;font-size:12px}
+.mini-l{color:var(--ink-2);font-weight:600;font-variant-numeric:tabular-nums}
+.mini-bar{height:13px;background:var(--grid);border-radius:2px;overflow:hidden}
+.mini-fill{height:100%;background:var(--pjm-blue-dark)}
+.mini-fill.vol{background:var(--c-neutral)}
+.mini-v{font-weight:600;font-variant-numeric:tabular-nums;font-size:12.5px}
+.mini-v i{display:block;font-style:normal;font-weight:400;font-size:10.5px;color:var(--ink-muted)}
+.mini-v.thin{color:var(--ink-muted)}
+
+/* ---- Tracker coverage strip ---- */
+.cov{background:var(--pjm-bg-alt);padding:13px 15px 14px;margin:18px 0 4px;
+  border-left:3px solid var(--pjm-coral)}
+.cov-t{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--ink-muted);display:block;margin-bottom:9px}
+.cov-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:10px}
+.cov-i{display:flex;flex-direction:column;gap:3px}
+.cov-p{font-size:10.5px;font-weight:600;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.cov-bar{height:7px;background:var(--grid);border-radius:2px;overflow:hidden}
+.cov-fill{height:100%;background:var(--c-win)}
+.cov-fill.lo{background:var(--pjm-coral)}
+.cov-v{font-size:11px;font-weight:600;font-variant-numeric:tabular-nums}
+.cov-v.lo{color:var(--pjm-coral)}
+
+/* ---- period matrix ---- */
+.tbl-wrap{overflow-x:auto}
+table.mtx{border-collapse:collapse;width:100%;font-size:12px;min-width:640px}
+table.mtx th,table.mtx td{padding:8px 10px;text-align:right;border-bottom:1px solid var(--grid);
+  font-variant-numeric:tabular-nums}
+table.mtx th{font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-muted);
+  font-weight:600;white-space:nowrap}
+table.mtx td.h,table.mtx th:first-child{text-align:left;font-weight:600;color:var(--ink)}
+table.mtx td b{font-weight:600;font-size:13px}
+table.mtx td i{display:block;font-style:normal;font-size:10px;color:var(--ink-muted)}
+table.mtx td u{display:block;text-decoration:none;font-size:10.5px;font-weight:600;color:var(--pjm-coral)}
+table.mtx td .mut{color:var(--ink-muted)}
+table.mtx tr.tot td{border-top:2px solid var(--ink-2);border-bottom:0}
+
+.foot{font-size:11px;color:var(--ink-muted);margin-top:10px}
+.foot code{font-size:10.5px}
+
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-in">
+    <div class="logo"><div class="logo-grid"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div><div class="logo-wm">Projectman</div><div class="logo-claim">PM COMPETENCY · INTERNAL ANALYSIS</div></div></div>
+    <div class="pill">První průchod Tracker exportem</div>
+    <h1><span>Recruitment pipeline</span>× win/loss zakázek</h1>
+    <p class="hero-sub">10 bariér náborového procesu (sourcing → interní úsudek → úsudek klienta →
+      uzavření) postavených nad 7 exporty z Trackeru, vedle sebe s výsledkem zakázky (vyhráno/prohráno).
+      Všechno jsou PM zakázky jedné kompetence, počítané dohromady. Každý graf jde přepnout na
+      <b>celkově / po letech / po pololetích</b>. Cíl tohoto prvního kroku: ověřit, že bariéry jdou
+      z dat spočítat a jestli slabší pipeline koresponduje se ztrátou zakázky — ne vynést finální
+      diagnózu.</p>
+  </div>
+</div>
+<div class="wrap">
+  
+      <div class="kpis">
+        <div class="kpi"><div class="k">Reálné zakázky</div><div class="row"><div class="v">134</div></div>
+          <div class="n">37 vyhráno · 72 prohráno · 25 otevřeno</div></div>
+        <div class="kpi"><div class="k">Win rate</div><div class="row"><div class="v">33,9%</div></div>
+          <div class="n">z rozhodnutých zakázek (vyhráno+prohráno)</div></div>
+        <div class="kpi"><div class="k">Kandidáti v procesu</div><div class="row"><div class="v">1516</div></div>
+          <div class="n">1062 placementů napříč 100 zakázkami</div></div>
+        <div class="kpi"><div class="k">Longlist pokrytí</div><div class="row"><div class="v">27/134</div></div>
+          <div class="n">zakázek má exportovaný longlist</div></div>
+        <div class="kpi"><div class="k">Období</div><div class="row"><div class="v" style="font-size:17px">3. 1. 2024 – 24. 8. 2026</div></div>
+          <div class="n">Job Creation Date, reálné zakázky</div></div>
+      </div>
+  
+    <div class="yf">
+      <span class="yf-t">Filtr let (mění všechny grafy a shrnutí níže)</span>
+      <span id="year-filter"></span>
+    </div>
+
+    <section id="summary">
+      <h2>Manažerské shrnutí</h2>
+      <div id="summary-body"></div>
+      <div class="tip">
+        <div class="tip-h">Manažerský tip <span>— návrh, ne datové zjištění</span></div>
+        <ol>
+          <li>Energii dát do <b>klientských bariér</b>, ne do širšího sourcingu — vstup do procesu
+          na dobře pokrytých obdobích funguje, ztráty se dějí až u klienta.</li>
+          <li>Ale <b>75 % zamítnutí klientem (21 z 28) nemá zaznamenaný důvod</b> — bez povinného
+          pole „důvod zamítnutí" u těchto dvou kroků se to nedá diagnostikovat, jen odhadovat.</li>
+          <li>Z mála zaznamenaných důvodů (jen 7) opakovaně padá <b>nesoulad v senioritě/profilu</b>,
+          ne cena — na tomhle vzorku je to jen vodítko k ověření, ne závěr.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="winloss">
+      <h2><span class="snum">0</span>Výhry / prohry — všechny PM zakázky</h2>
+      <p class="lede">Win rate = vyhráno / (vyhráno + prohráno), otevřené zakázky se do jmenovatele
+      nepočítají. 134 reálných zakázek (bez 4 testovacích), všechno kompetence PM.
+      Kohorta se určuje podle <b>data založení zakázky</b>.</p>
+      <div class="seg" data-seg="winloss"></div>
+      <div class="wl-legend">
+        <span><i class="sw won"></i>Vyhráno</span><span><i class="sw lost"></i>Prohráno</span><span><i class="sw open"></i>Otevřeno / on hold</span>
+      </div>
+      <div id="winloss-body"></div>
+      <p class="note">Klíčová čísla z tohoto grafu jsou vypíchnuté v manažerském shrnutí nahoře.
+      Metodická poznámka: zakázky se řadí podle data založení, takže čím novější období, tím víc
+      procesů v něm ještě běží — proto se pro nedozrálá období (podíl otevřených ≥ 50 %, viz
+      2026H2) win rate nepočítá a jsou označená zvlášť.</p>
+    </section>
+
+    <section id="funnel">
+      <h2><span class="snum">1</span>Recruitment pipeline — 10 bariér</h2>
+      <p class="lede">Každá bariéra je poměr „prošlo / vstoupilo do tohoto kroku", spočítaný přes
+      všechny PM zakázky. Bariéry 4–9 stojí na historii statusů placementů, bariéry 1–2 na longlistu.
+      Kandidáti se řadí do období podle <b>data založení zakázky</b>, na které kandidovali — poměr
+      tedy nikdy nemíchá čitatele z jednoho období se jmenovatelem z jiného.</p>
+      <div class="seg" data-seg="funnel"></div>
+      <h3 class="cs">Postupné zužování — kolik kandidátů zbývá po každém kroku</h3>
+      <p class="lede">Absolutní počty (ne poměry), sdílená stupnice napříč obdobími ve zvoleném
+      pohledu — vidíte, jak moc se pipeline reálně zúží, ne jen jednotlivé konverzní poměry.</p>
+      <div class="casc-ctl"><span class="casc-ctl-t">Zobrazit ve stupnici:</span>
+        <span id="casc-toggle"></span></div>
+      <div id="funnel-cascade"></div>
+      <h3 class="cs">Detail podle jednotlivých bariér</h3>
+      <div id="funnel-body"></div>
+    </section>
+
+    <section id="correlation">
+      <h2><span class="snum">2</span>Koreluje slabší pipeline se ztrátou zakázky?</h2>
+      <p class="lede">Každá zakázka zařazená podle toho, <b>jak daleko došel její nejlepší kandidát</b>,
+      a k tomu její vlastní výsledek. Tohle je přímé spojení náborového procesu s win/loss —
+      místo dělení podle typu dodávky, které v těchto datech nedává smysl (viz poznámka níže).</p>
+      <div class="seg" data-seg="depth"></div>
+      <div class="wl-legend">
+        <span><i class="sw won"></i>Vyhráno</span><span><i class="sw lost"></i>Prohráno</span><span><i class="sw open"></i>Otevřeno</span>
+      </div>
+      <div id="depth-body"></div>
+      <div id="depth-note"></div>
+      <p class="note">Zbytek kaskády je čitelný: jakmile se kandidát dostane k nástupu, zakázka je
+      prakticky vždy vyhraná — to je z definice, ne objev. Informativní je střed: zakázky, kde
+      kandidáta viděl klient a nepozval ho, nebo pozval a nedal nabídku. Tam je pipeline reálně
+      prohraný na kvalitě, ne na tom, že by nezačal.</p>
+      <p class="note"><b>Proč tu není řez podle typu dodávky:</b> Job Product je prázdný u 65 ze 134
+      zakázek a dopočet napříč všemi šesti exporty nedoplnil ani jednu. Dvě z pojmenovaných kategorií
+      (Consultations, Training) navíc nemají žádnou placement historii — tj. tímto náborovým procesem
+      vůbec neprošly. Jako segmentační osa to nefunguje; všechny zakázky jsou stejná kompetence (PM)
+      a report je proto počítá dohromady.</p>
+    </section>
+
+    <section id="exits">
+      <h2><span class="snum">3</span>Kdo proces ukončuje a kde</h2>
+      <p class="lede">Placementy, které skončily zamítnutím nebo ukončením; zbytek buď stále běží,
+      nebo skončil úspěšně (nástup/dokončení) bez zaznamenaného zamítnutí.</p>
+      <div class="seg" data-seg="exits"></div>
+      <div id="exits-body"></div>
+    </section>
+
+  
+    <section id="caveats">
+      <h2><span class="snum">!</span>Na co si dát pozor v těchto číslech</h2>
+      <table class="mx">
+        <tbody>
+          <tr><td class="h">Čtyři testovací zakázky vyloučeny</td><td>Jde o záznamy, které někdo
+          v Trackeru reálně založil na zkoušku (název „TEST JOB…", firma „TEST") — poznávají se
+          podle obsahu. „TEST PHU" v názvech exportů je jen jméno uloženého reportu v Trackeru,
+          <b>data jsou ostrá</b>.</td></tr>
+          <tr><td class="h">Jedna kompetence, žádný profesní řez</td><td>Competency = PM u 134/134
+          reálných zakázek — celý export je scoped na PM praxi, jinou profesi neobsahuje. Všechna
+          čísla jsou proto počítaná dohromady. Řez podle <b>Job Product</b> byl zkoušen a zahozen:
+          je prázdný u 65 ze 134 zakázek, dopočet napříč všemi šesti exporty nedoplnil ani jednu,
+          a Consultations/Training nemají žádnou placement historii (tímto procesem neprošly).</td></tr>
+          <tr><td class="h">Longlist pokrývá jen 26 z 134 zakázek</td><td>Bariéry 1–2 (market → longlist
+          → vstoupil do procesu) proto nejsou reprezentativní census sourcingu, jen ukázka na
+          dostupném vzorku.</td></tr>
+          <tr><td class="h">„Responded" a „available" nejdou v datech rozlišit</td><td>Export nemá
+          samostatný příznak odpovědi kandidáta ani aktuální dostupnosti k roli — obě bariéry (2 a 3)
+          jsou sloučené do jednoho měřitelného přechodu „longlist → vstoupil do procesu".</td></tr>
+          <tr><td class="h">Bariéra 10 (started → extended) nemá signál</td><td>Ani jeden z 32 nastoupivších
+          placementů nemá v historii posunuté datum konce zakázky. Nejde odlišit „ještě k tomu nedošlo"
+          od „export prodloužení nezaznamenává".</td></tr>
+          <tr><td class="h">Rank kandidáta u zamítnutí je odvozený, ne přímý</td><td>Kde měl placement
+          v historii (PIPE05, 100 zakázek) víc událostí, bereme nejvyšší dosaženou úroveň před
+          zamítnutím — to je spolehlivé. Status „Shortlisted" a „Internal Interview" mají v datech
+          jiné pořadí, než by odpovídalo štítkům v zadání (screened/shortlist) — v tomto reportu je
+          „Shortlisted" namapované na krok 4 (screened) a „Internal Interview" na krok 5
+          (competence-approved), protože tak to odpovídá objemům (671 shortlisted ≫ 79 interní
+          pohovor).</td></tr>
+          <tr><td class="h">Duplicitní řádky v surových exportech</td><td>17 zakázek v Jobs Outcome,
+          176 dvojic (job, candidate) v Shortlist Candidates a 10 řádků v Placement Lifecycle byly
+          v surovém CSV doslova zdvojené (stejný Placement Id, identický obsah) — odstraněno
+          přes SELECT DISTINCT ve stagingu, ověřeno na konkrétních příkladech.</td></tr>
+          <tr><td class="h">Win rate a pipeline mají jiný jmenovatel zakázek</td><td>Win/loss je počítaný
+          ze všech 134 reálných zakázek (Jobs Outcome, plné pokrytí). Pipeline bariéry 4–9 běží nad
+          100 zakázkami, které mají záznam v Placement Lifecycle. V sekci 2 je to sladěné — všech
+          134 zakázek tam je, zakázky bez pipeline záznamu tvoří skupinu „nikdy nikdo sourcovaný".</td></tr>
+          <tr><td class="h">Tracker se zaváděl postupně — nesrovnávejte 2024 s 2026</td><td>Podíl zakázek,
+          které mají vůbec nějaký záznam o kandidátech, roste <b>34,8 % (2024H1) → 34,6 % → 83,3 % →
+          96,3 % → 100 % (2026)</b>. Skupina „nikdy nikdo sourcovaný" je proto v roce 2024 z drtivé
+          většiny <b>díra v evidenci</b>, ne doložené zjištění: 24 z 26 takových proher je z roku 2024
+          a v roce 2026 do té skupiny nespadá ani jedna zakázka. Jakékoli tvrzení o téhle skupině
+          a jakékoli srovnání období musí projít přes tenhle řádek. Celkové („Celkově") součty
+          napříč obdobími jsou tím pádem vážené směrem k nedostatečně pokrytému roku 2024.</td></tr>
+          <tr><td class="h">Nedozrálá období</td><td>Zakázky se řadí podle data založení, takže nejnovější
+          období obsahují procesy, které ještě běží. 2026H2 má 6 zakázek a <b>ani jednu rozhodnutou</b> —
+          v přepínači je označené jako „nedozrálé" a win rate se pro něj nepočítá.</td></tr>
+          <tr><td class="h">Filtr let (nahoře) je globální</td><td>Vypnutí roku vyloučí jeho pololetí ze
+          všech grafů, tabulek i manažerského shrnutí najednou — „Celkově" pak není fixní součet
+          z databáze, ale živý součet přes právě zapnutá pololetí, takže se nikdy neliší od pohledu
+          „Po pololetích". KPI dlaždice úplně nahoře (134 zakázek atd.) jsou výjimka — ty popisují
+          celou knihu bez ohledu na filtr, jako pevný referenční bod. Aspoň jeden rok musí zůstat
+          zapnutý.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  <p class="foot">Zdroj: 7 exportů Tracker (TEST PHU COMM 01, PIPE 01–06 — „TEST PHU" je jen jméno
+  uloženého reportu, data jsou ostrá), pull 2026-08-28 ·
+  warehouse <code>01 Projects/2026 PJM PM Comp/Inputs/05 Propositon</code> ·
+  transform/08_stage_tracker.sql → analysis/tracker_funnel_views.sql → tracker_funnel_export.py</p>
+</div>
+<script>
+const D = {"kpi": {"n_jobs": 134, "n_won": 37, "n_lost": 72, "n_open": 25, "n_jobs_with_pipeline": 100, "n_placements": 1062, "n_candidates_total": 1516, "n_jobs_with_longlist": 27, "date_min": "2024-01-03 00:00:00", "date_max": "2026-08-24 00:00:00"}, "winloss": [{"period_type": "half", "period_label": "2024H1", "sort_key": 20241, "n_won": 8, "n_lost": 14, "n_open": 1, "n_jobs": 23, "win_rate_pct": 36.4}, {"period_type": "half", "period_label": "2024H2", "sort_key": 20242, "n_won": 6, "n_lost": 18, "n_open": 2, "n_jobs": 26, "win_rate_pct": 25.0}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "n_won": 11, "n_lost": 7, "n_open": 6, "n_jobs": 24, "win_rate_pct": 61.1}, {"period_type": "half", "period_label": "2025H2", "sort_key": 20252, "n_won": 9, "n_lost": 14, "n_open": 4, "n_jobs": 27, "win_rate_pct": 39.1}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "n_won": 3, "n_lost": 19, "n_open": 6, "n_jobs": 28, "win_rate_pct": 13.6}, {"period_type": "half", "period_label": "2026H2", "sort_key": 20262, "n_won": 0, "n_lost": 0, "n_open": 6, "n_jobs": 6, "win_rate_pct": null}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "n_won": 37, "n_lost": 72, "n_open": 25, "n_jobs": 134, "win_rate_pct": 33.9}, {"period_type": "year", "period_label": "2024", "sort_key": 20240, "n_won": 14, "n_lost": 32, "n_open": 3, "n_jobs": 49, "win_rate_pct": 30.4}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "n_won": 20, "n_lost": 21, "n_open": 10, "n_jobs": 51, "win_rate_pct": 48.8}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "n_won": 3, "n_lost": 19, "n_open": 12, "n_jobs": 34, "win_rate_pct": 13.6}], "bars": [{"bar_no": 1, "bar_key": "market_to_longlist", "bar_label": "Market → longlist", "layer": "sourcing", "period_type": "half", "period_label": "2025H1", "sort_key": 20251, "n_num": null, "n_den": 254, "rate_pct": null, "n_jobs": 6, "avg_per_job": 42.3}, {"bar_no": 1, "bar_key": "market_to_longlist", "bar_label": "Market → longlist", "layer": "sourcing", "period_type": "half", "period_label": "2025H2", "sort_key": 20252, "n_num": null, "n_den": 174, "rate_pct": null, "n_jobs": 9, "avg_per_job": 19.3}, {"bar_no": 1, "bar_key": "market_to_longlist", "bar_label": "Market → longlist", "layer": "sourcing", "period_type": "half", "period_label": "2026H1", "sort_key": 20261, "n_num": null, "n_den": 400, "rate_pct": null, "n_jobs": 9, "avg_per_job": 44.4}, {"bar_no": 1, "bar_key": "market_to_longlist", "bar_label": "Market → longlist", "layer": "sourcing", "period_type": "half", "period_label": "2026H2", "sort_key": 20262, "n_num": null, "n_den": 80, "rate_pct": null, "n_jobs": 2, "avg_per_job": 40.0}, {"bar_no": 1, "bar_key": "market_to_longlist", "bar_label": "Market → longlist", "layer": "sourcing", "period_type": "total", "period_label": "Celkem", "sort_key": 0, "n_num": null, "n_den": 908, "rate_pct": null, "n_jobs": 26, "avg_per_job": 34.9}, {"bar_no": 1, "bar_key": "market_to_longlist", "bar_label": "Market → longlist", "layer": "sourcing", "period_type": "year", "period_label": "2025", "sort_key": 20250, "n_num": null, "n_den": 428, "rate_pct": null, "n_jobs": 15, "avg_per_job": 28.5}, {"bar_no": 1, "bar_key": "market_to_longlist", "bar_label": "Market → longlist", "layer": "sourcing", "period_type": "year", "period_label": "2026", "sort_key": 20260, "n_num": null, "n_den": 480, "rate_pct": null, "n_jobs": 11, "avg_per_job": 43.6}, {"bar_no": 2, "bar_key": "longlist_to_entered", "bar_label": "Longlist → vstoupil do procesu (responded+available)", "layer": "sourcing", "period_type": "half", "period_label": "2025H1", "sort_key": 20251, "n_num": 25, "n_den": 254, "rate_pct": 9.8, "n_jobs": 6, "avg_per_job": null}, {"bar_no": 2, "bar_key": "longlist_to_entered", "bar_label": "Longlist → vstoupil do procesu (responded+available)", "layer": "sourcing", "period_type": "half", "period_label": "2025H2", "sort_key": 20252, "n_num": 26, "n_den": 174, "rate_pct": 14.9, "n_jobs": 9, "avg_per_job": null}, {"bar_no": 2, "bar_key": "longlist_to_entered", "bar_label": "Longlist → vstoupil do procesu (responded+available)", "layer": "sourcing", "period_type": "half", "period_label": "2026H1", "sort_key": 20261, "n_num": 44, "n_den": 400, "rate_pct": 11.0, "n_jobs": 9, "avg_per_job": null}, {"bar_no": 2, "bar_key": "longlist_to_entered", "bar_label": "Longlist → vstoupil do procesu (responded+available)", "layer": "sourcing", "period_type": "half", "period_label": "2026H2", "sort_key": 20262, "n_num": 7, "n_den": 80, "rate_pct": 8.8, "n_jobs": 2, "avg_per_job": null}, {"bar_no": 2, "bar_key": "longlist_to_entered", "bar_label": "Longlist → vstoupil do procesu (responded+available)", "layer": "sourcing", "period_type": "total", "period_label": "Celkem", "sort_key": 0, "n_num": 102, "n_den": 908, "rate_pct": 11.2, "n_jobs": 26, "avg_per_job": null}, {"bar_no": 2, "bar_key": "longlist_to_entered", "bar_label": "Longlist → vstoupil do procesu (responded+available)", "layer": "sourcing", "period_type": "year", "period_label": "2025", "sort_key": 20250, "n_num": 51, "n_den": 428, "rate_pct": 11.9, "n_jobs": 15, "avg_per_job": null}, {"bar_no": 2, "bar_key": "longlist_to_entered", "bar_label": "Longlist → vstoupil do procesu (responded+available)", "layer": "sourcing", "period_type": "year", "period_label": "2026", "sort_key": 20260, "n_num": 51, "n_den": 480, "rate_pct": 10.6, "n_jobs": 11, "avg_per_job": null}, {"bar_no": 4, "bar_key": "available_to_screened", "bar_label": "Available → screened", "layer": "internal", "period_type": "half", "period_label": "2024H1", "sort_key": 20241, "n_num": 10, "n_den": 10, "rate_pct": 100.0, "n_jobs": 8, "avg_per_job": null}, {"bar_no": 4, "bar_key": "available_to_screened", "bar_label": "Available → screened", "layer": "internal", "period_type": "half", "period_label": "2024H2", "sort_key": 20242, "n_num": 15, "n_den": 15, "rate_pct": 100.0, "n_jobs": 9, "avg_per_job": null}, {"bar_no": 4, "bar_key": "available_to_screened", "bar_label": "Available → screened", "layer": "internal", "period_type": "half", "period_label": "2025H1", "sort_key": 20251, "n_num": 178, "n_den": 179, "rate_pct": 99.4, "n_jobs": 20, "avg_per_job": null}, {"bar_no": 4, "bar_key": "available_to_screened", "bar_label": "Available → screened", "layer": "internal", "period_type": "half", "period_label": "2025H2", "sort_key": 20252, "n_num": 284, "n_den": 304, "rate_pct": 93.4, "n_jobs": 26, "avg_per_job": null}, {"bar_no": 4, "bar_key": "available_to_screened", "bar_label": "Available → screened", "layer": "internal", "period_type": "half", "period_label": "2026H1", "sort_key": 20261, "n_num": 423, "n_den": 486, "rate_pct": 87.0, "n_jobs": 28, "avg_per_job": null}, {"bar_no": 4, "bar_key": "available_to_screened", "bar_label": "Available → screened", "layer": "internal", "period_type": "half", "period_label": "2026H2", "sort_key": 20262, "n_num": 63, "n_den": 68, "rate_pct": 92.6, "n_jobs": 6, "avg_per_job": null}, {"bar_no": 4, "bar_key": "available_to_screened", "bar_label": "Available → screened", "layer": "internal", "period_type": "total", "period_label": "Celkem", "sort_key": 0, "n_num": 973, "n_den": 1062, "rate_pct": 91.6, "n_jobs": 97, "avg_per_job": null}, {"bar_no": 4, "bar_key": "available_to_screened", "bar_label": "Available → screened", "layer": "internal", "period_type": "year", "period_label": "2024", "sort_key": 20240, "n_num": 25, "n_den": 25, "rate_pct": 100.0, "n_jobs": 17, "avg_per_job": null}, {"bar_no": 4, "bar_key": "available_to_screened", "bar_label": "Available → screened", "layer": "internal", "period_type": "year", "period_label": "2025", "sort_key": 20250, "n_num": 462, "n_den": 483, "rate_pct": 95.7, "n_jobs": 46, "avg_per_job": null}, {"bar_no": 4, "bar_key": "available_to_screened", "bar_label": "Available → screened", "layer": "internal", "period_type": "year", "period_label": "2026", "sort_key": 20260, "n_num": 486, "n_den": 554, "rate_pct": 87.7, "n_jobs": 34, "avg_per_job": null}, {"bar_no": 5, "bar_key": "screened_to_shortlist", "bar_label": "Screened → competence-approved", "layer": "internal", "period_type": "half", "period_label": "2024H1", "sort_key": 20241, "n_num": 10, "n_den": 10, "rate_pct": 100.0, "n_jobs": 8, "avg_per_job": null}, {"bar_no": 5, "bar_key": "screened_to_shortlist", "bar_label": "Screened → competence-approved", "layer": "internal", "period_type": "half", "period_label": "2024H2", "sort_key": 20242, "n_num": 15, "n_den": 15, "rate_pct": 100.0, "n_jobs": 9, "avg_per_job": null}, {"bar_no": 5, "bar_key": "screened_to_shortlist", "bar_label": "Screened → competence-approved", "layer": "internal", "period_type": "half", "period_label": "2025H1", "sort_key": 20251, "n_num": 83, "n_den": 178, "rate_pct": 46.6, "n_jobs": 20, "avg_per_job": null}, {"bar_no": 5, "bar_key": "screened_to_shortlist", "bar_label": "Screened → competence-approved", "layer": "internal", "period_type": "half", "period_label": "2025H2", "sort_key": 20252, "n_num": 61, "n_den": 284, "rate_pct": 21.5, "n_jobs": 26, "avg_per_job": null}, {"bar_no": 5, "bar_key": "screened_to_shortlist", "bar_label": "Screened → competence-approved", "layer": "internal", "period_type": "half", "period_label": "2026H1", "sort_key": 20261, "n_num": 103, "n_den": 423, "rate_pct": 24.3, "n_jobs": 27, "avg_per_job": null}, {"bar_no": 5, "bar_key": "screened_to_shortlist", "bar_label": "Screened → competence-approved", "layer": "internal", "period_type": "half", "period_label": "2026H2", "sort_key": 20262, "n_num": 19, "n_den": 63, "rate_pct": 30.2, "n_jobs": 6, "avg_per_job": null}, {"bar_no": 5, "bar_key": "screened_to_shortlist", "bar_label": "Screened → competence-approved", "layer": "internal", "period_type": "total", "period_label": "Celkem", "sort_key": 0, "n_num": 291, "n_den": 973, "rate_pct": 29.9, "n_jobs": 96, "avg_per_job": null}, {"bar_no": 5, "bar_key": "screened_to_shortlist", "bar_label": "Screened → competence-approved", "layer": "internal", "period_type": "year", "period_label": "2024", "sort_key": 20240, "n_num": 25, "n_den": 25, "rate_pct": 100.0, "n_jobs": 17, "avg_per_job": null}, {"bar_no": 5, "bar_key": "screened_to_shortlist", "bar_label": "Screened → competence-approved", "layer": "internal", "period_type": "year", "period_label": "2025", "sort_key": 20250, "n_num": 144, "n_den": 462, "rate_pct": 31.2, "n_jobs": 46, "avg_per_job": null}, {"bar_no": 5, "bar_key": "screened_to_shortlist", "bar_label": "Screened → competence-approved", "layer": "internal", "period_type": "year", "period_label": "2026", "sort_key": 20260, "n_num": 122, "n_den": 486, "rate_pct": 25.1, "n_jobs": 33, "avg_per_job": null}, {"bar_no": 6, "bar_key": "shortlist_to_submitted", "bar_label": "Shortlist → submitted", "layer": "internal", "period_type": "half", "period_label": "2024H1", "sort_key": 20241, "n_num": 7, "n_den": 10, "rate_pct": 70.0, "n_jobs": 8, "avg_per_job": null}, {"bar_no": 6, "bar_key": "shortlist_to_submitted", "bar_label": "Shortlist → submitted", "layer": "internal", "period_type": "half", "period_label": "2024H2", "sort_key": 20242, "n_num": 5, "n_den": 15, "rate_pct": 33.3, "n_jobs": 9, "avg_per_job": null}, {"bar_no": 6, "bar_key": "shortlist_to_submitted", "bar_label": "Shortlist → submitted", "layer": "internal", "period_type": "half", "period_label": "2025H1", "sort_key": 20251, "n_num": 42, "n_den": 178, "rate_pct": 23.6, "n_jobs": 20, "avg_per_job": null}, {"bar_no": 6, "bar_key": "shortlist_to_submitted", "bar_label": "Shortlist → submitted", "layer": "internal", "period_type": "half", "period_label": "2025H2", "sort_key": 20252, "n_num": 42, "n_den": 284, "rate_pct": 14.8, "n_jobs": 26, "avg_per_job": null}, {"bar_no": 6, "bar_key": "shortlist_to_submitted", "bar_label": "Shortlist → submitted", "layer": "internal", "period_type": "half", "period_label": "2026H1", "sort_key": 20261, "n_num": 63, "n_den": 423, "rate_pct": 14.9, "n_jobs": 27, "avg_per_job": null}, {"bar_no": 6, "bar_key": "shortlist_to_submitted", "bar_label": "Shortlist → submitted", "layer": "internal", "period_type": "half", "period_label": "2026H2", "sort_key": 20262, "n_num": 11, "n_den": 63, "rate_pct": 17.5, "n_jobs": 6, "avg_per_job": null}, {"bar_no": 6, "bar_key": "shortlist_to_submitted", "bar_label": "Shortlist → submitted", "layer": "internal", "period_type": "total", "period_label": "Celkem", "sort_key": 0, "n_num": 170, "n_den": 973, "rate_pct": 17.5, "n_jobs": 96, "avg_per_job": null}, {"bar_no": 6, "bar_key": "shortlist_to_submitted", "bar_label": "Shortlist → submitted", "layer": "internal", "period_type": "year", "period_label": "2024", "sort_key": 20240, "n_num": 12, "n_den": 25, "rate_pct": 48.0, "n_jobs": 17, "avg_per_job": null}, {"bar_no": 6, "bar_key": "shortlist_to_submitted", "bar_label": "Shortlist → submitted", "layer": "internal", "period_type": "year", "period_label": "2025", "sort_key": 20250, "n_num": 84, "n_den": 462, "rate_pct": 18.2, "n_jobs": 46, "avg_per_job": null}, {"bar_no": 6, "bar_key": "shortlist_to_submitted", "bar_label": "Shortlist → submitted", "layer": "internal", "period_type": "year", "period_label": "2026", "sort_key": 20260, "n_num": 74, "n_den": 486, "rate_pct": 15.2, "n_jobs": 33, "avg_per_job": null}, {"bar_no": 7, "bar_key": "submitted_to_invited", "bar_label": "Submitted → invited", "layer": "client", "period_type": "half", "period_label": "2024H1", "sort_key": 20241, "n_num": 7, "n_den": 7, "rate_pct": 100.0, "n_jobs": 6, "avg_per_job": null}, {"bar_no": 7, "bar_key": "submitted_to_invited", "bar_label": "Submitted → invited", "layer": "client", "period_type": "half", "period_label": "2024H2", "sort_key": 20242, "n_num": 5, "n_den": 5, "rate_pct": 100.0, "n_jobs": 3, "avg_per_job": null}, {"bar_no": 7, "bar_key": "submitted_to_invited", "bar_label": "Submitted → invited", "layer": "client", "period_type": "half", "period_label": "2025H1", "sort_key": 20251, "n_num": 29, "n_den": 42, "rate_pct": 69.0, "n_jobs": 17, "avg_per_job": null}, {"bar_no": 7, "bar_key": "submitted_to_invited", "bar_label": "Submitted → invited", "layer": "client", "period_type": "half", "period_label": "2025H2", "sort_key": 20252, "n_num": 20, "n_den": 42, "rate_pct": 47.6, "n_jobs": 23, "avg_per_job": null}, {"bar_no": 7, "bar_key": "submitted_to_invited", "bar_label": "Submitted → invited", "layer": "client", "period_type": "half", "period_label": "2026H1", "sort_key": 20261, "n_num": 36, "n_den": 63, "rate_pct": 57.1, "n_jobs": 24, "avg_per_job": null}, {"bar_no": 7, "bar_key": "submitted_to_invited", "bar_label": "Submitted → invited", "layer": "client", "period_type": "half", "period_label": "2026H2", "sort_key": 20262, "n_num": 5, "n_den": 11, "rate_pct": 45.5, "n_jobs": 4, "avg_per_job": null}, {"bar_no": 7, "bar_key": "submitted_to_invited", "bar_label": "Submitted → invited", "layer": "client", "period_type": "total", "period_label": "Celkem", "sort_key": 0, "n_num": 102, "n_den": 170, "rate_pct": 60.0, "n_jobs": 77, "avg_per_job": null}, {"bar_no": 7, "bar_key": "submitted_to_invited", "bar_label": "Submitted → invited", "layer": "client", "period_type": "year", "period_label": "2024", "sort_key": 20240, "n_num": 12, "n_den": 12, "rate_pct": 100.0, "n_jobs": 9, "avg_per_job": null}, {"bar_no": 7, "bar_key": "submitted_to_invited", "bar_label": "Submitted → invited", "layer": "client", "period_type": "year", "period_label": "2025", "sort_key": 20250, "n_num": 49, "n_den": 84, "rate_pct": 58.3, "n_jobs": 40, "avg_per_job": null}, {"bar_no": 7, "bar_key": "submitted_to_invited", "bar_label": "Submitted → invited", "layer": "client", "period_type": "year", "period_label": "2026", "sort_key": 20260, "n_num": 41, "n_den": 74, "rate_pct": 55.4, "n_jobs": 28, "avg_per_job": null}, {"bar_no": 8, "bar_key": "interviewed_to_accepted", "bar_label": "Interviewed → accepted", "layer": "client", "period_type": "half", "period_label": "2024H1", "sort_key": 20241, "n_num": 4, "n_den": 7, "rate_pct": 57.1, "n_jobs": 6, "avg_per_job": null}, {"bar_no": 8, "bar_key": "interviewed_to_accepted", "bar_label": "Interviewed → accepted", "layer": "client", "period_type": "half", "period_label": "2024H2", "sort_key": 20242, "n_num": 2, "n_den": 5, "rate_pct": 40.0, "n_jobs": 3, "avg_per_job": null}, {"bar_no": 8, "bar_key": "interviewed_to_accepted", "bar_label": "Interviewed → accepted", "layer": "client", "period_type": "half", "period_label": "2025H1", "sort_key": 20251, "n_num": 12, "n_den": 29, "rate_pct": 41.4, "n_jobs": 16, "avg_per_job": null}, {"bar_no": 8, "bar_key": "interviewed_to_accepted", "bar_label": "Interviewed → accepted", "layer": "client", "period_type": "half", "period_label": "2025H2", "sort_key": 20252, "n_num": 11, "n_den": 20, "rate_pct": 55.0, "n_jobs": 14, "avg_per_job": null}, {"bar_no": 8, "bar_key": "interviewed_to_accepted", "bar_label": "Interviewed → accepted", "layer": "client", "period_type": "half", "period_label": "2026H1", "sort_key": 20261, "n_num": 8, "n_den": 36, "rate_pct": 22.2, "n_jobs": 16, "avg_per_job": null}, {"bar_no": 8, "bar_key": "interviewed_to_accepted", "bar_label": "Interviewed → accepted", "layer": "client", "period_type": "half", "period_label": "2026H2", "sort_key": 20262, "n_num": 2, "n_den": 5, "rate_pct": 40.0, "n_jobs": 2, "avg_per_job": null}, {"bar_no": 8, "bar_key": "interviewed_to_accepted", "bar_label": "Interviewed → accepted", "layer": "client", "period_type": "total", "period_label": "Celkem", "sort_key": 0, "n_num": 39, "n_den": 102, "rate_pct": 38.2, "n_jobs": 57, "avg_per_job": null}, {"bar_no": 8, "bar_key": "interviewed_to_accepted", "bar_label": "Interviewed → accepted", "layer": "client", "period_type": "year", "period_label": "2024", "sort_key": 20240, "n_num": 6, "n_den": 12, "rate_pct": 50.0, "n_jobs": 9, "avg_per_job": null}, {"bar_no": 8, "bar_key": "interviewed_to_accepted", "bar_label": "Interviewed → accepted", "layer": "client", "period_type": "year", "period_label": "2025", "sort_key": 20250, "n_num": 23, "n_den": 49, "rate_pct": 46.9, "n_jobs": 30, "avg_per_job": null}, {"bar_no": 8, "bar_key": "interviewed_to_accepted", "bar_label": "Interviewed → accepted", "layer": "client", "period_type": "year", "period_label": "2026", "sort_key": 20260, "n_num": 10, "n_den": 41, "rate_pct": 24.4, "n_jobs": 18, "avg_per_job": null}, {"bar_no": 9, "bar_key": "accepted_to_started", "bar_label": "Accepted → started", "layer": "closing", "period_type": "half", "period_label": "2024H1", "sort_key": 20241, "n_num": 4, "n_den": 4, "rate_pct": 100.0, "n_jobs": 4, "avg_per_job": null}, {"bar_no": 9, "bar_key": "accepted_to_started", "bar_label": "Accepted → started", "layer": "closing", "period_type": "half", "period_label": "2024H2", "sort_key": 20242, "n_num": 2, "n_den": 2, "rate_pct": 100.0, "n_jobs": 2, "avg_per_job": null}, {"bar_no": 9, "bar_key": "accepted_to_started", "bar_label": "Accepted → started", "layer": "closing", "period_type": "half", "period_label": "2025H1", "sort_key": 20251, "n_num": 10, "n_den": 12, "rate_pct": 83.3, "n_jobs": 11, "avg_per_job": null}, {"bar_no": 9, "bar_key": "accepted_to_started", "bar_label": "Accepted → started", "layer": "closing", "period_type": "half", "period_label": "2025H2", "sort_key": 20252, "n_num": 9, "n_den": 11, "rate_pct": 81.8, "n_jobs": 11, "avg_per_job": null}, {"bar_no": 9, "bar_key": "accepted_to_started", "bar_label": "Accepted → started", "layer": "closing", "period_type": "half", "period_label": "2026H1", "sort_key": 20261, "n_num": 6, "n_den": 8, "rate_pct": 75.0, "n_jobs": 7, "avg_per_job": null}, {"bar_no": 9, "bar_key": "accepted_to_started", "bar_label": "Accepted → started", "layer": "closing", "period_type": "half", "period_label": "2026H2", "sort_key": 20262, "n_num": 1, "n_den": 2, "rate_pct": 50.0, "n_jobs": 1, "avg_per_job": null}, {"bar_no": 9, "bar_key": "accepted_to_started", "bar_label": "Accepted → started", "layer": "closing", "period_type": "total", "period_label": "Celkem", "sort_key": 0, "n_num": 32, "n_den": 39, "rate_pct": 82.1, "n_jobs": 36, "avg_per_job": null}, {"bar_no": 9, "bar_key": "accepted_to_started", "bar_label": "Accepted → started", "layer": "closing", "period_type": "year", "period_label": "2024", "sort_key": 20240, "n_num": 6, "n_den": 6, "rate_pct": 100.0, "n_jobs": 6, "avg_per_job": null}, {"bar_no": 9, "bar_key": "accepted_to_started", "bar_label": "Accepted → started", "layer": "closing", "period_type": "year", "period_label": "2025", "sort_key": 20250, "n_num": 19, "n_den": 23, "rate_pct": 82.6, "n_jobs": 22, "avg_per_job": null}, {"bar_no": 9, "bar_key": "accepted_to_started", "bar_label": "Accepted → started", "layer": "closing", "period_type": "year", "period_label": "2026", "sort_key": 20260, "n_num": 7, "n_den": 10, "rate_pct": 70.0, "n_jobs": 8, "avg_per_job": null}, {"bar_no": 10, "bar_key": "started_to_extended", "bar_label": "Started → extended", "layer": "closing", "period_type": "half", "period_label": "2024H1", "sort_key": 20241, "n_num": null, "n_den": 4, "rate_pct": null, "n_jobs": 4, "avg_per_job": null}, {"bar_no": 10, "bar_key": "started_to_extended", "bar_label": "Started → extended", "layer": "closing", "period_type": "half", "period_label": "2024H2", "sort_key": 20242, "n_num": null, "n_den": 2, "rate_pct": null, "n_jobs": 2, "avg_per_job": null}, {"bar_no": 10, "bar_key": "started_to_extended", "bar_label": "Started → extended", "layer": "closing", "period_type": "half", "period_label": "2025H1", "sort_key": 20251, "n_num": null, "n_den": 10, "rate_pct": null, "n_jobs": 10, "avg_per_job": null}, {"bar_no": 10, "bar_key": "started_to_extended", "bar_label": "Started → extended", "layer": "closing", "period_type": "half", "period_label": "2025H2", "sort_key": 20252, "n_num": null, "n_den": 9, "rate_pct": null, "n_jobs": 9, "avg_per_job": null}, {"bar_no": 10, "bar_key": "started_to_extended", "bar_label": "Started → extended", "layer": "closing", "period_type": "half", "period_label": "2026H1", "sort_key": 20261, "n_num": null, "n_den": 6, "rate_pct": null, "n_jobs": 6, "avg_per_job": null}, {"bar_no": 10, "bar_key": "started_to_extended", "bar_label": "Started → extended", "layer": "closing", "period_type": "half", "period_label": "2026H2", "sort_key": 20262, "n_num": null, "n_den": 1, "rate_pct": null, "n_jobs": 1, "avg_per_job": null}, {"bar_no": 10, "bar_key": "started_to_extended", "bar_label": "Started → extended", "layer": "closing", "period_type": "total", "period_label": "Celkem", "sort_key": 0, "n_num": null, "n_den": 32, "rate_pct": null, "n_jobs": 32, "avg_per_job": null}, {"bar_no": 10, "bar_key": "started_to_extended", "bar_label": "Started → extended", "layer": "closing", "period_type": "year", "period_label": "2024", "sort_key": 20240, "n_num": null, "n_den": 6, "rate_pct": null, "n_jobs": 6, "avg_per_job": null}, {"bar_no": 10, "bar_key": "started_to_extended", "bar_label": "Started → extended", "layer": "closing", "period_type": "year", "period_label": "2025", "sort_key": 20250, "n_num": null, "n_den": 19, "rate_pct": null, "n_jobs": 19, "avg_per_job": null}, {"bar_no": 10, "bar_key": "started_to_extended", "bar_label": "Started → extended", "layer": "closing", "period_type": "year", "period_label": "2026", "sort_key": 20260, "n_num": null, "n_den": 7, "rate_pct": null, "n_jobs": 7, "avg_per_job": null}], "depth": [{"period_type": "half", "period_label": "2024H1", "sort_key": 20241, "depth_bucket": "0 — nikdy nikdo sourcovaný", "n_won": 3, "n_lost": 11, "n_open": 1, "n_jobs": 15}, {"period_type": "half", "period_label": "2024H1", "sort_key": 20241, "depth_bucket": "1 — shortlist/interní pohovor, klient neviděl", "n_won": 0, "n_lost": 2, "n_open": 0, "n_jobs": 2}, {"period_type": "half", "period_label": "2024H1", "sort_key": 20241, "depth_bucket": "3 — klientský pohovor, bez nabídky", "n_won": 1, "n_lost": 1, "n_open": 0, "n_jobs": 2}, {"period_type": "half", "period_label": "2024H1", "sort_key": 20241, "depth_bucket": "5 — nastoupil/dokončil", "n_won": 4, "n_lost": 0, "n_open": 0, "n_jobs": 4}, {"period_type": "half", "period_label": "2024H2", "sort_key": 20242, "depth_bucket": "0 — nikdy nikdo sourcovaný", "n_won": 3, "n_lost": 13, "n_open": 1, "n_jobs": 17}, {"period_type": "half", "period_label": "2024H2", "sort_key": 20242, "depth_bucket": "1 — shortlist/interní pohovor, klient neviděl", "n_won": 1, "n_lost": 4, "n_open": 1, "n_jobs": 6}, {"period_type": "half", "period_label": "2024H2", "sort_key": 20242, "depth_bucket": "3 — klientský pohovor, bez nabídky", "n_won": 0, "n_lost": 1, "n_open": 0, "n_jobs": 1}, {"period_type": "half", "period_label": "2024H2", "sort_key": 20242, "depth_bucket": "5 — nastoupil/dokončil", "n_won": 2, "n_lost": 0, "n_open": 0, "n_jobs": 2}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "depth_bucket": "0 — nikdy nikdo sourcovaný", "n_won": 1, "n_lost": 1, "n_open": 2, "n_jobs": 4}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "depth_bucket": "1 — shortlist/interní pohovor, klient neviděl", "n_won": 0, "n_lost": 1, "n_open": 2, "n_jobs": 3}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "depth_bucket": "2 — posláno klientovi, nepozvali", "n_won": 0, "n_lost": 0, "n_open": 1, "n_jobs": 1}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "depth_bucket": "3 — klientský pohovor, bez nabídky", "n_won": 0, "n_lost": 4, "n_open": 1, "n_jobs": 5}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "depth_bucket": "4 — nabídka, nenastoupil", "n_won": 0, "n_lost": 1, "n_open": 0, "n_jobs": 1}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "depth_bucket": "5 — nastoupil/dokončil", "n_won": 10, "n_lost": 0, "n_open": 0, "n_jobs": 10}, {"period_type": "half", "period_label": "2025H2", "sort_key": 20252, "depth_bucket": "0 — nikdy nikdo sourcovaný", "n_won": 0, "n_lost": 1, "n_open": 0, "n_jobs": 1}, {"period_type": "half", "period_label": "2025H2", "sort_key": 20252, "depth_bucket": "1 — shortlist/interní pohovor, klient neviděl", "n_won": 0, "n_lost": 1, "n_open": 2, "n_jobs": 3}, {"period_type": "half", "period_label": "2025H2", "sort_key": 20252, "depth_bucket": "2 — posláno klientovi, nepozvali", "n_won": 0, "n_lost": 7, "n_open": 2, "n_jobs": 9}, {"period_type": "half", "period_label": "2025H2", "sort_key": 20252, "depth_bucket": "3 — klientský pohovor, bez nabídky", "n_won": 0, "n_lost": 3, "n_open": 0, "n_jobs": 3}, {"period_type": "half", "period_label": "2025H2", "sort_key": 20252, "depth_bucket": "4 — nabídka, nenastoupil", "n_won": 0, "n_lost": 2, "n_open": 0, "n_jobs": 2}, {"period_type": "half", "period_label": "2025H2", "sort_key": 20252, "depth_bucket": "5 — nastoupil/dokončil", "n_won": 9, "n_lost": 0, "n_open": 0, "n_jobs": 9}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "depth_bucket": "1 — shortlist/interní pohovor, klient neviděl", "n_won": 0, "n_lost": 2, "n_open": 2, "n_jobs": 4}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "depth_bucket": "2 — posláno klientovi, nepozvali", "n_won": 0, "n_lost": 8, "n_open": 0, "n_jobs": 8}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "depth_bucket": "3 — klientský pohovor, bez nabídky", "n_won": 0, "n_lost": 8, "n_open": 1, "n_jobs": 9}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "depth_bucket": "4 — nabídka, nenastoupil", "n_won": 0, "n_lost": 0, "n_open": 1, "n_jobs": 1}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "depth_bucket": "5 — nastoupil/dokončil", "n_won": 3, "n_lost": 1, "n_open": 2, "n_jobs": 6}, {"period_type": "half", "period_label": "2026H2", "sort_key": 20262, "depth_bucket": "1 — shortlist/interní pohovor, klient neviděl", "n_won": 0, "n_lost": 0, "n_open": 2, "n_jobs": 2}, {"period_type": "half", "period_label": "2026H2", "sort_key": 20262, "depth_bucket": "2 — posláno klientovi, nepozvali", "n_won": 0, "n_lost": 0, "n_open": 2, "n_jobs": 2}, {"period_type": "half", "period_label": "2026H2", "sort_key": 20262, "depth_bucket": "3 — klientský pohovor, bez nabídky", "n_won": 0, "n_lost": 0, "n_open": 1, "n_jobs": 1}, {"period_type": "half", "period_label": "2026H2", "sort_key": 20262, "depth_bucket": "5 — nastoupil/dokončil", "n_won": 0, "n_lost": 0, "n_open": 1, "n_jobs": 1}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "depth_bucket": "0 — nikdy nikdo sourcovaný", "n_won": 7, "n_lost": 26, "n_open": 4, "n_jobs": 37}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "depth_bucket": "1 — shortlist/interní pohovor, klient neviděl", "n_won": 1, "n_lost": 10, "n_open": 9, "n_jobs": 20}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "depth_bucket": "2 — posláno klientovi, nepozvali", "n_won": 0, "n_lost": 15, "n_open": 5, "n_jobs": 20}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "depth_bucket": "3 — klientský pohovor, bez nabídky", "n_won": 1, "n_lost": 17, "n_open": 3, "n_jobs": 21}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "depth_bucket": "4 — nabídka, nenastoupil", "n_won": 0, "n_lost": 3, "n_open": 1, "n_jobs": 4}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "depth_bucket": "5 — nastoupil/dokončil", "n_won": 28, "n_lost": 1, "n_open": 3, "n_jobs": 32}, {"period_type": "year", "period_label": "2024", "sort_key": 20240, "depth_bucket": "0 — nikdy nikdo sourcovaný", "n_won": 6, "n_lost": 24, "n_open": 2, "n_jobs": 32}, {"period_type": "year", "period_label": "2024", "sort_key": 20240, "depth_bucket": "1 — shortlist/interní pohovor, klient neviděl", "n_won": 1, "n_lost": 6, "n_open": 1, "n_jobs": 8}, {"period_type": "year", "period_label": "2024", "sort_key": 20240, "depth_bucket": "3 — klientský pohovor, bez nabídky", "n_won": 1, "n_lost": 2, "n_open": 0, "n_jobs": 3}, {"period_type": "year", "period_label": "2024", "sort_key": 20240, "depth_bucket": "5 — nastoupil/dokončil", "n_won": 6, "n_lost": 0, "n_open": 0, "n_jobs": 6}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "depth_bucket": "0 — nikdy nikdo sourcovaný", "n_won": 1, "n_lost": 2, "n_open": 2, "n_jobs": 5}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "depth_bucket": "1 — shortlist/interní pohovor, klient neviděl", "n_won": 0, "n_lost": 2, "n_open": 4, "n_jobs": 6}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "depth_bucket": "2 — posláno klientovi, nepozvali", "n_won": 0, "n_lost": 7, "n_open": 3, "n_jobs": 10}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "depth_bucket": "3 — klientský pohovor, bez nabídky", "n_won": 0, "n_lost": 7, "n_open": 1, "n_jobs": 8}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "depth_bucket": "4 — nabídka, nenastoupil", "n_won": 0, "n_lost": 3, "n_open": 0, "n_jobs": 3}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "depth_bucket": "5 — nastoupil/dokončil", "n_won": 19, "n_lost": 0, "n_open": 0, "n_jobs": 19}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "depth_bucket": "1 — shortlist/interní pohovor, klient neviděl", "n_won": 0, "n_lost": 2, "n_open": 4, "n_jobs": 6}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "depth_bucket": "2 — posláno klientovi, nepozvali", "n_won": 0, "n_lost": 8, "n_open": 2, "n_jobs": 10}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "depth_bucket": "3 — klientský pohovor, bez nabídky", "n_won": 0, "n_lost": 8, "n_open": 2, "n_jobs": 10}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "depth_bucket": "4 — nabídka, nenastoupil", "n_won": 0, "n_lost": 0, "n_open": 1, "n_jobs": 1}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "depth_bucket": "5 — nastoupil/dokončil", "n_won": 3, "n_lost": 1, "n_open": 3, "n_jobs": 7}], "exits": [{"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "exit_side": "candidate", "exit_point": "shortlist/screening", "n": 30}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "exit_side": "candidate", "exit_point": "interní pohovor", "n": 4}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "exit_side": "candidate", "exit_point": "po odeslání klientovi", "n": 1}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "exit_side": "client", "exit_point": "po klientském pohovoru", "n": 7}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "exit_side": "client", "exit_point": "po odeslání klientovi", "n": 4}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "exit_side": "client", "exit_point": "po nástupu", "n": 1}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "exit_side": "client", "exit_point": "po nabídce", "n": 1}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "exit_side": "us", "exit_point": "interní pohovor", "n": 18}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "exit_side": "us", "exit_point": "shortlist/screening", "n": 17}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "exit_side": "us", "exit_point": "po nabídce", "n": 1}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "exit_side": "us", "exit_point": "před shortlistem", "n": 1}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "exit_side": "us", "exit_point": "po klientském pohovoru", "n": 1}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "exit_side": "us", "exit_point": "po odeslání klientovi", "n": 1}, {"period_type": "half", "period_label": "2025H2", "sort_key": 20252, "exit_side": "candidate", "exit_point": "shortlist/screening", "n": 45}, {"period_type": "half", "period_label": "2025H2", "sort_key": 20252, "exit_side": "candidate", "exit_point": "interní pohovor", "n": 5}, {"period_type": "half", "period_label": "2025H2", "sort_key": 20252, "exit_side": "candidate", "exit_point": "po klientském pohovoru", "n": 2}, {"period_type": "half", "period_label": "2025H2", "sort_key": 20252, "exit_side": "candidate", "exit_point": "po nabídce", "n": 1}, {"period_type": "half", "period_label": "2025H2", "sort_key": 20252, "exit_side": "client", "exit_point": "po odeslání klientovi", "n": 3}, {"period_type": "half", "period_label": "2025H2", "sort_key": 20252, "exit_side": "client", "exit_point": "po nabídce", "n": 1}, {"period_type": "half", "period_label": "2025H2", "sort_key": 20252, "exit_side": "client", "exit_point": "shortlist/screening", "n": 1}, {"period_type": "half", "period_label": "2025H2", "sort_key": 20252, "exit_side": "us", "exit_point": "shortlist/screening", "n": 43}, {"period_type": "half", "period_label": "2025H2", "sort_key": 20252, "exit_side": "us", "exit_point": "interní pohovor", "n": 4}, {"period_type": "half", "period_label": "2025H2", "sort_key": 20252, "exit_side": "us", "exit_point": "po klientském pohovoru", "n": 1}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "exit_side": "candidate", "exit_point": "shortlist/screening", "n": 51}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "exit_side": "candidate", "exit_point": "interní pohovor", "n": 3}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "exit_side": "candidate", "exit_point": "po odeslání klientovi", "n": 2}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "exit_side": "candidate", "exit_point": "po nabídce", "n": 1}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "exit_side": "candidate", "exit_point": "po klientském pohovoru", "n": 1}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "exit_side": "client", "exit_point": "po klientském pohovoru", "n": 6}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "exit_side": "client", "exit_point": "po odeslání klientovi", "n": 3}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "exit_side": "client", "exit_point": "shortlist/screening", "n": 1}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "exit_side": "terminated_after_start", "exit_point": "po nástupu", "n": 1}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "exit_side": "us", "exit_point": "shortlist/screening", "n": 71}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "exit_side": "us", "exit_point": "interní pohovor", "n": 9}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "exit_side": "us", "exit_point": "po klientském pohovoru", "n": 3}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "exit_side": "us", "exit_point": "po nástupu", "n": 1}, {"period_type": "half", "period_label": "2026H2", "sort_key": 20262, "exit_side": "candidate", "exit_point": "shortlist/screening", "n": 19}, {"period_type": "half", "period_label": "2026H2", "sort_key": 20262, "exit_side": "candidate", "exit_point": "interní pohovor", "n": 1}, {"period_type": "half", "period_label": "2026H2", "sort_key": 20262, "exit_side": "us", "exit_point": "shortlist/screening", "n": 6}, {"period_type": "half", "period_label": "2026H2", "sort_key": 20262, "exit_side": "us", "exit_point": "interní pohovor", "n": 1}, {"period_type": "half", "period_label": "2026H2", "sort_key": 20262, "exit_side": "us", "exit_point": "po nástupu", "n": 1}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "exit_side": "candidate", "exit_point": "shortlist/screening", "n": 145}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "exit_side": "candidate", "exit_point": "interní pohovor", "n": 13}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "exit_side": "candidate", "exit_point": "po odeslání klientovi", "n": 3}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "exit_side": "candidate", "exit_point": "po klientském pohovoru", "n": 3}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "exit_side": "candidate", "exit_point": "po nabídce", "n": 2}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "exit_side": "client", "exit_point": "po klientském pohovoru", "n": 13}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "exit_side": "client", "exit_point": "po odeslání klientovi", "n": 10}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "exit_side": "client", "exit_point": "po nabídce", "n": 2}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "exit_side": "client", "exit_point": "shortlist/screening", "n": 2}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "exit_side": "client", "exit_point": "po nástupu", "n": 1}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "exit_side": "terminated_after_start", "exit_point": "po nástupu", "n": 1}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "exit_side": "us", "exit_point": "shortlist/screening", "n": 137}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "exit_side": "us", "exit_point": "interní pohovor", "n": 32}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "exit_side": "us", "exit_point": "po klientském pohovoru", "n": 5}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "exit_side": "us", "exit_point": "po nástupu", "n": 2}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "exit_side": "us", "exit_point": "po nabídce", "n": 1}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "exit_side": "us", "exit_point": "po odeslání klientovi", "n": 1}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "exit_side": "us", "exit_point": "před shortlistem", "n": 1}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "exit_side": "candidate", "exit_point": "shortlist/screening", "n": 75}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "exit_side": "candidate", "exit_point": "interní pohovor", "n": 9}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "exit_side": "candidate", "exit_point": "po klientském pohovoru", "n": 2}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "exit_side": "candidate", "exit_point": "po odeslání klientovi", "n": 1}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "exit_side": "candidate", "exit_point": "po nabídce", "n": 1}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "exit_side": "client", "exit_point": "po klientském pohovoru", "n": 7}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "exit_side": "client", "exit_point": "po odeslání klientovi", "n": 7}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "exit_side": "client", "exit_point": "po nabídce", "n": 2}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "exit_side": "client", "exit_point": "po nástupu", "n": 1}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "exit_side": "client", "exit_point": "shortlist/screening", "n": 1}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "exit_side": "us", "exit_point": "shortlist/screening", "n": 60}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "exit_side": "us", "exit_point": "interní pohovor", "n": 22}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "exit_side": "us", "exit_point": "po klientském pohovoru", "n": 2}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "exit_side": "us", "exit_point": "po nabídce", "n": 1}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "exit_side": "us", "exit_point": "po odeslání klientovi", "n": 1}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "exit_side": "us", "exit_point": "před shortlistem", "n": 1}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "exit_side": "candidate", "exit_point": "shortlist/screening", "n": 70}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "exit_side": "candidate", "exit_point": "interní pohovor", "n": 4}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "exit_side": "candidate", "exit_point": "po odeslání klientovi", "n": 2}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "exit_side": "candidate", "exit_point": "po klientském pohovoru", "n": 1}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "exit_side": "candidate", "exit_point": "po nabídce", "n": 1}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "exit_side": "client", "exit_point": "po klientském pohovoru", "n": 6}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "exit_side": "client", "exit_point": "po odeslání klientovi", "n": 3}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "exit_side": "client", "exit_point": "shortlist/screening", "n": 1}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "exit_side": "terminated_after_start", "exit_point": "po nástupu", "n": 1}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "exit_side": "us", "exit_point": "shortlist/screening", "n": 77}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "exit_side": "us", "exit_point": "interní pohovor", "n": 10}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "exit_side": "us", "exit_point": "po klientském pohovoru", "n": 3}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "exit_side": "us", "exit_point": "po nástupu", "n": 2}], "coverage": [{"period_type": "half", "period_label": "2024H1", "sort_key": 20241, "n_jobs": 23, "n_jobs_with_placements": 8, "pct_covered": 34.8}, {"period_type": "half", "period_label": "2024H2", "sort_key": 20242, "n_jobs": 26, "n_jobs_with_placements": 9, "pct_covered": 34.6}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "n_jobs": 24, "n_jobs_with_placements": 20, "pct_covered": 83.3}, {"period_type": "half", "period_label": "2025H2", "sort_key": 20252, "n_jobs": 27, "n_jobs_with_placements": 26, "pct_covered": 96.3}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "n_jobs": 28, "n_jobs_with_placements": 28, "pct_covered": 100.0}, {"period_type": "half", "period_label": "2026H2", "sort_key": 20262, "n_jobs": 6, "n_jobs_with_placements": 6, "pct_covered": 100.0}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "n_jobs": 134, "n_jobs_with_placements": 97, "pct_covered": 72.4}, {"period_type": "year", "period_label": "2024", "sort_key": 20240, "n_jobs": 49, "n_jobs_with_placements": 17, "pct_covered": 34.7}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "n_jobs": 51, "n_jobs_with_placements": 46, "pct_covered": 90.2}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "n_jobs": 34, "n_jobs_with_placements": 34, "pct_covered": 100.0}], "offer_gap": [{"period_type": "half", "period_label": "2024H1", "sort_key": 20241, "n_gap": 3, "n_client_reject": 0, "n_no_outcome": 3, "n_no_outcome_lost": 1, "n_no_outcome_open": 0, "n_no_outcome_won": 2}, {"period_type": "half", "period_label": "2024H2", "sort_key": 20242, "n_gap": 3, "n_client_reject": 0, "n_no_outcome": 3, "n_no_outcome_lost": 3, "n_no_outcome_open": 0, "n_no_outcome_won": 0}, {"period_type": "half", "period_label": "2025H1", "sort_key": 20251, "n_gap": 17, "n_client_reject": 7, "n_no_outcome": 9, "n_no_outcome_lost": 4, "n_no_outcome_open": 2, "n_no_outcome_won": 3}, {"period_type": "half", "period_label": "2025H2", "sort_key": 20252, "n_gap": 9, "n_client_reject": 0, "n_no_outcome": 6, "n_no_outcome_lost": 3, "n_no_outcome_open": 0, "n_no_outcome_won": 3}, {"period_type": "half", "period_label": "2026H1", "sort_key": 20261, "n_gap": 28, "n_client_reject": 6, "n_no_outcome": 18, "n_no_outcome_lost": 10, "n_no_outcome_open": 4, "n_no_outcome_won": 4}, {"period_type": "half", "period_label": "2026H2", "sort_key": 20262, "n_gap": 3, "n_client_reject": 0, "n_no_outcome": 3, "n_no_outcome_lost": 0, "n_no_outcome_open": 3, "n_no_outcome_won": 0}, {"period_type": "total", "period_label": "Celkem", "sort_key": 0, "n_gap": 63, "n_client_reject": 13, "n_no_outcome": 42, "n_no_outcome_lost": 21, "n_no_outcome_open": 9, "n_no_outcome_won": 12}, {"period_type": "year", "period_label": "2024", "sort_key": 20240, "n_gap": 6, "n_client_reject": 0, "n_no_outcome": 6, "n_no_outcome_lost": 4, "n_no_outcome_open": 0, "n_no_outcome_won": 2}, {"period_type": "year", "period_label": "2025", "sort_key": 20250, "n_gap": 26, "n_client_reject": 7, "n_no_outcome": 15, "n_no_outcome_lost": 7, "n_no_outcome_open": 2, "n_no_outcome_won": 6}, {"period_type": "year", "period_label": "2026", "sort_key": 20260, "n_gap": 31, "n_client_reject": 6, "n_no_outcome": 21, "n_no_outcome_lost": 10, "n_no_outcome_open": 7, "n_no_outcome_won": 4}]};
+
+const BAR_META = {
+  1:  ["sourcing","1","Market → longlist","Umíme v této kompetenci vůbec někoho najít?"],
+  2:  ["sourcing","2–3","Longlist → vstoupil do procesu","Stojí nám za to jim odpovědět — a mají čas / sedí jim sazba?"],
+  4:  ["internal","4","Available → screened","Základní tvrdá kritéria — projde first-pass screeningem?"],
+  5:  ["internal","5","Screened → competence-approved","Skutečné interní posouzení kvality (interní pohovor)"],
+  6:  ["internal","6","Shortlist → submitted","Sedí role i marže na jejich sazbě?"],
+  7:  ["client","7","Submitted → invited","CV bariéra — pokud neprojde, poslali jsme klientovi špatného člověka"],
+  8:  ["client","8","Interviewed → accepted","Osobní bariéra — pokud neprojde, prohráli jsme na trhu"],
+  9:  ["closing","9","Accepted → started","Protinabídka, odmítnutí, zamražení pozice"],
+  10: ["closing","10","Started → extended","Jediná bariéra, která testuje, jestli byl placement opravdu dobrý"]
+};
+const LAYER_LABEL = {
+  sourcing: "Sourcing bars — náš dosah",
+  internal: "Interní bars — náš úsudek",
+  client:   "Client bars — úsudek klienta",
+  closing:  "Closing bars — uzavření"
+};
+const MODES = [["total","Celkově"],["year","Po letech"],["half","Po pololetích"]];
+const STATE = { winloss:"total", funnel:"total", depth:"total", exits:"total" };
+
+const fmtPct = v => v === null || v === undefined ? "—" : (v.toFixed(1).replace(".", ",") + "%");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sum = (rows, f) => rows.reduce((a,r) => a + (r[f]||0), 0);
+
+// ---------------------------------------------------------------------------------------------
+// Year filter. Excluding a year (e.g. 2024, where Tracker coverage was ~35%) removes every half
+// in it from every computation on the page — including "Celkově", which is not a precomputed SQL
+// row here but a live sum over whichever halves are currently active, so it always matches what's
+// shown in "Po pololetích". At least one year must stay checked or the page has nothing to show.
+const ALL_YEARS = [...new Set(D.winloss.filter(r=>r.period_type==="year").map(r=>r.period_label))].sort();
+const EXCLUDED_YEARS = new Set();
+const activeYears = () => ALL_YEARS.filter(y => !EXCLUDED_YEARS.has(y));
+const activeHalves = () =>
+  D.winloss.filter(r => r.period_type==="half" && !EXCLUDED_YEARS.has(r.period_label.slice(0,4)))
+    .sort((a,b)=>a.sort_key-b.sort_key).map(r=>r.period_label);
+
+function paintYearFilter(){
+  const el = document.getElementById("year-filter");
+  el.innerHTML = ALL_YEARS.map(y =>
+    `<button data-y="${y}" aria-pressed="${!EXCLUDED_YEARS.has(y)}">${y}</button>`).join("");
+}
+document.addEventListener("click", e => {
+  const yb = e.target.closest("#year-filter button");
+  if(!yb) return;
+  const y = yb.dataset.y;
+  const wouldRemainActive = ALL_YEARS.filter(x => x===y ? false : !EXCLUDED_YEARS.has(x));
+  if(EXCLUDED_YEARS.has(y)) EXCLUDED_YEARS.delete(y);
+  else if(wouldRemainActive.length > 0) EXCLUDED_YEARS.add(y);
+  paintYearFilter();
+  renderAll();
+});
+
+// ---------------------------------------------------------------------------------------------
+// Period lists respect the year filter. "total" always collapses to one synthetic "Celkem"
+// period whose numbers are summed live from the active halves (see the row-getters below) —
+// there is no separate precomputed "total" row anymore, so it can never drift from the filter.
+function periodsFor(mode){
+  if(mode === "total") return ["Celkem"];
+  if(mode === "year") return activeYears();
+  return activeHalves();
+}
+
+// ---------------------------------------------------------------------------------------------
+// Row getters: for "year"/"half" these are plain lookups into the precomputed marts; for "total"
+// they sum the currently active halves live. Every section reads through these instead of D.*
+// directly, so the year filter and the Celkově/Po letech/Po pololetích toggle compose correctly.
+function winlossRow(mode, label){
+  if(mode === "total"){
+    const rows = D.winloss.filter(r => r.period_type==="half" && activeHalves().includes(r.period_label));
+    const s = {n_won:sum(rows,"n_won"), n_lost:sum(rows,"n_lost"), n_open:sum(rows,"n_open"), n_jobs:sum(rows,"n_jobs")};
+    s.win_rate_pct = (s.n_won+s.n_lost) ? 100*s.n_won/(s.n_won+s.n_lost) : null;
+    return s;
+  }
+  return D.winloss.find(r => r.period_type===mode && r.period_label===label);
+}
+
+function barRow(bar_no, mode, label){
+  const noRate = bar_no===1 || bar_no===10;
+  if(mode === "total"){
+    const rows = D.bars.filter(r => r.bar_no===bar_no && r.period_type==="half" && activeHalves().includes(r.period_label));
+    const n_den = sum(rows,"n_den"), n_jobs = sum(rows,"n_jobs");
+    const n_num = noRate ? null : sum(rows,"n_num");
+    return {
+      bar_no, n_num, n_den, n_jobs,
+      rate_pct: noRate || !n_den ? null : 100*n_num/n_den,
+      avg_per_job: n_jobs ? +(n_den/n_jobs).toFixed(1) : null
+    };
+  }
+  return D.bars.find(r => r.bar_no===bar_no && r.period_type===mode && r.period_label===label);
+}
+
+function depthTotals(){
+  const buckets = [...new Set(D.depth.map(r => r.depth_bucket))].sort();
+  return buckets.map(b => {
+    const rows = D.depth.filter(r => r.depth_bucket===b && r.period_type==="half" && activeHalves().includes(r.period_label));
+    return {depth_bucket:b, n_won:sum(rows,"n_won"), n_lost:sum(rows,"n_lost"), n_open:sum(rows,"n_open"), n_jobs:sum(rows,"n_jobs")};
+  });
+}
+
+function depthCell(mode, label, bucket){
+  if(mode === "total") return depthTotals().find(r => r.depth_bucket===bucket);
+  return D.depth.find(r => r.period_type===mode && r.period_label===label && r.depth_bucket===bucket);
+}
+
+function exitsRows(mode, label){
+  if(mode === "total"){
+    const rows = D.exits.filter(r => r.period_type==="half" && activeHalves().includes(r.period_label));
+    const map = new Map();
+    rows.forEach(r => { const k = r.exit_side+"|"+r.exit_point; map.set(k, (map.get(k)||0)+r.n); });
+    return [...map.entries()].map(([k,n]) => { const [exit_side,exit_point]=k.split("|"); return {exit_side,exit_point,n}; });
+  }
+  return D.exits.filter(r => r.period_type===mode && r.period_label===label);
+}
+
+function coverageActive(){
+  return D.coverage.filter(r => r.period_type==="half" && activeHalves().includes(r.period_label))
+    .sort((a,b)=>a.sort_key-b.sort_key);
+}
+
+// Bar 8 (invited -> accepted) detail: of candidates who reached client interview but no offer,
+// split explicit client "no" from "never got a recorded outcome at all" (2026-08-29 investigation
+// — is the drop in offers a real client-side fall-off, or a symptom of weaker status closure?).
+// Always shown at half granularity, filtered by the active year set, independent of the funnel
+// section's own Celkově/Po letech/Po pololetích toggle — same pattern as the coverage strip.
+function offerGapRowsActive(){
+  return activeHalves().map(p => D.offer_gap.find(r => r.period_type==="half" && r.period_label===p));
+}
+
+function offerGapNoteHTML(){
+  const halves = activeHalves();
+  const rows = offerGapRowsActive();
+  const head = halves.map(p => `<th>${esc(p)}</th>`).join("");
+  const rowClient = rows.map(r => `<td><b>${r ? r.n_client_reject : 0}</b></td>`).join("");
+  const rowNone = rows.map(r => {
+    if(!r || !r.n_no_outcome) return "<td><span class='mut'>0</span></td>";
+    return `<td><b>${r.n_no_outcome}</b><i>${r.n_no_outcome_lost}Z · ${r.n_no_outcome_open}O · ${r.n_no_outcome_won}V</i></td>`;
+  }).join("");
+  return `<div class="tbl-wrap"><table class="mtx">
+      <thead><tr><th>Po klientském pohovoru, bez nabídky</th>${head}</tr></thead>
+      <tbody>
+        <tr><td class="h">Klient explicitně odmítl</td>${rowClient}</tr>
+        <tr><td class="h">Bez zaznamenaného výsledku</td>${rowNone}</tr>
+      </tbody>
+    </table></div>
+    <p class="note">Druhý řádek: Z/O/V = kolik z toho sedí na zakázce, která už je <b>prohraná /
+    otevřená / vyhraná (jiným kandidátem)</b>. Je to reálný propad, nebo slabší evidence? Poměr
+    nabídka→nástup (bariéra 9 výše) v čase nepadá — kdyby klienti víc nabídek po vydání stahovali,
+    tenhle poměr by klesal, a nedrží se. Klientovo explicitní „ne" taky výrazně neroste. Sledujte
+    hlavně řádek „bez zaznamenaného výsledku" a jeho „Z" sloupec — to jsou karty kandidátů na už
+    prohraných zakázkách, které nikdy nikdo formálně nezavřel. Propad na téhle bariéře je proto
+    nejspíš reálný, ale číslo je o tolik vyšší, nakolik z „bez výsledku" tvoří „Z".</p>`;
+}
+
+// A period is "immature" if its jobs are mostly still open — the funnel hasn't finished running.
+function immature(mode, label){
+  const r = winlossRow(mode, label);
+  if(!r) return false;
+  return (r.n_won + r.n_lost) === 0 || r.n_open / r.n_jobs >= 0.5;
+}
+
+function segHTML(key){
+  return MODES.map(([m,lab]) =>
+    `<button data-k="${key}" data-m="${m}" aria-pressed="${STATE[key]===m}">${lab}</button>`).join("");
+}
+
+function wlRow(label, im, r, maxN){
+  if(!r || !r.n_jobs) return `<div class="wl-row"><div class="wl-label">${esc(label)}<span class="wl-n">bez dat</span></div>
+    <div class="wl-bar"></div><div class="wl-rate">—</div></div>`;
+  const s = 100/maxN;
+  const imTag = im ? ' <b class="im" title="Většina zakázek ještě běží — win rate zatím není vypovídající">nedozrálé</b>' : '';
+  return `<div class="wl-row">
+    <div class="wl-label">${esc(label)}<span class="wl-n">n=${r.n_jobs} zakázek${imTag}</span></div>
+    <div class="wl-bar">
+      <div class="wl-seg won" style="width:${(r.n_won*s).toFixed(2)}%" title="Vyhráno: ${r.n_won}"></div>
+      <div class="wl-seg lost" style="width:${(r.n_lost*s).toFixed(2)}%" title="Prohráno: ${r.n_lost}"></div>
+      <div class="wl-seg open" style="width:${(r.n_open*s).toFixed(2)}%" title="Otevřeno: ${r.n_open}"></div>
+    </div>
+    <div class="wl-rate">${fmtPct(r.win_rate_pct)}<span>${r.n_won}W · ${r.n_lost}L · ${r.n_open}O</span></div>
+  </div>`;
+}
+
+function renderWinloss(){
+  const mode = STATE.winloss, ps = periodsFor(mode);
+  const rows = ps.map(p => winlossRow(mode, p));
+  const maxN = Math.max(...rows.map(r => r ? r.n_jobs : 0), 1);
+  document.getElementById("winloss-body").innerHTML =
+    ps.map((p,i) => wlRow(mode==="total" ? "Celá kniha PM (dle filtru let)" : p, immature(mode,p), rows[i], maxN)).join("");
+}
+
+function renderFunnel(){
+  const mode = STATE.funnel, ps = periodsFor(mode);
+  let html = "", layer = null;
+  Object.keys(BAR_META).map(Number).sort((a,b)=>a-b).forEach(no => {
+    const [lay, step, label, sub] = BAR_META[no];
+    if(lay !== layer){ if(layer) html += "</div>"; html += `<div class="layer"><h3>${LAYER_LABEL[lay]}</h3>`; layer = lay; }
+    const rows = ps.map(p => barRow(no, mode, p));
+    let body;
+    if(no === 1 || no === 10){
+      const maxV = Math.max(...rows.map(r => r ? r.n_den : 0), 1);
+      body = rows.map((r,i) => {
+        if(!r || !r.n_den) return `<div class="mini"><span class="mini-l">${esc(ps[i])}</span>
+          <div class="mini-bar"></div><span class="mini-v">bez dat</span></div>`;
+        const extra = no===1 ? ` · Ø ${r.avg_per_job}/zak.` : "";
+        return `<div class="mini"><span class="mini-l">${esc(ps[i])}</span>
+          <div class="mini-bar"><div class="mini-fill vol" style="width:${(100*r.n_den/maxV).toFixed(1)}%"></div></div>
+          <span class="mini-v">${r.n_den}<i>${r.n_jobs} zak.${extra}</i></span></div>`;
+      }).join("");
+      const note = no === 1
+        ? `Bez čísla velikosti trhu nejde spočítat konverzní poměr — ukazujeme jen objem. Longlist pokrývá jen 26 ze 134 zakázek.`
+        : `V tomto exportu nejde prodloužení změřit: žádný z nastoupivších placementů nemá v historii posunuté datum konce. Nejde odlišit „ještě k tomu nedošlo" od „export prodloužení nezaznamenává".`;
+      body = `<div class="mini-wrap">${body}</div><p class="note">${note}</p>`;
+    } else {
+      body = rows.map((r,i) => {
+        if(!r || !r.n_den) return `<div class="mini"><span class="mini-l">${esc(ps[i])}</span>
+          <div class="mini-bar"></div><span class="mini-v">bez dat</span></div>`;
+        const thin = r.n_den < 20 ? ' class="thin" title="Malý vzorek"' : "";
+        return `<div class="mini"><span class="mini-l">${esc(ps[i])}</span>
+          <div class="mini-bar"><div class="mini-fill" style="width:${Math.min(100, r.rate_pct||0).toFixed(1)}%"></div></div>
+          <span class="mini-v"${thin}>${fmtPct(r.rate_pct)}<i>${r.n_num}/${r.n_den} · ${r.n_jobs} zak.</i></span></div>`;
+      }).join("");
+      body = `<div class="mini-wrap">${body}</div>`;
+      if(no === 8) body += offerGapNoteHTML();
+    }
+    html += `<div class="lvl"><div class="lvl-h"><span class="lvl-n">${step}</span><span class="lvl-t">${label}</span></div>
+      <div class="lvl-d">${sub}</div>${body}</div>`;
+  });
+  html += "</div>";
+  document.getElementById("funnel-body").innerHTML = html;
+  renderCascade();
+}
+
+// Cascade levels: the same seven absolute-count checkpoints bars 4-9 already carry (each bar's
+// numerator IS "reached at least this rung"), read off in order so the shrinking is visible
+// step over step instead of hidden inside separate step-to-step percentages.
+const CASCADE_LEVELS = [
+  ["Vstoupil do procesu", 4, "n_den"],
+  ["Screened",            4, "n_num"],
+  ["Interní pohovor",     5, "n_num"],
+  ["Submitted",           6, "n_num"],
+  ["Invited",             7, "n_num"],
+  ["Nabídka",             8, "n_num"],
+  ["Nastoupil",           9, "n_num"]
+];
+
+function cascadeFor(mode, period){
+  return CASCADE_LEVELS.map(([label, bno, field]) => {
+    const r = barRow(bno, mode, period);
+    return {label, n: r ? r[field] : null};
+  });
+}
+
+// The first two levels (vstoupil do procesu, screened) are an order of magnitude bigger than the
+// rest — on the shared scale they flatten everything downstream to a sliver. Hidable so the
+// interesting narrowing (interní pohovor onward) gets the width to actually be readable.
+const CASCADE_HIDABLE = ["Vstoupil do procesu", "Screened"];
+const CASCADE_HIDDEN = new Set();
+
+function paintCascadeToggle(){
+  document.getElementById("casc-toggle").innerHTML = CASCADE_HIDABLE.map(label =>
+    `<button data-cl="${esc(label)}" aria-pressed="${!CASCADE_HIDDEN.has(label)}">${esc(label)}</button>`).join("");
+}
+document.addEventListener("click", e => {
+  const cb = e.target.closest("#casc-toggle button");
+  if(!cb) return;
+  const l = cb.dataset.cl;
+  if(CASCADE_HIDDEN.has(l)) CASCADE_HIDDEN.delete(l); else CASCADE_HIDDEN.add(l);
+  paintCascadeToggle();
+  renderCascade();
+});
+
+function renderCascade(){
+  const mode = STATE.funnel, ps = periodsFor(mode);
+  const el = document.getElementById("funnel-cascade");
+  const visible = CASCADE_LEVELS.map((lvl,i) => i).filter(i => !CASCADE_HIDDEN.has(CASCADE_LEVELS[i][0]));
+
+  if(mode === "total"){
+    const all = cascadeFor("total", "Celkem");
+    const lv = visible.map(i => all[i]);
+    const top = lv[0] ? (lv[0].n || 1) : 1;
+    el.innerHTML = `<div class="casc">` + lv.map((l,i) => {
+      const prev = i>0 ? lv[i-1].n : null;
+      const stepPct = prev ? fmtPct(100*l.n/prev) : "";
+      const w = 8 + 92*(l.n/top); // floor width so the last bar stays visible, not a sliver
+      return `<div class="casc-row">
+        <span class="casc-l">${esc(l.label)}</span>
+        <div class="casc-bar-wrap"><div class="casc-bar" style="width:${w.toFixed(1)}%"></div></div>
+        <span class="casc-v">${l.n}<i>${i>0 ? stepPct+" z předchozího kroku · " : ""}${fmtPct(100*l.n/top)} z prvního zobrazeného kroku</i></span>
+      </div>`;
+    }).join("") + `</div>`;
+  } else {
+    const colsAll = ps.map(p => cascadeFor(mode, p));
+    const cols = colsAll.map(all => visible.map(i => all[i]));
+    const head = ps.map((p,i) => `<th>${esc(p)}${immature(mode,p)?' <b class="im">nedozr.</b>':''}<i>n=${cols[i][0]?cols[i][0].n||0:0}</i></th>`).join("");
+    const rows = visible.map((li, ri) => {
+      const cells = cols.map(col => {
+        const top = col[0] ? (col[0].n || 1) : 1;
+        const n = col[ri].n;
+        if(n === null) return "<td><span class='mut'>—</span></td>";
+        const w = n ? Math.max(6, 100*n/top) : 0;
+        return `<td><div class="casc-mbar"><div class="casc-mfill" style="width:${w.toFixed(1)}%"></div></div><b>${n}</b><i>${fmtPct(100*n/top)}</i></td>`;
+      }).join("");
+      return `<tr><td class="h">${esc(CASCADE_LEVELS[li][0])}</td>${cells}</tr>`;
+    }).join("");
+    el.innerHTML = `<div class="tbl-wrap"><table class="mtx casc-mtx">
+      <thead><tr><th>Krok</th>${head}</tr></thead><tbody>${rows}</tbody></table></div>
+      <p class="note">Šířka pruhu je vztažená k prvnímu <i>zobrazenému</i> řádku ve vlastním sloupci —
+      ukazuje tvar zúžení daného období, ne srovnání absolutních objemů mezi obdobími (ty jsou
+      v tabulce jako čísla).</p>`;
+  }
+}
+
+function renderDepth(){
+  const mode = STATE.depth, ps = periodsFor(mode);
+  const buckets = [...new Set(D.depth.map(r => r.depth_bucket))].sort();
+  const body = document.getElementById("depth-body");
+
+  if(mode === "total"){
+    const rows = depthTotals();
+    const maxN = Math.max(...rows.map(r => r ? r.n_jobs : 0), 1);
+    body.innerHTML = rows.map((r,i) => {
+      const label = buckets[i].split(" — ")[1];
+      const dec = r ? r.n_won + r.n_lost : 0;
+      const wr = dec ? 100*r.n_won/dec : null;
+      return wlRow(label, false, r ? Object.assign({}, r, {win_rate_pct: wr}) : null, maxN);
+    }).join("");
+  } else {
+    const head = ps.map(p => `<th>${esc(p)}${immature(mode,p)?' <b class="im">nedozr.</b>':''}</th>`).join("");
+    const rows = buckets.map(b => {
+      const label = b.split(" — ")[1];
+      const cells = ps.map(p => {
+        const r = depthCell(mode, p, b);
+        if(!r) return "<td><span class='mut'>0</span></td>";
+        const dec = r.n_won + r.n_lost;
+        const wr = dec ? fmtPct(100*r.n_won/dec) : "—";
+        return `<td><b>${r.n_jobs}</b><i>${r.n_won}W·${r.n_lost}L·${r.n_open}O</i><u>${wr}</u></td>`;
+      }).join("");
+      return `<tr><td class="h">${esc(label)}</td>${cells}</tr>`;
+    }).join("");
+    body.innerHTML = `<div class="tbl-wrap"><table class="mtx">
+      <thead><tr><th>Kam došel nejlepší kandidát</th>${head}</tr></thead>
+      <tbody>${rows}</tbody></table></div>
+      <p class="note">Buňka: počet zakázek · rozpad W/L/O · win rate skupiny.</p>`;
+  }
+
+  // Coverage strip + headline — restricted to the active year filter throughout.
+  const cov = coverageActive();
+  const covStrip = `<div class="cov"><span class="cov-t">Pokrytí Trackerem — podíl zakázek, které mají vůbec nějaký záznam o kandidátech</span>
+    <div class="cov-row">${cov.map(c =>
+      `<div class="cov-i"><span class="cov-p">${esc(c.period_label)}</span>
+        <div class="cov-bar"><div class="cov-fill${c.pct_covered < 60 ? " lo" : ""}" style="width:${c.pct_covered}%"></div></div>
+        <span class="cov-v${c.pct_covered < 60 ? " lo" : ""}">${c.pct_covered.toFixed(0)} %</span></div>`).join("")}</div></div>`;
+
+  const good = new Set(cov.filter(c => c.pct_covered >= 80).map(c => c.period_label));
+  const dHalf = D.depth.filter(r => r.period_type === "half" && good.has(r.period_label));
+  const lostIn = pref => dHalf.filter(r => r.depth_bucket.startsWith(pref)).reduce((a,r)=>a+r.n_lost,0);
+  const lostAll = dHalf.reduce((a,r)=>a+r.n_lost,0);
+  const atClient = lostIn("2") + lostIn("3");
+  const neverGood = lostIn("0");
+
+  document.getElementById("depth-note").innerHTML = covStrip + (lostAll ? `
+    <p class="note"><b>Čtěte přes pokrytí, ne přes celkový součet.</b> Tracker se zaváděl postupně —
+    proto se skupina „nikdy nikdo sourcovaný" v nedostatečně pokrytých obdobích chová jako díra
+    v evidenci, ne jako doložené zjištění.</p>
+    <p class="note"><b>Hlavní zjištění (jen aktivní období s pokrytím nad 80 %):</b>
+    z ${lostAll} proher jich ${atClient} (${Math.round(100*atClient/lostAll)} %) padne
+    na dvou klientských bariérách — <b>poslali jsme CV a klient nepozval</b>, nebo
+    <b>pozval na pohovor a nedal nabídku</b>. Skupina „nikdy nikdo sourcovaný" jsou tam už jen
+    ${neverGood} prohry. Těžiště ztrát je tedy v tom, koho a jak klientovi předkládáme,
+    ne v tom, že by nábor nezačal.</p>` : `
+    <p class="note">Žádné aktivní období nemá pokrytí ≥ 80 % — se zvoleným filtrem let nejde
+    tuhle otázku spolehlivě zodpovědět.</p>`);
+}
+
+function renderExits(){
+  const mode = STATE.exits, ps = periodsFor(mode);
+  const SIDE = {us:["My (interní zamítnutí)","var(--pjm-coral)"],
+                candidate:["Kandidát","var(--c-neutral)"],
+                client:["Klient","var(--c-loss)"],
+                terminated_after_start:["Ukončeno po nástupu","var(--pjm-grey)"]};
+  const order = ["us","candidate","client","terminated_after_start"];
+  const body = document.getElementById("exits-body");
+
+  if(mode === "total"){
+    const rows = exitsRows("total");
+    const tot = rows.reduce((a,r)=>a+r.n,0);
+    body.innerHTML = (tot ? order.map(side => {
+      const items = rows.filter(r => r.exit_side===side);
+      const n = items.reduce((a,r)=>a+r.n,0);
+      if(!n) return "";
+      const p = 100*n/tot;
+      const detail = items.sort((a,b)=>b.n-a.n).map(i => `${i.exit_point} (${i.n})`).join(", ");
+      return `<div class="ex-row">
+        <div class="ex-label">${SIDE[side][0]}<span class="ex-n">${n} (${p.toFixed(0)}%)</span></div>
+        <div class="ex-bar"><div class="ex-fill" style="width:${p.toFixed(1)}%;background:${SIDE[side][1]}"></div></div>
+        <div class="ex-detail">${esc(detail)}</div></div>`;
+    }).join("") : "") + `<p class="note">Celkem ${tot} ukončených placementů.</p>`;
+  } else {
+    const head = ps.map(p => `<th>${esc(p)}</th>`).join("");
+    const totByP = {};
+    ps.forEach(p => totByP[p] = exitsRows(mode,p).reduce((a,r)=>a+r.n,0));
+    const rows = order.map(side => {
+      const cells = ps.map(p => {
+        const n = exitsRows(mode,p).filter(r=>r.exit_side===side).reduce((a,r)=>a+r.n,0);
+        if(!n) return "<td><span class='mut'>0</span></td>";
+        return `<td><b>${n}</b><i>${(100*n/totByP[p]).toFixed(0)}%</i></td>`;
+      }).join("");
+      return `<tr><td class="h">${SIDE[side][0]}</td>${cells}</tr>`;
+    }).join("");
+    const totRow = `<tr class="tot"><td class="h">Celkem ukončených</td>${ps.map(p=>`<td><b>${totByP[p]}</b></td>`).join("")}</tr>`;
+    body.innerHTML = `<div class="tbl-wrap"><table class="mtx">
+      <thead><tr><th>Kdo ukončil</th>${head}</tr></thead><tbody>${rows}${totRow}</tbody></table></div>
+      <p class="note">Buňka: počet ukončených placementů · podíl v rámci období.</p>`;
+  }
+}
+
+// ---------------------------------------------------------------------------------------------
+// Executive summary — computed live from the same filtered/synthesized rows as every other
+// section, so it always agrees with what the year filter and per-section toggles currently show.
+function renderSummary(){
+  const halves = activeHalves().map(p => winlossRow("half", p))
+    .map((r,i) => Object.assign({period_label: activeHalves()[i]}, r));
+  const decided = halves.filter(r => r.n_won + r.n_lost > 0);
+
+  if(!decided.length){
+    document.getElementById("summary-body").innerHTML =
+      `<p class="note">Se zvoleným filtrem let nejsou žádné rozhodnuté zakázky — shrnutí nelze spočítat.</p>`;
+    return;
+  }
+
+  const peak = decided.reduce((a,r) => r.win_rate_pct > a.win_rate_pct ? r : a);
+  const trough = decided.reduce((a,r) => r.win_rate_pct < a.win_rate_pct ? r : a);
+  const latest = decided[decided.length - 1];
+  const lo = 100*latest.n_won/latest.n_jobs;
+  const hi = 100*(latest.n_won+latest.n_open)/latest.n_jobs;
+  const winSeries = halves.map(r => r.win_rate_pct===null ? "—" : fmtPct(r.win_rate_pct)).join(" → ");
+
+  const cascade = cascadeFor("total", "Celkem");
+  const top = cascade[0].n || 1;
+  const overallConv = 100*cascade[cascade.length-1].n/top;
+  let worst = null;
+  for(let i=1;i<cascade.length;i++){
+    const prev = cascade[i-1].n;
+    if(!prev) continue;
+    const stepPct = 100*cascade[i].n/prev;
+    if(worst === null || stepPct < worst.stepPct) worst = {from:cascade[i-1].label, to:cascade[i].label, stepPct};
+  }
+
+  const cov = coverageActive();
+  const good = new Set(cov.filter(c => c.pct_covered >= 80).map(c => c.period_label));
+  const dGood = D.depth.filter(r => r.period_type==="half" && good.has(r.period_label));
+  const lostAll = dGood.reduce((a,r)=>a+r.n_lost,0);
+  const lostClient = dGood.filter(r=>["2","3"].includes(r.depth_bucket[0])).reduce((a,r)=>a+r.n_lost,0);
+  const lostNever = dGood.filter(r=>r.depth_bucket[0]==="0").reduce((a,r)=>a+r.n_lost,0);
+  const clientShare = lostAll ? Math.round(100*lostClient/lostAll) : null;
+  const goodSorted = [...good].sort((a,b) =>
+    cov.find(c=>c.period_label===a).sort_key - cov.find(c=>c.period_label===b).sort_key);
+
+  const covMin = cov.length ? Math.min(...cov.map(c=>c.pct_covered)) : null;
+  const covMax = cov.length ? Math.max(...cov.map(c=>c.pct_covered)) : null;
+
+  document.getElementById("summary-body").innerHTML = `
+    <div class="sum-grid">
+      <div class="sum-card">
+        <div class="sum-n">${fmtPct(trough.win_rate_pct)}</div>
+        <div class="sum-h">Win rate padá</div>
+        <div class="sum-t">Špička ${fmtPct(peak.win_rate_pct)} (${peak.period_label}) →
+        nejhorší ${trough.period_label}. Vývoj po pololetích: ${esc(winSeries)}.
+        I v nejpříznivějším scénáři pro ${latest.period_label}
+        (všech ${latest.n_open} otevřených vyhráno) vyjde ${fmtPct(hi)}.</div>
+      </div>
+      <div class="sum-card">
+        <div class="sum-n">${overallConv.toFixed(1)}%</div>
+        <div class="sum-h">Pipeline se zužuje z ${cascade[0].n} na ${cascade[cascade.length-1].n}</div>
+        <div class="sum-t">Z každých ${Math.round(top/Math.max(cascade[cascade.length-1].n,1))} lidí, kteří
+        vstoupí do procesu, nastoupí zhruba jeden.${worst ? ` Nejužší hrdlo:
+        <b>${esc(worst.from)} → ${esc(worst.to)}</b> (${fmtPct(worst.stepPct)} postoupí dál).` : ""}</div>
+      </div>
+      <div class="sum-card hi">
+        <div class="sum-n">${clientShare===null ? "—" : clientShare+"%"}</div>
+        <div class="sum-h">Prohráváme hlavně u klienta, ne na vstupu</div>
+        <div class="sum-t">${lostAll ? `Na obdobích s dobrým pokrytím Trackerem (${esc(goodSorted[0]||"—")} dál) padá
+        ${clientShare} % ze ${lostAll} proher na dvou <b>klientských</b> bariérách — CV poslané,
+        ale nepozvali, nebo pohovor bez nabídky. Jen ${lostNever} proher tam nemá vůbec
+        sourcovaného kandidáta.` : "Se zvoleným filtrem let nejsou žádná období s pokrytím ≥ 80 %."}</div>
+      </div>
+      <div class="sum-card warn">
+        <div class="sum-n">${covMin===null ? "—" : covMin.toFixed(0)+"→"+covMax.toFixed(0)+"%"}</div>
+        <div class="sum-h">Pozor: pokrytí Trackerem silně roste v čase</div>
+        <div class="sum-t">Podíl zakázek se záznamem o kandidátech se v aktivních obdobích pohybuje
+        od ${covMin===null?"—":covMin.toFixed(0)+" %"} do ${covMax===null?"—":covMax.toFixed(0)+" %"}.
+        Součty „Celkově" jsou proto vážené směrem k méně pokrytým obdobím — vylučte je filtrem
+        let nahoře, nebo čtěte jen přes období s pokrytím nad 80 %.</div>
+      </div>
+    </div>`;
+}
+
+const RENDER = {winloss: renderWinloss, funnel: renderFunnel, depth: renderDepth, exits: renderExits};
+
+function paintSegs(){
+  document.querySelectorAll(".seg[data-seg]").forEach(el => {
+    el.innerHTML = segHTML(el.dataset.seg);
+  });
+}
+function renderAll(){
+  renderSummary();
+  Object.values(RENDER).forEach(f => f());
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest(".seg button");
+  if(!b) return;
+  STATE[b.dataset.k] = b.dataset.m;
+  paintSegs();
+  RENDER[b.dataset.k]();
+});
+paintSegs();
+paintYearFilter();
+paintCascadeToggle();
+renderAll();
+
+</script>
+</body>
+</html>

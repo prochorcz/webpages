@@ -3,32 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Projectman &amp; ARBES — pracovní prostor pro Petra Turka</title>
-<!-- ==================================================================
-     PROJECTMAN TRACKING BLOCK
-     Klientská stránka je prezentovaná / hostovaná → VŽDY aplikuj skill
-     `projectman-web-tracking` a vlož jeho aktuální GA4 blok SEM (co nejvýše
-     do <head>). Blok níže je placeholder — nahraď ho blokem ze skillu.
-     ================================================================== -->
-<!-- ==================================================================
-     PROJECTMAN TRACKING BLOCK  (vkládat co nejvýše do <head>)
-     Přímý GA4 tag: G-LVKJZF9C9C — NEPOUŽÍVAT GTM kontejner GTM-5BWSWGR
-     (jeho CMP vynutí consent denied na doménách bez cookie lišty).
-     Blok nemodifikovat. Spravuje skill: projectman-web-tracking
-     ================================================================== -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-LVKJZF9C9C"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('consent', 'default', {
-    ad_storage: 'granted',
-    ad_user_data: 'granted',
-    ad_personalization: 'granted',
-    analytics_storage: 'granted'
-  });
-  gtag('js', new Date());
-  gtag('config', 'G-LVKJZF9C9C');
-</script>
-<!-- ================== KONEC TRACKING BLOCKU ================== -->
+<!-- ===== PROJECTMAN TRACKING - centralne spravovano, needitovat ===== -->
+<script src="https://ace.projectman.cz/assets/pjm-tracking.js"></script>
+<!-- ================================================================= -->
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">

@@ -4,27 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Projectman × VAFO — Společný pracovní prostor</title>
+<!-- ===== PROJECTMAN TRACKING - centralne spravovano, needitovat ===== -->
+<script src="https://ace.projectman.cz/assets/pjm-tracking.js"></script>
+<!-- ================================================================= -->
 
-<!-- ==================================================================
-     PROJECTMAN TRACKING BLOCK  (vkladat co nejvyse do <head>)
-     Primy GA4 tag: G-LVKJZF9C9C - NEPOUZIVAT GTM kontejner GTM-5BWSWGR
-     (jeho CMP vynuti consent denied na domenach bez cookie listy).
-     Blok nemodifikovat. Spravuje skill: projectman-web-tracking
-     ================================================================== -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-LVKJZF9C9C"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('consent', 'default', {
-    ad_storage: 'granted',
-    ad_user_data: 'granted',
-    ad_personalization: 'granted',
-    analytics_storage: 'granted'
-  });
-  gtag('js', new Date());
-  gtag('config', 'G-LVKJZF9C9C');
-</script>
-<!-- ================== KONEC TRACKING BLOCKU ================== -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -101,7 +84,6 @@
   .ref .co{font-size:13.5px;font-weight:600;color:var(--color-dark)}
   .ref .ds{font-size:11.5px;color:var(--color-body-text);line-height:1.35}
   .confirm{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#a9791a;background:#fcf3dd;padding:3px 7px;border-radius:11px;white-space:nowrap}
-
 
   .sicv{padding:26px 34px 30px;background:var(--color-light-surf);border-bottom:1px solid #f0f3f7}
   .sicv-head{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
@@ -278,7 +260,6 @@
     </div>
   </div>
 </section>
-
 
 <section class="section" id="zapis" style="padding-top:0">
   <div class="wrap">

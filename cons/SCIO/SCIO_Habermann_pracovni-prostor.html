@@ -3,32 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Projectman &amp; SCIO — pracovní prostor pro Tomáš Habermann</title>
-<!-- ==================================================================
-     PROJECTMAN TRACKING BLOCK
-     Klientská stránka je prezentovaná / hostovaná → VŽDY aplikuj skill
-     `projectman-web-tracking` a vlož jeho aktuální GA4 blok SEM (co nejvýše
-     do <head>). Blok níže je placeholder — nahraď ho blokem ze skillu.
-     ================================================================== -->
-<!-- ==================================================================
-     PROJECTMAN TRACKING BLOCK  (vkládat co nejvýše do <head>)
-     Přímý GA4 tag: G-LVKJZF9C9C — NEPOUŽÍVAT GTM kontejner GTM-5BWSWGR
-     (jeho CMP vynutí consent denied na doménách bez cookie lišty).
-     Blok nemodifikovat. Spravuje skill: projectman-web-tracking
-     ================================================================== -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-LVKJZF9C9C"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('consent', 'default', {
-    ad_storage: 'granted',
-    ad_user_data: 'granted',
-    ad_personalization: 'granted',
-    analytics_storage: 'granted'
-  });
-  gtag('js', new Date());
-  gtag('config', 'G-LVKJZF9C9C');
-</script>
-<!-- ================== KONEC TRACKING BLOCKU ================== -->
+<!-- ===== PROJECTMAN TRACKING - centralne spravovano, needitovat ===== -->
+<script src="https://ace.projectman.cz/assets/pjm-tracking.js"></script>
+<!-- ================================================================= -->
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
@@ -185,7 +162,6 @@ ul.tpts li:before{background:var(--muted)}
   </div>
   <div class="collapse"><div class="inner"><div class="sect-inner">
     <p class="lead">Dodáváme seniorní experty přímo do vašich týmů — na dobu, kdy je potřebujete. Nepřidáváme manažerskou vrstvu ani nepřinášíme metodiku, kterou musíte přijmout; vybíráme z komunity 4 000+ profesionálů člověka, který sedne do toho, jak už pracujete. <span class="hint">Uvádíme celý náš záběr; červeně označené kompetence se dle naší analýzy nejvíce hodí pro Tomáš Habermann a SCIO.</span></p>
-
 
     <div class="acc" data-ga="OUT · Project management">
       <div class="acc-head sub" onclick="toggle(this.parentElement)">
@@ -386,7 +362,6 @@ ul.tpts li:before{background:var(--muted)}
         </div>
       </div></div></div>
     </div>
-
 
   </div></div></div>
 </div>

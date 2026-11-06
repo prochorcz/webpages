@@ -1,0 +1,358 @@
+/* ---------- Poppins — brand font Projectman ----------
+   Soubory prevzate z www.projectman.cz (themes/custom/projectman/fonts/Poppins),
+   servirovane same-origin z ./fonts/ — zadny cross-origin request, zadne CORS.
+   Pri nasazeni musi vedle techto souboru jit i slozka fonts/.
+   ---------------------------------------------------------------- */
+  @font-face{
+    font-family:"Poppins";font-style:normal;font-weight:400;font-display:swap;
+    src:url("fonts/Poppins-Regular.woff2") format("woff2");
+  }
+  @font-face{
+    font-family:"Poppins";font-style:normal;font-weight:500;font-display:swap;
+    src:url("fonts/Poppins-Medium.woff2") format("woff2");
+  }
+  @font-face{
+    font-family:"Poppins";font-style:normal;font-weight:600;font-display:swap;
+    src:url("fonts/Poppins-SemiBold.woff2") format("woff2");
+  }
+
+:root{
+    --pjm-dark:#1a1a1a;
+    --pjm-red:#FF525F;
+    --pjm-red-soft:rgba(255,82,95,.12);
+    --pjm-blue:#A9C5DF;
+    --pjm-blue-deep:#42759c;
+    --pjm-blue-deep-soft:rgba(66,117,156,.12);
+    --pjm-blue-soft:rgba(169,197,223,.25);
+    --pjm-body:#626567;
+    --pjm-muted:#9aa3b0;
+    --pjm-surface:#f4f7fa;
+    --pjm-line:#e2e7ee;
+    --pjm-good:#2f9e64;
+    --pjm-good-soft:rgba(47,158,100,.1);
+    --pjm-warn:#d98f2b;
+    --pjm-warn-soft:rgba(217,143,43,.12);
+    --font-main:'Poppins',Helvetica,Calibri,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:var(--font-main);
+    color:var(--pjm-body);
+    background:#fff;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.55;
+  }
+  h1,h2,h3{color:var(--pjm-dark);font-weight:600;margin:0 0 .4em;text-wrap:balance;}
+  p{margin:0 0 1em;}
+  .wrap{max-width:900px;margin:0 auto;padding:0;}
+  .eyebrow{
+    font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--pjm-red);margin-bottom:10px;display:block;
+  }
+  button{font-family:inherit;cursor:pointer;}
+
+  /* ---------- HERO (impact mode) ---------- */
+  .hero{
+    background:var(--pjm-dark);
+    color:#fff;
+    position:relative;
+    overflow:hidden;
+    padding:56px 0 84px;
+  }
+  .hero .wrap{position:relative;z-index:2;}
+  /* Brandový ornament vpravo nahoře, oříznutý hranou stránky (viz brandmanuál).
+     Sedí pod obsahem (.hero .wrap má z-index:2), text ho tedy vždy přebije. */
+  .hero-dia{
+    position:absolute;top:-40px;right:-70px;width:320px;height:auto;
+    z-index:1;pointer-events:none;user-select:none;
+  }
+  @media (max-width:820px){
+    .hero-dia{width:210px;top:-30px;right:-46px;}
+  }
+  /* Pod 560 px zabere logo (128px = 340px šířky) celý řádek — ornament by lezl
+     přes claim, takže se skryje. */
+  @media (max-width:560px){
+    .hero-dia{display:none;}
+  }
+  .hero-logo{height:128px;width:auto;display:block;margin-bottom:64px;margin-left:-20px;}
+  .hero h1{color:#fff;font-size:clamp(30px,4.4vw,46px);line-height:1.16;max-width:760px;}
+  .hero h1 .accent{color:var(--pjm-red);}
+  .hero .lede{color:var(--pjm-blue);font-size:17px;max-width:560px;margin-top:18px;}
+  .hero .meta-row{display:flex;gap:28px;flex-wrap:wrap;margin-top:34px;}
+  .hero .meta-item{display:flex;flex-direction:column;gap:2px;}
+  .hero .meta-item b{color:#fff;font-size:20px;font-weight:600;}
+  .hero .meta-item span{color:var(--pjm-muted);font-size:12.5px;}
+  .cta-btn{
+    background:var(--pjm-red);color:#fff;border:none;border-radius:7px;
+    padding:15px 30px;font-size:15px;font-weight:600;margin-top:38px;
+    display:inline-flex;align-items:center;gap:10px;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .cta-btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(255,82,95,.35);}
+  .cta-btn:focus-visible{outline:3px solid #fff;outline-offset:2px;}
+  .ornament{position:absolute;right:-60px;top:-40px;width:340px;height:340px;z-index:1;opacity:.9;}
+
+  /* ---------- PROGRESS BAR ---------- */
+  .progress-shell{
+    position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--pjm-line);
+  }
+  .progress-track{height:4px;background:var(--pjm-surface);width:100%;}
+  .progress-fill{height:100%;background:var(--pjm-red);width:0%;transition:width .4s ease;}
+  .progress-label{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:8px 28px;max-width:900px;margin:0 auto;font-size:12px;color:var(--pjm-muted);
+    font-weight:500;
+  }
+  .progress-label b{color:var(--pjm-dark);}
+  .progress-shell.done{display:none;}
+
+  /* ---------- ASSESSMENT ---------- */
+  #assessment{padding:8px 0 40px;}
+  .dim-intro{padding:48px 0 20px;border-top:1px solid var(--pjm-line);margin-top:12px;}
+  .dim-intro:first-of-type{border-top:none;margin-top:0;}
+  .dim-intro h2{font-size:24px;}
+  .dim-intro p{color:var(--pjm-body);font-size:15px;max-width:600px;margin:0;}
+  .dim-badge{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:30px;height:30px;border-radius:8px;background:var(--pjm-red-soft);
+    color:var(--pjm-red);font-weight:600;font-size:13px;margin-right:10px;
+  }
+
+  .q-card{padding:26px 0;border-top:1px dashed var(--pjm-line);}
+  .q-card[hidden]{display:none;}
+  .q-text{font-size:19px;color:var(--pjm-dark);font-weight:500;margin-bottom:18px;max-width:640px;}
+  .q-options{display:flex;flex-direction:column;gap:10px;max-width:640px;}
+  .q-option{
+    position:relative;display:block;border:1.5px solid var(--pjm-line);border-radius:8px;
+    padding:14px 18px;font-size:14.5px;color:var(--pjm-body);background:#fff;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .q-option input{position:absolute;opacity:0;pointer-events:none;}
+  .q-option:hover{border-color:var(--pjm-blue);background:var(--pjm-surface);}
+  .q-option:has(input:focus-visible){outline:2px solid var(--pjm-red);outline-offset:2px;}
+  .q-option.selected{border-color:var(--pjm-red);background:var(--pjm-red-soft);color:var(--pjm-dark);font-weight:500;}
+  .q-card.answered .q-options{display:none;}
+  .q-answered-summary{display:none;align-items:center;gap:10px;font-size:14.5px;color:var(--pjm-dark);}
+  .q-card.answered .q-answered-summary{display:flex;}
+  .check-dot{width:20px;height:20px;border-radius:50%;background:var(--pjm-good);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:12px;flex:none;}
+  .q-answered-summary .qtext-mini{color:var(--pjm-muted);font-weight:400;}
+  .q-edit{margin-left:auto;background:none;border:none;color:var(--pjm-muted);font-size:12.5px;
+    text-decoration:underline;padding:0;flex:none;}
+  .q-edit:hover{color:var(--pjm-red);}
+
+  /* ---------- RESULTS ---------- */
+  #results[hidden]{display:none;}
+  #results{background:var(--pjm-surface);padding:64px 0 0;}
+  .results-head{text-align:center;max-width:640px;margin:0 auto 40px;}
+  .results-head .eyebrow{justify-content:center;display:block;text-align:center;}
+  .archetype-name{font-size:clamp(28px,4vw,38px);color:var(--pjm-red);margin-bottom:14px;}
+  .results-head p{color:var(--pjm-body);font-size:15.5px;}
+
+  .radar-wrap{display:flex;justify-content:center;margin-bottom:8px;}
+  .radar-wrap svg{max-width:100%;height:auto;}
+
+  .level-legend{display:flex;justify-content:center;flex-wrap:wrap;gap:10px 26px;margin:4px auto 0;max-width:640px;}
+  .ll-item{display:flex;align-items:center;gap:8px;}
+  .ll-dim{font-size:13px;font-weight:600;color:var(--pjm-dark);}
+
+  /* ---------- ČERVENÉ VLAJKY (nově viditelné klientovi) ---------- */
+  .rf-block[hidden]{display:none;}
+  .rf-block{max-width:820px;margin:28px auto 0;background:#fff;border:1px solid var(--pjm-line);
+    border-left:3px solid var(--pjm-red);border-radius:10px;padding:24px 26px;}
+  .rf-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--pjm-red);background:var(--pjm-red-soft);padding:5px 12px;border-radius:20px;margin-bottom:12px;}
+  .rf-lede{font-size:14px;color:var(--pjm-body);margin:0 0 14px;}
+  .rf-list{list-style:none;margin:0;padding:0;}
+  .rf-list li{position:relative;padding:11px 0 11px 22px;border-top:1px solid var(--pjm-line);
+    font-size:14px;color:var(--pjm-body);}
+  .rf-list li::before{content:"!";position:absolute;left:0;top:11px;color:var(--pjm-red);font-weight:600;}
+  .rf-list li b{display:block;color:var(--pjm-dark);font-size:12px;text-transform:uppercase;
+    letter-spacing:.06em;margin-bottom:2px;}
+
+  .callout-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:820px;margin:36px auto 0;}
+  @media (max-width:640px){.callout-row{grid-template-columns:1fr;}}
+  .callout{background:#fff;border-radius:10px;padding:22px 24px;border-top:3px solid var(--pjm-good);}
+  .callout.lever{border-top-color:var(--pjm-red);}
+  .callout .tag{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;display:block;}
+  .callout.support .tag{color:var(--pjm-good);}
+  .callout.lever .tag{color:var(--pjm-red);}
+  .callout h3{font-size:16px;margin-bottom:8px;}
+  .callout p{font-size:14px;margin:0;color:var(--pjm-body);}
+
+  /* ---------- LOCK / CONTACT GATE ---------- */
+  .gate-section{max-width:820px;margin:52px auto 0;padding:0 0 64px;}
+  .gate-box{
+    position:relative;background:#fff;border:1px solid var(--pjm-line);border-radius:14px;
+    padding:36px 40px;overflow:hidden;
+  }
+  .gate-box::before{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.85) 70%);
+    pointer-events:none;z-index:1;
+  }
+  .gate-preview{filter:blur(3px);opacity:.55;}
+  .gate-form-overlay{
+    position:relative;z-index:2;margin-top:-64px;padding-top:20px;
+  }
+  .gate-icon{
+    width:44px;height:44px;border-radius:10px;background:var(--pjm-dark);color:var(--pjm-blue);
+    display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:19px;
+  }
+  .gate-form-overlay h3{text-align:center;font-size:20px;margin-bottom:6px;}
+  .gate-form-overlay .gate-sub{text-align:center;font-size:14px;color:var(--pjm-body);max-width:440px;margin:0 auto 24px;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:520px;margin:0 auto;}
+  .form-grid .full{grid-column:1/-1;}
+  .form-field label{display:block;font-size:12px;font-weight:600;color:var(--pjm-dark);margin-bottom:6px;}
+  .form-field input,.form-field select{
+    width:100%;padding:11px 13px;border:1.5px solid var(--pjm-line);border-radius:7px;
+    font-family:inherit;font-size:14px;color:var(--pjm-dark);background:#fff;
+  }
+  .form-field input:focus,.form-field select:focus{outline:2px solid var(--pjm-red);outline-offset:1px;border-color:var(--pjm-red);}
+  .gate-submit{
+    width:100%;max-width:520px;margin:22px auto 0;display:flex;background:var(--pjm-red);color:#fff;
+    border:none;border-radius:7px;padding:14px;font-size:15px;font-weight:600;justify-content:center;
+  }
+  .gate-fineprint{text-align:center;font-size:11.5px;color:var(--pjm-muted);margin-top:12px;}
+
+  /* ---------- SOUHLAS S NEWSLETTEREM ----------
+     Checkbox nesmi zdedit .form-field label (block, 600) ani .form-field input (width:100%). */
+  .form-consent{margin-top:2px;}
+  .form-consent .consent-line{
+    display:flex;gap:10px;align-items:flex-start;margin:0;
+    font-size:12.5px;font-weight:400;line-height:1.45;color:var(--pjm-body);cursor:pointer;
+  }
+  .form-consent input[type="checkbox"]{
+    width:16px;height:16px;flex:none;margin:1px 0 0;padding:0;accent-color:var(--pjm-red);cursor:pointer;
+  }
+  .gate-submit[disabled]{opacity:.6;cursor:default;}
+
+  /* ---------- STAV ODESLANI NA WEBHOOK ---------- */
+  .send-status[hidden]{display:none;}
+  .send-status{
+    display:flex;gap:14px;align-items:flex-start;background:#fff;
+    border:1px solid var(--pjm-line);border-radius:12px;padding:18px 22px;margin:0 0 20px;
+  }
+  .send-status b{display:block;font-size:15px;color:var(--pjm-dark);font-weight:600;}
+  .send-status p{margin:5px 0 0;font-size:13.5px;color:var(--pjm-body);line-height:1.5;}
+  .send-status p b.ss-mail{display:inline;font-size:inherit;}
+  .send-status a{color:var(--pjm-red);text-decoration:underline;text-underline-offset:2px;}
+  .send-status.is-ok{border-color:rgba(47,158,100,.45);background:var(--pjm-good-soft);}
+  .send-status.is-error{border-color:rgba(217,143,43,.5);background:var(--pjm-warn-soft);}
+  .ss-icon{
+    width:26px;height:26px;flex:none;border-radius:50%;display:flex;align-items:center;
+    justify-content:center;font-size:14px;font-weight:600;color:#fff;line-height:1;
+  }
+  .is-ok .ss-icon{background:var(--pjm-good);}
+  .is-error .ss-icon{background:var(--pjm-warn);}
+  .ss-spinner{
+    width:20px;height:20px;flex:none;margin-top:3px;border:2.5px solid var(--pjm-line);
+    border-top-color:var(--pjm-blue-deep);border-radius:50%;animation:ss-spin .8s linear infinite;
+  }
+  @keyframes ss-spin{to{transform:rotate(360deg);}}
+  @media (prefers-reduced-motion:reduce){.ss-spinner{animation-duration:2.4s;}}
+  .ss-retry{
+    margin-top:12px;background:var(--pjm-dark);color:#fff;border:none;border-radius:7px;
+    padding:10px 18px;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;
+    transition:background .15s;
+  }
+  .ss-retry:hover{background:#000;}
+  .ss-retry:focus-visible{outline:3px solid var(--pjm-red);outline-offset:2px;}
+  .ss-code{display:block;margin-top:10px;font-size:11px;color:var(--pjm-muted);}
+  @media (max-width:560px){
+    .send-status{padding:16px;gap:11px;}
+    .ss-retry{width:100%;}
+  }
+
+  /* ---------- DETAIL (unlocked) ---------- */
+  #detail[hidden]{display:none;}
+  #detail{max-width:820px;margin:0 auto;padding:0 0 60px;}
+  .detail-block{background:#fff;border-radius:12px;padding:28px 30px;margin-bottom:20px;border:1px solid var(--pjm-line);}
+  .bar-track{flex:1;height:10px;border-radius:6px;background:var(--pjm-surface);overflow:hidden;}
+  .bar-fill{height:100%;border-radius:6px;}
+  .level-chip{font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;flex:none;white-space:nowrap;}
+  .lvl-3{background:var(--pjm-good-soft);color:var(--pjm-good);}
+  .lvl-2{background:var(--pjm-blue-deep-soft);color:var(--pjm-blue-deep);}
+  .lvl-1{background:var(--pjm-warn-soft);color:var(--pjm-warn);}
+  .lvl-0{background:var(--pjm-red-soft);color:var(--pjm-red);}
+
+  .detail-lede{font-size:13.5px;color:var(--pjm-body);margin:-2px 0 18px;max-width:600px;}
+  .detail-fine{font-size:12px;color:var(--pjm-muted);margin:16px 0 0;}
+
+  /* Souhrn po oblastech: pruh + úroveň, pod tím štítky konkrétních mezer. */
+  .area-row{padding:14px 0;border-bottom:1px solid var(--pjm-line);}
+  .area-row:last-of-type{border-bottom:none;}
+  .area-head{display:flex;align-items:center;gap:16px;}
+  .area-head .dname{width:110px;font-weight:600;color:var(--pjm-dark);font-size:14px;flex:none;}
+  .area-gaps{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:10px 0 0 126px;}
+  .gap-count{font-size:12px;color:var(--pjm-muted);margin-right:4px;}
+  .tag-chip{font-size:12px;color:var(--pjm-body);background:var(--pjm-surface);
+    border:1px solid var(--pjm-line);border-radius:20px;padding:3px 11px;}
+  .tag-chip.is-flag{color:var(--pjm-red);background:var(--pjm-red-soft);border-color:transparent;font-weight:500;}
+  .area-ok{font-size:12px;color:var(--pjm-good);}
+  @media (max-width:640px){
+    .area-head{flex-wrap:wrap;gap:10px 12px;}
+    .area-head .dname{width:auto;}
+    .area-head .bar-track{order:3;flex-basis:100%;}
+    .area-gaps{margin-left:0;}
+  }
+
+  /* Plný výpis odpovědí — sbalený, aby zeď textu byla volba. */
+  .gap-details{margin-top:18px;border-top:1px solid var(--pjm-line);padding-top:14px;}
+  .gap-details summary{font-size:13px;color:var(--pjm-blue-deep);cursor:pointer;font-weight:500;
+    list-style:none;display:flex;align-items:center;gap:7px;}
+  .gap-details summary::-webkit-details-marker{display:none;}
+  .gap-details summary::before{content:"+";font-size:15px;line-height:1;color:var(--pjm-blue-deep);}
+  .gap-details[open] summary::before{content:"–";}
+  .gap-details summary:hover{color:var(--pjm-red);}
+  .gap-details summary:focus-visible{outline:2px solid var(--pjm-red);outline-offset:3px;}
+
+  .gap-item{padding:16px 0;border-top:1px solid var(--pjm-line);}
+  .gap-item:first-of-type{border-top:none;}
+  .gap-dim{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+    color:var(--pjm-red);background:var(--pjm-red-soft);padding:3px 9px;border-radius:20px;margin-bottom:8px;}
+  .gap-q{font-size:15px;color:var(--pjm-dark);font-weight:500;margin-bottom:6px;}
+  .gap-a{font-size:13.5px;color:var(--pjm-muted);}
+
+  /* Tři kroky v pořadí — nahrazuje šest rovnocenných „prvních kroků“. */
+  .steps{list-style:none;counter-reset:step;margin:0;padding:0;}
+  .step-item{counter-increment:step;position:relative;padding:16px 0 16px 42px;border-top:1px solid var(--pjm-line);}
+  .step-item:first-child{border-top:none;padding-top:0;}
+  .step-item::before{
+    content:counter(step);position:absolute;left:0;top:14px;
+    width:27px;height:27px;border-radius:8px;background:var(--pjm-red-soft);color:var(--pjm-red);
+    display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;
+  }
+  .step-item:first-child::before{top:0;}
+  .step-fix{font-size:15px;color:var(--pjm-dark);font-weight:500;margin-bottom:5px;}
+  .step-meta{font-size:12px;color:var(--pjm-muted);}
+  .step-flag{color:var(--pjm-red);font-weight:600;}
+  .steps-empty{font-size:14px;margin:0;}
+
+  .act-note{border-left:3px solid var(--pjm-warn);}
+
+  .cta-card{
+    background:var(--pjm-dark);border-radius:12px;padding:32px 34px;color:#fff;
+    display:flex;gap:24px;align-items:center;flex-wrap:wrap;justify-content:space-between;
+  }
+  .cta-card .who{font-size:13px;color:var(--pjm-blue);margin-bottom:4px;}
+  .cta-card h3{color:#fff;font-size:19px;margin-bottom:4px;}
+  .cta-card p{color:var(--pjm-muted);font-size:13.5px;margin:0;max-width:360px;}
+  .cta-card a.cta-btn{margin-top:0;flex:none;}
+
+  /* ---------- FOOTER ---------- */
+  /* Menší padding nahoře: logo PNG má nad kresbou 16,3 px (ze 72) průhledného
+     okraje, takže optická mezera pod linkou odpovídá spodnímu odsazení. */
+  footer{background:#fff;border-top:1px solid var(--pjm-line);padding:16px 0 30px;}
+  footer .wrap{display:flex;flex-direction:column;align-items:center;gap:0;max-width: 820px;}
+  footer img{height:72px;}
+  /* Logo PNG má dole 100 z 565 px průhledného okraje = 17,7 % výšky.
+     Odsazení zvedne text na optický spodek loga, ne na spodek <img> boxu. */
+  /* Záporný margin odečte 12,7 px průhledného okraje pod kresbou loga,
+     aby mezera mezi logem a odkazem byla opticky ta, která je tu napsaná. */
+  footer .fine{
+    font-size:12px;color:var(--pjm-muted);text-decoration:none;
+    margin-top:-4px;transition:color .15s;
+  }
+  footer .fine:hover,footer .fine:focus-visible{color:var(--pjm-red);text-decoration:underline;text-underline-offset:3px;}

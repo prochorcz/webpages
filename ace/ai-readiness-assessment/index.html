@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Readiness Assessment — Projectman</title>
+<meta name="description" content="5minutovy AI-readiness diagnosticky nastroj pro C-level - Projectman.">
+<!-- ===== PROJECTMAN TRACKING - centralne spravovano, needitovat ===== -->
+<script src="https://ace.projectman.cz/assets/pjm-tracking.js"></script>
+<!-- ================================================================= -->
+<link rel="stylesheet" href="style.css?v3">
+</head>
+<body>
+<div class="hero">
+  <img class="hero-dia" src="img/pjm-dia.webp" alt="" aria-hidden="true" />
+  <div class="wrap">
+    <img class="hero-logo" src="img/pjm-logo-negativ-claim.png" alt="Projectman — connecting experts" />
+    <h1>Je vaše firma připravená na AI, nebo si to <span class="accent">jen myslíte?</span></h1>
+    <p class="lede">Šestnáct otázek. Čtyři oblasti zralosti. Sada otázek, na které vaše vedení pravděpodobně nemá jednotnou odpověď.</p>
+    <div class="meta-row">
+      <div class="meta-item"><b>~6 min</b><span>čas vyplnění</span></div>
+      <div class="meta-item"><b>16</b><span>otázek</span></div>
+      <div class="meta-item"><b>4</b><span>oblasti zralosti</span></div>
+    </div>
+    <button class="cta-btn" id="start-btn">Spustit assessment →</button>
+  </div>
+</div>
+
+<div class="progress-shell" id="progress-shell">
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+  <div class="progress-label">
+    <span>Otázka <b id="progress-current">0</b> / 16</span>
+    <span id="progress-dim">—</span>
+  </div>
+</div>
+
+<main class="wrap" id="assessment"></main>
+
+<section id="results" hidden>
+  <div class="wrap">
+    <div class="results-head">
+      <span class="eyebrow">Váš AI Readiness profil</span>
+      <h2 class="archetype-name" id="archetype-name">—</h2>
+      <p id="archetype-sub">—</p>
+    </div>
+    <div class="radar-wrap" id="radar-wrap"></div>
+    <div class="level-legend" id="level-legend"></div>
+    <div class="callout-row">
+      <div class="callout support">
+        <span class="tag">Vaše opora</span>
+        <h3 id="support-title">—</h3>
+        <p id="support-text">—</p>
+      </div>
+      <div class="callout lever">
+        <span class="tag">Vaše páka</span>
+        <h3 id="lever-title">—</h3>
+        <p id="lever-text">—</p>
+      </div>
+    </div>
+
+    <div class="rf-block" id="redflags" hidden></div>
+
+    <div class="gate-section">
+      <div class="gate-box">
+        <div class="gate-preview">
+          <h3>Kde ztrácíte body a čím začít</h3>
+          <p>Přehled po čtyřech oblastech s konkrétními slabými místy, tři kroky v pořadí, ve kterém je řešit, a plný výpis vašich nejslabších odpovědí...</p>
+        </div>
+        <div class="gate-form-overlay">
+          <div class="gate-icon">🔒</div>
+          <h3>Kam můžeme poslat detailní report?</h3>
+          <p class="gate-sub">Zanecháte-li nám kontakt, odemkneme pro vás detailní stránku s vyhodnocením a doporučeními.</p>
+          <p class="gate-sub">Nepravidelně a max. 1x do měsíce posíláme e-mail s novinkami nebo pozvánkou na pravidelné AI snídaně s Projectmanem — jestli o něj stojíte, zaškrtněte políčko níž.</p>
+          <form id="gate-form">
+            <div class="form-grid">
+              <div class="form-field"><label for="f-name">Jméno a příjmení</label><input id="f-name" required /></div>
+              <div class="form-field"><label for="f-email">Pracovní e-mail</label><input id="f-email" type="email" required /></div>
+              <div class="form-field"><label for="f-company">Firma</label><input id="f-company" required /></div>
+              <div class="form-field">
+                <label for="f-role">Vaše role</label>
+                <select id="f-role" required>
+                  <option value="">Vyberte…</option>
+                  <option value="C-level (CEO/COO/CIO…)">C-level (CEO/COO/CIO…)</option>
+                  <option value="Head of PMO / Head of AI competency">Head of PMO / Head of AI competency</option>
+                  <option value="Manažer/specialist">Manažer / specialist</option>
+                  <option value="Jiné">Jiné</option>
+                </select>
+              </div>
+              <div class="form-field full">
+                <label for="f-size">Velikost firmy</label>
+                <select id="f-size" required>
+                  <option value="">Vyberte…</option>
+                  <option value="Do 50">Do 50 zaměstnanců</option>
+                  <option value="50–250">50–250 zaměstnanců</option>
+                  <option value="250–1000">250–1000 zaměstnanců</option>
+                  <option value="1000+">1000+ zaměstnanců</option>
+                </select>
+              </div>
+              <div class="form-field full form-consent">
+                <label class="consent-line" for="f-consent">
+                  <input type="checkbox" id="f-consent" />
+                  <span>Chci dostávat e-maily s novinkami a pozvánkami na AI snídaně (max. 1× měsíčně, odhlásit se lze kdykoli).</span>
+                </label>
+              </div>
+            </div>
+            <button type="submit" class="gate-submit" id="gate-submit">Odemknout detailní report</button>
+            <p class="gate-fineprint">Kontakt použijeme pro zaslání reportu a případnou odpověď. Údaje nepředáváme třetím stranám.</p>
+          </form>
+        </div>
+      </div>
+      <div class="send-status" id="send-status" role="status" aria-live="polite" hidden></div>
+    </div>
+
+    <div id="detail" hidden></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <img src="img/pjm-logo-pozitiv.png" alt="Projectman" />
+    <a class="fine" href="https://www.projectman.cz" target="_blank" rel="noopener">www.projectman.cz</a>
+  </div>
+</footer>
+<script src="script.js?v4"></script>
+</body>
+</html>

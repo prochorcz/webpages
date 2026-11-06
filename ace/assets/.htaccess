@@ -1,0 +1,30 @@
+# ============================================================
+#  ace.projectman.cz/assets/.htaccess
+#  Krátká cache pro centrální tracking include.
+#  Důvod: pjm-tracking.js je single source of truth pro všechny
+#  HTML deliverables. Změna v souboru se musí propsat do všech
+#  stránek nejpozději za 5 minut — proto krátká cache, ne dlouhá.
+#  NEPOUŽÍVAT verzování v URL (?v=2) — to by vyžadovalo úpravu
+#  všech stránek, čemuž se právě chceme vyhnout.
+# ============================================================
+
+<IfModule mod_headers.c>
+  <FilesMatch "pjm-tracking\.js$">
+    Header set Cache-Control "public, max-age=300, must-revalidate"
+    # CORS není u <script src> potřeba, ale neuškodí pro případ
+    # načítání z jiných nástrojů (fetch, konzole, testy)
+    Header set Access-Control-Allow-Origin "*"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  <FilesMatch "pjm-tracking\.js$">
+    ExpiresDefault "access plus 5 minutes"
+  </FilesMatch>
+</IfModule>
+
+# Správný MIME type (některé hostingy servírují .js jako text/plain)
+<IfModule mod_mime.c>
+  AddType application/javascript .js
+</IfModule>

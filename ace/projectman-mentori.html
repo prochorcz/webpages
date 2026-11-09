@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="cs"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Projectman mentoři a konzultanti</title>
+<!-- ===== PROJECTMAN TRACKING - centralne spravovano, needitovat ===== -->
+<script src="https://ace.projectman.cz/assets/pjm-tracking.js"></script>
+<!-- ================================================================= -->
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--red:#FF525F;--blue:#A9C5DF;--surf:#f4f7fa;--text:#626567;--muted:#9aa3b0;--dark:#1a1a1a;--bg:#fff;--card:#fff;--line:#e3e9f0;--head:#1a1a1a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121212;--card:#1d1f22;--surf:#24272b;--text:#c9ced4;--line:#30343a;--head:#fff}}
+:root[data-theme="dark"]{--bg:#121212;--card:#1d1f22;--surf:#24272b;--text:#c9ced4;--line:#30343a;--head:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:400 15px/1.6 'Poppins',sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+.hero{background:var(--dark);color:#fff;padding:40px 0 44px}
+.hero img{height:60px;width:auto;display:block;margin-bottom:28px}
+.hero h1{font-weight:600;font-size:clamp(26px,4vw,40px);line-height:1.2;margin:0 0 6px;color:#fff}
+.hero h1:after{content:"";display:block;width:64px;height:3px;background:var(--red);margin-top:16px}
+.hero .lead{color:#e8edf2;max-width:820px;margin:18px 0 0}
+.hero .sub{color:var(--blue);font-weight:500;margin:0}
+.focusgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:28px}
+.focus{border:1px solid #33373c;border-radius:8px;padding:12px 14px}
+.focus h4{margin:0 0 4px;color:#fff;font-weight:600;font-size:14px}
+.focus p{margin:0;font-size:12.5px;color:var(--blue);line-height:1.45}
+.bar{display:flex;flex-wrap:wrap;gap:8px;padding:24px 0 8px}
+.chip{font:500 13px 'Poppins',sans-serif;border:1px solid var(--blue);background:transparent;color:var(--head);border-radius:999px;padding:6px 14px;cursor:pointer}
+.chip.is-on{background:var(--red);border-color:var(--red);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:20px;padding:16px 0 40px}
+.card{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--red);border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.card[hidden]{display:none}
+.card__head{display:flex;gap:14px;align-items:center}
+.avatar{position:relative;flex:0 0 72px;width:72px;height:72px;border-radius:50%;overflow:hidden;background:var(--blue);display:grid;place-items:center}
+.avatar span{font-weight:600;font-size:22px;color:var(--dark)}
+.avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card h3{margin:0;color:var(--head);font-weight:600;font-size:18px;line-height:1.25}
+.role{margin:2px 0 0;font-weight:500;font-size:13px}
+.certs{margin:0;font-size:12px;color:var(--muted)}
+.tagline{margin:4px 0 0;color:var(--head);font-weight:500}
+.sum{margin:0;font-size:13.5px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:11.5px;border:1px solid var(--blue);border-radius:6px;padding:2px 8px}
+.tag--main{background:var(--blue);color:var(--dark);font-weight:500}
+blockquote{margin:4px 0 0;padding:8px 12px;background:var(--surf);border-left:3px solid var(--red);border-radius:0 6px 6px 0;font-style:italic;font-size:13.5px;color:var(--head)}
+.card__foot{margin-top:auto;padding-top:10px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.meta{font-size:12px;color:var(--muted)}
+.price{background:var(--dark);color:#fff;font-weight:600;border-radius:6px;padding:4px 10px;white-space:nowrap}
+.price small{font-weight:400;color:var(--blue);margin-left:4px}
+.note{font-size:12.5px;color:var(--muted);padding-bottom:12px}
+.foot{background:var(--surf);padding:28px 0;font-size:13.5px}
+.foot img{height:30px;width:auto;margin-bottom:8px}
+.foot strong{color:var(--head)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .foot img{filter:invert(1) hue-rotate(180deg)}}
+</style></head>
+<body>
+<section class="hero"><div class="wrap">
+<img src="data:image/png;base64,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" alt="Projectman – connecting experts">
+<p class="sub">Katalog mentorů a konzultantů</p>
+<h1>Zkušení lidé pro strategické projekty, PMO a změny</h1>
+<p class="lead">Projectman je největší specializovaná firma v oblasti projektového řízení v Česku – síť více než 4 000 profesionálů pro projekty, programy, agilní řízení, business analýzu, UX/CX a data. Naši senior konzultanti nejsou teoretici: mají za sebou desítky let praxe ve vedení projektů, PMO a transformací a dnes je předávají formou mentoringu, konzultací a workshopů. Pomáháme vedení i týmům dělat správné věci – a dělat je správně.</p>
+<div class="focusgrid"><div class='focus'><h4>PMO a portfolio</h4><p>Nastavení PMO, prioritizace a řízení portfolia tak, aby firma dělala správné věci.</p></div><div class='focus'><h4>Řízení projektů a programů</h4><p>Prediktivní, agilní i hybridní řízení strategických a komplexních dodávek.</p></div><div class='focus'><h4>Agilita a organizace</h4><p>Agilní transformace, škálování (LeSS, SAFe) a návrh operating modelu.</p></div><div class='focus'><h4>Transformace a změna</h4><p>Strategické změny od záměru po adopci – včetně práce s lidmi.</p></div><div class='focus'><h4>AI adopce a governance</h4><p>Od AI use casů a pilotů po pravidla, data readiness a škálování.</p></div><div class='focus'><h4>Lídři a rozvoj lidí</h4><p>Mentoring PM a PMO lídrů, školení a certifikace, interim role.</p></div></div>
+</div></section>
+<main class="wrap">
+<div class="bar" role="group" aria-label="Filtr podle oblasti"><button class='chip is-on' data-f=''>Vše</button><button class='chip' data-f='Řízení projektů a programů'>Řízení projektů a programů</button><button class='chip' data-f='PMO a portfolio'>PMO a portfolio</button><button class='chip' data-f='Agilita a organizace'>Agilita a organizace</button><button class='chip' data-f='Transformace a změna'>Transformace a změna</button><button class='chip' data-f='AI a data'>AI a data</button><button class='chip' data-f='Zákazník a produkt'>Zákazník a produkt</button><button class='chip' data-f='Lídři a rozvoj lidí'>Lídři a rozvoj lidí</button></div>
+<div class="grid" id="grid">
+<article class="card" data-areas="AI a data|PMO a portfolio|Transformace a změna|Zákazník a produkt|Řízení projektů a programů">
+  <header class="card__head">
+    <div class="avatar"><span>JP</span><img src='https://www.projectman.cz/sites/default/files/styles/large/public/2026-03/8.png.avif' alt='Jan Procházka' loading='lazy' onerror="this.remove()"></div>
+    <div>
+      <h3>Ing. Jan Procházka</h3>
+      <p class="role">Head of Consulting, Projectman</p>
+      
+    </div>
+  </header>
+  <p class="tagline">Pomáhám vedení dělat správné projekty – a pak je dělat správně.</p>
+  <p class="sum">Více než 20 let v digitálních projektech – od vývoje a analýzy přes vedení PMO a konzultačního útvaru až po vlastní startup. Dnes vede konzultační stream Projectmanu a pomáhá firmám propojit strategii, portfolio a doručení změn, včetně zavádění AI.</p>
+  <div class="tags"><span class='tag tag--main'>Portfolio management a prioritizace</span><span class='tag tag--main'>Strategické projekty a transformace</span><span class='tag tag--main'>AI adopce a strategie</span><span class='tag'>Budování a rozvoj PMO</span><span class='tag'>AI governance</span><span class='tag'>Hybridní řízení</span><span class='tag'>Digitální strategie a business design</span><span class='tag'>CX / UX a service design</span></div>
+  <blockquote>„Dělat správně nesprávné projekty je k ničemu.“</blockquote>
+  <footer class="card__foot">
+    <span class="meta">CZ, EN · Osobně (Praha) i online</span>
+    <span class="price">1 090 €<small>/ MD</small></span>
+  </footer>
+</article>
+<article class="card" data-areas="Lídři a rozvoj lidí|PMO a portfolio|Transformace a změna|Řízení projektů a programů">
+  <header class="card__head">
+    <div class="avatar"><span>PJ</span><img src='https://www.projectman.cz/sites/default/files/styles/large/public/2026-03/25.png.avif' alt='Petr Janiš' loading='lazy' onerror="this.remove()"></div>
+    <div>
+      <h3>Mgr. Petr Janiš</h3>
+      <p class="role">Zakládající partner Projectman</p>
+      <p class="certs">PMP</p>
+    </div>
+  </header>
+  <p class="tagline">Pomáhám projektovým manažerům a PMO stát se partnery vedení pro změnu.</p>
+  <p class="sum">Projektový manažer, konzultant a lektor, který před 15 lety proměnil vlastní praxi ve firmu Projectman – dnes síť více než 4 000 profesionálů. Dlouholetý viceprezident a dobrovolník PMI Czech Chapter, propagátor nového pohledu PMI na úspěch projektů (M.O.R.E., NPSS).</p>
+  <div class="tags"><span class='tag tag--main'>Mentoring PM a PMO lídrů</span><span class='tag tag--main'>Budování a rozvoj PMO</span><span class='tag tag--main'>Strategické projekty a transformace</span><span class='tag'>Projektové řízení</span><span class='tag'>Portfolio management a prioritizace</span><span class='tag'>Školení a certifikace</span><span class='tag'>Leadership a vedení týmů</span></div>
+  <blockquote>„Včas a v rozpočtu už nestačí – projekt musí přinést hodnotu.“</blockquote>
+  <footer class="card__foot">
+    <span class="meta">CZ, EN · Osobně (Praha) i online</span>
+    <span class="price">1 090 €<small>/ MD</small></span>
+  </footer>
+</article>
+<article class="card" data-areas="Lídři a rozvoj lidí|PMO a portfolio|Řízení projektů a programů">
+  <header class="card__head">
+    <div class="avatar"><span>ĽS</span></div>
+    <div>
+      <h3>Ľubomír Slocík</h3>
+      <p class="role">Senior Consultant, PM &amp; PMO; Business Development Slovensko</p>
+      <p class="certs">PMP, PRINCE2 Trainer</p>
+    </div>
+  </header>
+  <p class="tagline">Učím, koučuji a vedu projektové manažery k tomu, aby projekty skutečně řídili.</p>
+  <p class="sum">Přes 25 let se věnuje projektovému řízení – zaváděl PMO a profesionalizaci řízení projektů ve více než 10 nadnárodních firmách, vedl PMO v T-Mobile a radil státnímu tajemníkovi pro informatizaci na Slovensku. Spoluzakladatel a bývalý prezident PMI Slovakia Chapter.</p>
+  <div class="tags"><span class='tag tag--main'>Budování a rozvoj PMO</span><span class='tag tag--main'>Projektová governance a metodiky</span><span class='tag tag--main'>Mentoring PM a PMO lídrů</span><span class='tag'>Projektové řízení</span><span class='tag'>Plánování, rizika a reporting</span><span class='tag'>Programové řízení a komplexní dodávky</span><span class='tag'>Školení a certifikace</span></div>
+  <blockquote>„Projektový manažer si získá respekt, když ví, co řídí.“</blockquote>
+  <footer class="card__foot">
+    <span class="meta">SK, CZ, EN · Osobně (SK, CZ) i online</span>
+    <span class="price">890 €<small>/ MD</small></span>
+  </footer>
+</article>
+<article class="card" data-areas="AI a data|Lídři a rozvoj lidí|PMO a portfolio|Řízení projektů a programů">
+  <header class="card__head">
+    <div class="avatar"><span>VP</span><img src='https://www.projectman.cz/sites/default/files/styles/large/public/2026-03/15.png.avif' alt='Veronika Pavlíková' loading='lazy' onerror="this.remove()"></div>
+    <div>
+      <h3>Veronika Pavlíková</h3>
+      <p class="role">Head of AI Competency, Projectman</p>
+      <p class="certs">SAFe, LeSS</p>
+    </div>
+  </header>
+  <p class="tagline">Pomáhám firmám dostat AI z prezentací do každodenní praxe.</p>
+  <p class="sum">IT projekťačka s více než 10 lety praxe v technologických firmách (delivery a service management, vedení týmů). V Projectmanu vede kompetenci AI – pomáhá vedení i týmům vybrat AI use casy s reálným přínosem, řídit adopci a nastavit governance.</p>
+  <div class="tags"><span class='tag tag--main'>AI adopce a strategie</span><span class='tag tag--main'>AI v projektovém řízení a produktivitě</span><span class='tag tag--main'>AI governance</span><span class='tag'>Portfolio management a prioritizace</span><span class='tag'>PM nástroje a tooling</span><span class='tag'>Data readiness a datově řízené rozhodování</span><span class='tag'>Týmová spolupráce a komunikace</span><span class='tag'>Hybridní řízení</span></div>
+  <blockquote>„Lidi &gt; procesy.“</blockquote>
+  <footer class="card__foot">
+    <span class="meta">CZ, EN · Osobně (Praha) i online</span>
+    <span class="price">890 €<small>/ MD</small></span>
+  </footer>
+</article>
+<article class="card" data-areas="Agilita a organizace|Lídři a rozvoj lidí|PMO a portfolio|Řízení projektů a programů">
+  <header class="card__head">
+    <div class="avatar"><span>PH</span><img src='https://www.projectman.cz/sites/default/files/styles/large/public/2026-03/22.png.avif' alt='Pavel Humpolec' loading='lazy' onerror="this.remove()"></div>
+    <div>
+      <h3>Pavel Humpolec</h3>
+      <p class="role">Konzultant, projektový manažer a agilní kouč</p>
+      <p class="certs">PMP, PSM II</p>
+    </div>
+  </header>
+  <p class="tagline">Pomáhám týmům a projektovým manažerům vybrat cestu, která funguje pro jejich situaci.</p>
+  <p class="sum">Na pomezí IT a businessu se pohybuje přes dvě dekády a patří k průkopníkům agilního řízení v Česku (Scrum zavádí od roku 2008). Kombinuje agilní a prediktivní svět – jako konzultant, školitel, projektový manažer i týmový kouč.</p>
+  <div class="tags"><span class='tag tag--main'>Hybridní řízení</span><span class='tag tag--main'>Budování a rozvoj PMO</span><span class='tag tag--main'>Scrum a koučink agilních týmů</span><span class='tag'>Projektové řízení</span><span class='tag'>Programové řízení a komplexní dodávky</span><span class='tag'>Školení a certifikace</span><span class='tag'>Mentoring PM a PMO lídrů</span><span class='tag'>Týmová spolupráce a komunikace</span></div>
+  <blockquote>„Agile, nebo klasika? Vyber to, co funguje pro tvůj projekt.“</blockquote>
+  <footer class="card__foot">
+    <span class="meta">CZ, EN · Osobně (Praha) i online</span>
+    <span class="price">890 €<small>/ MD</small></span>
+  </footer>
+</article>
+<article class="card" data-areas="AI a data|Agilita a organizace|Lídři a rozvoj lidí|PMO a portfolio|Transformace a změna|Zákazník a produkt">
+  <header class="card__head">
+    <div class="avatar"><span>OK</span></div>
+    <div>
+      <h3>Ondřej Kavula</h3>
+      <p class="role">Enterprise Agile Coach, transformační a interim manažer</p>
+      <p class="certs">PSM II, PSPO, CLP (LeSS)</p>
+    </div>
+  </header>
+  <p class="tagline">Pomáhám firmám navrhnout a řídit organizační změnu v době neustálé transformace.</p>
+  <p class="sum">Téměř dvě dekády v IT – od vývoje SW přes projektové řízení až po role interim CTO a Head of SW Development. Specializuje se na organizační design, operating model pro produktově orientovanou, agilní a AI-ready firmu a na řízení změn ve velkých transformacích (LeSS, SAFe).</p>
+  <div class="tags"><span class='tag tag--main'>Agilní transformace</span><span class='tag tag--main'>Organizační design a operating model</span><span class='tag tag--main'>Change management</span><span class='tag'>Škálovaná agilita (LeSS, SAFe)</span><span class='tag'>Interim management</span><span class='tag'>Produktový vývoj a product management</span><span class='tag'>Portfolio management a prioritizace</span><span class='tag'>AI governance</span></div>
+  <blockquote>„Transformace není projekt s koncem – je to schopnost firmy se neustále měnit.“</blockquote>
+  <footer class="card__foot">
+    <span class="meta">CZ, EN · Osobně (Praha) i online</span>
+    <span class="price">1 090 €<small>/ MD</small></span>
+  </footer>
+</article></div>
+<p class="note">Ceny jsou orientační, za člověkoden (MD) bez DPH. Konkrétní rozsah, formu a termíny spolupráce domlouváme individuálně.</p>
+</main>
+<section class="foot"><div class="wrap">
+<img src="data:image/png;base64,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" alt="Projectman"><br>
+<strong>Projectman.cz, s.r.o.</strong> · Lidická 66/43, 150 00 Praha 5 · <a href="https://www.projectman.cz" style="color:var(--red)">www.projectman.cz</a>
+</div></section>
+<script>
+document.querySelectorAll('.chip').forEach(function(b){b.addEventListener('click',function(){
+  document.querySelectorAll('.chip').forEach(function(x){x.classList.toggle('is-on',x===b)});
+  var f=b.getAttribute('data-f');
+  document.querySelectorAll('.card').forEach(function(c){c.hidden=!!f&&c.getAttribute('data-areas').split('|').indexOf(f)<0});
+  try{window.pjmTracking&&pjmTracking.event('filter_used',{event_category:'engagement',event_label:f||'vse'})}catch(e){}
+})});
+</script>
+</body></html>
